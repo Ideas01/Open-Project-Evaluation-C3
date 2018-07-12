@@ -4,46 +4,27 @@ $('document').ready(function () {
     var windowHeight = window.screen.height;
 
 
+	/*tileCountWidth has been set to 12.
+	It has been generated with the following formular:
+	 * short side of a Nexus 6: 412 px as a minimum length;
+	 * minimum length (412px) / minimum touchable width (32px)
+	 * only the int value has been considered valid, because only complete tiles are necessary.
+	*/
+	function calculateTileSize(div, tileCount){		
+		var picWidth= $(".puzzleDiv").width();
+		var picHeight= $(".puzzleDiv").height();
+		
+		var picFormat = picWidth/ picHeight;
+		
+			
+			var tile={
+				width:picWidth / tileCount,
+				height:picHeight / tileCount
+			}		
+		return tile;
+		
+	}
 
-    var image = new Image(windowWidth, windowHeight);
-    image.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
-    image.className = "puzzleImg"
-
-    function gdc(a,b) {
-        if (b === 0)
-            return a;
-        return gdc(b, a % b);
-    }
-
-    function determineFormat(windowWidth,windowHeight) {
-        //find die greatest common divisor
-        var ratio = gdc(windowWidth,windowHeight);
-        console.log("Dimension width: " + windowWidth);
-        console.log("Dimension height: " + windowHeight);
-        console.log("GDC: " + ratio);
-        console.log("aspect: " + windowWidth/ratio + ":" + windowHeight/ratio);
-        return ratio;
-
-    }
-
-    var divCountHorizontal = windowWidth/gdc(windowWidth,windowHeight);
-    var divCountVertical = windowHeight/gdc(windowWidth,windowHeight);
-
-    image.onload = function () {
-        $(".puzzleDiv").append(image);
-
-
-
-        determineFormat(windowWidth, windowHeight);
-
-        var imageWidth = image.width;
-        var imageHeight = image.height;
-
-        console.log(imageWidth);
-        console.log(imageHeight);
-
-        var puzzleBuilder = new PuzzleBuilder();
-
-        puzzleBuilder.buildPuzzle(imageWidth, imageHeight,divCountHorizontal, divCountVertical);
-    };
+	var puzzleBuilder = new PuzzleBuilder();
+    puzzleBuilder.buildPuzzle(12*12, calculateTileSize($(".puzzleDiv"), 12));
 });

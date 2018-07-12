@@ -5,18 +5,13 @@
     background-color: blue;
 }
 
-.puzzleImg {
-    position: absolute;
-    display: inline;
-    z-index: 2;
-
-}
 
 .puzzleDiv {
     background-image: url("http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg");
-    background-size:cover;
-    margin: 10px 10px 10px 10px;
-    width: 960px;
-    height: 600px;
+    background-size:contain;
+	background-repeat: no-repeat;
+    /* padding: 10px 10px 10px 10px; */
+    width: 732px;
+    height: 412px; 
     font-size: 0;
 }
