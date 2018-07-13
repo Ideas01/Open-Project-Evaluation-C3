@@ -1,5 +1,31 @@
 // Initialize your app
-var myApp = new Framework7();
+var myApp = new Framework7({
+    // App root element
+    root: '#app',
+    // App Name
+    name: 'My App',
+    // App id
+    id: 'com.myapp.test',
+    // Enable swipe panel
+    panel: {
+        swipe: 'left',
+    },
+    // Add default routes
+    routes: [
+
+        {
+            name: 'prototype',
+            path: '/prototype/',
+            url: './pages/prototype'
+        },
+        {
+            name: 'sliders',
+            path:'/sliders/',
+            url: './pages/sliders'
+        }
+    ],
+    // ... other parameters
+});
 
 // Export selectors engine
 var $$ = Dom7;
