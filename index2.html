@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>My App</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="./css/framework7.ios.min.css">
+    <link rel="stylesheet" href="./css/framework7.ios.colors.min.css">
+    <!-- including framework7 icons -->
+    <link rel="stylesheet" href="./css/framework7-icons.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="./css/playprototype.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+          crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+<!-- Status bar overlay for fullscreen mode-->
+<div class="statusbar-overlay"></div>
+<!-- Panels overlay-->
+<div class="panel-overlay"></div>
+
+<!-- Left panel with reveal effect-->
+<div class="panel panel-left panel-reveal"> <!-- alternative: panel reveal -> panel-cover -->
+    <div class="content-block">
+        <p>Left panel content goes here</p>
+    </div>
+</div>
+
+<!-- Views-->
+<div class="views">
+    <!-- Your main view, should have "view-main" class-->
+    <div class="view view-main">
+		<div class="page" data-name="home">
+			<!-- Top Navbar-->
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="left">
+						<!-- Right link contains only icon - additional "icon-only" class-->
+						<a href="#" data-panel="left" class="link icon-only open-panel">
+						<i class="icon icon-bars"></i></a>
+					</div>
+					<!-- We have home navbar without left link-->
+					<div class="center sliding">App title</div>
+
+				</div>
+			</div>
+		
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="page-content">
+          <!-- Page, data-page contains page name-->
+		  
+			
+              <div class="content-block-title">Herzlich Wilkommen</div>
+			  <div>Erklärungstext kommt hierhin.</div>
+			  
+			  <div>Darum geht´s</div>
+			  <p>Text</p>
+			  <div>so funktionierts</div>
+			  <p>Noch mehr Text</p>
+
+                    <h2 class="content-block-title main-header">HERZLICH
+                        &nbsp;
+                        &nbsp;
+                        WILLKOMMEN</h2>
+                    <div class="description">
+                        <p>darum geht´s ...</p>
+                        <textarea>{{Text}}</textarea>
+                    </div>
+                    <div class="description">
+                        <p>so funktionierts</p>
+                        <textarea>{{Noch mehr Text}}</textarea>
+                    </div>
+                    <div class="next" text-align="center">
+                        <a href="/prototype/" class="item-content item-link">
+                            <img src="img/next.svg" style="width:100%; height: 100px; margin: 30% auto;" class="next-button">
+                        </a>
+                    </div>
+
+        <!-- Bottom Toolbar-->
+        <div class="toolbar">
+
+        </div>
+	</div>
+	</div>
+	</div>
+</div>
+</div>
+<script src="./js/framework7.min.js"></script>
+<script src="./js/jquery.min.js"></script>
+
+  <!-- App routes -->
+  <script src="./js/logic/routes.js"></script>
+
+  <!-- Your custom app scripts -->
+  <script src="./js/app.js"></script>
+</body>
+</html>

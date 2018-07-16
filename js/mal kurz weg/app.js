@@ -1,6 +1,7 @@
 // Dom7
 var $$ = Dom7;
 
+
 // Framework7 App main instance
 var app  = new Framework7({
   root: '#app', // App root element
@@ -34,6 +35,7 @@ var app  = new Framework7({
       ]
     };
   },
+  
   // App root methods
   methods: {
     helloWorld: function () {
@@ -44,7 +46,8 @@ var app  = new Framework7({
   routes: routes,
 });
 
-app.on('pageInit', function(page){
+app.on('pageInit', function(page){ 
+	console.log("uiuiuiuiui");
 	if (page.name === 'P2')
 	{
 console.log("wird ausgeführt");
@@ -92,17 +95,7 @@ $(".back-link").click(function () {
 
 // Init/Create views
 
-var homeView = app.views.create('#view-home', {
-  url: '/'
-});
 
-/*
-var catalogView = app.views.create('#view-catalog', {
-  url: '/catalog/'
-});
-var settingsView = app.views.create('#view-settings', {
-  url: '/settings/'
-}); */
 
 
 

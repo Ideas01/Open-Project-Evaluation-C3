@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>My App</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+	<!-- including framework7 icons -->
+	<link rel="stylesheet" href="css/framework7-icons.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+  <body>
+    <div id="app">
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+	
+    <div class="panel panel-left panel-cover theme-dark">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="title">Left Panel</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block">Left panel content goes here</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    <!-- Views-->
+    <div class="views">
+      <!-- Your main view, should have "view-main" class-->
+      <div id="view-home" class="view view-main">
+        
+		
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-through toolbar-through">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page">
+		  
+            <!-- Scrollable page content-->
+            <div class="page-content">
+			
+			
+              <div class="content-block-title">Herzlich Wilkommen</div>
+			  <div>Erklärungstext kommt hierhin.</div>
+			  
+			  <div>Darum geht´s</div>
+			  <p>Text</p>
+			  <div>so funktionierts</div>
+			  <p>Noch mehr Text</p>
+			 <a href="/prototype/" class="button">Starte Prototyp</a>
+            </div>
+			
+			 
+		  </div>
+        </div>
+        <!-- Bottom Toolbar-->
+        <div class="toolbar">
+		
+        </div>
+      </div>
+    </div>
+	</div>
+      <!-- Framework7 library -->
+  <script src="./js/framework7.min.js"></script>
+  <script src="./js/jquery.min.js"></script>
+  <!-- App routes -->
+  <script src="./js/logic/routes.js"></script>
+
+  <!-- Your custom app scripts -->
+  <script src="./js/app.js"></script>
+  </body>
+</html>
