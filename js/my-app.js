@@ -1,5 +1,5 @@
 // Initialize your app
-var myApp = new Framework7({
+var app = new Framework7({
     // App root element
     root: '#app',
     // App Name

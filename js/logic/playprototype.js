@@ -10,15 +10,15 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-// Callbacks to run specific code for specific pages, for example for About page:
+/* // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
     // run createContentPage func after link was clicked
     $$('.create-page').on('click', function () {
         createContentPage();
     });
-});
+}); */
 
-// Generate dynamic page
+/* // Generate dynamic page
 var dynamicPageIndex = 0;
 function createContentPage() {
 	mainView.router.loadContent(
@@ -43,6 +43,6 @@ function createContentPage() {
         '    </div>' +
         '  </div>' +
         '</div>'
-    );
+    ); */
 	return;
 }
