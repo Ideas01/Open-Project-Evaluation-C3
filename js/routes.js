@@ -7,6 +7,10 @@ routes = [
     path: '/prototype/',
     url: './pages/prototype2.html',
   },
+  {
+    path: '/puzzle/',
+    url: './pages/puzzle.html',
+  },
   /* // Page Loaders & Router
   {
     path: '/page-loader-template7/:user/:userId/:posts/:postId/',
