@@ -1,19 +1,27 @@
-/**
- *
- * Builds a range slider element and returns it
- *
- */
 
-var app = new Framework7({
 
-});
 
 function SliderFactory() {}
 
 
-SliderFactory.prototype.createRangeSliders = function (questionCount) {
 
-    for (var i = 1; i <= questionCount; i++) {
+SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
+
+    var sliderIDs = [];
+
+    //calculate size relative to the number of questions
+    var percentage = 100/questionCount;
+
+    for (var i = 0; i < questionCount; i++) {
+
+        //create div that will hold the header for the slider, the slider and the value display for the slider
+        //create the slider
+        var newSliderDiv = document.createElement("div");
+        newSliderDiv.id = "sliderDiv" + i;
+        newSliderDiv.className = "sliderDiv";
+        newSliderDiv.style.width = percentage + "%";
+        newSliderDiv.style.height = 100 + "%";
+
         var newSlider = document.createElement('input');
         newSlider.id = 'slider' + i;
         newSlider.className = "slider";
@@ -23,47 +31,23 @@ SliderFactory.prototype.createRangeSliders = function (questionCount) {
         newSlider.value = "0";
         newSlider.step = "1";
 
+        //create the header
+        var newHeader = document.createElement("p");
+        newHeader.id = "header" + i;
+        newHeader.className = "header";
+        newHeader.innerText = headers[i];
+        newHeader.style.width = percentage + "%";
 
-        //add Element to the dom
-        $('.sliderDiv').append(newSlider);
+        //append everything
+        $('.page-content').append(newSliderDiv);
+        var selection = $('#sliderDiv'+i);
+        selection.append(newHeader);
+        selection.append(newSlider);
+
+        sliderIDs.push(newSlider.id);
     }
-    //add onchange Method
-    $('.slider').each(function() {
-        $(this).attr("onchange", "returnValue(this)");
-    })
+        return sliderIDs;
+
 
 };
 
-function returnValue(element) {
-    console.log("Der Wert von " + element.id + " ist " + element.value);
-    return element.value;
-
-}
-
-
-
-
-/**
- //string for a standard range slider
- var sliderString = "<input type='range' class='slider' min='0' max='10' step='1' value='5' onchange=''>";
-
- //create a range slider for every question in the survey
- var rangeSliders = [];
- for (var i = 1; i <= questionCount; i++) {
-        rangeSliders.push(sliderString);
-    }
-
- return rangeSliders; **/
-
-/**var rangeSlider = app.range.create({
-    el: '.range slider',
-    on: {
-        change: function () {
-            console.log("hallo i bims")
-        }
-    },
-    min: '0',
-    max: '5',
-    step: '1',
-    value: '0',
-    draggableBar: 'true' **/
