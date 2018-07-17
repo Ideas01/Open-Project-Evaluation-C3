@@ -39,7 +39,7 @@ SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
         newHeader.style.width = percentage + "%";
 
         //append everything
-        $('.page-content').append(newSliderDiv);
+        $('.slider-page-content').append(newSliderDiv);
         var selection = $('#sliderDiv'+i);
         selection.append(newHeader);
         selection.append(newSlider);

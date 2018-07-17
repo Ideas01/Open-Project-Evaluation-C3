@@ -13,6 +13,7 @@ var sliderValues = [];
         };
 
         var singleAccess = new SingleAccess();
+		
         var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
 
         function makeButton(buttonText) {
