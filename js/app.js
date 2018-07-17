@@ -1,3 +1,5 @@
+var singleAccess = new SingleAccess();
+
 // Dom7
 var $$ = Dom7;
 
@@ -45,36 +47,91 @@ var app  = new Framework7({
 });
 
 app.on('pageInit', function(page){
-	if (page.name === 'P2')
-	{
-console.log("wird ausgeführt");
-   imageArray.currentIndex = imageArray.startIndex;
-    imageArray.maxIndex = imageArray.imageUrls.length -1;
-    console.log("image-array: current index: " + imageArray.currentIndex);
-    console.log("image-array: maxIndex:" + imageArray.maxIndex);
+	console.log(page.name + " wird ausgeführt");
+	if(page.name === 'puzzle'){
+		app.popup.close();
+		
+		var windowWidth = window.screen.width;
+		var windowHeight = window.screen.height;
+	
+	
+		var imgObj = new Image();
+		imgObj.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
+    
+		imgObj.onload = function(){
+			var imgFormat = imgObj.width / imgObj.height;
+			console.log("formatle: "+ imgFormat)
+			var puzzleWidth = parseInt($(".puzzleDiv").css("width"));		
+			var height = puzzleWidth / imgFormat;
+			$(".puzzleDiv").css("height", height);
+	
 
-    //create div, which displays the prototype images
-    var imageDiv = document.createElement("div");
-    imageDiv.style.backgroundImage = "url("+ getImageUrl(imageArray.imageUrls,imageArray.currentIndex);
-    imageDiv.className = "imageDiv";
-    imageDiv.style.backgroundSize = "contain";
-    imageDiv.style.backgroundRepeat = "no-repeat";
-    imageDiv.style.width = "100%";
-    imageDiv.style.height = "100%";
+			var singleAccess = new SingleAccess();
+		
+			singleAccess.buildPuzzle(12);
+			delete imgObj;
+		
+		}
+	
+		$$('window').on('resize', function(page){
+			console.log("resize trigger")
+	
+			$(".puzzleDiv").empty();
+	
+			var imgObj = new Image();
+			imgObj.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
+			
+			imgObj.onload = function(){
+				var imgFormat = imgObj.width / imgObj.height;
+				console.log("formatle: "+ imgFormat)
+				
+				var puzzleWidth = parseInt($(".puzzleDiv").css("width"));
+				console.log("puzzlewidth: " + puzzleWidth);
+				
+				var height = puzzleWidth / imgFormat;
+				console.log("doof: "+ height)
+				$(".puzzleDiv").css("height", height);
+				console.log("versuch: "+ $(".puzzleDiv").css("height"))
+				
+			
 
-    $(".try").append(imageDiv);
-	console.log("Ausführung beendet");
+				var singleAccess = new SingleAccess();
+				
+				singleAccess.buildPuzzle(12);
+				
+			}
+		});	
+		
+	}
+	
+	if (page.name === 'P2'){
+		imageArray.currentIndex = imageArray.startIndex;
+		imageArray.maxIndex = imageArray.imageUrls.length -1;
+		console.log("image-array: current index: " + imageArray.currentIndex);
+		console.log("image-array: maxIndex:" + imageArray.maxIndex);
+
+		//create div, which displays the prototype images
+		var imageDiv = document.createElement("div");
+		imageDiv.style.backgroundImage = "url("+ getImageUrl(imageArray.imageUrls,imageArray.currentIndex);
+		imageDiv.className = "imageDiv";
+		imageDiv.style.backgroundSize = "contain";
+		imageDiv.style.backgroundRepeat = "no-repeat";
+		imageDiv.style.width = "100%";
+		imageDiv.style.height = "100%";
+
+		$(".try").append(imageDiv);
+		console.log("Ausführung beendet");
 	}
 	
 
 	//add click functionality for the right(next) chevron
-$(".next-link").click(function () {
-	if(imageArray.currentIndex < imageArray.maxIndex){
-		imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
-		console.log("currentIndex nach next-click: " + imageArray.currentIndex);
-	}
-	else if(imageArray.currentIndex == imageArray.maxIndex){
-		var popup = app.popup.create({
+	$(".next-link").click(function () {
+		if(imageArray.currentIndex < imageArray.maxIndex){
+			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
+			console.log("currentIndex nach next-click: " + imageArray.currentIndex);
+		}
+		else if(imageArray.currentIndex == imageArray.maxIndex){
+			var popup = app.popup.create({
 				content: 
 				'<div class="popup" id="my-popup">' +
 				  '<div class="view">' +
@@ -89,7 +146,10 @@ $(".next-link").click(function () {
 					  '</div>' +
 					  '<div class="page-content">' +
 						'<div class="block">' +
-						  '<p>Popup content goes here.</p>' +
+						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+						  '<div class="next" text-align="center">' +
+							  '<a href="/puzzle/" class="button"> Weiter </a>' +
+						  '</div>' +
 						'</div>' +
 					  '</div>' +
 					'</div>' +
@@ -104,19 +164,19 @@ $(".next-link").click(function () {
 			console.log("Popup instance: " + popup.el);
 			app.popup.open(popup.el,true);
 		console.log("prototyp zuende");
-	}
-});
+		}
+	});
 
-//add click functionality for the left(next) chevron
-$(".back-link").click(function () {
-	if(imageArray.currentIndex > 0) {
-		imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls, --imageArray.currentIndex);
-		console.log("currentIndex nach dem back-click: " + imageArray.currentIndex);
-	}
-	else if(imageArray.currentIndex==0){
-		console.log("mehr als 0 geht nicht");
-	}
-});
+	//add click functionality for the left(next) chevron
+	$(".back-link").click(function () {
+		if(imageArray.currentIndex > 0) {
+			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls, --imageArray.currentIndex);
+			console.log("currentIndex nach dem back-click: " + imageArray.currentIndex);
+		}
+		else if(imageArray.currentIndex==0){
+			console.log("mehr als 0 geht nicht");
+		}
+	});
 });
 
 // Init/Create views
