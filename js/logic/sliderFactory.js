@@ -20,7 +20,7 @@ SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
         newSliderDiv.id = "sliderDiv" + i;
         newSliderDiv.className = "sliderDiv";
         newSliderDiv.style.width = percentage + "%";
-        newSliderDiv.style.height = 100 + "%";
+        newSliderDiv.style.height = 70 + "%";
 
         var newSlider = document.createElement('input');
         newSlider.id = 'slider' + i;
@@ -46,6 +46,7 @@ SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
 
         sliderIDs.push(newSlider.id);
     }
+	$('.slider-page-content').append('<a href="" id="bewertungBtn" class="button">Bewertung abschicken</a>');
         return sliderIDs;
 
 

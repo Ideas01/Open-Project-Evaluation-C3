@@ -49,10 +49,9 @@ var app  = new Framework7({
 app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 	if(page.name === 'sliders'){
+		app.popup.close();
 		var sliderValues = [];
 		
-		
-		var buttonText = "Bewertung abschicken";
 
         //test-data
         var testDataObj = {
@@ -66,20 +65,7 @@ app.on('pageInit', function(page){
 		
         var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
 
-        function makeButton(buttonText) {
-            var newButton = document.createElement("button");
-            newButton.id = "sendButton";
-            newButton.onclick = function () {
-                saveValues();
-            };
-            var textNode = document.createTextNode(buttonText);
-            newButton.appendChild(textNode);
-            $('.page-content').append(newButton);
 
-            return newButton.id;
-        }
-
-        var buttonID = makeButton(buttonText);
 
         function saveValues() {
             var length = sliderIDs.length;
@@ -91,13 +77,17 @@ app.on('pageInit', function(page){
             return sliderValues;
         }
 
+		$("#bewertungBtn").click(function () {
+			saveValues();
+		});
+		
         $(window).resize(function () {
             var newSliderValues = saveValues();
             console.log(newSliderValues);
             console.log("Die slider ID ist: " + sliderIDs);
            //sliderIDs.empty();
 
-            $(".page-content").empty();
+            $(".slider-page-content").empty();
             var newSliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
 
             var length = newSliderIDs.length;
@@ -106,13 +96,17 @@ app.on('pageInit', function(page){
                 var slider = document.getElementById(newSliderIDs[i]);
                 slider.value = newSliderValues[i];
             }
-            makeButton(buttonText);
+			
+			$("#bewertungBtn").click(function () {
+			saveValues();
+		});
         })
+		
+		
 	
 	}
 
  	if(page.name === 'puzzle'){
-		app.popup.close();
 		
 		var windowWidth = window.screen.width;
 		var windowHeight = window.screen.height;
@@ -204,7 +198,7 @@ app.on('pageInit', function(page){
 						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
 						  '<div class="next" text-align="center">' +
 							'<a href="/prototype/" class="button"> Zurück </a>' +
-							  '<a href="/puzzle/" class="button"> Weiter </a>' +
+							  '<a href="/sliders/" class="button"> Weiter </a>' +
 						  '</div>' +
 						'</div>' +
 					  '</div>' +
