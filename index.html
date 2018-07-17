@@ -16,8 +16,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#2196f3">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
+  
   <title>My App</title>
 
   <link rel="stylesheet" href="framework7/css/framework7.min.css">
@@ -27,43 +26,43 @@
 <body>
   <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
-    <div class="statusbar"></div>
-    <!-- Left panel with cover effect-->
-    <div class="panel panel-left panel-cover theme-dark">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Left Panel</div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">Left panel content goes here</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Right panel with reveal effect-->
-    <div class="panel panel-right panel-reveal theme-dark">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Right Panel</div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">Right panel content goes here</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- <div class="statusbar"></div> -->
+    <!-- Left panel with cover effect -->
+    <!-- <div class="panel panel-left panel-cover theme-dark"> -->
+      <!-- <div class="view"> -->
+        <!-- <div class="page"> -->
+          <!-- <div class="navbar"> -->
+            <!-- <div class="navbar-inner"> -->
+              <!-- <div class="title">Left Panel</div> -->
+            <!-- </div> -->
+          <!-- </div> -->
+          <!-- <div class="page-content"> -->
+            <!-- <div class="block">Left panel content goes here</div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+    <!-- Right panel with reveal effect -->
+    <!-- <div class="panel panel-right panel-reveal theme-dark"> -->
+      <!-- <div class="view"> -->
+        <!-- <div class="page"> -->
+          <!-- <div class="navbar"> -->
+            <!-- <div class="navbar-inner"> -->
+              <!-- <div class="title">Right Panel</div> -->
+            <!-- </div> -->
+          <!-- </div> -->
+          <!-- <div class="page-content"> -->
+            <!-- <div class="block">Right panel content goes here</div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
 
-    <!-- Views/Tabs container -->
-    <div class="views tabs ios-edges">
+    <!-- Views container -->
+    <div class="views ios-edges">
       
       <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
-      <div id="view-home" class="view view-main tab tab-active">
+      <div id="view-home" class="view view-main">
         <!-- Page, data-name contains page name which can be used in page callbacks -->
 		
 		<div class="page" data-name="home">
@@ -71,7 +70,8 @@
         <div class="navbar">
           <div class="navbar-inner">
             <div class="left">
-              <!-- Right link contains only icon - additional "icon-only" class--><a href="#" data-panel="left" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+              <!-- Right link contains only icon - additional "icon-only" class-->
+			  <a href="#" data-panel="left" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
             </div>
 			<!-- We have home navbar without left link-->
             <div class="center sliding">App title</div>
@@ -79,30 +79,40 @@
           </div>
         </div>
 
-		<div class="pages navbar-through toolbar-through">
-          <!-- Page, data-page contains page name-->
-          <div data-page="index">
-		  
-            <!-- Scrollable page content-->
-            <div class="page-content">
-			
-			
-              <div class="content-block-title">Herzlich Wilkommen</div>
-			  <div>Erklärungstext kommt hierhin.</div>
-			  
-			  <div>Darum geht´s</div>
-			  <p>Text</p>
-			  <div>so funktionierts</div>
-			  <p>Noch mehr Text</p>
-			 <a href="/prototype/" class="button">Starte Prototyp</a>
-            </div>		 
-		  </div>
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-through toolbar-through">
+            <!-- Page, data-page contains page name-->
+            <div data-page="index" class="page">
+
+                <!-- Scrollable page content-->
+                <div class="page-content">
+                    <h2 class="content-block-title main-header">HERZLICH
+                        &nbsp;
+                        &nbsp;
+                        WILLKOMMEN</h2>
+                    <div class="description">
+                        <p>darum geht´s ...</p>
+                        <textarea>{{Text}}</textarea>
+                    </div>
+                    <div class="description">
+                        <p>so funktionierts</p>
+                        <textarea>{{Noch mehr Text}}</textarea>
+                    </div>
+                    <div class="next" text-align="center">
+                        <a href="/prototype/">
+                            <img src="img/next.svg" style="width:100%; height: 100px; margin: 5% auto;"class="next-button">
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
         </div>
       </div>
 
       <!-- Catalog View -->
-      <div id="view-catalog" class="view tab">
+      <div id="view-catalog" class="view-prototype">
         <!-- Catalog page will be loaded here dynamically from /catalog/ route -->
       </div>
 

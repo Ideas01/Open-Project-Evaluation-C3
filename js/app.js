@@ -62,7 +62,7 @@ console.log("wird ausgeführt");
     imageDiv.style.width = "100%";
     imageDiv.style.height = "100%";
 
-    $(".page-content").append(imageDiv);
+    $(".try").append(imageDiv);
 	console.log("Ausführung beendet");
 	}
 	
@@ -107,7 +107,7 @@ var settingsView = app.views.create('#view-settings', {
 
 
 
-// Login Screen Demo
+/* // Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
   var username = $$('#my-login-screen [name="username"]').val();
   var password = $$('#my-login-screen [name="password"]').val();
@@ -118,7 +118,7 @@ $$('#my-login-screen .login-button').on('click', function () {
   // Alert username and password
   app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
 });
-
+ */
 
 
 	
