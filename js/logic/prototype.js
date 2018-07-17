@@ -1,4 +1,6 @@
 
+var app = new Framework7();
+
 function getImageUrl( urlArray,imageIndex)
 {
     return urlArray[imageIndex];
@@ -39,6 +41,17 @@ $("document").ready(function () {
             console.log("currentIndex nach next-click: " + imageArray.currentIndex);
         }
         else if(imageArray.currentIndex == imageArray.maxIndex){
+			//öffne popup
+			var popup = app.popup.create({
+				content: '<div class="popup popup-tablet-fullscreen">...</div>',
+					on: {
+						opened: function () {
+						console.log('Popup opened')
+						}
+					}
+			});
+			console.log("Popup instance: " + popup.el);
+			app.popup.open(popup.el,true);
             console.log("prototyp zuende");
         }
     });

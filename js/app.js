@@ -74,6 +74,35 @@ $(".next-link").click(function () {
 		console.log("currentIndex nach next-click: " + imageArray.currentIndex);
 	}
 	else if(imageArray.currentIndex == imageArray.maxIndex){
+		var popup = app.popup.create({
+				content: 
+				'<div class="popup" id="my-popup">' +
+				  '<div class="view">' +
+					'<div class="page">' +
+					  '<div class="navbar">' +
+						'<div class="navbar-inner">' +
+						  '<div class="title">Popup</div>' +
+						  '<div class="right">' +
+							'<a href="#" class="link popup-close">Close</a>' +
+						  '</div>' +
+					   '</div>' +
+					  '</div>' +
+					  '<div class="page-content">' +
+						'<div class="block">' +
+						  '<p>Popup content goes here.</p>' +
+						'</div>' +
+					  '</div>' +
+					'</div>' +
+				  '</div>' +
+				'</div>',
+					on: {
+						opened: function () {
+						console.log('Popup opened')
+						}
+					}
+			});
+			console.log("Popup instance: " + popup.el);
+			app.popup.open(popup.el,true);
 		console.log("prototyp zuende");
 	}
 });
