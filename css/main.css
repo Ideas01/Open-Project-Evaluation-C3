@@ -6,7 +6,6 @@ body{
 }
 .page .navbar{
     background-color: #d40055;
-    width:
     
 }
 
@@ -25,8 +24,8 @@ body{
 
 .description textarea {
     position: absolute;
-    width: 66%;
-    left: calc(50% -33px);
-    top: calc(100% -75px);
+    width: calc(66% - 6px);
+    left: calc(50% - 33px);
+    top: calc(100% - 75 px);
     
 }
