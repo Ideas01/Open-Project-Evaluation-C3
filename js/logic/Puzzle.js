@@ -4,6 +4,7 @@ $('document').ready(function () {
 	
 	
 	var imgObj = new Image();
+    imgObj.src = "https://ze.tt/wp-content/uploads/2017/01/meer3-e1485169056783-1024x577.jpg";
     
 	imgObj.onload = function(){
 		var imgFormat = imgObj.width / imgObj.height;
