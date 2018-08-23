@@ -54,7 +54,7 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount) {
 		var picWidth= $(".puzzleDiv").width();
 		var picHeight= $(".puzzleDiv").height();
 		
-		console.log("pichheight + picwidth: "+ picHeight +" + "+ picWidth)
+		console.log("picheight + picwidth: "+ picHeight +" + "+ picWidth)
 		
 		var picFormat = picWidth/ picHeight;
 		console.log("picFormat: "+ picFormat)
