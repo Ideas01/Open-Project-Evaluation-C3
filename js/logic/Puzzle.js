@@ -23,30 +23,30 @@ $('document').ready(function () {
 	
 	$(window).resize(function(){
 	
-	$(".puzzleDiv").empty();
-	
-	var imgObj = new Image();
-    imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
+		$(".puzzleDiv").empty();
+		
+		var imgObj = new Image();
+		imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
     
-	imgObj.onload = function(){
-		var imgFormat = imgObj.width / imgObj.height;
-        console.log("formatle: "+ imgFormat)
+		imgObj.onload = function(){
+			var imgFormat = imgObj.width / imgObj.height;
+			console.log("formatle: "+ imgFormat)
+			
+			var puzzleWidth = parseInt($(".puzzleDiv").css("width"));
+			console.log("puzzlewidth: " + puzzleWidth);
+			
+			var height = puzzleWidth / imgFormat;
+			console.log("doof: "+ height)
+			$(".puzzleDiv").css("height", height);
+			console.log("versuch: "+ $(".puzzleDiv").css("height"))
+			
 		
-		var puzzleWidth = parseInt($(".puzzleDiv").css("width"));
-		console.log("puzzlewidth: " + puzzleWidth);
-		
-		var height = puzzleWidth / imgFormat;
-		console.log("doof: "+ height)
-		$(".puzzleDiv").css("height", height);
-		console.log("versuch: "+ $(".puzzleDiv").css("height"))
-    	
-	
 
-		var singleAccess = new SingleAccess();
-		
-		singleAccess.buildPuzzle(12);
-		
-	}	
-});	
+			var singleAccess = new SingleAccess();
+			
+			singleAccess.buildPuzzle(12);
+			
+		}	
+	});	
 
 });
