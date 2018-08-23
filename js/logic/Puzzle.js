@@ -4,7 +4,7 @@ $('document').ready(function () {
 	
 	
 	var imgObj = new Image();
-    imgObj.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
+    imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
     
 	imgObj.onload = function(){
 		var imgFormat = imgObj.width / imgObj.height;
@@ -26,7 +26,7 @@ $('document').ready(function () {
 	$(".puzzleDiv").empty();
 	
 	var imgObj = new Image();
-    imgObj.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
+    imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
     
 	imgObj.onload = function(){
 		var imgFormat = imgObj.width / imgObj.height;

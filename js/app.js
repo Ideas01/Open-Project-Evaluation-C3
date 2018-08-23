@@ -48,10 +48,10 @@ var app  = new Framework7({
 
 app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
+
 	if(page.name === 'sliders'){
 		app.popup.close();
 		var sliderValues = [];
-		
 
         //test-data
         var testDataObj = {
@@ -101,42 +101,41 @@ app.on('pageInit', function(page){
 			saveValues();
 		});
         })
-		
-		
-	
 	}
+	
 
+	
  	if(page.name === 'puzzle'){
+
 		
 		var windowWidth = window.screen.width;
 		var windowHeight = window.screen.height;
 	
 	
 		var imgObj = new Image();
-		imgObj.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
-    
+		imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
+		console.log("bis hierhin1");
+		
 		imgObj.onload = function(){
 			var imgFormat = imgObj.width / imgObj.height;
 			console.log("formatle: "+ imgFormat)
 			var puzzleWidth = parseInt($(".puzzleDiv").css("width"));		
 			var height = puzzleWidth / imgFormat;
 			$(".puzzleDiv").css("height", height);
-	
-
+			
 			var singleAccess = new SingleAccess();
-		
+			console.log("bis hierhin2");
 			singleAccess.buildPuzzle(12);
-			delete imgObj;
+			//delete imgObj;
 		
 		}
 	
 		$$('window').on('resize', function(page){
 			console.log("resize trigger")
-	
+			
 			$(".puzzleDiv").empty();
-	
 			var imgObj = new Image();
-			imgObj.src = "http://image.wallpaperlistings.com/bigphoto/97/971504/wallpaper-1920x1080-hd-1080p.jpg";
+			imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
 			
 			imgObj.onload = function(){
 				var imgFormat = imgObj.width / imgObj.height;				
@@ -147,7 +146,6 @@ app.on('pageInit', function(page){
 				var singleAccess = new SingleAccess();
 				
 				singleAccess.buildPuzzle(12);
-				
 			}
 		});	
 		
