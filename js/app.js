@@ -136,7 +136,7 @@ app.on('pageInit', function(page){
 			$(".puzzleDiv").empty();
 			var imgObj = new Image();
 			imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
-			
+			console.log(imgObj);
 			imgObj.onload = function(){
 				var imgFormat = imgObj.width / imgObj.height;				
 				var puzzleWidth = parseInt($(".puzzleDiv").css("width"));				
