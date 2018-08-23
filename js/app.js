@@ -16,6 +16,24 @@ var app  = new Framework7({
         firstName: 'John',
         lastName: 'Doe',
       },
+      // Demo products for Catalog section
+      products: [
+        {
+          id: '1',
+          title: 'Apple iPhone 8',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi tempora similique reiciendis, error nesciunt vero, blanditiis pariatur dolor, minima sed sapiente rerum, dolorem corrupti hic modi praesentium unde saepe perspiciatis.'
+        },
+        {
+          id: '2',
+          title: 'Apple iPhone 8 Plus',
+          description: 'Velit odit autem modi saepe ratione totam minus, aperiam, labore quia provident temporibus quasi est ut aliquid blanditiis beatae suscipit odio vel! Nostrum porro sunt sint eveniet maiores, dolorem itaque!'
+        },
+        {
+          id: '3',
+          title: 'Apple iPhone X',
+          description: 'Expedita sequi perferendis quod illum pariatur aliquam, alias laboriosam! Vero blanditiis placeat, mollitia necessitatibus reprehenderit. Labore dolores amet quos, accusamus earum asperiores officiis assumenda optio architecto quia neque, quae eum.'
+        },
+      ]
     };
   },
   // App root methods
@@ -95,7 +113,8 @@ app.on('pageInit', function(page){
 	
 	
 		var imgObj = new Image();
-		imgObj.src = "https://ze.tt/wp-content/uploads/2017/01/meer3-e1485169056783-1024x577.jpg";
+		imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
+		console.log("bis hierhin1");
 		
 		imgObj.onload = function(){
 			var imgFormat = imgObj.width / imgObj.height;
@@ -106,8 +125,7 @@ app.on('pageInit', function(page){
 			
 			var singleAccess = new SingleAccess();
 			console.log("bis hierhin2");
-			//singleAccess.buildPuzzle(12);
-						console.log("bis hierhin3");
+			singleAccess.buildPuzzle(12);
 			//delete imgObj;
 		
 		}
@@ -117,8 +135,8 @@ app.on('pageInit', function(page){
 			
 			$(".puzzleDiv").empty();
 			var imgObj = new Image();
-			imgObj.src = "https://ze.tt/wp-content/uploads/2017/01/meer3-e1485169056783-1024x577.jpg";
-			console.log(imgObj);
+			imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
+			
 			imgObj.onload = function(){
 				var imgFormat = imgObj.width / imgObj.height;				
 				var puzzleWidth = parseInt($(".puzzleDiv").css("width"));				
