@@ -1,9 +1,12 @@
+.page{
+    background-color : #f9f9f9;
+}
+
 body{
     margin: 0px !important;
-    background-color : #f9f9f9 !important;
-
-
+    
 }
+
 .page .navbar{
     background-color: #d40055;
     
@@ -19,13 +22,13 @@ body{
     position: relative;
     width: 100%;
     background-color: #fdfdfd;
-    height: 75px;
+    height: 200px;
 }
 
 .description textarea {
     position: absolute;
-    width: calc(66% - 6px);
-    left: calc(50% - 33px);
+    width:66%;
+    left: 17%;
     top: calc(100% - 75 px);
     
 }
