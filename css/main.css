@@ -28,6 +28,7 @@ body{
 .description textarea {
     position: absolute;
     width:66%;
+    height:70%;
     left: 17%;
     top: calc(100% - 75 px);
     
