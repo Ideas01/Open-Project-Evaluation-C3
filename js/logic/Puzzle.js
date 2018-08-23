@@ -15,8 +15,8 @@ $('document').ready(function () {
 	
 
 		var singleAccess = new SingleAccess();
-		
-		singleAccess.buildPuzzle(12);
+		\console.log("noch nicht weg")
+		//singleAccess.buildPuzzle(12);
 		delete imgObj;
 		
 	}
