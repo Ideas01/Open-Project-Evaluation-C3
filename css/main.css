@@ -1,3 +1,15 @@
-.navbar{
-    background-color: #d40055
+body{
+    margin: 0px !important;
+
+}
+.page .navbar{
+    background-color: #d40055;
+    width:
+    
+}
+
+.next a img {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
 }
