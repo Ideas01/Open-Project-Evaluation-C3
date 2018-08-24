@@ -23,8 +23,18 @@ body{
     width: 100%;
     background-color: #fdfdfd;
     height: 200px;
-}
+    border-left: 8px solid #ffb380;
 
+}
+.description p {
+    left: 17%;
+    line-height: 2.0 !important;
+    text-indent: 152px;
+    height: 15px;
+    
+    
+    
+}
 .description textarea {
     position: absolute;
     width:66%;
@@ -33,3 +43,5 @@ body{
     top: calc(100% - 75 px);
     
 }
+
+
