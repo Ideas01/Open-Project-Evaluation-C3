@@ -60,7 +60,11 @@ app.on('pageInit', function(page){
                 "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
             ]
         };
-
+		var swiper = app.swiper.create('.swiper-container', {
+			speed: 400,
+			spaceBetween: 100
+		});
+		console.log("yuhuuuuuuuuuuuuuuuu")
         var singleAccess = new SingleAccess();
 		
         var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);

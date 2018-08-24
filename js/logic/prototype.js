@@ -25,12 +25,12 @@ $("document").ready(function () {
 
     //create div, which displays the prototype images
     var imageDiv = document.createElement("div");
-    imageDiv.style.backgroundImage = "url("+ getImageUrl(imageArray.imageUrls,imageArray.currentIndex);
-    imageDiv.className = "imageDiv";
-    imageDiv.style.backgroundSize = "contain";
-    imageDiv.style.backgroundRepeat = "no-repeat";
-    imageDiv.style.width = "100%";
-    imageDiv.style.height = "100%";
+		imageDiv.style.backgroundImage = "url("+ getImageUrl(imageArray.imageUrls,imageArray.currentIndex);
+		imageDiv.className = "imageDiv";
+		imageDiv.style.backgroundSize = "contain";
+		imageDiv.style.backgroundRepeat = "no-repeat";
+		imageDiv.style.width = "100%";
+		imageDiv.style.height = "100%";
 
     $(".page-content").append(imageDiv);
 
