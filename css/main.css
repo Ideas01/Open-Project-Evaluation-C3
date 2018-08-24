@@ -12,6 +12,11 @@ body{
     
 }
 
+.center-sliding{
+    margin:auto;
+    
+}
+
 .next a img {
     position: absolute;
     bottom: 0;
