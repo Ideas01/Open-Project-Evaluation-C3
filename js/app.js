@@ -15,25 +15,7 @@ var app  = new Framework7({
       user: {
         firstName: 'John',
         lastName: 'Doe',
-      },
-      // Demo products for Catalog section
-      products: [
-        {
-          id: '1',
-          title: 'Apple iPhone 8',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi tempora similique reiciendis, error nesciunt vero, blanditiis pariatur dolor, minima sed sapiente rerum, dolorem corrupti hic modi praesentium unde saepe perspiciatis.'
-        },
-        {
-          id: '2',
-          title: 'Apple iPhone 8 Plus',
-          description: 'Velit odit autem modi saepe ratione totam minus, aperiam, labore quia provident temporibus quasi est ut aliquid blanditiis beatae suscipit odio vel! Nostrum porro sunt sint eveniet maiores, dolorem itaque!'
-        },
-        {
-          id: '3',
-          title: 'Apple iPhone X',
-          description: 'Expedita sequi perferendis quod illum pariatur aliquam, alias laboriosam! Vero blanditiis placeat, mollitia necessitatibus reprehenderit. Labore dolores amet quos, accusamus earum asperiores officiis assumenda optio architecto quia neque, quae eum.'
-        },
-      ]
+      }
     };
   },
   // App root methods
@@ -60,11 +42,6 @@ app.on('pageInit', function(page){
                 "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
             ]
         };
-		var swiper = app.swiper.create('.swiper-container', {
-			speed: 400,
-			spaceBetween: 100
-		});
-		console.log("yuhuuuuuuuuuuuuuuuu")
         var singleAccess = new SingleAccess();
 		
         var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
@@ -130,7 +107,7 @@ app.on('pageInit', function(page){
 			var singleAccess = new SingleAccess();
 			console.log("bis hierhin2");
 			singleAccess.buildPuzzle(12);
-			//delete imgObj;
+			delete imgObj;
 		
 		}
 	
@@ -170,17 +147,70 @@ app.on('pageInit', function(page){
 		imageDiv.style.width = "100%";
 		imageDiv.style.height = "100%";
 
-		$(".try").append(imageDiv);
-		console.log("Ausführung beendet");
+		$(".testslider").append(imageDiv);
+
+			// initializing Slideshow Swiper
+		var mySwiper = new Swiper('.swiper-container', {
+			spaceBetween: 100
+		});
+		
+		var mySwiper = document.querySelector('.swiper-container').swiper
+		
+		for(var n=0; n < imageArray.imageUrls.length; n++){
+			
+			//mySwiper.appendSlide('<div class="swiper-slide">Slide 10"</div>')
+			//mySwiper.appendSlide('<div class="swiper-slide" id="swiper' + n + '"></div>')
+			mySwiper.appendSlide('<div class="swiper-slide" style="background-image: url(' + ImageArray.imageUrls[n] + ')"></div>')
+		}  
+		
+		
+		mySwiper.on('slideChange', function (){
+			if(mySwiper.isEnd){
+				var popup = app.popup.create({
+					content: 
+					'<div class="popup" id="my-popup">' +
+					  '<div class="view">' +
+						'<div class="page">' +
+						  '<div class="navbar">' +
+							'<div class="navbar-inner">' +
+							  '<div class="title">Popup</div>' +
+							  '<div class="right">' +
+								'<a href="#" class="link popup-close">Close</a>' +
+							  '</div>' +
+						   '</div>' +
+						  '</div>' +
+						  '<div class="page-content">' +
+							'<div class="block">' +
+							  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+							  '<div class="next" text-align="center">' +
+								'<a href="/prototype/" class="button"> Zurück </a>' +
+								  '<a href="/sliders/" class="button"> Weiter </a>' +
+							  '</div>' +
+							'</div>' +
+						  '</div>' +
+						'</div>' +
+					  '</div>' +
+					'</div>',
+					on: {
+						opened: function () {
+						}
+					}
+				});
+				app.popup.open(popup.el,true);
+			}
+		});
+		
 	}
 	
 
 	//add click functionality for the right(next) chevron
-	$(".next-link").click(function () {
+
+/* 	$(".next-link").click(function () {
 		if(imageArray.currentIndex < imageArray.maxIndex){
 			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
 			console.log("currentIndex nach next-click: " + imageArray.currentIndex);
 		}
+		
 		else if(imageArray.currentIndex == imageArray.maxIndex){
 			var popup = app.popup.create({
 				content: 
@@ -228,7 +258,7 @@ app.on('pageInit', function(page){
 		else if(imageArray.currentIndex==0){
 			console.log("mehr als 0 geht nicht");
 		}
-	});
+	}); */
 });
 
 // Init/Create views
@@ -271,7 +301,7 @@ function getImageUrl(urlArray, imageIndex)
     return urlArray[imageIndex];
 }
 
-//js Object, which contains all necessary attributes
+//js Object, which contains all available prototype images
 var imageArray = {
     imageUrls:  ["https://thumbnails-visually.netdna-ssl.com/the-10-commandments-of-user-interface-design_553e21765c690_w1500.png",
         "https://weandthecolor.com/wp-content/uploads/2017/05/User-Interface-designs-by-Balraj-Chana-1068x591.jpg",

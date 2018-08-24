@@ -7,14 +7,14 @@ function getImageUrl( urlArray,imageIndex)
 }
 
 //js Object, which contains all necessary attributes
-var imageArray = {
+/* var imageArray = {
     imageUrls:  ["https://thumbnails-visually.netdna-ssl.com/the-10-commandments-of-user-interface-design_553e21765c690_w1500.png",
         "https://weandthecolor.com/wp-content/uploads/2017/05/User-Interface-designs-by-Balraj-Chana-1068x591.jpg",
         "https://cdn-images-1.medium.com/max/2000/1*_tkd0q6CFkepowjFZHRSSg.jpeg"],
     startIndex: 0,
     currentIndex: undefined,
     maxIndex: undefined,
-};
+}; */
 
 $("document").ready(function () {
 
@@ -24,15 +24,15 @@ $("document").ready(function () {
     console.log("image-array: maxIndex:" + imageArray.maxIndex);
 
     //create div, which displays the prototype images
-    var imageDiv = document.createElement("div");
+    /* var imageDiv = document.createElement("div");
 		imageDiv.style.backgroundImage = "url("+ getImageUrl(imageArray.imageUrls,imageArray.currentIndex);
 		imageDiv.className = "imageDiv";
 		imageDiv.style.backgroundSize = "contain";
 		imageDiv.style.backgroundRepeat = "no-repeat";
 		imageDiv.style.width = "100%";
-		imageDiv.style.height = "100%";
+		imageDiv.style.height = "100%"; */
 
-    $(".page-content").append(imageDiv);
+    //$(".testslider").append(imageDiv);
 
     //add click functionality for the right(next) chevron
     $(".next-link").click(function () {
