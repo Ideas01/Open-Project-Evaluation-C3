@@ -23,29 +23,52 @@ body{
     margin: 0;
 }
 
-.description{
+.description1 {
     position: relative;
     background-color: #fdfdfd;
-    height: 150px;
+    height: 169px;
     width: 100%;
 
 }
-.description p {
+.description1 p {
     line-height: 2.0 !important;
-    text-indent: 235px;
+    text-indent: 268px;
     height: 15px;
+    
  
 }
-.description textarea {
+.description1 textarea {
     position: absolute;
-    width:66%;
-    height:80%;
+    width: 66%;
     left: 17%;
-    top: calc(100% - 75 px);
+    height: 55%;
     border-left: 8px solid #ffb380;
-    position: relative;
-    padding-left: 15px;
-    padding-bottom:
+    padding-left: 19px;
+    padding-bottom: 10px;
+   
+}
+.description2 textarea {
+    position: absolute;
+    width: 66%;
+    left: 17%;
+    height: 55%;
+    border-left: 8px solid #ffb380;
+    padding-left: 19px;
+    padding-bottom: 10px;
+    
 }
 
-
+.description2 {
+    position: relative;
+    background-color: #fdfdfd;
+    height: 200px;
+    width: 100%;
+    
+}
+.description2 p {
+    line-height: 2.0 !important;
+    text-indent: 268px;
+    height: 15px;
+    
+    
+}
