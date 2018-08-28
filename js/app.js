@@ -180,7 +180,7 @@ app.on('pageInit', function(page){
 		else if(imageArray.currentIndex == imageArray.maxIndex){
 			var popup = app.popup.create({
 				content: 
-				'<div class="popup" id="my-popup">' +
+				'<div class="popup">' +
 				  '<div class="view">' +
 					'<div class="page">' +
 					  '<div class="navbar">' +
@@ -206,6 +206,9 @@ app.on('pageInit', function(page){
 				on: {
 					opened: function () {
 					console.log('Popup opened')
+					},
+					close: function(){
+						$(".popup").remove();
 					}
 				}
 			});
@@ -213,6 +216,66 @@ app.on('pageInit', function(page){
 			app.popup.open(popup.el,true);
 		console.log("prototyp zuende");
 		}
+	});
+	
+ 	$("#startBtn").click(function(){
+		var popup = app.popup.create({
+			// The Popup
+			content:
+			'<div class="popup"  id="popupStart">' +
+				'<div class="view">' +
+					'<div class="page">' +
+					  '<div class="navbar">' +
+						'<div class="navbar-inner">' +
+						  '<div class="title">Popup</div>' +
+						  '<div class="right">' +
+							'<a href="#" class="link popup-close">Close</a>' +
+						  '</div>' +
+					   '</div>' +
+					  '</div>' +
+					  '<div class="page-content">' +
+						'<div class="block">' +
+						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+						  '<div class="next" text-align="center">' +
+							'<a href="/prototype/" class="button"> Zurück </a>' +
+							'<a href="/sliders/" class="button"> Weiter </a>' +
+						  '</div>' +
+						'</div>' +
+					  '</div>' +
+					'</div>' +
+				  '</div>' +
+				
+				/* '<div id="myModal" class="modal">' +
+					
+					'<!-- popup content -->' +
+					'<div class="modal-content">' +
+						'<span class="close">&times;</span>' +
+						'<p>Some text in the Modal..</p>' +
+					'</div>' +
+					
+				'</div>'+
+				'<div class="modal-content">' +
+					'<div class="modal-header">' +
+						'<span class="close">&times;</span>' +
+						'<h2>START PROTOTYPE</h2>' +
+					'</div>' +
+					'<div class="modal-body">' +
+						'<a href="/prototype/">' +
+							'<img src="img/start.svg" style="width:100px; height: 100px;"class="next-button">' +
+						'</a>' +
+					'</div>' +
+				  '</div>' + */
+				'</div>',
+			on: {
+					opened: function () {
+					console.log('Popup opened')
+					},
+					close: function(){
+						$(".popup").remove();
+					}
+				}
+		});
+		app.popup.open(popup.el,true);
 	});
 
 	//add click functionality for the left(next) chevron
