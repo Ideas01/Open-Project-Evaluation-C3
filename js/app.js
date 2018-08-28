@@ -205,7 +205,7 @@ app.on('pageInit', function(page){
 
 	//add click functionality for the right(next) chevron
 
-/* 	$(".next-link").click(function () {
+$(".next-link").click(function () {
 		if(imageArray.currentIndex < imageArray.maxIndex){
 			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
 			console.log("currentIndex nach next-click: " + imageArray.currentIndex);
@@ -321,7 +321,7 @@ app.on('pageInit', function(page){
 		else if(imageArray.currentIndex==0){
 			console.log("mehr als 0 geht nicht");
 		}
-	}); */
+	});
 });
 
 // Init/Create views
