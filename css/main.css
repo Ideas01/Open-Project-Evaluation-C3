@@ -152,3 +152,15 @@ Modal Content */
     /* from {top: -300px; opacity: 0} */
     /* to {top: 0; opacity: 1} */
 /* }  */
+
+
+/*********** popupStart start **************/
+
+#popupStart{
+	position: absolute;
+	left: 0;
+	width: 100%;
+	margin-left: 0 !important;
+}
+
+/*********** popupStart end **************/
