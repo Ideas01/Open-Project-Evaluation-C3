@@ -132,7 +132,7 @@ app.on('pageInit', function(page){
 		
 	} 
 	
-	if (page.name === 'P2'){
+if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;
 		imageArray.maxIndex = imageArray.imageUrls.length -1;
 		console.log("image-array: current index: " + imageArray.currentIndex);
@@ -154,55 +154,58 @@ app.on('pageInit', function(page){
 			spaceBetween: 100
 		});
 		
-		var mySwiper = document.querySelector('.swiper-container').swiper
+		var mySwiper = document.querySelector('.swiper-container').swiper;
 		
 		for(var n=0; n < imageArray.imageUrls.length; n++){
-			//mySwiper.appendSlide('<div class="swiper-slide">Slide 10"</div>')
 			mySwiper.appendSlide('<div class="testslider swiper-slide" id="swiper' + n + '"></div>');
-			console.log("bild:" + n )
-			$("#swiper1").append(imageDiv);
-			//mySwiper.appendSlide('<div class="swiper-slide" style="background-image: url(' + ImageArray.imageUrls[n] + ')"></div>')
-		}  
-		
-		
-		mySwiper.on('slideChange', function (){
-			if(mySwiper.isEnd){
-				var popup = app.popup.create({
-					content: 
-					'<div class="popup" id="my-popup">' +
-					  '<div class="view">' +
-						'<div class="page">' +
-						  '<div class="navbar">' +
-							'<div class="navbar-inner">' +
-							  '<div class="title">Popup</div>' +
-							  '<div class="right">' +
-								'<a href="#" class="link popup-close">Close</a>' +
-							  '</div>' +
-						   '</div>' +
-						  '</div>' +
-						  '<div class="page-content">' +
-							'<div class="block">' +
-							  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-							  '<div class="next" text-align="center">' +
-								'<a href="/prototype/" class="button"> Zurück </a>' +
-								  '<a href="/sliders/" class="button"> Weiter </a>' +
-							  '</div>' +
-							'</div>' +
-						  '</div>' +
-						'</div>' +
-					  '</div>' +
-					'</div>',
-					on: {
-						opened: function () {
-						}
-					}
-				});
-				app.popup.open(popup.el,true);
-			}
+			console.log("bild:" + n );
+			$("#swiper" +n).css('background-image',"url("+ getImageUrl(imageArray.imageUrls,n));
+            $("#swiper"+n).css('background-size',"contain");
+            $("#swiper"+n).css('background-repeat',"no-repeat");
+		}
+
+		mySwiper.on('slidePrevTransitionStart', function () {
+        	mySwiper.off('slideNextTransitionEnd');
 		});
-		
+
+        mySwiper.on('touchEnd', function () {
+                if (mySwiper.isEnd) {
+                    mySwiper.on('slideNextTransitionEnd', function () {
+                        var popup = app.popup.create({
+                            content:
+                            '<div class="popup" id="my-popup">' +
+                            '<div class="view">' +
+                            '<div class="page">' +
+                            '<div class="navbar">' +
+                            '<div class="navbar-inner">' +
+                            '<div class="title">Popup</div>' +
+                            '<div class="right">' +
+                            '<a href="#" class="link popup-close">Close</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="page-content">' +
+                            '<div class="block">' +
+                            '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+                            '<div class="next" text-align="center">' +
+                            '<a href="/prototype/" class="button"> Zurück </a>' +
+                            '<a href="/sliders/" class="button"> Weiter </a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>',
+                            on: {
+                                opened: function () {
+                                }
+                            }
+                        });
+                        app.popup.open(popup.el, true);
+                    });
+                }
+        });
 	}
-	
 
 	//add click functionality for the right(next) chevron
 
