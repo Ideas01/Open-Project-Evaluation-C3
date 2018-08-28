@@ -21,14 +21,14 @@
 	height: 300px;
 }
 
-.testslider1{
-	background-color: green;
+#swiper0{
+		background-color: green;
 }
 
-.testslider2{
+#swiper1{
 	background-color: red;
 }
 
-.testslider3{
+#swiper2{
 	background-color: lime;
 }
