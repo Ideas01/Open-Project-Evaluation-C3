@@ -157,10 +157,10 @@ app.on('pageInit', function(page){
 		var mySwiper = document.querySelector('.swiper-container').swiper
 		
 		for(var n=0; n < imageArray.imageUrls.length; n++){
-			
+			console.log(n);
 			//mySwiper.appendSlide('<div class="swiper-slide">Slide 10"</div>')
-			//mySwiper.appendSlide('<div class="swiper-slide" id="swiper' + n + '"></div>')
-			mySwiper.appendSlide('<div class="swiper-slide" style="background-image: url(' + ImageArray.imageUrls[n] + ')"></div>')
+			mySwiper.appendSlide('<div class="testslider swiper-slide" id="swiper' + n + '"></div>')
+			//mySwiper.appendSlide('<div class="swiper-slide" style="background-image: url(' + ImageArray.imageUrls[n] + ')"></div>')
 		}  
 		
 		
