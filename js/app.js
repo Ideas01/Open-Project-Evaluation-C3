@@ -171,6 +171,7 @@ if (page.name === 'P2'){
         mySwiper.on('touchEnd', function () {
                 if (mySwiper.isEnd) {
                     mySwiper.on('slideNextTransitionEnd', function () {
+						$(".popup").remove();
                         var popup = app.popup.create({
                             content:
                             '<div class="popup" id="my-popup">' +
