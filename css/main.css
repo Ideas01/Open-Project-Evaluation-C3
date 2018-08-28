@@ -1,4 +1,4 @@
-.page{
+.page {
     background-color : #f9f9f9;
 }
 
@@ -17,10 +17,16 @@ body{
     
 }
 
-.next a img {
+.next{
+    top: 500%;
     position: absolute;
-    bottom: 0;
-    margin: 0;
+    left: 42%;
+}
+
+.next a img {
+    margin-left: auto;
+    margin-right: auto;
+    height: 141px;
 }
 
 .description1 {
@@ -163,5 +169,17 @@ Modal Content */
 	width: 100%;
 	margin-left: 0 !important;
 }
+
+.block p{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.page .popupNavbar {
+    opacity: 0;
+}
+
+.page .popupStartpage{
+    background-color: transparent !important;
 
 /*********** popupStart end **************/

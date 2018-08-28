@@ -258,10 +258,10 @@ $(".next-link").click(function () {
 			content:
 			'<div class="popup"  id="popupStart">' +
 				'<div class="view">' +
-					'<div class="page">' +
-					  '<div class="navbar">' +
+					'<div class="page popupStartpage">' +
+					  '<div class="navbar popupNavbar">' +
 						'<div class="navbar-inner">' +
-						  '<div class="title">Popup</div>' +
+						  '<div class="title">START</div>' +
 						  '<div class="right">' +
 							'<a href="#" class="link popup-close">Close</a>' +
 						  '</div>' +
@@ -269,10 +269,11 @@ $(".next-link").click(function () {
 					  '</div>' +
 					  '<div class="page-content">' +
 						'<div class="block">' +
-						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+						  '<p>START PROTOTYP RATING</p>' +
 						  '<div class="next" text-align="center">' +
-							'<a href="/prototype/" class="button"> Zurück </a>' +
-							'<a href="/sliders/" class="button"> Weiter </a>' +
+                                     '<a href="/prototype/">' +
+                                     '<img src="img/start.svg" class="next-button">' +
+                                     '</a>' +
 						  '</div>' +
 						'</div>' +
 					  '</div>' +
