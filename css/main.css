@@ -73,8 +73,9 @@ body{
     
 }
 
-#startBtn{
+#startBtn {
 	position: absolute;
+    left: 500px;
 	bottom: 0px;
 }
 
