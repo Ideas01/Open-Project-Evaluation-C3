@@ -214,23 +214,69 @@ if (page.name === 'P2'){
 	//add click functionality for the right(next) chevron
 var versuch;
 $(".next-link").click(function () {
-		var query = `query gDevices {devices {id name}}`;
-		fetch('http://localhost:3000/', {
-		  method: 'POST',
-		  headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json',
-			'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'
-		  },
-		  body: JSON.stringify({
-			query,
-		  })
-		})
-		  .then(r => r.json())
-		  .then(
-			  data => console.log('data returned:', data),
-			  console.log("erg:" + versuch)
-		  );
+		var query = `mutation cDevice {
+		  createDevice(data: {name: "Test1"}) {
+			device {
+			  id
+			  name
+			  context {
+				id
+			  }
+			  owners {
+				id
+			  }
+			}
+			token
+		  }
+		}`;
+		
+			var T = null;	
+			const asyncInit =  fetch('http://localhost:3000/', {
+				  method: 'POST',
+				  headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					/*'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'*/
+				  },
+				  body: JSON.stringify({
+					query,
+				  })
+				})
+				  .then(r => r.json())
+				  .then(
+					  function(response){
+						  const globalData = response.data.createDevice.token;
+						  console.log("globaleVariable:" + globalData);
+						  T = globalData;
+						 
+					  }
+				  );
+				  
+				    var tid = setInterval(function(){
+						if(T != null){
+							alert("habs" + T);
+							clearInterval(tid);
+							return T;
+
+						}else{
+							console.log("leider nicht");
+						}
+						//called 5 times each time after one second  
+					  //before getting cleared by below timeout. 
+						},1000); //delay is in milliseconds 
+
+					alert("after setInterval"); //called second
+
+					setTimeout(function(){
+						 clearInterval(tid); //clear above interval after 15 seconds
+					},15000);
+		
+		console.log("Tneu" +T);
+		const versuch = asyncInit.then(function(res){
+			var response = res;
+			return response;
+		});
+		
 	});
 
  	$(".startBtn").click(function(){
