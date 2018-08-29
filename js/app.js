@@ -209,6 +209,7 @@ if (page.name === 'P2'){
 	}
 
 	//add click functionality for the right(next) chevron
+var versuch;
 $(".next-link").click(function () {
 		var query = `query gDevices {devices {id name}}`;
 		fetch('http://localhost:3000/', {
