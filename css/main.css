@@ -13,7 +13,7 @@ body{
 }
 
 .center-sliding{
-    margin:auto;
+    margin:37%;
     
 }
 
@@ -32,13 +32,13 @@ body{
 .description1 {
     position: relative;
     background-color: #fdfdfd;
-    height: 99px;
+    height: 17%;
     width: 100%;
 
 }
 .description1 p {
     line-height: 2.0 !important;
-    text-indent: 268px;
+    text-indent: 19%;
     height: 15px;
     
  
@@ -47,10 +47,9 @@ body{
     position: absolute;
     width: 66%;
     left: 17%;
-    height: 55%;
+    height: 62%;
     border-left: 8px solid #ffb380;
-    padding-left: 19px;
-    padding-bottom: 10px;
+    padding-left: 2%;
    
 }
 .description2 textarea {
@@ -59,32 +58,35 @@ body{
     left: 17%;
     height: 55%;
     border-left: 8px solid #ffb380;
-    padding-left: 19px;
-    padding-bottom: 10px;
+    padding-left: 2%;
+    
     
 }
 
 .description2 {
     position: relative;
     background-color: #fdfdfd;
-    height: 200px;
+    height: 32%;
     width: 100%;
     
 }
 .description2 p {
     line-height: 2.0 !important;
-    text-indent: 268px;
+    text-indent: 19%;
     height: 15px;
     
     
 }
 
-#startBtn {
+.startBtn {
 	position: absolute;
-    left: 500px;
+    left: calc(50% - 140px);
 	bottom: 0px;
 }
 
+.startBtn img{
+    width: 280px;
+}
 /* The Modal (background) */
 .modal { */
     display: none; Hidden by default

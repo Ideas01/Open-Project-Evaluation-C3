@@ -252,7 +252,7 @@ $(".next-link").click(function () {
 		}
 	});
 	
- 	$("#startBtn").click(function(){
+ 	$(".startBtn").click(function(){
 		var popup = app.popup.create({
 			// The Popup
 			content:
@@ -282,7 +282,6 @@ $(".next-link").click(function () {
 				'</div>',
 			on: {
 					opened: function () {
-					console.log('Popup opened')
 					},
 					close: function(){
 						$(".popup").remove();
