@@ -211,50 +211,34 @@ if (page.name === 'P2'){
 	//add click functionality for the right(next) chevron
 
 $(".next-link").click(function () {
-		if(imageArray.currentIndex < imageArray.maxIndex){
-			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
-			console.log("currentIndex nach next-click: " + imageArray.currentIndex);
-		}
-		
-		else if(imageArray.currentIndex == imageArray.maxIndex){
-			var popup = app.popup.create({
-				content: 
-				'<div class="popup">' +
-				  '<div class="view">' +
-					'<div class="page">' +
-					  '<div class="navbar">' +
-						'<div class="navbar-inner">' +
-						  '<div class="title">Popup</div>' +
-						  '<div class="right">' +
-							'<a href="#" class="link popup-close">Close</a>' +
-						  '</div>' +
-					   '</div>' +
-					  '</div>' +
-					  '<div class="page-content">' +
-						'<div class="block">' +
-						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-						  '<div class="next" text-align="center">' +
-							'<a href="/prototype/" class="button"> Zurück </a>' +
-							'<a href="/sliders/" class="button"> Weiter </a>' +
-						  '</div>' +
-						'</div>' +
-					  '</div>' +
-					'</div>' +
-				  '</div>' +
-				'</div>',
-				on: {
-					opened: function () {
-					console.log('Popup opened')
-					},
-					close: function(){
-						$(".popup").remove();
-					}
-				}
-			});
-			console.log("Popup instance: " + popup.el);
-			app.popup.open(popup.el,true);
-		console.log("prototyp zuende");
-		}
+		var query = `mutation cDevice { 
+		  createDevice(data: {name: "Test1"}) {
+			device {
+			  id
+			  name
+			  context {
+				id
+			  }
+			  owners {
+				id
+			  }
+			}
+			token
+		  }
+		}`;
+
+		fetch('http://localhost:3000/graphql', {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+		  },
+		  body: JSON.stringify({
+			query,
+		  })
+		})
+		  .then(r => r.json())
+		  .then(data => console.log('data returned:', data));
 	});
 	
  	$(".startBtn").click(function(){
