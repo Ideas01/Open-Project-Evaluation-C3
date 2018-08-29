@@ -230,7 +230,7 @@ $(".next-link").click(function () {
 						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
 						  '<div class="next" text-align="center">' +
 							'<a href="/prototype/" class="button"> Zurück </a>' +
-							  '<a href="/sliders/" class="button"> Weiter </a>' +
+							'<a href="/sliders/" class="button"> Weiter </a>' +
 						  '</div>' +
 						'</div>' +
 					  '</div>' +
@@ -256,12 +256,12 @@ $(".next-link").click(function () {
 		var popup = app.popup.create({
 			// The Popup
 			content:
-			'<div class="popup"  id="popupStart">' +
-				'<div class="view">' +
-					'<div class="page popupStartpage">' +
-					  '<div class="navbar popupNavbar">' +
+			'<div class="popup" id="popupStart">' +
+				  '<div class="view">' +
+					'<div class="page">' +
+					  '<div class="navbar">' +
 						'<div class="navbar-inner">' +
-						  '<div class="title">START</div>' +
+						  '<div class="title">Popup</div>' +
 						  '<div class="right">' +
 							'<a href="#" class="link popup-close">Close</a>' +
 						  '</div>' +
@@ -271,35 +271,14 @@ $(".next-link").click(function () {
 						'<div class="block">' +
 						  '<p>START PROTOTYP RATING</p>' +
 						  '<div class="next" text-align="center">' +
-                                     '<a href="/prototype/">' +
+                                '<a href="/prototype/" class="popup-close">' +
                                      '<img src="img/start.svg" class="next-button">' +
-                                     '</a>' +
+                                '</a>' +
 						  '</div>' +
 						'</div>' +
 					  '</div>' +
 					'</div>' +
 				  '</div>' +
-				
-				/* '<div id="myModal" class="modal">' +
-					
-					'<!-- popup content -->' +
-					'<div class="modal-content">' +
-						'<span class="close">&times;</span>' +
-						'<p>Some text in the Modal..</p>' +
-					'</div>' +
-					
-				'</div>'+
-				'<div class="modal-content">' +
-					'<div class="modal-header">' +
-						'<span class="close">&times;</span>' +
-						'<h2>START PROTOTYPE</h2>' +
-					'</div>' +
-					'<div class="modal-body">' +
-						'<a href="/prototype/">' +
-							'<img src="img/start.svg" style="width:100px; height: 100px;"class="next-button">' +
-						'</a>' +
-					'</div>' +
-				  '</div>' + */
 				'</div>',
 			on: {
 					opened: function () {
