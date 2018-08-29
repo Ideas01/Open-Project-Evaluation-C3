@@ -258,8 +258,6 @@ $(".next-link").click(function () {
 			content:
 			'<div class="popup" id="popupStart">' +
 				  '<div class="view">' +
-					'<div class="page">' +
-=======
 					'<div class="page popupStartpage">' +
 					  '<div class="navbar popupNavbar">' +
 						'<div class="navbar-inner">' +
