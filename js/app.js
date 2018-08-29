@@ -259,7 +259,7 @@ $(".next-link").click(function () {
 			'<div class="popup" id="popupStart">' +
 				  '<div class="view">' +
 					'<div class="page">' +
-					  '<div class="navbar">' +
+					  '<div class="navbar popupNavbar">' +
 						'<div class="navbar-inner">' +
 						  '<div class="title">Popup</div>' +
 						  '<div class="right">' +
