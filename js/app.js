@@ -209,38 +209,26 @@ if (page.name === 'P2'){
 	}
 
 	//add click functionality for the right(next) chevron
-
 $(".next-link").click(function () {
-		var query = `mutation cDevice { 
-		  createDevice(data: {name: "Test1"}) {
-			device {
-			  id
-			  name
-			  context {
-				id
-			  }
-			  owners {
-				id
-			  }
-			}
-			token
-		  }
-		}`;
-
-		fetch('http://localhost:3000/graphql', {
+		var query = `query gDevices {devices {id name}}`;
+		fetch('http://localhost:3000/', {
 		  method: 'POST',
 		  headers: {
 			'Content-Type': 'application/json',
 			'Accept': 'application/json',
+			'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'
 		  },
 		  body: JSON.stringify({
 			query,
 		  })
 		})
 		  .then(r => r.json())
-		  .then(data => console.log('data returned:', data));
+		  .then(
+			  data => console.log('data returned:', data),
+			  console.log("erg:" + versuch)
+		  );
 	});
-	
+
  	$(".startBtn").click(function(){
 		var popup = app.popup.create({
 			// The Popup
