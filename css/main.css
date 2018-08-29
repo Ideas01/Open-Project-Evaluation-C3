@@ -180,6 +180,7 @@ Modal Content */
 }
 
 .page .popupStartpage{
-    background-color: transparent !important;
+    padding-box: transparent;
+    opacity: 0.6;
 
 /*********** popupStart end **************/
