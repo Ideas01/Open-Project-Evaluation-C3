@@ -252,14 +252,12 @@ $(".next-link").click(function () {
 		}
 	});
 	
- 	$("#startBtn").click(function(){
+ 	$(".startBtn").click(function(){
 		var popup = app.popup.create({
 			// The Popup
 			content:
 			'<div class="popup" id="popupStart">' +
 				  '<div class="view">' +
-					'<div class="page">' +
-=======
 					'<div class="page popupStartpage">' +
 					  '<div class="navbar popupNavbar">' +
 						'<div class="navbar-inner">' +
@@ -284,7 +282,6 @@ $(".next-link").click(function () {
 				'</div>',
 			on: {
 					opened: function () {
-					console.log('Popup opened')
 					},
 					close: function(){
 						$(".popup").remove();
