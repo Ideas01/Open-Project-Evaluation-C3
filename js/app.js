@@ -43,12 +43,26 @@ app.on('pageInit', function(page){
             ]
         };
         var singleAccess = new SingleAccess();
-		
-        var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
+
+        //create range-sliders for the questions and save their references
+        var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
 
 
+        $('#bewertungBtn').click(function () {
+            alert("es wurde gegklickt");
+        	var rangeSliderValues = [];
 
-        function saveValues() {
+            for (var i=0; i< rangeSliderReferences.length; i++){
+            	rangeSliderValues[i] = rangeSliderReferences[i].getValue();
+			}
+			console.log(rangeSliderValues);
+        });
+
+        //TODO:OLD SLIDERFACTORY CODE, REMOVE WHEN FRAMEWORK 7 WORKS
+     /*
+	  * var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
+	  *
+	  * function saveValues() {
             var length = sliderIDs.length;
             for (var i = 0; i < length; i++) {
                 var slider = document.getElementById(sliderIDs[i]);
@@ -81,7 +95,7 @@ app.on('pageInit', function(page){
 			$("#bewertungBtn").click(function () {
 			saveValues();
 		});
-        })
+        }) */
 	}
 	
 
