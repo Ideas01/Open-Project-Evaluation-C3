@@ -31,72 +31,73 @@ var app  = new Framework7({
 app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
-	if(page.name === 'sliders'){
-		app.popup.close();
-		var sliderValues = [];
+	if(page.name === 'sliders') {
+        app.popup.close();
+            var sliderValues = [];
 
-        //test-data
-        var testDataObj = {
-            questionCount: 4,
-            headerArray: [
-                "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
-            ]
-        };
-        var singleAccess = new SingleAccess();
+            //test-data
+            var testDataObj = {
+                questionCount: 4,
+                headerArray: [
+                    "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+                ]
+            };
+            var singleAccess = new SingleAccess();
 
-        //create range-sliders for the questions and save their references
-        var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
+            //create range-sliders for the questions and save their references
+            var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
 
 
-        $('#bewertungBtn').click(function () {
-            alert("es wurde gegklickt");
-        	var rangeSliderValues = [];
+            $('#bewertungBtn').click(function () {
+                alert("es wurde gegklickt");
+                var rangeSliderValues = [];
 
-            for (var i=0; i< rangeSliderReferences.length; i++){
-            	rangeSliderValues[i] = rangeSliderReferences[i].getValue();
-			}
-			console.log(rangeSliderValues);
-        });
+                for (var i = 0; i < rangeSliderReferences.length; i++) {
+                    rangeSliderValues[i] = rangeSliderReferences[i].getValue();
+                }
+                console.log(rangeSliderValues);
+            });
 
-        //TODO:OLD SLIDERFACTORY CODE, REMOVE WHEN FRAMEWORK 7 WORKS
-     /*
-	  * var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
-	  *
-	  * function saveValues() {
-            var length = sliderIDs.length;
-            for (var i = 0; i < length; i++) {
-                var slider = document.getElementById(sliderIDs[i]);
-                sliderValues[i] = slider.value;
-                console.log(slider.id + ": " + "value is " + sliderValues[i]);
-            }
-            return sliderValues;
+            //TODO:OLD SLIDERFACTORY CODE, REMOVE WHEN FRAMEWORK 7 WORKS
+            /*
+             * var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
+             *
+             * function saveValues() {
+                   var length = sliderIDs.length;
+                   for (var i = 0; i < length; i++) {
+                       var slider = document.getElementById(sliderIDs[i]);
+                       sliderValues[i] = slider.value;
+                       console.log(slider.id + ": " + "value is " + sliderValues[i]);
+                   }
+                   return sliderValues;
+               }
+
+               $("#bewertungBtn").click(function () {
+                   saveValues();
+               });
+
+               $(window).resize(function () {
+                   var newSliderValues = saveValues();
+                   console.log(newSliderValues);
+                   console.log("Die slider ID ist: " + sliderIDs);
+                  //sliderIDs.empty();
+
+                   $(".slider-page-content").empty();
+                   var newSliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
+
+                   var length = newSliderIDs.length;
+
+                   for(var i=0; i< length;i++){
+                       var slider = document.getElementById(newSliderIDs[i]);
+                       slider.value = newSliderValues[i];
+                   }
+
+                   $("#bewertungBtn").click(function () {
+                   saveValues();
+               });
+               }) */
         }
 
-		$("#bewertungBtn").click(function () {
-			saveValues();
-		});
-		
-        $(window).resize(function () {
-            var newSliderValues = saveValues();
-            console.log(newSliderValues);
-            console.log("Die slider ID ist: " + sliderIDs);
-           //sliderIDs.empty();
-
-            $(".slider-page-content").empty();
-            var newSliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
-
-            var length = newSliderIDs.length;
-
-            for(var i=0; i< length;i++){
-                var slider = document.getElementById(newSliderIDs[i]);
-                slider.value = newSliderValues[i];
-            }
-			
-			$("#bewertungBtn").click(function () {
-			saveValues();
-		});
-        }) */
-	}
 	
 
 	

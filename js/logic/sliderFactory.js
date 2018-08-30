@@ -7,7 +7,9 @@ function SliderFactory() {}
 
 SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
 
-  //count the number of range-sliders in sliders.html, so you know how many you have to initialize
+
+    //TODO:CODE FOR INITIALIZING PRE EXISTING
+ /** //count the number of range-sliders in sliders.html, so you know how many you have to initialize
     var sliderCount = $('.page-content .range-slider').length;
     console.log('childElement count: ' +sliderCount);
 
@@ -31,7 +33,7 @@ SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
     $('.slider-page-content').append('<a href="" id="bewertungBtn" class="button">Bewertung abschicken</a>');
 
     return rangeSliderReferences;
-
+ **/
 
   /*  var sliderHTML = '<div class="range-slider"><input type="range" min="0" max="100" step="1" value="10"></div>';
 
@@ -57,42 +59,41 @@ SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
     deferedObject.resolve(); */
 
 
+    var appendSlider = new Promise(function (resolve,reject) {
+            for (var i=0; i <questionCount;i++) {
+                var sliderHTML = '<div class="range-slider ' + 'slider' +i + '"><input type="range" min="0" max="100" step="1" value="10"></div>';
+                $('.page-content').append(sliderHTML);
+            }
 
-    /*  var isAppended = false;
-
-   var promise = new Promise(function (resolve,reject) {
-        try{
-        var sliderHTML = '<div class="range-slider"><input type="range" min="0" max="100" step="1" value="10"></div>';
-        $('.page-content').append(sliderHTML);
-            isAppended = true;}
-        catch (e) {
-            console.log("something went wrong");
+        if($('.range-slider').length >0){
+            resolve(1);
         }
+        else {
 
-        if(isAppended){
-            resolve(1)
-        }
-        else{
-            reject(0);
+            reject(new Error("found no range-slider to initialize"));
         }
     });
 
-    promise.then(function (result) {
-        if (result ==1){
-            var range = app.range.create({
-                el: '<div class="range-slider"><input type="range" min="0" max="100" step="1" value="10"></div>',
-                on: {
-                    change: function () {
-                        console.log('Range Slider value changed')
+    var initializeSlider = function () {
+        appendSlider.then(function (fulfilled) {
+            console.log("promise value:" + fulfilled);
+            alert("alles guti");
+            for (var i=0;i <questionCount; i++) {
+                var range = app.range.create({
+                    el: '.slider'+i,
+                    on: {
+                        change: function () {
+                            console.log('Range Slider value changed')
+                        }
                     }
-                }
-            });
-        }
-        else{
-            console.log("element not ready");
-        }
-    }); */
+                });
+            }
+        }).catch(function (error) {
+            console.log(error.message);
+        })
+    };
 
+    initializeSlider();
 
 
     //TODO:OLD SLIDERFACTORY CODE, REMOVE WHEN FRAMEWORK 7 WORKS
