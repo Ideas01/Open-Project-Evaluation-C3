@@ -31,58 +31,33 @@ var app  = new Framework7({
 app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
-	if(page.name === 'sliders'){
-		app.popup.close();
-		var sliderValues = [];
+	if(page.name === 'sliders') {
+        app.popup.close();
+            var sliderValues = [];
 
-        //test-data
-        var testDataObj = {
-            questionCount: 4,
-            headerArray: [
-                "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
-            ]
-        };
-        var singleAccess = new SingleAccess();
-		
-        var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
+            //test-data
+            var testDataObj = {
+                questionCount: 4,
+                headerArray: [
+                    "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+                ]
+            };
+            var singleAccess = new SingleAccess();
+
+            //create range-sliders for the questions and save their references
+            var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
 
 
+            $('#bewertungBtn').click(function () {
+                alert("es wurde gegklickt");
+                var rangeSliderValues = [];
 
-        function saveValues() {
-            var length = sliderIDs.length;
-            for (var i = 0; i < length; i++) {
-                var slider = document.getElementById(sliderIDs[i]);
-                sliderValues[i] = slider.value;
-                console.log(slider.id + ": " + "value is " + sliderValues[i]);
-            }
-            return sliderValues;
+                for (var i = 0; i < rangeSliderReferences.length; i++) {
+                    rangeSliderValues[i] = rangeSliderReferences[i].getValue();
+                }
+                console.log(rangeSliderValues);
+            });
         }
-
-		$("#bewertungBtn").click(function () {
-			saveValues();
-		});
-		
-        $(window).resize(function () {
-            var newSliderValues = saveValues();
-            console.log(newSliderValues);
-            console.log("Die slider ID ist: " + sliderIDs);
-           //sliderIDs.empty();
-
-            $(".slider-page-content").empty();
-            var newSliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
-
-            var length = newSliderIDs.length;
-
-            for(var i=0; i< length;i++){
-                var slider = document.getElementById(newSliderIDs[i]);
-                slider.value = newSliderValues[i];
-            }
-			
-			$("#bewertungBtn").click(function () {
-			saveValues();
-		});
-        })
-	}
 	
 
 	
@@ -213,7 +188,7 @@ if (page.name === 'P2'){
 
 	//add click functionality for the right(next) chevron
 var versuch;
-$(".next-link").click(function () {
+/* $(".next-link").click(function () {
 		var query = `mutation cDevice {
 		  createDevice(data: {name: "Test1"}) {
 			device {
@@ -236,7 +211,7 @@ $(".next-link").click(function () {
 				  headers: {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					/*'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'*/
+					'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'
 				  },
 				  body: JSON.stringify({
 					query,
@@ -278,7 +253,7 @@ $(".next-link").click(function () {
 		});
 		
 	});
-
+ */
  	$(".startBtn").click(function(){
 		var popup = app.popup.create({
 			// The Popup
