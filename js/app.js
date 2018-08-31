@@ -215,7 +215,10 @@ if (page.name === 'P2'){
                             on: {
                                 opened: function () {
                                 }
-                            }
+                            },
+							close: function(){
+								$(".popup").remove();
+							}
                         });
                         app.popup.open(popup.el, true);
                     });
@@ -224,54 +227,73 @@ if (page.name === 'P2'){
 	}
 
 	//add click functionality for the right(next) chevron
-
+var versuch;
 $(".next-link").click(function () {
-		if(imageArray.currentIndex < imageArray.maxIndex){
-			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
-			console.log("currentIndex nach next-click: " + imageArray.currentIndex);
-		}
+		var query = `mutation cDevice {
+		  createDevice(data: {name: "Test1"}) {
+			device {
+			  id
+			  name
+			  context {
+				id
+			  }
+			  owners {
+				id
+			  }
+			}
+			token
+		  }
+		}`;
 		
-		else if(imageArray.currentIndex == imageArray.maxIndex){
-			var popup = app.popup.create({
-				content: 
-				'<div class="popup">' +
-				  '<div class="view">' +
-					'<div class="page">' +
-					  '<div class="navbar">' +
-						'<div class="navbar-inner">' +
-						  '<div class="title">Popup</div>' +
-						  '<div class="right">' +
-							'<a href="#" class="link popup-close">Close</a>' +
-						  '</div>' +
-					   '</div>' +
-					  '</div>' +
-					  '<div class="page-content">' +
-						'<div class="block">' +
-						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-						  '<div class="next" text-align="center">' +
-							'<a href="/prototype/" class="button"> Zurück </a>' +
-							'<a href="/sliders/" class="button"> Weiter </a>' +
-						  '</div>' +
-						'</div>' +
-					  '</div>' +
-					'</div>' +
-				  '</div>' +
-				'</div>',
-				on: {
-					opened: function () {
-					console.log('Popup opened')
-					},
-					close: function(){
-						$(".popup").remove();
-					}
-				}
-			});
-			console.log("Popup instance: " + popup.el);
-			app.popup.open(popup.el,true);
-		console.log("prototyp zuende");
-		}
+			var T = null;	
+			const asyncInit =  fetch('http://localhost:3000/', {
+				  method: 'POST',
+				  headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					/*'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'*/
+				  },
+				  body: JSON.stringify({
+					query,
+				  })
+				})
+				  .then(r => r.json())
+				  .then(
+					  function(response){
+						  const globalData = response.data.createDevice.token;
+						  console.log("globaleVariable:" + globalData);
+						  T = globalData;
+						 
+					  }
+				  );
+				  
+				    var tid = setInterval(function(){
+						if(T != null){
+							alert("habs" + T);
+							clearInterval(tid);
+							return T;
+
+						}else{
+							console.log("leider nicht");
+						}
+						//called 5 times each time after one second  
+					  //before getting cleared by below timeout. 
+						},1000); //delay is in milliseconds 
+
+					alert("after setInterval"); //called second
+
+					setTimeout(function(){
+						 clearInterval(tid); //clear above interval after 15 seconds
+					},15000);
+		
+		console.log("Tneu" +T);
+		const versuch = asyncInit.then(function(res){
+			var response = res;
+			return response;
+		});
+		
 	});
-	
+
  	$(".startBtn").click(function(){
 		var popup = app.popup.create({
 			// The Popup
