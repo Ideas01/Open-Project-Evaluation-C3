@@ -5,7 +5,7 @@ function SliderFactory() {}
 
 
 
-SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
+SliderFactory.prototype.createRangeSliders = function (questionCount, headers) {
 
 
     //TODO:CODE FOR INITIALIZING PRE EXISTING
@@ -60,34 +60,37 @@ SliderFactory.prototype.createRangeSliders = function (questionCount,headers) {
 
 
     var appendSlider = new Promise(function (resolve,reject) {
-            for (var i=0; i <questionCount;i++) {
+		if(questionCount > 0){
+			for (var i=0; i < questionCount; i++) {
                 var sliderHTML = '<div class="range-slider ' + 'slider' +i + '"><input type="range" min="0" max="100" step="1" value="10"></div>';
                 $('.page-content').append(sliderHTML);
             }
-
-        if($('.range-slider').length >0){
-            resolve(1);
-        }
-        else {
-
-            reject(new Error("found no range-slider to initialize"));
-        }
+			 resolve(i);
+ 
+		}
+        reject(new Error("found no range-slider to initialize"));
     });
 
     var initializeSlider = function () {
         appendSlider.then(function (fulfilled) {
             console.log("promise value:" + fulfilled);
-            alert("alles guti");
-            for (var i=0;i <questionCount; i++) {
-                var range = app.range.create({
-                    el: '.slider'+i,
-                    on: {
-                        change: function () {
-                            console.log('Range Slider value changed')
-                        }
-                    }
-                });
-            }
+			var init = setInterval(function(){
+				for (var i=0; i < questionCount; i++) {
+					var range = app.range.create({
+						el: '.slider'+i,
+						on: {
+							change: function () {
+								console.log('Range Slider value changed')
+							}
+						}
+					});
+				}
+				if($(".range-knob").length > 0){
+					console.log("foundya")
+					clearInterval(init);
+				}
+			}, 500);
+			
         }).catch(function (error) {
             console.log(error.message);
         })

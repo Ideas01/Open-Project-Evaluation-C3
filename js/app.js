@@ -190,27 +190,27 @@ if (page.name === 'P2'){
                         var popup = app.popup.create({
                             content:
                             '<div class="popup" id="my-popup">' +
-                            '<div class="view">' +
-                            '<div class="page">' +
-                            '<div class="navbar">' +
-                            '<div class="navbar-inner">' +
-                            '<div class="title">Popup</div>' +
-                            '<div class="right">' +
-                            '<a href="#" class="link popup-close">Close</a>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="page-content">' +
-                            '<div class="block">' +
-                            '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-                            '<div class="next" text-align="center">' +
-                            '<a href="/prototype/" class="button"> Zurück </a>' +
-                            '<a href="/sliders/" class="button"> Weiter </a>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
+								'<div class="view">' +
+									'<div class="page">' +
+										'<div class="navbar">' +
+											'<div class="navbar-inner">' +
+												'<div class="title">Popup</div>' +
+												'<div class="right">' +
+													'<a href="#" class="link popup-close">Close</a>' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+										'<div class="page-content">' +
+											'<div class="block">' +
+												'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+												'<div class="next" text-align="center">' +
+													'<a href="/prototype/" class="button"> Zurück </a>' +
+													'<a href="/sliders/" class="button"> Weiter </a>' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
                             '</div>',
                             on: {
                                 opened: function () {
