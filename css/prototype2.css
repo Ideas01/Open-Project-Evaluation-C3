@@ -1,5 +1,15 @@
 .page {
-    background-color : #f9f9f9;
+    background-color : #4D4D4D;
+}
+
+.left {
+    text-align:left;
+}
+
+.right {
+    text-align:right;
+    
+    
 }
 
 
