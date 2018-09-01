@@ -5,13 +5,20 @@
 .left {
     text-align:left;
     height: 50%
+    opacity: 0.4;
+    background-color: white;
 }
 
 .right {
     text-align:right;
     height: 50%;
+    opacity: 0.4;
+    background-color: white;
     
-    
+}
+
+.f7-icons {
+    color: #d40055;
 }
 
 
