@@ -296,6 +296,54 @@ $(".next-link").click(function () {
 		app.popup.open(popup.el,true);
 	});
 
+       $(".help").click(function () {
+                if(imageArray.currentIndex < imageArray.maxIndex){
+                imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
+                console.log("currentIndex nach next-click: " + imageArray.currentIndex);
+            }
+                             
+        else if(imageArray.currentIndex == imageArray.maxIndex){
+                        var popup = app.popup.create({
+                            content:
+                                        '<div class="popup">' +
+                                           '<div class="view">' +
+                                                '<div class="page">' +
+                                                  '<div class="navbar">' +
+                                                       '<div class="navbar-inner">' +
+                                                          '<div class="title">HILFE</div>' +
+                                                   '<div class="right">' +
+                                                   '<a href="#" class="link popup-close">Close</a>' +
+                                                   '</div>' +
+                                                    '</div>' +
+                                                        '</div>' +
+                                                        '<div class="page-content">' +
+                                                        '<div class="block">' +
+                                                '<p>ERKLÄRUNGSTEXT !! </p>' +
+                                                    '<div class="next" text-align="center">' +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>',
+                 on: {
+                 opened: function () {
+                   console.log('Popup opened')
+                            },
+                close: function(){
+                  $(".popup").remove();
+                 }
+                }
+              });
+                   console.log("Popup instance: " + popup.el);
+                    app.popup.open(popup.el,true);
+                   console.log("prototyp zuende");
+                }
+               });
+       
+       
+       
+       
 	//add click functionality for the left(next) chevron
 	$(".back-link").click(function () {
 		if(imageArray.currentIndex > 0) {
