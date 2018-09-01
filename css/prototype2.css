@@ -4,10 +4,12 @@
 
 .left {
     text-align:left;
+    height: 50%
 }
 
 .right {
     text-align:right;
+    height: 50%;
     
     
 }
