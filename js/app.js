@@ -224,7 +224,7 @@ $(".next-link").click(function () {
 					'<div class="page">' +
 					  '<div class="navbar">' +
 						'<div class="navbar-inner">' +
-						  '<div class="title">Popup</div>' +
+						  '<div class="title"></div>' +
 						  '<div class="right">' +
 							'<a href="#" class="link popup-close">Close</a>' +
 						  '</div>' +
@@ -232,7 +232,7 @@ $(".next-link").click(function () {
 					  '</div>' +
 					  '<div class="page-content">' +
 						'<div class="block">' +
-						  '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+						  '<p>Danke, dass du dir alle Seiten des Prototypen angeschaut hast! Klicke auf "Weiter" um nun mit der Bewertung des Prototypen zu beginnen. </p>' +
 						  '<div class="next" text-align="center">' +
 							'<a href="/prototype/" class="button"> Zurück </a>' +
 							'<a href="/sliders/" class="button"> Weiter </a>' +
@@ -318,7 +318,7 @@ $(".next-link").click(function () {
                                                         '</div>' +
                                                         '<div class="page-content">' +
                                                         '<div class="block">' +
-                                                '<p>ERKLÄRUNGSTEXT !! </p>' +
+                                                '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, kannst du eine Bewertung durchführen.</p>' +
                                                     '<div class="next" text-align="center">' +
                                                     '</div>' +
                                                     '</div>' +
