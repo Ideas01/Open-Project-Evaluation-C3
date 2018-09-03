@@ -312,14 +312,13 @@ $(".next-link").click(function () {
                                                        '<div class="navbar-inner">' +
                                                           '<div class="title">HILFE</div>' +
                                                    '<div class="right">' +
-                                                   '<a href="#" class="link popup-close">Close</a>' +
                                                    '</div>' +
                                                     '</div>' +
                                                         '</div>' +
                                                         '<div class="page-content">' +
                                                         '<div class="block">' +
                                                 '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, kannst du eine Bewertung durchführen.</p>' +
-                                                    '<div class="next" text-align="center">' +
+                                                '<a href="#" class="link popup-close">CLOSE BUTTON</a>' +
                                                     '</div>' +
                                                     '</div>' +
                                                 '</div>' +
