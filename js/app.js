@@ -184,22 +184,15 @@ if (page.name === 'P2'){
                     });
                 }
         });
-	}
 
+	}
 	// {"query":"mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}"}
 	// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
 	
 	//add click functionality for the right(next) chevron
-var versuch;
-  $(".next-link").click(function () {
+	var versuch;
+	$(".next-link").click(function () {
 		
-		var nquery = '{"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}'
-		
-		
-		var oldquery = 'mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}'; 
-		
-		// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
-		//  "mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"
 		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
 		var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		
@@ -299,43 +292,55 @@ var versuch;
 			console.log("mehr als 0 geht nicht");
 		}
 	});
-});
-
-// Init/Create views
-
-var homeView = app.views.create('#view-home', {
-  url: '/'
-});
-
-/*
-var catalogView = app.views.create('#view-catalog', {
-  url: '/catalog/'
-});
-var settingsView = app.views.create('#view-settings', {
-  url: '/settings/'
-}); */
-
-
-
-
-/* // Login Screen Demo
-$$('#my-login-screen .login-button').on('click', function () {
-  var username = $$('#my-login-screen [name="username"]').val();
-  var password = $$('#my-login-screen [name="password"]').val();
-
-  // Close login screen
-  app.loginScreen.close('#my-login-screen');
-
-  // Alert username and password
-  app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
-});
- */
-
-
 	
-// 
-//## Für About ##
-// 
+	 $(".help").click(function () {               
+		var popup = app.popup.create({
+			content:
+				'<div class="popup">' +
+				   '<div class="view">' +
+						'<div class="page">' +
+						  '<div class="navbar">' +
+							   '<div class="navbar-inner">' +
+								  '<div class="title">HILFE</div>' +
+						   '<div class="right">' +
+						   '</div>' +
+							'</div>' +
+								'</div>' +
+								'<div class="page-content">' +
+								'<div class="block">' +
+								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur ' +
+								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+ 
+								'was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+								'kannst du eine Bewertung durchführen.</p>' +
+								'<a href="#" class="link popup-close">' +
+							 '<img src="img/OK.png"style="width: 50%;" class="link popup-close">' +
+							 '</a>' +
+							'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>',
+		 on: {
+			close: function(){
+			  $(".popup").remove();
+			 }
+		}
+	  });
+			app.popup.open(popup.el,true);
+	 });
+	
+});
+
+	// Init/Create views
+
+	var homeView = app.views.create('#view-home', {
+	  url: '/'
+	});
+
+
+
+
 function getImageUrl(urlArray, imageIndex)
 {
     return urlArray[imageIndex];
@@ -348,3 +353,4 @@ var imageArray = {
     currentIndex: undefined,
     maxIndex: undefined,
 };
+
