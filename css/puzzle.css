@@ -2,18 +2,22 @@
     position: relative;
     display: inline-block;
     z-index: 4;
-    background-color: blue;
 
 }
 
 
-.puzzleDiv {
-    background-image: url("https://ze.tt/wp-content/uploads/2017/01/meer3-e1485169056783-1024x577.jpg");
-    background-image: url("https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg");
+#puzzleDiv {
     background-size:contain;
 	background-repeat: no-repeat;
     /* padding: 10px 10px 10px 10px; */
     width: 100%;
 	height: 100%;	
     font-size: 0;
+}
+
+#gridDiv{
+	position: absolute;
+	top: 56px;
+	left: 0px;
+	font-size: 0;
 }

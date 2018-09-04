@@ -31,33 +31,84 @@ var app  = new Framework7({
 app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
+	if(page.name === 'home'){
+		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
+		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		
+		var T = null;	
+		
+		const asyncInit = $.ajax({
+			url: 'http://localhost:3000/',
+			headers: {
+				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
+				'Content-Type':'application/json',
+			},
+			method: 'POST',
+			dataType: 'json',
+			data: query,
+			success: function(r){
+			  console.log('success:' + r.data.createDevice.token);
+			  const globalData = r.data.createDevice.token;
+			  console.log("globaleVariable T:  " + globalData);
+			  T = globalData;
+			},
+			 error: function (r) {
+				console.log('error' + r.Token);
+			}
+			
+		  });
+		
+			  
+		var tid = setInterval(function(){
+			if(T != null){
+				alert("habs" + T);
+				clearInterval(tid);
+				return T;
+
+			}else{
+				console.log("leider nicht");
+			}
+			
+		  //before getting cleared by below timeout. 
+			},500); //delay is in milliseconds 
+
+		alert("after setInterval"); //called second
+
+		setTimeout(function(){
+			 clearInterval(tid); //clear above interval after 15 seconds
+		},15000);
+		
+		console.log("Tneu" + T);
+		
+	}
+	
 	if(page.name === 'sliders') {
         app.popup.close();
-            var sliderValues = [];
+		var sliderValues = [];
 
-            //test-data
-            var testDataObj = {
-                questionCount: 4,
-                headerArray: [
-                    "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
-                ]
-            };
-            var singleAccess = new SingleAccess();
+		//test-data
+		var testDataObj = {
+			questionCount: 4,
+			headerArray: [
+				"Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+			]
+		};
+		var singleAccess = new SingleAccess();
 
-            //create range-sliders for the questions and save their references
-            var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
+		//create range-sliders for the questions and save their references
+		var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
 
 
-            $('#bewertungBtn').click(function () {
-                alert("es wurde gegklickt");
-                var rangeSliderValues = [];
+		$('#bewertungBtn').click(function () {
+			alert("es wurde gegklickt");
+			var rangeSliderValues = [];
 
-                for (var i = 0; i < rangeSliderReferences.length; i++) {
-                    rangeSliderValues[i] = rangeSliderReferences[i].getValue();
-                }
-                console.log(rangeSliderValues);
-            });
-        }
+			for (var i = 0; i < rangeSliderReferences.length; i++) {
+				rangeSliderValues[i] = rangeSliderReferences[i].getValue();
+			}
+			console.log(rangeSliderValues);
+		});
+    }
 	
 
 	
@@ -70,39 +121,39 @@ app.on('pageInit', function(page){
 	
 		var imgObj = new Image();
 		imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
-		console.log("bis hierhin1");
 		
 		imgObj.onload = function(){
 			var imgFormat = imgObj.width / imgObj.height;
-			console.log("formatle: "+ imgFormat)
-			var puzzleWidth = parseInt($(".puzzleDiv").css("width"));		
+			var puzzleWidth = parseInt($("#puzzleDiv").css("width"));		
 			var height = puzzleWidth / imgFormat;
-			$(".puzzleDiv").css("height", height);
+			$("#puzzleDiv").css("height", height);
 			
 			var singleAccess = new SingleAccess();
-			console.log("bis hierhin2");
-			singleAccess.buildPuzzle(12);
-			delete imgObj;
-		
+			singleAccess.buildPuzzle(12, "#puzzleDiv", "blue");
+			//delete imgObj;
+			singleAccess.buildPuzzle(4, "#gridDiv", "lime");
+			
+			
 		}
 	
 		$$('window').on('resize', function(page){
 			console.log("resize trigger")
 			
-			$(".puzzleDiv").empty();
+			$("#puzzleDiv").empty();
 			var imgObj = new Image();
 			imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
 			
 			imgObj.onload = function(){
 				var imgFormat = imgObj.width / imgObj.height;				
-				var puzzleWidth = parseInt($(".puzzleDiv").css("width"));				
+				var puzzleWidth = parseInt($("#puzzleDiv").css("width"));				
 				var height = puzzleWidth / imgFormat;
-				$(".puzzleDiv").css("height", height);			
+				$("#puzzleDiv").css("height", height);			
 
 				var singleAccess = new SingleAccess();
 				
 				singleAccess.buildPuzzle(12);
 			}
+			
 		});	
 		
 	} 
@@ -193,7 +244,7 @@ if (page.name === 'P2'){
 	var versuch;
 	$(".next-link").click(function () {
 		
-		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
+		/* var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
 		var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		
 		var T = null;	
@@ -239,7 +290,7 @@ if (page.name === 'P2'){
 			 clearInterval(tid); //clear above interval after 15 seconds
 		},15000);
 		
-		console.log("Tneu" + T);
+		console.log("Tneu" + T); */
 		
 	}); 
 	
@@ -294,8 +345,9 @@ if (page.name === 'P2'){
 	});
 	
 	 $(".help").click(function () {               
-		var popup = app.popup.create({
-			content:
+			 $(".popup").remove();
+        var popup = app.popup.create({
+				content:
 				'<div class="popup">' +
 				   '<div class="view">' +
 						'<div class="page">' +
@@ -306,21 +358,23 @@ if (page.name === 'P2'){
 						   '</div>' +
 							'</div>' +
 								'</div>' +
-								'<div class="page-content">' +
-								'<div class="block">' +
-								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur ' +
-								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+ 
-								'was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-								'kannst du eine Bewertung durchführen.</p>' +
-								'<a href="#" class="link popup-close">' +
-							 '<img src="img/OK.png"style="width: 50%;" class="link popup-close">' +
-							 '</a>' +
-							'</div>' +
+									'<div class="page-content">' +
+									'<div class="block">' +
+										'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur ' +
+										'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+ 
+										'was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+										'kannst du eine Bewertung durchführen.</p>' +
+										'<a href="#" class="popup-close">' +
+											'<img src="img/OK.png" class="popup-close">' +
+										'</a>' +
+									'</div>' +
+								'</div>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
-				'</div>' +
-			'</div>',
+				'</div>',
+			
+			
 		 on: {
 			close: function(){
 			  $(".popup").remove();
@@ -333,7 +387,6 @@ if (page.name === 'P2'){
 });
 
 	// Init/Create views
-
 	var homeView = app.views.create('#view-home', {
 	  url: '/'
 	});
@@ -348,9 +401,6 @@ function getImageUrl(urlArray, imageIndex)
 
 //js Object, which contains all available prototype images
 var imageArray = {
-    imageUrls:  ["./img/examples/PrototypBsp1.png", "./img/examples/PrototypBsp2.png", "./img/examples/PrototypBsp3.png"],
-    startIndex: 0,
-    currentIndex: undefined,
-    maxIndex: undefined,
+    imageUrls:  ["./img/examples/PrototypBsp1.png", "./img/examples/PrototypBsp2.png", "./img/examples/PrototypBsp3.png"]
 };
 

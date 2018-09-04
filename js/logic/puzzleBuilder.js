@@ -7,6 +7,7 @@ function PuzzleBuilder() {}
 /** onclick function to hide a div object **/
 function hideDiv(element){
      element.style.visibility = "hidden";
+	 element.style.zIndex = "0";
      console.log("Element ID ist: " + element.id);
 }
 
@@ -14,33 +15,33 @@ function hideDiv(element){
 
 	
 /** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzle = function (tileCount) {
+PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, color) {
 	
-	//console.log("count: " + tileCount);
-	
+	var imgObj = new Image();
+	imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
+		
 	var tile = calculateTileSize(tileCount); 
-	
-	console.log("breite: "+ tile.width + "height: " + tile.height);
-	
 	//create the div elements
-    for (var i = 1; i <= tileCount*tileCount; i++){
-        var newDiv = document.createElement("div");
-            newDiv.id = i;
+    for (var i = 0; i < tileCount; i++){
+       for(var n = 0; n < tileCount; n++){
+			var newDiv = document.createElement("div");
+			newDiv.id = i + "|" + n;
+			
             newDiv.className = "puzzlePiece";
             newDiv.style.visibility = "visible";
+			newDiv.style.backgroundColor = color;
             newDiv.style.width= tile.width +"px";
             newDiv.style.height = tile.height + "px";
-
             //append newDiv to the DOM
-            $(".puzzleDiv").append(newDiv);
-
-
+            $(appendToClass).append(newDiv);
+		
             $('.puzzlePiece').each(function() {
                 $(this).attr("onclick", "hideDiv(this)");
-            });
+            }); 
+		}
     }
 	
-
+	$("#puzzleDiv").css("backgroundImage", 'url("'+ imgObj.src+ '")');
 };
 
 	/*tileCountWidth has been set to 12.
@@ -51,13 +52,11 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount) {
 	*/
 	function calculateTileSize(tileCount){	
 		
-		var picWidth= $(".puzzleDiv").width();
-		var picHeight= $(".puzzleDiv").height();
+		var picWidth= $("#puzzleDiv").width();
+		var picHeight= $("#puzzleDiv").height();
 		
-		console.log("pichheight + picwidth: "+ picHeight +" + "+ picWidth)
 		
 		var picFormat = picWidth/ picHeight;
-		console.log("picFormat: "+ picFormat)
 			
 			var tile={
 				width:picWidth / tileCount,
