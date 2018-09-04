@@ -186,74 +186,70 @@ if (page.name === 'P2'){
         });
 	}
 
+	// {"query":"mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}"}
+	// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
+	
 	//add click functionality for the right(next) chevron
 var versuch;
-/* $(".next-link").click(function () {
-		var query = `mutation cDevice {
-		  createDevice(data: {name: "Test1"}) {
-			device {
-			  id
-			  name
-			  context {
-				id
-			  }
-			  owners {
-				id
-			  }
+  $(".next-link").click(function () {
+		
+		var nquery = '{"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}'
+		
+		
+		var oldquery = 'mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}'; 
+		
+		// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
+		//  "mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"
+		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
+		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		
+		var T = null;	
+		
+		const asyncInit = $.ajax({
+			url: 'http://localhost:3000/',
+			headers: {
+				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
+				'Content-Type':'application/json',
+			},
+			method: 'POST',
+			dataType: 'json',
+			data: query,
+			success: function(r){
+			  console.log('success:' + r.data.createDevice.token);
+			  const globalData = r.data.createDevice.token;
+			  console.log("globaleVariable T:  " + globalData);
+			  T = globalData;
+			},
+			 error: function (r) {
+				console.log('error' + r.Token);
 			}
-			token
-		  }
-		}`;
+			
+		  });
 		
-			var T = null;	
-			const asyncInit =  fetch('http://localhost:3000/', {
-				  method: 'POST',
-				  headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-					'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllZmM3MTdjODM0Y2I4ZjVhZjAwYTQ4NTIxY2Q4ZTFmMzk3ZTMwNzMwMGFjOWM2ZTU1ZDAzOGJlNWI2ZGEwOWMiLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM1NTQ2Nzg1fQ.Hoc9FrutCHxf_00YSu7e7JNYTNX7oLxM8G9eXkuD_-8'
-				  },
-				  body: JSON.stringify({
-					query,
-				  })
-				})
-				  .then(r => r.json())
-				  .then(
-					  function(response){
-						  const globalData = response.data.createDevice.token;
-						  console.log("globaleVariable:" + globalData);
-						  T = globalData;
-						 
-					  }
-				  );
-				  
-				    var tid = setInterval(function(){
-						if(T != null){
-							alert("habs" + T);
-							clearInterval(tid);
-							return T;
+			  
+		var tid = setInterval(function(){
+			if(T != null){
+				alert("habs" + T);
+				clearInterval(tid);
+				return T;
 
-						}else{
-							console.log("leider nicht");
-						}
-						//called 5 times each time after one second  
-					  //before getting cleared by below timeout. 
-						},1000); //delay is in milliseconds 
+			}else{
+				console.log("leider nicht");
+			}
+			
+		  //before getting cleared by below timeout. 
+			},500); //delay is in milliseconds 
 
-					alert("after setInterval"); //called second
+		alert("after setInterval"); //called second
 
-					setTimeout(function(){
-						 clearInterval(tid); //clear above interval after 15 seconds
-					},15000);
+		setTimeout(function(){
+			 clearInterval(tid); //clear above interval after 15 seconds
+		},15000);
 		
-		console.log("Tneu" +T);
-		const versuch = asyncInit.then(function(res){
-			var response = res;
-			return response;
-		});
+		console.log("Tneu" + T);
 		
-	});
- */
+	}); 
+	
  	$(".startBtn").click(function(){
 		var popup = app.popup.create({
 			// The Popup
