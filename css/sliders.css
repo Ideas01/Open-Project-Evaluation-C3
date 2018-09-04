@@ -7,7 +7,7 @@
 }
 
 .slider {
-    width: 50%;
+    width: 100%;
     margin: 25% 25% 25% 25%;
     transform: rotate(270deg);
 }
@@ -17,18 +17,6 @@
 }
 
 .testslider{
-	width: 450px;
-	height: 300px;
-}
-
-#swiper0{
-		background-color: green;
-}
-
-#swiper1{
-	background-color: red;
-}
-
-#swiper2{
-	background-color: lime;
+	width: 100%;
+	height: 750px;
 }

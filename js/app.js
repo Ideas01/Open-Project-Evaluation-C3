@@ -343,9 +343,7 @@ function getImageUrl(urlArray, imageIndex)
 
 //js Object, which contains all available prototype images
 var imageArray = {
-    imageUrls:  ["https://thumbnails-visually.netdna-ssl.com/the-10-commandments-of-user-interface-design_553e21765c690_w1500.png",
-        "https://weandthecolor.com/wp-content/uploads/2017/05/User-Interface-designs-by-Balraj-Chana-1068x591.jpg",
-        "https://cdn-images-1.medium.com/max/2000/1*_tkd0q6CFkepowjFZHRSSg.jpeg"],
+    imageUrls:  ["./img/examples/PrototypBsp1.png", "./img/examples/PrototypBsp2.png", "./img/examples/PrototypBsp3.png"],
     startIndex: 0,
     currentIndex: undefined,
     maxIndex: undefined,
