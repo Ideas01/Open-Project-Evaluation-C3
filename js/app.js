@@ -246,45 +246,6 @@ var versuch;
 			 clearInterval(tid); //clear above interval after 15 seconds
 		},15000);
 		
-		else if(imageArray.currentIndex == imageArray.maxIndex){
-			var popup = app.popup.create({
-				content: 
-				'<div class="popup">' +
-				  '<div class="view">' +
-					'<div class="page">' +
-					  '<div class="navbar">' +
-						'<div class="navbar-inner">' +
-						  '<div class="title"></div>' +
-						  '<div class="right">' +
-							'<a href="#" class="link popup-close">Close</a>' +
-						  '</div>' +
-					   '</div>' +
-					  '</div>' +
-					  '<div class="page-content">' +
-						'<div class="block">' +
-						  '<p>Danke, dass du dir alle Seiten des Prototypen angeschaut hast! Klicke auf "Weiter" um nun mit der Bewertung des Prototypen zu beginnen. </p>' +
-							'<a href="/prototype/" class="button"> Zurück </a>' +
-							'<a href="/sliders/" class="button"> Weiter </a>' +
-						  '</div>' +
-						'</div>' +
-					  '</div>' +
-					'</div>' +
-				  '</div>' +
-				'</div>',
-				on: {
-					opened: function () {
-					console.log('Popup opened')
-					},
-					close: function(){
-						$(".popup").remove();
-					}
-				}
-			});
-			console.log("Popup instance: " + popup.el);
-			app.popup.open(popup.el,true);
-		console.log("prototyp zuende");
-		}
-	});
 		console.log("Tneu" + T);
 		
 	}); 
@@ -328,55 +289,6 @@ var versuch;
 		app.popup.open(popup.el,true);
 	});
 
-       $(".help").click(function () {
-                if(imageArray.currentIndex < imageArray.maxIndex){
-                imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
-                console.log("currentIndex nach next-click: " + imageArray.currentIndex);
-            }
-                             
-        else if(imageArray.currentIndex == imageArray.maxIndex){
-                        var popup = app.popup.create({
-                            content:
-                                        '<div class="popup">' +
-                                           '<div class="view">' +
-                                                '<div class="page">' +
-                                                  '<div class="navbar">' +
-                                                       '<div class="navbar-inner">' +
-                                                          '<div class="title">HILFE</div>' +
-                                                   '<div class="right">' +
-                                                   '</div>' +
-                                                    '</div>' +
-                                                        '</div>' +
-                                                        '<div class="page-content">' +
-                                                        '<div class="block">' +
-                                                '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, kannst du eine Bewertung durchführen.</p>' +
-                                                '<a href="#" class="link popup-close">' +
-                                                     '<img src="img/OK.png"style="width: 50%;" class="link popup-close">' +
-                                                     '</a>' +
-                                                    '</div>' +
-                                                    '</div>' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>',
-                 on: {
-                 opened: function () {
-                   console.log('Popup opened')
-                            },
-                close: function(){
-                  $(".popup").remove();
-                 }
-                }
-              });
-                   console.log("Popup instance: " + popup.el);
-                    app.popup.open(popup.el,true);
-                   console.log("prototyp zuende");
-                }
-               });
-       
-       
-       
-       
 	//add click functionality for the left(next) chevron
 	$(".back-link").click(function () {
 		if(imageArray.currentIndex > 0) {
