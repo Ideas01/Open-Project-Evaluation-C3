@@ -31,58 +31,33 @@ var app  = new Framework7({
 app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
-	if(page.name === 'sliders'){
-		app.popup.close();
-		var sliderValues = [];
+	if(page.name === 'sliders') {
+        app.popup.close();
+            var sliderValues = [];
 
-        //test-data
-        var testDataObj = {
-            questionCount: 4,
-            headerArray: [
-                "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
-            ]
-        };
-        var singleAccess = new SingleAccess();
-		
-        var sliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
+            //test-data
+            var testDataObj = {
+                questionCount: 4,
+                headerArray: [
+                    "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+                ]
+            };
+            var singleAccess = new SingleAccess();
+
+            //create range-sliders for the questions and save their references
+            var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
 
 
+            $('#bewertungBtn').click(function () {
+                alert("es wurde gegklickt");
+                var rangeSliderValues = [];
 
-        function saveValues() {
-            var length = sliderIDs.length;
-            for (var i = 0; i < length; i++) {
-                var slider = document.getElementById(sliderIDs[i]);
-                sliderValues[i] = slider.value;
-                console.log(slider.id + ": " + "value is " + sliderValues[i]);
-            }
-            return sliderValues;
+                for (var i = 0; i < rangeSliderReferences.length; i++) {
+                    rangeSliderValues[i] = rangeSliderReferences[i].getValue();
+                }
+                console.log(rangeSliderValues);
+            });
         }
-
-		$("#bewertungBtn").click(function () {
-			saveValues();
-		});
-		
-        $(window).resize(function () {
-            var newSliderValues = saveValues();
-            console.log(newSliderValues);
-            console.log("Die slider ID ist: " + sliderIDs);
-           //sliderIDs.empty();
-
-            $(".slider-page-content").empty();
-            var newSliderIDs = singleAccess.createRangeSliders(testDataObj.questionCount, testDataObj.headerArray);
-
-            var length = newSliderIDs.length;
-
-            for(var i=0; i< length;i++){
-                var slider = document.getElementById(newSliderIDs[i]);
-                slider.value = newSliderValues[i];
-            }
-			
-			$("#bewertungBtn").click(function () {
-			saveValues();
-		});
-        })
-	}
 	
 
 	
@@ -175,32 +150,35 @@ if (page.name === 'P2'){
                         var popup = app.popup.create({
                             content:
                             '<div class="popup" id="my-popup">' +
-                            '<div class="view">' +
-                            '<div class="page">' +
-                            '<div class="navbar">' +
-                            '<div class="navbar-inner">' +
-                            '<div class="title">Popup</div>' +
-                            '<div class="right">' +
-                            '<a href="#" class="link popup-close">Close</a>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="page-content">' +
-                            '<div class="block">' +
-                            '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-                            '<div class="next" text-align="center">' +
-                            '<a href="/prototype/" class="button"> Zurück </a>' +
-                            '<a href="/sliders/" class="button"> Weiter </a>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
+								'<div class="view">' +
+									'<div class="page">' +
+										'<div class="navbar">' +
+											'<div class="navbar-inner">' +
+												'<div class="title">Popup</div>' +
+												'<div class="right">' +
+													'<a href="#" class="link popup-close">Close</a>' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+										'<div class="page-content">' +
+											'<div class="block">' +
+												'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+												'<div class="next" text-align="center">' +
+													'<a href="/prototype/" class="button"> Zurück </a>' +
+													'<a href="/sliders/" class="button"> Weiter </a>' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
                             '</div>',
                             on: {
                                 opened: function () {
                                 }
-                            }
+                            },
+							close: function(){
+								$(".popup").remove();
+							}
                         });
                         app.popup.open(popup.el, true);
                     });
@@ -208,13 +186,65 @@ if (page.name === 'P2'){
         });
 	}
 
+	// {"query":"mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}"}
+	// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
+	
 	//add click functionality for the right(next) chevron
+var versuch;
+  $(".next-link").click(function () {
+		
+		var nquery = '{"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}'
+		
+		
+		var oldquery = 'mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}'; 
+		
+		// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
+		//  "mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"
+		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
+		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		
+		var T = null;	
+		
+		const asyncInit = $.ajax({
+			url: 'http://localhost:3000/',
+			headers: {
+				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
+				'Content-Type':'application/json',
+			},
+			method: 'POST',
+			dataType: 'json',
+			data: query,
+			success: function(r){
+			  console.log('success:' + r.data.createDevice.token);
+			  const globalData = r.data.createDevice.token;
+			  console.log("globaleVariable T:  " + globalData);
+			  T = globalData;
+			},
+			 error: function (r) {
+				console.log('error' + r.Token);
+			}
+			
+		  });
+		
+			  
+		var tid = setInterval(function(){
+			if(T != null){
+				alert("habs" + T);
+				clearInterval(tid);
+				return T;
 
-$(".next-link").click(function () {
-		if(imageArray.currentIndex < imageArray.maxIndex){
-			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls,++imageArray.currentIndex) + ")";
-			console.log("currentIndex nach next-click: " + imageArray.currentIndex);
-		}
+			}else{
+				console.log("leider nicht");
+			}
+			
+		  //before getting cleared by below timeout. 
+			},500); //delay is in milliseconds 
+
+		alert("after setInterval"); //called second
+
+		setTimeout(function(){
+			 clearInterval(tid); //clear above interval after 15 seconds
+		},15000);
 		
 		else if(imageArray.currentIndex == imageArray.maxIndex){
 			var popup = app.popup.create({
@@ -255,6 +285,9 @@ $(".next-link").click(function () {
 		console.log("prototyp zuende");
 		}
 	});
+		console.log("Tneu" + T);
+		
+	}); 
 	
  	$(".startBtn").click(function(){
 		var popup = app.popup.create({
@@ -398,9 +431,7 @@ function getImageUrl(urlArray, imageIndex)
 
 //js Object, which contains all available prototype images
 var imageArray = {
-    imageUrls:  ["https://thumbnails-visually.netdna-ssl.com/the-10-commandments-of-user-interface-design_553e21765c690_w1500.png",
-        "https://weandthecolor.com/wp-content/uploads/2017/05/User-Interface-designs-by-Balraj-Chana-1068x591.jpg",
-        "https://cdn-images-1.medium.com/max/2000/1*_tkd0q6CFkepowjFZHRSSg.jpeg"],
+    imageUrls:  ["./img/examples/PrototypBsp1.png", "./img/examples/PrototypBsp2.png", "./img/examples/PrototypBsp3.png"],
     startIndex: 0,
     currentIndex: undefined,
     maxIndex: undefined,
