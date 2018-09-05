@@ -242,10 +242,10 @@ if (page.name === 'P2'){
 						$(".popup").remove();
                         var popup = app.popup.create({
                             content:
-                            '<div class="popup" id="my-popup">' +
+                            '<div class="popup" id="popupStart">' +
 								'<div class="view">' +
-									'<div class="page">' +
-										'<div class="navbar">' +
+									'<div class="page popupStartpage">' +
+										'<div class="popupNavbar">' +
 											'<div class="navbar-inner">' +
 												'<div class="title">Popup</div>' +
 												'<div class="right">' +
