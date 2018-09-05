@@ -53,7 +53,6 @@ app.on('pageInit', function(page){
 			  T = globalData;
 			},
 			 error: function (r) {
-				console.log('error' + r.Token);
 			}
 			
 		  });
@@ -77,8 +76,6 @@ app.on('pageInit', function(page){
 		setTimeout(function(){
 			 clearInterval(tid); //clear above interval after 15 seconds
 		},15000);
-		
-		console.log("Tneu" + T);
 		
 	}
 	
@@ -106,7 +103,6 @@ app.on('pageInit', function(page){
 			for (var i = 0; i < rangeSliderReferences.length; i++) {
 				rangeSliderValues[i] = rangeSliderReferences[i].getValue();
 			}
-			console.log(rangeSliderValues);
 		});
     }
 	
@@ -119,33 +115,35 @@ app.on('pageInit', function(page){
 		var windowHeight = window.screen.height;
 	
 	
-		var imgObj = new Image();
-		imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
 		
-		imgObj.onload = function(){
-			var imgFormat = imgObj.width / imgObj.height;
-			var puzzleWidth = parseInt($(".puzzleDiv").css("width"));		
-			var height = puzzleWidth / imgFormat;
-			$(".puzzleDiv").css("height", height);
-			
-			var singleAccess = new SingleAccess();
-			singleAccess.buildPuzzle(12, "#puzzleWrapper", "grid", "blue", "puzzlePiece");
-			//delete imgObj;
-			
-			$('#puzzleWrapper').css("background-image", 'url("'+ imgObj.src + '")');
-		}
-	
-		$$('window').on('resize', function(page){
-						
+		imgSource= "https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg";
+		
+		
+		
+		var singleAccess = new SingleAccess();
+		singleAccess.buildPuzzle(12, "#puzzleWrapper", "grid", "blue", "puzzlePiece");
+		$('#puzzleWrapper').css("background-image", 'url("'+ imgSource + '")');
+		calculateWrapperSize(imgSource);
+		
+		$$(window).on('resize',function(page){
+			calculateWrapperSize(imgSource);		
 		});	
 		
 	} 
 	
+	function calculateWrapperSize(imgURL){
+		var image = new Image();
+		image.src = imgURL;
+		image.onload = function(){
+			var imgFormat = image.width / image.height;
+			var imgHeight = $("#puzzleWrapper").height();
+			$("#puzzleWrapper").css("width", imgHeight * imgFormat +"px");
+		}
+	}
+	
 if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;
 		imageArray.maxIndex = imageArray.imageUrls.length -1;
-		console.log("image-array: current index: " + imageArray.currentIndex);
-		console.log("image-array: maxIndex:" + imageArray.maxIndex);
 
 		//create div, which displays the prototype images
 		var imageDiv = document.createElement("div");
@@ -167,7 +165,6 @@ if (page.name === 'P2'){
 		
 		for(var n=0; n < imageArray.imageUrls.length; n++){
 			mySwiper.appendSlide('<div class="testslider swiper-slide" id="swiper' + n + '"></div>');
-			console.log("bild:" + n );
 			$("#swiper" +n).css('background-image',"url("+ getImageUrl(imageArray.imageUrls,n));
             $("#swiper"+n).css('background-size',"contain");
             $("#swiper"+n).css('background-repeat',"no-repeat");
@@ -218,6 +215,46 @@ if (page.name === 'P2'){
                     });
                 }
         });
+		
+	 $(".help").click(function () {               
+	 //$(".popup").remove();
+        var popup = app.popup.create({
+				content:
+				'<div class="popup">' +
+				   '<div class="view">' +
+						'<div class="page">' +
+						  '<div class="navbar">' +
+							   '<div class="navbar-inner">' +
+								  '<div class="title">HILFE</div>' +
+						   '<div class="right">' +
+							'</div>' +
+							  '</div>' +
+								'</div>' +
+									'<div class="page-content">' +
+									'<div class="block">' +
+										'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur ' +
+										'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+ 
+										'was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+										'kannst du eine Bewertung durchführen.</p>' +
+										'<a href="#" class="popup-close">' +
+											'<img src="img/OK.png" class="popup-close">' +
+										'</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>',
+			
+			
+		 on: {
+			close: function(){
+			  $(".popup").remove();
+			 }
+		}
+	  });
+			app.popup.open(popup.el,true);
+	 });
 
 	}
 	
@@ -318,10 +355,8 @@ if (page.name === 'P2'){
 	$(".back-link").click(function () {
 		if(imageArray.currentIndex > 0) {
 			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls, --imageArray.currentIndex);
-			console.log("currentIndex nach dem back-click: " + imageArray.currentIndex);
 		}
 		else if(imageArray.currentIndex == 0){
-			console.log("mehr als 0 geht nicht");
 		}
 	});
 	
@@ -382,6 +417,6 @@ function getImageUrl(urlArray, imageIndex)
 
 //js Object, which contains all available prototype images
 var imageArray = {
-    imageUrls:  ["./img/examples/PrototypBsp1.png", "./img/examples/PrototypBsp2.png", "./img/examples/PrototypBsp3.png"]
+    imageUrls:  ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"]
 };
 

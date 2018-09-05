@@ -7,7 +7,6 @@ function PuzzleBuilder() {}
 /** onclick function to hide a div object **/
 function hideDiv(element){
      element.style.visibility = "hidden";
-     console.log("Element ID ist: " + element.id);
 }
 
 

@@ -6,17 +6,10 @@
 }
 
 
-#gridDiv{
-	position: absolute;
-	top: 56px;
-	left: 0px;
-	font-size: 0;
-}
-
 #puzzleWrapper{
 	position: absolute;
-	width: 100%;
-	height: 100%;
+	top: 74px;
+	height: 80%;
 	background-size: cover;
 	background-repeat: no-repeat;
 	font-size: 0;
