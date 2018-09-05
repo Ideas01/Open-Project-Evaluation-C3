@@ -321,12 +321,12 @@ if (page.name === 'P2'){
 				  '</div>' +
 				'</div>',
 			on: {
-					opened: function () {
-					},
-					close: function(){
-						$(".popup").remove();
-					}
+				opened: function () {
+				},
+				close: function(){
+					$(".popup").remove();
 				}
+			}
 		});
 		app.popup.open(popup.el,true);
 	});
@@ -337,13 +337,13 @@ if (page.name === 'P2'){
 			imageDiv.style.backgroundImage = "url(" + getImageUrl(imageArray.imageUrls, --imageArray.currentIndex);
 			console.log("currentIndex nach dem back-click: " + imageArray.currentIndex);
 		}
-		else if(imageArray.currentIndex==0){
+		else if(imageArray.currentIndex == 0){
 			console.log("mehr als 0 geht nicht");
 		}
 	});
 	
 	 $(".help").click(function () {               
-			 $(".popup").remove();
+			 //$(".popup").remove();
         var popup = app.popup.create({
 				content:
 				'<div class="popup">' +
@@ -353,8 +353,8 @@ if (page.name === 'P2'){
 							   '<div class="navbar-inner">' +
 								  '<div class="title">HILFE</div>' +
 						   '<div class="right">' +
-						   '</div>' +
 							'</div>' +
+							  '</div>' +
 								'</div>' +
 									'<div class="page-content">' +
 									'<div class="block">' +
