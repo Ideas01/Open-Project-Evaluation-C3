@@ -112,8 +112,8 @@ app.on('pageInit', function(page){
 				content:
 				'<div class="popup" id="my-popup">' +
 					'<div class="view">' +
-						'<div class="page">' +
-							'<div class="navbar">' +
+						'<div class="page popupStartpage">' +
+							'<div class="popupNavbar">' +
 								'<div class="navbar-inner">' +
 									'<div class="title">Popup</div>' +
 									'<div class="right">' +
@@ -138,7 +138,6 @@ app.on('pageInit', function(page){
                                          '<div class="sk-circle11 sk-child"></div>' +
                                          '<div class="sk-circle12 sk-child"></div>' +
                                          '</div>' +
-									'<div class="next" text-align="center">' +
 										'<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
 									'</div>' +
 								'</div>' +

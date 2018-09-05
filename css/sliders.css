@@ -142,3 +142,33 @@
         transform: scale(1);
     }
 }
+
+
+/*********** popupStart start **************/
+
+#popupStart{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin-left: 0 !important;
+}
+
+.block p{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.page .popupNavbar {
+    opacity: 0;
+}
+
+.page .popupStartpage{
+    background-color: transparent !important;
+}
+
+#popupStart:not(.next-button), .popup .page {
+    
+    background-color: rgba(255,255,255, 0.5);
+}
+
+/*********** popupStart end **************/
