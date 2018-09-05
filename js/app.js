@@ -129,31 +129,14 @@ app.on('pageInit', function(page){
 			$(".puzzleDiv").css("height", height);
 			
 			var singleAccess = new SingleAccess();
-			singleAccess.buildPuzzle(12);
+			singleAccess.buildPuzzle(12, "#puzzleWrapper", "grid", "blue", "puzzlePiece");
 			//delete imgObj;
-			singleAccess.buildPuzzle(4);
 			
-			
+			$('#puzzleWrapper').css("background-image", 'url("'+ imgObj.src + '")');
 		}
 	
 		$$('window').on('resize', function(page){
-			console.log("resize trigger")
-			
-			$("#puzzleDiv").empty();
-			var imgObj = new Image();
-			imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
-			
-			imgObj.onload = function(){
-				var imgFormat = imgObj.width / imgObj.height;				
-				var puzzleWidth = parseInt($(".puzzleDiv").css("width"));				
-				var height = puzzleWidth / imgFormat;
-				$(".puzzleDiv").css("height", height);			
-
-				var singleAccess = new SingleAccess();
-				
-				singleAccess.buildPuzzle(12);
-			}
-			
+						
 		});	
 		
 	} 

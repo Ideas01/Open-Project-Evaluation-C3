@@ -14,31 +14,29 @@ function hideDiv(element){
 
 	
 /** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzle = function (tileCount) {
-	
-	//console.log("count: " + tileCount);
-	
-	var tile = calculateTileSize(tileCount); 
-	
-	console.log("breite: "+ tile.width + "height: " + tile.height);
+PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, namespace, color, setclassname) {
 	
 	//create the div elements
-    for (var i = 1; i <= tileCount*tileCount; i++){
-        var newDiv = document.createElement("div");
-            newDiv.id = i;
-            newDiv.className = "puzzlePiece";
+    for (var i = 0; i < tileCount; i++){
+       for(var n = 0; n < tileCount; n++){
+		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
+			var newDiv = document.createElement("div");
+			newDiv.id = namespace + '|' + i + "|" + n;
+			
+            newDiv.className = setclassname;
             newDiv.style.visibility = "visible";
-            newDiv.style.width= tile.width +"px";
-            newDiv.style.height = tile.height + "px";
-
+			newDiv.style.backgroundColor = color;
             //append newDiv to the DOM
-            $(".puzzleDiv").append(newDiv);
-
-
-            $('.puzzlePiece').each(function() {
+            $(appendToClass).append(newDiv);
+			
+			
+            $('.' + setclassname).each(function() {
                 $(this).attr("onclick", "hideDiv(this)");
             });
+		}
     }
+	
+	var tile = calculateTileSize(tileCount, setclassname); 
 	
 
 };
@@ -49,21 +47,9 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount) {
 	 * minimum length (412px) / minimum touchable width (32px)
 	 * only the int value has been considered valid, because only complete tiles are necessary.
 	*/
-	function calculateTileSize(tileCount){	
-		
-		var picWidth= $(".puzzleDiv").width();
-		var picHeight= $(".puzzleDiv").height();
-		
-		console.log("pichheight + picwidth: "+ picHeight +" + "+ picWidth)
-		
-		var picFormat = picWidth/ picHeight;
-		console.log("picFormat: "+ picFormat)
-			
-			var tile={
-				width:picWidth / tileCount,
-				height:picHeight / tileCount
-			}		
-		return tile;
+	function calculateTileSize(tileCount, setclassname){	
+		var percentageTileSize = 1/tileCount * 100;
+		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
 		
 	}
 
