@@ -61,7 +61,6 @@ app.on('pageInit', function(page){
 			  
 		var tid = setInterval(function(){
 			if(T != null){
-				alert("habs" + T);
 				clearInterval(tid);
 				return T;
 
@@ -71,8 +70,6 @@ app.on('pageInit', function(page){
 			
 		  //before getting cleared by below timeout. 
 			},500); //delay is in milliseconds 
-
-		alert("after setInterval"); //called second
 
 		setTimeout(function(){
 			 clearInterval(tid); //clear above interval after 15 seconds
