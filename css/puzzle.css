@@ -14,3 +14,16 @@
 	background-repeat: no-repeat;
 	font-size: 0;
 }
+
+#puzzleGridWrapper{
+	position: absolute;
+	top: 74px;
+	height: 80%;
+	font-size: 0;
+}
+
+.gridPiece{
+	z-index: 5;
+    position: relative;
+    display: inline-block;
+}
