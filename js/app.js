@@ -404,6 +404,7 @@ if (page.name === 'P2'){
 										'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+ 
 										'was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
 										'kannst du eine Bewertung durchführen.</p>' +
+                                     '<div class="next" text-align="center">' +
 										'<a href="#" class="popup-close">' +
 											'<img src="img/OK.png" class="popup-close">' +
 										'</a>' +
