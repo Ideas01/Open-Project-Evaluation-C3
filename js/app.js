@@ -105,12 +105,44 @@ app.on('pageInit', function(page){
 			}
 			console.log(rangeSliderValues);
 		});
+		
+		$(".tmp").click(function(){
+			$(".popup").remove();
+			var popup = app.popup.create({
+				content:
+				'<div class="popup" id="my-popup">' +
+					'<div class="view">' +
+						'<div class="page">' +
+							'<div class="navbar">' +
+								'<div class="navbar-inner">' +
+									'<div class="title">Popup</div>' +
+									'<div class="right">' +
+										'<a href="#" class="link popup-close">Close</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+							'<div class="page-content">' +
+								'<div class="block">' +
+									'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+									'<div class="next" text-align="center">' +
+										'<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>',
+				close: function(){
+					$(".popup").remove();
+				}
+			});
+			app.popup.open(popup.el, true);
+		});
     }
 	
 
 	
  	if(page.name === 'puzzle'){
-
 		
 		var windowWidth = window.screen.width;
 		var windowHeight = window.screen.height;
