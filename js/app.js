@@ -165,7 +165,7 @@ if (page.name === 'P2'){
 		
 		for(var n=0; n < imageArray.imageUrls.length; n++){
 			mySwiper.appendSlide('<div class="testslider swiper-slide" id="swiper' + n + '"></div>');
-			$("#swiper" +n).css('background-image',"url("+ getImageUrl(imageArray.imageUrls,n));
+			$("#swiper" +n).css('background-image','url("' + getImageUrl(imageArray.imageUrls,n) +'")');
             $("#swiper"+n).css('background-size',"contain");
             $("#swiper"+n).css('background-repeat',"no-repeat");
 		}
