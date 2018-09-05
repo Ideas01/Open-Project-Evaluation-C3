@@ -15,7 +15,7 @@ function hideDiv(element){
 
 	
 /** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, color) {
+PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, namespace, color, classname) {
 	
 	var imgObj = new Image();
 	imgObj.src = "https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg";
@@ -24,8 +24,9 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, color)
 	//create the div elements
     for (var i = 0; i < tileCount; i++){
        for(var n = 0; n < tileCount; n++){
+		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
-			newDiv.id = i + "|" + n;
+			newDiv.id = namespace + '|' + i + "|" + n;
 			
             newDiv.className = "puzzlePiece";
             newDiv.style.visibility = "visible";

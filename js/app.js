@@ -237,8 +237,6 @@ if (page.name === 'P2'){
         });
 
 	}
-	// {"query":"mutation cDevice {createDevice(data: {name: "Test1"}) {device {id name context {id} owners {id}} token}}"}
-	// {"query":"mutation cDevice {createDevice(data: {name: \"Test1\"}) {device {id name context {id} owners {id}} token}}"}
 	
 	//add click functionality for the right(next) chevron
 	var versuch;
