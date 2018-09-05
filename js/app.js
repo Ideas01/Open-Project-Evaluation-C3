@@ -124,14 +124,14 @@ app.on('pageInit', function(page){
 		
 		imgObj.onload = function(){
 			var imgFormat = imgObj.width / imgObj.height;
-			var puzzleWidth = parseInt($("#puzzleDiv").css("width"));		
+			var puzzleWidth = parseInt($(".puzzleDiv").css("width"));		
 			var height = puzzleWidth / imgFormat;
-			$("#puzzleDiv").css("height", height);
+			$(".puzzleDiv").css("height", height);
 			
 			var singleAccess = new SingleAccess();
-			singleAccess.buildPuzzle(12, "#puzzleDiv", "blue");
+			singleAccess.buildPuzzle(12);
 			//delete imgObj;
-			singleAccess.buildPuzzle(4, "#gridDiv", "lime");
+			singleAccess.buildPuzzle(4);
 			
 			
 		}
@@ -145,9 +145,9 @@ app.on('pageInit', function(page){
 			
 			imgObj.onload = function(){
 				var imgFormat = imgObj.width / imgObj.height;				
-				var puzzleWidth = parseInt($("#puzzleDiv").css("width"));				
+				var puzzleWidth = parseInt($(".puzzleDiv").css("width"));				
 				var height = puzzleWidth / imgFormat;
-				$("#puzzleDiv").css("height", height);			
+				$(".puzzleDiv").css("height", height);			
 
 				var singleAccess = new SingleAccess();
 				
