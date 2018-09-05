@@ -114,11 +114,7 @@ app.on('pageInit', function(page){
 		var windowWidth = window.screen.width;
 		var windowHeight = window.screen.height;
 	
-	
-		
 		imgSource= "https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg";
-		
-		
 		
 		var singleAccess = new SingleAccess();
 		singleAccess.buildPuzzle(12, "#puzzleWrapper", "grid", "blue", "puzzlePiece");
