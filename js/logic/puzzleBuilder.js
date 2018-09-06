@@ -9,29 +9,33 @@ function hideDiv(element){
      element.style.visibility = "hidden";
 }
 
+function colorDiv(element){
+	element.style.backgroundColor = "pink";
+}
+
 
 
 	
 /** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, namespace, color, setclassname) {
+PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
 	
 	//create the div elements
-    for (var i = 0; i < tileCount; i++){
-       for(var n = 0; n < tileCount; n++){
+    for (var k = 0; k < tileCount; k++){
+       for(var l = 0; l < tileCount; l++){
 		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
-			newDiv.id = namespace + '|' + i + "|" + n;
+			newDiv.id = namespace + k + l;
 			
             newDiv.className = setclassname;
             newDiv.style.visibility = "visible";
 			newDiv.style.backgroundColor = color;
             //append newDiv to the DOM
-            $(appendToClass).append(newDiv);
-			
-			
-            $('.' + setclassname).each(function() {
-                $(this).attr("onclick", "hideDiv(this)");
-            });
+			if($(appendToDOM)){
+				$(appendToDOM).append(newDiv);
+				console.log("Element wurde angehangen");
+			} else{
+				console.log("DOM Element konnte nicht gefunden werden.");
+			}
 		}
     }
 	

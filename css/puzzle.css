@@ -1,5 +1,5 @@
 .puzzlePiece {
-	z-index: 4;
+	z-index: 1;
     position: relative;
     display: inline-block;
 

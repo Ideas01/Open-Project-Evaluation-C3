@@ -2,11 +2,11 @@
 
 	function SingleAccess() {}
 	
-	SingleAccess.prototype.buildPuzzle = function (tileCount, appendToClass, namespace, color, setclassname) {
+	SingleAccess.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
 	
 		var puzzleBuilder = new PuzzleBuilder();
 		
-		puzzleBuilder.buildPuzzle(tileCount, appendToClass, namespace, color, setclassname);
+		puzzleBuilder.buildPuzzle(tileCount, appendToDOM, namespace, color, setclassname);
 	};
 
 	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
