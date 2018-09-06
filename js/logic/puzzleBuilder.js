@@ -15,6 +15,7 @@ function extendGridPiece (element){
 }
 
 
+
 	
 /** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {

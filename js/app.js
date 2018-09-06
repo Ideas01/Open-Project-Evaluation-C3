@@ -1,5 +1,7 @@
 var singleAccess = new SingleAccess();
 
+var imgObj;
+
 // Dom7
 var $$ = Dom7;
 
@@ -110,6 +112,9 @@ app.on('pageInit', function(page){
 	
  	if(page.name === 'puzzle'){
 
+		imgObj = new Image();
+		imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+		
 		
 		var windowWidth = window.screen.width;
 		var windowHeight = window.screen.height;
@@ -153,11 +158,21 @@ app.on('pageInit', function(page){
 		});	
 		
 	} 
+	
 	$(".overallGridPiece").click(function(event){
-			console.log("geklickt");
-			 //element.style.visibility = "hidden";
+			 var coordinate = (event.target.id).toString().split("d");
 			 $('.overallGridPiece:not(#'+ event.target.id + ')').toggle();
-		});
+			 $('.gridPiece:not(#grid' + coordinate[1] + ')').toggle();
+			 
+			 //TODO: image Object nur einmal bauen und mit getter holen.
+			 var imgObj = new Image();
+			 imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+			 
+			 cropImage (imgObj, 375, 175, 75, 75, 600, 600);
+			
+	});
+	
+	
 	function calculateWrapperSize(imgURL, Element){
 		var image = new Image();
 		image.src = imgURL;
@@ -167,6 +182,18 @@ app.on('pageInit', function(page){
 			$(Element).css("width", elemHeight * imgFormat +"px");
 		}
 		delete(image);
+	}
+	
+	function cropImage (imgObj, sourceStartX, sourceStartY, cutWidth, cutHeight,  imgWidth, imgHeight){
+		var canvasA = document.createElement('canvas');
+			canvasA.width = imgWidth;
+			canvasA.height = imgHeight;
+
+			var context = canvasA.getContext('2d');
+			//		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
+			context.drawImage(imgObj, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
+			
+			$("#puzzleWrapper").append(canvasA);
 	}
 	
 if (page.name === 'P2'){

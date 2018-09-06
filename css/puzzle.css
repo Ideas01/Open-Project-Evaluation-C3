@@ -31,8 +31,15 @@
 #puzzleImage{
 	z-index: 1;
 }
+
 .overallGridPiece{
 	z-index: 5;
     position: relative;
     display: inline-block;
+}
+
+canvas{
+	position: absolute;
+	left: 0;
+	top: 0;
 }
