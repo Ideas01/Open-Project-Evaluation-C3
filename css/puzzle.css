@@ -1,5 +1,5 @@
 .puzzlePiece {
-	z-index: 1;
+	z-index: 6;
     position: relative;
     display: inline-block;
 
@@ -23,6 +23,15 @@
 }
 
 .gridPiece{
+	z-index: 5;
+    position: relative;
+    display: inline-block;
+}
+
+#puzzleImage{
+	z-index: 1;
+}
+.overallGridPiece{
 	z-index: 5;
     position: relative;
     display: inline-block;

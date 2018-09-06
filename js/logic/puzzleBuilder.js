@@ -5,14 +5,14 @@
 function PuzzleBuilder() {}
 
 /** onclick function to hide a div object **/
-function hideDiv(element){
-     element.style.visibility = "hidden";
-}
 
 function colorDiv(element){
 	element.style.backgroundColor = "pink";
 }
 
+function extendGridPiece (element){
+	
+}
 
 
 	
@@ -32,7 +32,6 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
             //append newDiv to the DOM
 			if($(appendToDOM)){
 				$(appendToDOM).append(newDiv);
-				console.log("Element wurde angehangen");
 			} else{
 				console.log("DOM Element konnte nicht gefunden werden.");
 			}

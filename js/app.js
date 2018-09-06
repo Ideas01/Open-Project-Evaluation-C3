@@ -121,25 +121,28 @@ app.on('pageInit', function(page){
 		$('#puzzleWrapper').css("background-image", 'url("'+ imgSource + '")');
 
 		var gridReady = new Promise(function (resolve,reject) {
-				singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "lime", "gridPiece");
+				singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "yellow", "gridPiece");
 				resolve("ready");
 		});
 		gridReady.then(function(fulfilled){
 			
 			 $(".gridPiece").each(function(n){
 				for(var i=0; i < 4; i++){
-					console.log("n und i die erste: "+ n + i);
 					singleAccess.buildPuzzle(3, '#grid'+ n + i, "puzzletile" + n + i, "blue", "puzzlePiece");
-					console.log("n und i: " +n + i);
 				}
 			}); 
+			
+			
 			$('.gridPiece').each(function() {
 				$(this).attr("onclick", "colorDiv(this)");
 			});
-			$('.puzzlePiece').each(function() {
-				$(this).attr("onclick", "hideDiv(this)");
-			});
+			
 		});
+		
+		
+
+		singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
+		
 		
 		calculateWrapperSize(imgSource, "#puzzleWrapper");
 		calculateWrapperSize(imgSource, "#puzzleGridWrapper");
@@ -150,7 +153,11 @@ app.on('pageInit', function(page){
 		});	
 		
 	} 
-	
+	$(".overallGridPiece").click(function(event){
+			console.log("geklickt");
+			 //element.style.visibility = "hidden";
+			 $('.overallGridPiece:not(#'+ event.target.id + ')').toggle();
+		});
 	function calculateWrapperSize(imgURL, Element){
 		var image = new Image();
 		image.src = imgURL;
