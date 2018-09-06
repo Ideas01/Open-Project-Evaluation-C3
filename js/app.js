@@ -374,7 +374,7 @@ if (page.name === 'P2'){
 		}
 	});
 	
-	 $(".help").click(function () {               
+/* 	 $(".help").click(function () {               
 			 //$(".popup").remove();
         var popup = app.popup.create({
 				content:
@@ -412,7 +412,7 @@ if (page.name === 'P2'){
 		}
 	  });
 			app.popup.open(popup.el,true);
-	 });
+	 }); */
 	
 });
 
