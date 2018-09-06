@@ -1,29 +1,19 @@
 .puzzlePiece {
-	z-index: 4;
     position: relative;
     display: inline-block;
+    z-index: 4;
+    background-color: blue;
 
 }
 
 
-#puzzleWrapper{
-	position: absolute;
-	top: 74px;
-	height: 80%;
-	background-size: cover;
+.puzzleDiv {
+    background-image: url("https://ze.tt/wp-content/uploads/2017/01/meer3-e1485169056783-1024x577.jpg");
+    background-image: url("https://static.geo.de/bilder/17/d1/57813/facebook_image/meer-c-8977765.jpg");
+    background-size:contain;
 	background-repeat: no-repeat;
-	font-size: 0;
-}
-
-#puzzleGridWrapper{
-	position: absolute;
-	top: 74px;
-	height: 80%;
-	font-size: 0;
-}
-
-.gridPiece{
-	z-index: 5;
-    position: relative;
-    display: inline-block;
+    /* padding: 10px 10px 10px 10px; */
+    width: 100%;
+	height: 100%;	
+    font-size: 0;
 }

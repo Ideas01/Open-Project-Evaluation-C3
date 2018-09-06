@@ -24,9 +24,7 @@ body{
 }
 
 .next a img {
-    margin-left: auto;
-    margin-right: auto;
-    height: 141px;
+    width: 34%;
 }
 
 .description1 {
@@ -184,5 +182,6 @@ Modal Content */
 
     background-color: rgba(255,255,255, 0.5);
 }
+
 
 /*********** popupStart end **************/
