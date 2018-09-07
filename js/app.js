@@ -1,5 +1,3 @@
-var singleAccess = new SingleAccess();
-
 var imgObj;
 
 // Dom7
@@ -20,66 +18,48 @@ var app  = new Framework7({
       }
     };
   },
-  // App root methods
-  methods: {
-    helloWorld: function () {
-      app.dialog.alert('Hello World!');
-    },
-  },
   // App routes
   routes: routes,
 });
 
+
+
 app.on('pageInit', function(page){
+	var singleAccess = new SingleAccess();
+	
 	console.log(page.name + " wird ausgeführt");
 
 	if(page.name === 'home'){
+		
 		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
 		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		singleAccess.getToken(query);
 		
-		var T = null;	
-		
-		const asyncInit = $.ajax({
-			url: 'http://192.168.43.174:3000/',
-			headers: {
-				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
-				'Content-Type':'application/json',
-			},
-			method: 'POST',
-			dataType: 'json',
-			data: query,
-			success: function(r){
-			  console.log('success:' + r.data.createDevice.token);
-			  const globalData = r.data.createDevice.token;
-			  console.log("globaleVariable T:  " + globalData);
-			  T = globalData;
-			},
-			 error: function (r) {
-			}
-			
-		  });
-		
-			  
-		var tid = setInterval(function(){
-			if(T != null){
-				alert("habs" + T);
-				clearInterval(tid);
-				return T;
+		function getToken(callback){
+			var tid = setInterval(function(){
+				var T = singleAccess.getToken();
+				if(T != null){
+					alert("zurückgekommen als: " + T);
+					clearInterval(tid);
+					callback(T);
+					//do s.th with T.
 
-			}else{
-				console.log("leider nicht");
-			}
-			
-		  //before getting cleared by below timeout. 
+				}else{
+					console.log("leider nicht");
+				}
 			},500); //delay is in milliseconds 
 
-		alert("after setInterval"); //called second
-
-		setTimeout(function(){
-			 clearInterval(tid); //clear above interval after 15 seconds
-		},15000);
+			setTimeout(function(){
+				 clearInterval(tid); //clear above interval after 15 seconds
+			},15000);
 		
+		}
+		
+		getToken(function(T){
+			console.log("callbacked: " + T)
+		});
 	}
+	
 	
 	if(page.name === 'sliders') {
         app.popup.close();
@@ -121,7 +101,7 @@ app.on('pageInit', function(page){
 	
 		imgSource= "https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg";
 		
-		var singleAccess = new SingleAccess();
+		
 		
 		$('#puzzleWrapper').css("background-image", 'url("'+ imgSource + '")');
 
