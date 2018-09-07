@@ -195,7 +195,7 @@ if (page.name === 'P2'){
 										'</div>' +
 										'<div class="page-content">' +
 											'<div class="block">' +
-                                                     '<p>Danke für deine persönliche Bewertung! Du wirst nun zum Puzzlespiel weitergeleitet. </p>' +
+                                                     '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
                                                      '<div class="sk-circle">' +
                                                      '<div class="sk-circle1 sk-child"></div>' +
                                                      '<div class="sk-circle2 sk-child"></div>' +

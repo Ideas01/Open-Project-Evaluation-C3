@@ -119,3 +119,12 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.back-link {
+    text-align:center;
+    
+}
+
+.next-link {
+    text-align:center;
+}
