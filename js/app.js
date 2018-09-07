@@ -245,12 +245,12 @@ if (page.name === 'P2'){
 							  '</div>' +
 								'</div>' +
 									'<div class="page-content">' +
-									'<div class="block">' +
-										'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen nur ' +
+                                     '<div class="block">' +
+										'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
 										'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+ 
-										'was du anders oder besser machen würdest. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-										'kannst du eine Bewertung durchführen.</p>' +
-										'<a href="#" class="popup-close">' +
+										'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+                                     'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
+                                        '<a href="#" class="popup-close" >' +
 											'<img src="img/OK.png" class="popup-close">' +
 										'</a>' +
 									'</div>' +
