@@ -169,3 +169,38 @@
 
 
 /*********** popupStart end **************/
+.button {
+    border: 0px solid #0a3c59;
+    background: #d40055;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
+    background: -webkit-linear-gradient(top, #d40055, #d40055);
+    background: -moz-linear-gradient(top, #d40055, #d40055);
+    background: -ms-linear-gradient(top, #d40055, #d40055);
+    background: -o-linear-gradient(top, #d40055, #d40055);
+    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
+    padding: 17px 34px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 0px 0;
+    -moz-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 0px 0;
+    box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 0px 0;
+    text-shadow: #1d1f21 0 1px 0;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: helvetica, serif;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.button:active {
+    text-shadow: #1d1f21 0 1px 0;
+    border: 0px solid #fcfeff;
+    background: #d40055;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#3e779d));
+    background: -webkit-linear-gradient(top, #d40055, #d40055);
+    background: -moz-linear-gradient(top, #d40055, #d40055);
+    background: -ms-linear-gradient(top, #d40055, #d40055);
+    background: -o-linear-gradient(top, #d40055, #d40055);
+    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
+    color: #fff;
+}

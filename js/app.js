@@ -210,7 +210,7 @@ if (page.name === 'P2'){
                                                      '<div class="sk-circle11 sk-child"></div>' +
                                                      '<div class="sk-circle12 sk-child"></div>' +
                                                      '</div>' +
-                                                     '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+                                                     '<a href="/sliders/" class="button popup-close"> Weiter </a>' +
 												'</div>' +
 											'</div>' +
 										'</div>' +
