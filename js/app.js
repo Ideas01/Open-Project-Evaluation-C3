@@ -251,7 +251,7 @@ if (page.name === 'P2'){
 										'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
                                      'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
                                         '<a href="#" class="popup-close" >' +
-											'<img src="img/OK.png" class="popup-close">' +
+											'<a class="button popup-close"> Los geht´s! </a>' +
 										'</a>' +
 									'</div>' +
 								'</div>' +
