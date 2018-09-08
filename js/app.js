@@ -195,8 +195,8 @@ if (page.name === 'P2'){
 										'</div>' +
 										'<div class="page-content">' +
 											'<div class="block">' +
-                                                     '<p>Danke für deine persönliche Bewertung! Du kannst dir jetzt die Ansichten nochmal anschauen oder die Bewertung beginnen. </p>' +
-                                                      '<a href="/prototype2/" class="button popup-close"> Zurück </a>' +
+                                                     '<p>Danke, dass du dir die Zeit genommen hast! Du kannst dir jetzt die Ansichten nochmal anschauen oder die Bewertung beginnen. </p>' +
+                                                     '<a href="#" class="button popup-close"> Zurück </a>' +
                                                      '<a href="/sliders/" class="button popup-close"> Weiter </a>' +
 												'</div>' +
 											'</div>' +
