@@ -195,21 +195,8 @@ if (page.name === 'P2'){
 										'</div>' +
 										'<div class="page-content">' +
 											'<div class="block">' +
-                                                     '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
-                                                     '<div class="sk-circle">' +
-                                                     '<div class="sk-circle1 sk-child"></div>' +
-                                                     '<div class="sk-circle2 sk-child"></div>' +
-                                                     '<div class="sk-circle3 sk-child"></div>' +
-                                                     '<div class="sk-circle4 sk-child"></div>' +
-                                                     '<div class="sk-circle5 sk-child"></div>' +
-                                                     '<div class="sk-circle6 sk-child"></div>' +
-                                                     '<div class="sk-circle7 sk-child"></div>' +
-                                                     '<div class="sk-circle8 sk-child"></div>' +
-                                                     '<div class="sk-circle9 sk-child"></div>' +
-                                                     '<div class="sk-circle10 sk-child"></div>' +
-                                                     '<div class="sk-circle11 sk-child"></div>' +
-                                                     '<div class="sk-circle12 sk-child"></div>' +
-                                                     '</div>' +
+                                                     '<p>Danke für deine persönliche Bewertung! Du kannst dir jetzt die Ansichten nochmal anschauen oder die Bewertung beginnen. </p>' +
+                                                      '<a href="/prototype2/" class="button popup-close"> Zurück </a>' +
                                                      '<a href="/sliders/" class="button popup-close"> Weiter </a>' +
 												'</div>' +
 											'</div>' +
@@ -271,6 +258,57 @@ if (page.name === 'P2'){
 	 });
 
 	}
+       
+       $(".button").click(function(){
+                            var popup = app.popup.create({
+                                                         // The Popup
+                                                         content:
+                                                         '<div class="popup" id="popupStart">' +
+                                                         '<div class="view">' +
+                                                         '<div class="page">' +
+                                                         '<div class="navbar">' +
+                                                         '<div class="navbar-inner">' +
+                                                         '<div class="title">Popup</div>' +
+                                                         '<div class="right">' +
+                                                         '<a href="#" class="link popup-close">Close</a>' +
+                                                         '</div>' +
+                                                         '</div>' +
+                                                         '</div>' +
+                                                         '<div class="page-content">' +
+                                                         '<div class="block">' +
+                                                         '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+                                                         '<div class="sk-circle">' +
+                                                         '<div class="sk-circle1 sk-child"></div>' +
+                                                         '<div class="sk-circle2 sk-child"></div>' +
+                                                         '<div class="sk-circle3 sk-child"></div>' +
+                                                         '<div class="sk-circle4 sk-child"></div>' +
+                                                         '<div class="sk-circle5 sk-child"></div>' +
+                                                         '<div class="sk-circle6 sk-child"></div>' +
+                                                         '<div class="sk-circle7 sk-child"></div>' +
+                                                         '<div class="sk-circle8 sk-child"></div>' +
+                                                         '<div class="sk-circle9 sk-child"></div>' +
+                                                         '<div class="sk-circle10 sk-child"></div>' +
+                                                         '<div class="sk-circle11 sk-child"></div>' +
+                                                         '<div class="sk-circle12 sk-child"></div>' +
+                                                         '</div>' +
+                                                         '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+                                                         '</div>' +
+                                                         '</div>' +
+                                                         '</div>' +
+                                                         '</div>' +
+                                                         '</div>' +
+                                                         '</div>',
+                                                         on: {
+                                                         opened: function () {
+                                                         },
+                                                         close: function(){
+                                                         $(".popup").remove();
+                                                         }
+                                                         }
+                                                         });
+                            app.popup.open(popup.el,true);
+                            });
+
 	
 	//add click functionality for the right(next) chevron
 	var versuch;

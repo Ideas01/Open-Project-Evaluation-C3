@@ -191,6 +191,7 @@
     font-family: helvetica, serif;
     text-decoration: none;
     vertical-align: middle;
+    margin: 0.3%;
 }
 .button:active {
     text-shadow: #1d1f21 0 1px 0;
