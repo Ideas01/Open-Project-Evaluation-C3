@@ -91,13 +91,17 @@ app.on('pageInit', function(page){
 
 	
  	if(page.name === 'puzzle') {
-
-        var loadImage = new Promise(function (resolve, reject) {
+		var backgroundorigin = {};
+        
+		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
             backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
             backgroundImage.crossOrigin = "Anonymous";
             backgroundImage.onload = function () {
-                resolve(backgroundImage);
+				const originPictureWidth = backgroundImage.width;
+				const originPictureHeight = backgroundImage.height;
+				backgroundorigin = {image: backgroundImage, imgWidth: originPictureWidth , imgHeight: originPictureHeight}
+			    resolve(backgroundImage);
             };
             backgroundImage.onerror = function () {
                 reject("could not load the image");
@@ -153,19 +157,29 @@ app.on('pageInit', function(page){
         $(".overallGridPiece").click(function (event) {
 
 
-            var coordinate = (event.target.id).toString().split("d");
-
-            $('.overallGridPiece').toggle();
-            $('.gridPiece:not(#grid' + coordinate[1] + ')').toggle();
+            var coordinateold = (event.target.id).toString().split("d");
+			var coordinate = Array.from(coordinateold[1]);
+			var xCoordinate = coordinate[0];
+			var yCoordinate = coordinate[1];
+			console.log("X: "+xCoordinate + "y: "+ yCoordinate);
+            var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
+			
+			$('.overallGridPiece').toggle();
+            $('.gridPiece:not(#grid' + coordinateold[1] + ')').toggle();
 
             //TODO: image Object nur einmal bauen und mit getter holen.
             //var imgObj = new Image();
             //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+			
+            console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
+			
+			cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
+           // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
+			$('#grid'+ coordinateold[1]).width('100%');
+            $('#grid'+ coordinateold[1]).height('100%');
 
-            cropImage(75, 75, 150, 150, $('#croppedImageDiv').width(), $('#croppedImageDiv').height());
-            $('#grid'+ coordinate[1]).width('100%');
-            $('#grid'+ coordinate[1]).height('100%');
-
+			
+			//TODO: noch fixen.
             $('.page-content, .puzzle-page-content').append('<a class="button" id="backButton">Button</a>');
             $('.button').click(function() {
 				restorePuzzle('#croppedImageDiv');
@@ -200,7 +214,7 @@ app.on('pageInit', function(page){
                 $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
 
             }).catch(function (notLoaded) {
-                console.log(notLoaded.message);
+                //console.log(notLoaded.message);
             })
         }
 

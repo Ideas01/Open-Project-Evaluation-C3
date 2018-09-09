@@ -28,7 +28,7 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
        for(var l = 0; l < tileCount; l++){
 		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
-			newDiv.id = namespace + k + l;
+			newDiv.id = namespace + l + k;
 			
             newDiv.className = setclassname;
             newDiv.style.visibility = "visible";
