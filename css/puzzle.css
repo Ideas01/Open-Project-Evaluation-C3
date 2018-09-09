@@ -5,6 +5,13 @@
 
 }
 
+#croppedImageDiv{
+	z-index: 4;
+	position: absolute;
+	background-size: cover;
+	top: 74px;
+	height: 80%;
+}
 
 #puzzleWrapper{
 	position: absolute;
@@ -38,8 +45,4 @@
     display: inline-block;
 }
 
-canvas{
-	position: absolute;
-	left: 0;
-	top: 0;
-}
+

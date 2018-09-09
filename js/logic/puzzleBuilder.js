@@ -10,11 +10,16 @@ function colorDiv(element){
 	element.style.backgroundColor = "pink";
 }
 
-function extendGridPiece (element){
-	
+function hideDiv(element){
+	element.style.visibility = "hidden";
 }
 
-	
+function restorePuzzle(croppedID){
+	//set croppedImageDiv background to none
+    $(croppedID).css('background-image', 'none');
+}
+
+
 /** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
 	
@@ -48,7 +53,8 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
 	 * minimum length (412px) / minimum touchable width (32px)
 	 * only the int value has been considered valid, because only complete tiles are necessary.
 	*/
-	function calculateTileSize(tileCount, setclassname){	
+	function calculateTileSize(tileCount, setclassname){
+		//TODO: zwischen ID und class unterscheiden
 		var percentageTileSize = 1/tileCount * 100;
 		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
 		

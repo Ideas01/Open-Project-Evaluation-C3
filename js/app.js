@@ -90,91 +90,121 @@ app.on('pageInit', function(page){
 	
 
 	
- 	if(page.name === 'puzzle'){
+ 	if(page.name === 'puzzle') {
 
-		imgObj = new Image();
-		imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
-		
-		
-		var windowWidth = window.screen.width;
-		var windowHeight = window.screen.height;
-	
-		imgSource= "https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg";
-		
-		
-		
-		$('#puzzleWrapper').css("background-image", 'url("'+ imgSource + '")');
+        var loadImage = new Promise(function (resolve, reject) {
+            var backgroundImage = new Image();
+            backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
+            backgroundImage.crossOrigin = "Anonymous";
+            backgroundImage.onload = function () {
+                resolve(backgroundImage);
+            };
+            backgroundImage.onerror = function () {
+                reject("could not load the image");
+            };
+        });
 
-		var gridReady = new Promise(function (resolve,reject) {
-				singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "yellow", "gridPiece");
-				resolve("ready");
-		});
-		gridReady.then(function(fulfilled){
-			
-			 $(".gridPiece").each(function(n){
-				for(var i=0; i < 4; i++){
-					singleAccess.buildPuzzle(3, '#grid'+ n + i, "puzzletile" + n + i, "blue", "puzzlePiece");
-				}
-			}); 
-			
-			
-			$('.gridPiece').each(function() {
-				$(this).attr("onclick", "colorDiv(this)");
-			});
-			
-		});
-		
-		
 
-		singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
-		
-		
-		calculateWrapperSize(imgSource, "#puzzleWrapper");
-		calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-		
-		$$(window).on('resize',function(page){
-			calculateWrapperSize(imgSource, "#puzzleWrapper");	
-			calculateWrapperSize(imgSource, "#puzzleGridWrapper");			
-		});	
-		
-	} 
-	
-	$(".overallGridPiece").click(function(event){
-			 var coordinate = (event.target.id).toString().split("d");
-			 $('.overallGridPiece:not(#'+ event.target.id + ')').toggle();
-			 $('.gridPiece:not(#grid' + coordinate[1] + ')').toggle();
-			 
-			 //TODO: image Object nur einmal bauen und mit getter holen.
-			 var imgObj = new Image();
-			 imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
-			 
-			 cropImage (imgObj, 375, 175, 75, 75, 600, 600);
-			
-	});
-	
-	
-	function calculateWrapperSize(imgURL, Element){
-		var image = new Image();
-		image.src = imgURL;
-		image.onload = function(){
-			var imgFormat = image.width / image.height;
-			var elemHeight = $(Element).height();
-			$(Element).css("width", elemHeight * imgFormat +"px");
-		}
-		delete(image);
-	}
-	
-	function cropImage (imgObj, sourceStartX, sourceStartY, cutWidth, cutHeight,  imgWidth, imgHeight){
-		var canvasA = document.createElement('canvas');
-			canvasA.width = imgWidth;
-			canvasA.height = imgHeight;
 
-			var context = canvasA.getContext('2d');
-			//		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
-			context.drawImage(imgObj, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
-			
-			$("#puzzleWrapper").append(canvasA);
-	}
+        //imgObj = new Image();
+        //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+
+        imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
+
+        var singleAccess = new SingleAccess();
+
+        $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
+
+        var gridReady = new Promise(function (resolve, reject) {
+            //singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "yellow", "gridPiece");
+            singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
+			resolve("ready");
+        });
+        gridReady.then(function (fulfilled) {
+            $(".gridPiece").each(function (n) {
+                for (var i = 0; i < 4; i++) {
+                    singleAccess.buildPuzzle(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece");
+                }
+                $('.puzzlePiece').each(function () {
+                    $(this).attr('onclick', 'hideDiv(this)');
+                });
+            });
+          /*  $('.gridPiece').each(function () {
+                $(this).attr("onclick", "colorDiv(this)");
+            }); */
+
+        });
+
+
+
+
+        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
+
+        calculateWrapperSize(imgSource, "#puzzleWrapper");
+        calculateWrapperSize(imgSource, "#puzzleGridWrapper");
+        calculateWrapperSize(imgSource, "#croppedImageDiv");
+
+        $$(window).on('resize', function (page) {
+            calculateWrapperSize(imgSource, "#puzzleWrapper");
+            calculateWrapperSize(imgSource, "#puzzleGridWrapper");
+            calculateWrapperSize(imgSource, "#croppedImageDiv");
+        });
+
+        $(".overallGridPiece").click(function (event) {
+
+
+            var coordinate = (event.target.id).toString().split("d");
+
+            $('.overallGridPiece').toggle();
+            $('.gridPiece:not(#grid' + coordinate[1] + ')').toggle();
+
+            //TODO: image Object nur einmal bauen und mit getter holen.
+            //var imgObj = new Image();
+            //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+
+            cropImage(75, 75, 150, 150, $('#croppedImageDiv').width(), $('#croppedImageDiv').height());
+            $('#grid'+ coordinate[1]).width('100%');
+            $('#grid'+ coordinate[1]).height('100%');
+
+            $('.page-content, .puzzle-page-content').append('<a class="button" id="backButton">Button</a>');
+            $('.button').click(function() {
+				restorePuzzle('#croppedImageDiv');
+                calculateTileSize(4,'gridPiece');
+                $('.gridPiece:not(#grid' + coordinate[1] + ')').toggle();
+                $('.overallGridPiece').toggle();
+                $('.button').remove()
+            })
+
+        });
+
+        function calculateWrapperSize(imgURL, element) {
+            var image = new Image();
+            image.src = imgURL;
+            image.onload = function () {
+                var imgFormat = image.width / image.height;
+                var elemHeight = $(element).height();
+                $(element).css("width", elemHeight * imgFormat + "px");
+            };
+            delete(image);
+        }
+
+        function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
+            loadImage.then(function (isLoaded) {
+                var canvasA = document.createElement('canvas');
+                canvasA.width = imgWidth;
+                canvasA.height = imgHeight;
+
+                var context = canvasA.getContext('2d');
+                //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
+                context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
+                $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
+
+            }).catch(function (notLoaded) {
+                console.log(notLoaded.message);
+            })
+        }
+
+    }
 	
 if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;
