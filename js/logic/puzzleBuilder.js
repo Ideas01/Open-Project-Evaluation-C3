@@ -12,6 +12,7 @@ function colorDiv(element){
 
 function hideDiv(element){
 	element.style.visibility = "hidden";
+	console.log(element.id);
 }
 
 function restorePuzzle(croppedID){
@@ -46,6 +47,40 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
 	
 
 };
+
+PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, namespace, color, setclassname, clickedPuzzleTiles) {
+
+    //create the div elements
+    for (var k = 0; k < tileCount; k++){
+        for(var l = 0; l < tileCount; l++){
+            //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
+            var newDiv = document.createElement("div");
+            newDiv.id = namespace + l + k;
+            newDiv.className = setclassname;
+			if(clickedPuzzleTiles.includes(newDiv.id)){
+                newDiv.style.visibility = "hidden";
+			}
+			else {
+                newDiv.style.visibility = "visible";
+            }
+            newDiv.style.backgroundColor = color;
+            //append newDiv to the DOM
+            if($(appendToDOM)){
+                $(appendToDOM).append(newDiv);
+            } else{
+                console.log("DOM Element konnte nicht gefunden werden.");
+            }
+        }
+    }
+    
+
+
+    var tile = calculateTileSize(tileCount, setclassname);
+
+
+};
+
+
 
 	/*tileCountWidth has been set to 12.
 	It has been generated with the following formular:
