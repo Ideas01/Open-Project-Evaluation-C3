@@ -5,33 +5,40 @@
 function PuzzleBuilder() {}
 
 /** onclick function to hide a div object **/
+
+function colorDiv(element){
+	element.style.backgroundColor = "pink";
+}
+
 function hideDiv(element){
-     element.style.visibility = "hidden";
+	element.style.visibility = "hidden";
+}
+
+function restorePuzzle(croppedID){
+	//set croppedImageDiv background to none
+    $(croppedID).css('background-image', 'none');
 }
 
 
-
-	
 /** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, namespace, color, setclassname) {
+PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
 	
 	//create the div elements
-    for (var i = 0; i < tileCount; i++){
-       for(var n = 0; n < tileCount; n++){
+    for (var k = 0; k < tileCount; k++){
+       for(var l = 0; l < tileCount; l++){
 		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
-			newDiv.id = namespace + '|' + i + "|" + n;
+			newDiv.id = namespace + l + k;
 			
             newDiv.className = setclassname;
             newDiv.style.visibility = "visible";
 			newDiv.style.backgroundColor = color;
             //append newDiv to the DOM
-            $(appendToClass).append(newDiv);
-			
-			
-            $('.' + setclassname).each(function() {
-                $(this).attr("onclick", "hideDiv(this)");
-            });
+			if($(appendToDOM)){
+				$(appendToDOM).append(newDiv);
+			} else{
+				console.log("DOM Element konnte nicht gefunden werden.");
+			}
 		}
     }
 	
@@ -46,7 +53,8 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToClass, namesp
 	 * minimum length (412px) / minimum touchable width (32px)
 	 * only the int value has been considered valid, because only complete tiles are necessary.
 	*/
-	function calculateTileSize(tileCount, setclassname){	
+	function calculateTileSize(tileCount, setclassname){
+		//TODO: zwischen ID und class unterscheiden
 		var percentageTileSize = 1/tileCount * 100;
 		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
 		

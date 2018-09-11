@@ -1,4 +1,4 @@
-var singleAccess = new SingleAccess();
+var imgObj;
 
 // Dom7
 var $$ = Dom7;
@@ -18,66 +18,48 @@ var app  = new Framework7({
       }
     };
   },
-  // App root methods
-  methods: {
-    helloWorld: function () {
-      app.dialog.alert('Hello World!');
-    },
-  },
   // App routes
   routes: routes,
 });
 
+
+
 app.on('pageInit', function(page){
+	var singleAccess = new SingleAccess();
+	
 	console.log(page.name + " wird ausgeführt");
 
 	if(page.name === 'home'){
+		
 		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
 		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		singleAccess.getToken(query);
 		
-		var T = null;	
-		
-		const asyncInit = $.ajax({
-			url: 'http://localhost:3000/',
-			headers: {
-				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
-				'Content-Type':'application/json',
-			},
-			method: 'POST',
-			dataType: 'json',
-			data: query,
-			success: function(r){
-			  console.log('success:' + r.data.createDevice.token);
-			  const globalData = r.data.createDevice.token;
-			  console.log("globaleVariable T:  " + globalData);
-			  T = globalData;
-			},
-			 error: function (r) {
-			}
-			
-		  });
-		
-			  
-		var tid = setInterval(function(){
-			if(T != null){
-				alert("habs" + T);
-				clearInterval(tid);
-				return T;
+		function getToken(callback){
+			var tid = setInterval(function(){
+				var T = singleAccess.getToken();
+				if(T != null){
+					alert("zurückgekommen als: " + T);
+					clearInterval(tid);
+					callback(T);
+					//do s.th with T.
 
-			}else{
-				console.log("leider nicht");
-			}
-			
-		  //before getting cleared by below timeout. 
+				}else{
+					//console.log("leider nicht");
+				}
 			},500); //delay is in milliseconds 
 
-		alert("after setInterval"); //called second
-
-		setTimeout(function(){
-			 clearInterval(tid); //clear above interval after 15 seconds
-		},15000);
+			setTimeout(function(){
+				 clearInterval(tid); //clear above interval after 15 seconds
+			},15000);
 		
+		}
+		
+		getToken(function(T){
+			console.log("callbacked: " + T)
+		});
 	}
+	
 	
 	if(page.name === 'sliders') {
         app.popup.close();
@@ -108,40 +90,135 @@ app.on('pageInit', function(page){
 	
 
 	
- 	if(page.name === 'puzzle'){
+ 	if(page.name === 'puzzle') {
+		var backgroundorigin = {};
+        
+		var loadImage = new Promise(function (resolve, reject) {
+            var backgroundImage = new Image();
+            backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
+            backgroundImage.crossOrigin = "Anonymous";
+            backgroundImage.onload = function () {
+				const originPictureWidth = backgroundImage.width;
+				const originPictureHeight = backgroundImage.height;
+				backgroundorigin = {image: backgroundImage, imgWidth: originPictureWidth , imgHeight: originPictureHeight}
+			    resolve(backgroundImage);
+            };
+            backgroundImage.onerror = function () {
+                reject("could not load the image");
+            };
+        });
 
-		
-		var windowWidth = window.screen.width;
-		var windowHeight = window.screen.height;
-	
-		imgSource= "https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg";
-		
-		var singleAccess = new SingleAccess();
-		singleAccess.buildPuzzle(12, "#puzzleWrapper", "grid", "blue", "puzzlePiece");
-		$('#puzzleWrapper').css("background-image", 'url("'+ imgSource + '")');
 
-		singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "grid", "lime", "gridPiece");
-		
-		calculateWrapperSize(imgSource, "#puzzleWrapper");
-		calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-		
-		$$(window).on('resize',function(page){
-			calculateWrapperSize(imgSource, "#puzzleWrapper");	
-			calculateWrapperSize(imgSource, "#puzzleGridWrapper");			
-		});	
-		
-	} 
-	
-	function calculateWrapperSize(imgURL, Element){
-		var image = new Image();
-		image.src = imgURL;
-		image.onload = function(){
-			var imgFormat = image.width / image.height;
-			var elemHeight = $(Element).height();
-			$(Element).css("width", elemHeight * imgFormat +"px");
-		}
-		delete(image);
-	}
+
+        //imgObj = new Image();
+        //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+
+        imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
+
+        var singleAccess = new SingleAccess();
+
+        $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
+
+        var gridReady = new Promise(function (resolve, reject) {
+            //singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "yellow", "gridPiece");
+            singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
+			resolve("ready");
+        });
+        gridReady.then(function (fulfilled) {
+            $(".gridPiece").each(function (n) {
+                for (var i = 0; i < 4; i++) {
+                    singleAccess.buildPuzzle(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece");
+                }
+                $('.puzzlePiece').each(function () {
+                    $(this).attr('onclick', 'hideDiv(this)');
+                });
+            });
+          /*  $('.gridPiece').each(function () {
+                $(this).attr("onclick", "colorDiv(this)");
+            }); */
+
+        });
+
+
+
+
+        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
+
+        calculateWrapperSize(imgSource, "#puzzleWrapper");
+        calculateWrapperSize(imgSource, "#puzzleGridWrapper");
+        calculateWrapperSize(imgSource, "#croppedImageDiv");
+
+        $$(window).on('resize', function (page) {
+            calculateWrapperSize(imgSource, "#puzzleWrapper");
+            calculateWrapperSize(imgSource, "#puzzleGridWrapper");
+            calculateWrapperSize(imgSource, "#croppedImageDiv");
+        });
+
+        $(".overallGridPiece").click(function (event) {
+
+
+            var coordinateOld = (event.target.id).toString().split("d");
+			var coordinate = Array.from(coordinateOld[1]);
+			var xCoordinate = coordinate[0];
+			var yCoordinate = coordinate[1];
+			console.log("X: "+xCoordinate + "y: "+ yCoordinate);
+            var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
+			
+			$('.overallGridPiece').toggle();
+            $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+
+            //TODO: image Object nur einmal bauen und mit getter holen.
+            //var imgObj = new Image();
+            //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+			
+            console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
+			
+			cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
+           // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
+			$('#grid'+ coordinateOld[1]).width('100%');
+            $('#grid'+ coordinateOld[1]).height('100%');
+
+
+
+            $('#puzzleWrapper').append('<a class="button" id="backButton"><i class="f7-icons">close</i></a>');
+            $('.button').click(function() {
+				restorePuzzle('#croppedImageDiv');
+                calculateTileSize(4,'gridPiece');
+                $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+                $('.overallGridPiece').toggle();
+                $('.button').remove()
+            })
+
+        });
+
+        function calculateWrapperSize(imgURL, element) {
+            var image = new Image();
+            image.src = imgURL;
+            image.onload = function () {
+                var imgFormat = image.width / image.height;
+                var elemHeight = $(element).height();
+                $(element).css("width", elemHeight * imgFormat + "px");
+            };
+            delete(image);
+        }
+
+        function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
+            loadImage.then(function (isLoaded) {
+                var canvasA = document.createElement('canvas');
+                canvasA.width = imgWidth;
+                canvasA.height = imgHeight;
+
+                var context = canvasA.getContext('2d');
+                //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
+                context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
+                $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
+
+            }).catch(function (notLoaded) {
+                //console.log(notLoaded.message);
+            })
+        }
+
+    }
 	
 if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;

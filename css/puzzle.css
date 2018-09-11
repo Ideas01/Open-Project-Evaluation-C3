@@ -1,4 +1,8 @@
 .puzzlePiece {
+<<<<<<< HEAD
+=======
+	z-index: 6;
+>>>>>>> zum-mergen
     position: relative;
     display: inline-block;
     z-index: 4;
@@ -6,6 +10,13 @@
 
 }
 
+#croppedImageDiv{
+	z-index: 4;
+	position: absolute;
+	background-size: cover;
+	top: 74px;
+	height: 80%;
+}
 
 .puzzleDiv {
     background-image: url("https://ze.tt/wp-content/uploads/2017/01/meer3-e1485169056783-1024x577.jpg");
@@ -17,3 +28,38 @@
 	height: 100%;	
     font-size: 0;
 }
+<<<<<<< HEAD
+=======
+
+#puzzleGridWrapper{
+	position: absolute;
+	top: 74px;
+	height: 80%;
+	font-size: 0;
+}
+
+.gridPiece{
+	z-index: 5;
+    position: relative;
+    display: inline-block;
+	
+}
+
+#puzzleImage{
+	z-index: 1;
+}
+
+.overallGridPiece{
+	z-index: 5;
+    position: relative;
+    display: inline-block;
+}
+
+#backButton{
+	position:absolute;
+	z-index:7;
+	top:0;
+	right:0;
+}
+
+>>>>>>> zum-mergen
