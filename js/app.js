@@ -30,9 +30,8 @@ app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
 	if(page.name === 'home'){
-		
 		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
-		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		//var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		singleAccess.getToken(query);
 		
 		function getToken(callback){

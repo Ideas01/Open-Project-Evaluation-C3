@@ -19,10 +19,10 @@
 		var dbZugriff = new DBZugriff();
 		
 		if(query != null){
-			console.log("query leer")
+			console.log("query voll")
 			return dbZugriff.callDatabase(query);
 		}else{
-			console.log("query voll")
+			console.log("query leer")
 			return dbZugriff.getToken();
 		}
 	};
