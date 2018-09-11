@@ -272,10 +272,9 @@ if (page.name === 'P2'){
 										'</div>' +
 										'<div class="page-content">' +
 											'<div class="block">' +
-												'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-												'<div class="next" text-align="center">' +
-													'<a href="/prototype/" class="button"> Zurück </a>' +
-													'<a href="/sliders/" class="button"> Weiter </a>' +
+                                                     '<p>Danke, dass du dir die Zeit genommen hast! Du kannst dir jetzt die Ansichten nochmal anschauen oder die Bewertung beginnen. </p>' +
+                                                     '<a href="#" class="button popup-close"> Zurück </a>' +
+                                                     '<a href="/sliders/" class="button popup-close"> Weiter </a>' +
 												'</div>' +
 											'</div>' +
 										'</div>' +
@@ -527,7 +526,7 @@ app.popup.open(popup.el,true);
 		}
 	  });
 			app.popup.open(popup.el,true);
-	 });
+	 }); */
 	
 });
 
