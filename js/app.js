@@ -180,13 +180,13 @@ app.on('pageInit', function(page){
 
 
 
-            $('#puzzleWrapper').append('<a class="button" id="backButton"><i class="f7-icons">close</i></a>');
-            $('.button').click(function() {
+            $('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+            $('#backButton').click(function() {
 				restorePuzzle('#croppedImageDiv');
                 calculateTileSize(4,'gridPiece');
                 $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
                 $('.overallGridPiece').toggle();
-                $('.button').remove()
+                $('#backButton').remove()
             })
 
         });
