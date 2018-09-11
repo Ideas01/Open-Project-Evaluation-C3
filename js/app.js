@@ -527,7 +527,7 @@ app.popup.open(popup.el,true);
 		}
 	  });
 			app.popup.open(popup.el,true);
-	 });
+	 });*/
 	
 });
 
