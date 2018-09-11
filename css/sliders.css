@@ -169,7 +169,7 @@
 
 
 /*********** popupStart end **************/
-.button {
+.md .button {
     border: 0px solid #0a3c59;
     background: #d40055;
     background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
@@ -192,6 +192,13 @@
     text-decoration: none;
     vertical-align: middle;
     margin: 0.3%;
+    line-height: 36px;
+    height: 36px;
+    text-transform: uppercase;
+    min-width: 64px;
+    padding: 0 8px;
+    width: 50%;
+    left: 25%;
 }
 .button:active {
     text-shadow: #1d1f21 0 1px 0;
