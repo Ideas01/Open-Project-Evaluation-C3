@@ -45,7 +45,7 @@ app.on('pageInit', function(page){
 					//do s.th with T.
 
 				}else{
-					console.log("leider nicht");
+					//console.log("leider nicht");
 				}
 			},500); //delay is in milliseconds 
 
@@ -157,15 +157,15 @@ app.on('pageInit', function(page){
         $(".overallGridPiece").click(function (event) {
 
 
-            var coordinateold = (event.target.id).toString().split("d");
-			var coordinate = Array.from(coordinateold[1]);
+            var coordinateOld = (event.target.id).toString().split("d");
+			var coordinate = Array.from(coordinateOld[1]);
 			var xCoordinate = coordinate[0];
 			var yCoordinate = coordinate[1];
 			console.log("X: "+xCoordinate + "y: "+ yCoordinate);
             var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
 			
 			$('.overallGridPiece').toggle();
-            $('.gridPiece:not(#grid' + coordinateold[1] + ')').toggle();
+            $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
 
             //TODO: image Object nur einmal bauen und mit getter holen.
             //var imgObj = new Image();
@@ -175,16 +175,16 @@ app.on('pageInit', function(page){
 			
 			cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
            // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
-			$('#grid'+ coordinateold[1]).width('100%');
-            $('#grid'+ coordinateold[1]).height('100%');
+			$('#grid'+ coordinateOld[1]).width('100%');
+            $('#grid'+ coordinateOld[1]).height('100%');
 
-			
-			//TODO: noch fixen.
-            $('.page-content, .puzzle-page-content').append('<a class="button" id="backButton">Button</a>');
+
+
+            $('#puzzleWrapper').append('<a class="button" id="backButton"><i class="f7-icons">close</i></a>');
             $('.button').click(function() {
 				restorePuzzle('#croppedImageDiv');
                 calculateTileSize(4,'gridPiece');
-                $('.gridPiece:not(#grid' + coordinate[1] + ')').toggle();
+                $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
                 $('.overallGridPiece').toggle();
                 $('.button').remove()
             })

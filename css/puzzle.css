@@ -46,4 +46,10 @@
     display: inline-block;
 }
 
+#backButton{
+	position:absolute;
+	z-index:7;
+	top:0;
+	right:0;
+}
 
