@@ -164,22 +164,6 @@ app.on('pageInit', function(page){
         });
 
         $(".overallGridPiece").click(function (event) {
-
-
-            var coordinateOld = (event.target.id).toString().split("d");
-			var coordinate = Array.from(coordinateOld[1]);
-			var xCoordinate = coordinate[0];
-			var yCoordinate = coordinate[1];
-			console.log("X: "+xCoordinate + "y: "+ yCoordinate);
-            var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
-			
-			$('.overallGridPiece').toggle();
-            $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-
-            //TODO: image Object nur einmal bauen und mit getter holen.
-            //var imgObj = new Image();
-            //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
-=======
 			var coordinateOld = null;
 			var coordinate = null;
 			
@@ -188,7 +172,6 @@ app.on('pageInit', function(page){
 				coordinateOld = (event.target.id).toString().split("d");
 				resolve(coordinateOld);
 			}); 
->>>>>>> puzzle-weiter
 			
 			getOldCoordinate.then(function(){
 				console.log("promise solved");
@@ -199,28 +182,12 @@ app.on('pageInit', function(page){
 				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
 				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
 			
-<<<<<<< HEAD
-			cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
-           // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
-			$('#grid'+ coordinateOld[1]).width('100%');
-            $('#grid'+ coordinateOld[1]).height('100%');
 
-
-
-            $('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
-            $('#backButton').click(function() {
-				restorePuzzle('#croppedImageDiv');
-                calculateTileSize(4,'gridPiece');
-                $('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-                $('.overallGridPiece').toggle();
-                $('#backButton').remove()
-            })
-=======
+								
 				$('.overallGridPiece').toggle();
 				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
 			
 				//TODO: image Object nur einmal bauen und mit getter holen.
-				//var imgObj = new Image();
 				//imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
 				
 				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
@@ -233,17 +200,16 @@ app.on('pageInit', function(page){
 				
 
 
-				$('#puzzleWrapper').append('<a class="button" id="backButton"><i class="f7-icons">close</i></a>');
-				$('.button').click(function() {
+				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+				$('#backButton').click(function() {
 					restorePuzzle('#croppedImageDiv');
 					calculateTileSize(4,'gridPiece');
 					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
 					$('.overallGridPiece').toggle();
-					$('.button').remove()
+					$('#backButton').remove()
 				})
 			
 			});
->>>>>>> puzzle-weiter
 
         });
 
