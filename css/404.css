@@ -58,31 +58,6 @@ body{
     text-decoration: none;
     margin-right: 10px
 }
-/*.right{
-    float:right;
-    width:60%;
-}*/
-
-hr{
-    padding: 0;
-    border: none;
-    border-top: 5px solid #fff;
-    color: #fff;
-    text-align: center;
-    margin: 0px auto;
-    width: 420px;
-    height:10px;
-    z-index: -10;
-}
-hr:after {
-    content: "\2022";
-    display: inline-block;
-    position: relative;
-    top: -0.75em;
-    font-size: 2em;
-    padding: 0 0.2em;
-    
-}
 
 .cloud {
     width: 350px; height: 120px;
