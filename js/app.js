@@ -58,7 +58,7 @@ app.on('pageInit', function(page){
 			console.log("callbacked: " + T)
 		});
 	}
-	
+	/****************************** home end ****************************/
 	
 	if(page.name === 'sliders') {
         app.popup.close();
@@ -86,7 +86,7 @@ app.on('pageInit', function(page){
 			}
 		});
     }
-	
+	/****************************** sliders end ****************************/
 
 	
  	if(page.name === 'puzzle') {
@@ -108,26 +108,20 @@ app.on('pageInit', function(page){
             };
         });
 
-
-
-        //imgObj = new Image();
-        //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
-
         imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
 
         var singleAccess = new SingleAccess();
 
         $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
-
+		
         var gridReady = new Promise(function (resolve, reject) {
-            //singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "yellow", "gridPiece");
             singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
 			resolve("ready");
         });
         gridReady.then(function (fulfilled) {
             $(".gridPiece").each(function (n) {
                 for (var i = 0; i < 4; i++) {
-                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece",clickedPuzzleTiles);
+                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
                 }
                 });
 
@@ -136,21 +130,7 @@ app.on('pageInit', function(page){
                 clickedPuzzleTiles.push(event.target.id);
                 console.log(clickedPuzzleTiles);
             });
-              // $('.puzzlePiece').each(function () {
-             //       $(this).attr('onclick', 'hideDiv(this)');
-              //  });
-
-            });
-
-          /*  $('.gridPiece').each(function () {
-                $(this).attr("onclick", "colorDiv(this)");
-            }); */
-
-
-
-
-
-
+ 
         singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
 
         calculateWrapperSize(imgSource, "#puzzleWrapper");
@@ -188,7 +168,6 @@ app.on('pageInit', function(page){
 				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
 			
 				//TODO: image Object nur einmal bauen und mit getter holen.
-				//imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
 				
 				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
 				
@@ -212,7 +191,10 @@ app.on('pageInit', function(page){
 			});
 
         });
-
+		
+		function buildMiniOverview(){
+			
+		}
 
 
 
@@ -244,6 +226,8 @@ app.on('pageInit', function(page){
         }
 
     }
+	
+	/****************************** puzzle end ****************************/
 	
 if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;
@@ -361,7 +345,9 @@ if (page.name === 'P2'){
 	 });
 
 	}
-       
+    
+	/****************************** P2 end ****************************/
+	
 	$(".button").click(function(){
 		var popup = app.popup.create({
 			// The Popup

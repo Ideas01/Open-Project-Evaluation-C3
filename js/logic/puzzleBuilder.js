@@ -15,8 +15,8 @@ function hideDiv(element){
 	console.log(element.id);
 }
 
+//set croppedImageDiv background to none
 function restorePuzzle(croppedID){
-	//set croppedImageDiv background to none
     $(croppedID).css('background-image', 'none');
 }
 
