@@ -53,3 +53,32 @@
 	right:0;
 }
 
+
+/********** mini Overview start **********/
+#miniOverview{
+	position: absolute;
+	background-size: cover;
+	top: 25%;
+	left: 60%;
+	width: 87px;
+	height: 75px;
+	background-color: red;
+	font-size: 0;
+}
+
+.miniOverviewGridPiece, .miniOverviewPuzzlePiece{
+	z-index: 4;
+    position: relative;
+    display: inline-block;
+}
+
+#overallGridMarker{
+	z-index: 5;
+	display: none;
+	position:absolute;
+	border: solid 1px red;
+	width: calc(99%/4);
+	height: calc(99%/4);
+}
+	
+/********** mini Overview end **********/

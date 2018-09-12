@@ -38,7 +38,7 @@ app.on('pageInit', function(page){
 			var tid = setInterval(function(){
 				var T = singleAccess.getToken();
 				if(T != null){
-					alert("zurückgekommen als: " + T);
+					console.log("zurückgekommen als: " + T);
 					clearInterval(tid);
 					callback(T);
 					//do s.th with T.
@@ -118,19 +118,21 @@ app.on('pageInit', function(page){
             singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
 			resolve("ready");
         });
+		
         gridReady.then(function (fulfilled) {
             $(".gridPiece").each(function (n) {
                 for (var i = 0; i < 4; i++) {
                     singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
                 }
-                });
+            });
 
             $('.puzzlePiece').click(function (event) {
                 event.target.style.visibility = "hidden";
                 clickedPuzzleTiles.push(event.target.id);
                 console.log(clickedPuzzleTiles);
             });
- 
+		});
+		
         singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
 
         calculateWrapperSize(imgSource, "#puzzleWrapper");
@@ -157,11 +159,15 @@ app.on('pageInit', function(page){
 				console.log("promise solved");
 				coordinate = Array.from(coordinateOld[1]);
 				
+				var gridMarker = $("#overallGridMarker");
+				
 				var xCoordinate = coordinate[0];
 				var yCoordinate = coordinate[1];
 				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
 				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
-			
+				
+				gridMarker.toggle();
+				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
 
 								
 				$('.overallGridPiece').toggle();
@@ -181,6 +187,8 @@ app.on('pageInit', function(page){
 
 				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
 				$('#backButton').click(function() {
+					gridMarker.toggle();
+					
 					restorePuzzle('#croppedImageDiv');
 					calculateTileSize(4,'gridPiece');
 					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
@@ -192,10 +200,7 @@ app.on('pageInit', function(page){
 
         });
 		
-		function buildMiniOverview(){
-			
-		}
-
+		
 
 
         function calculateWrapperSize(imgURL, element) {
@@ -219,11 +224,39 @@ app.on('pageInit', function(page){
                 //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
                 context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
                 $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
-
+				
+				
             }).catch(function (notLoaded) {
                 //console.log(notLoaded.message);
             })
         }
+		
+		buildMiniOverview(imgSource, "#miniOverview");
+		
+		
+		function buildMiniOverview(image, div){
+			var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
+			calculateWrapperSize(image, div);
+			$(div).css("background-image", 'url("'+ image + '")');
+			
+			var originDiv = '#miniOverview';
+			var named = "miniOverviewGrid";
+			
+			var gridReady = new Promise(function (resolve, reject) {
+				singleAccess.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
+				resolve("ready");
+			});
+			
+			gridReady.then(function (fulfilled) {
+				$(".gridPiece").each(function (n) {
+					for (var i = 0; i < 4; i++) {
+						singleAccess.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
+					}
+				});
+			});
+			
+		}
+
 
     }
 	
@@ -345,6 +378,7 @@ if (page.name === 'P2'){
 	 });
 
 	}
+	
     
 	/****************************** P2 end ****************************/
 	
