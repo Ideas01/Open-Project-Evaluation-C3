@@ -91,6 +91,7 @@ app.on('pageInit', function(page){
 	
  	if(page.name === 'puzzle') {
 		var backgroundorigin = {};
+		var clickedPuzzleTiles = ["puzzletile0010","puzzletile0000", "puzzletile3322", "puzzletile0020"];
         
 		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
@@ -99,7 +100,7 @@ app.on('pageInit', function(page){
             backgroundImage.onload = function () {
 				const originPictureWidth = backgroundImage.width;
 				const originPictureHeight = backgroundImage.height;
-				backgroundorigin = {image: backgroundImage, imgWidth: originPictureWidth , imgHeight: originPictureHeight}
+				backgroundorigin = {image: backgroundImage, imgWidth: originPictureWidth , imgHeight: originPictureHeight};
 			    resolve(backgroundImage);
             };
             backgroundImage.onerror = function () {
@@ -126,17 +127,26 @@ app.on('pageInit', function(page){
         gridReady.then(function (fulfilled) {
             $(".gridPiece").each(function (n) {
                 for (var i = 0; i < 4; i++) {
-                    singleAccess.buildPuzzle(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece");
+                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece",clickedPuzzleTiles);
                 }
-                $('.puzzlePiece').each(function () {
-                    $(this).attr('onclick', 'hideDiv(this)');
                 });
+
+            $('.puzzlePiece').click(function (event) {
+                event.target.style.visibility = "hidden";
+                clickedPuzzleTiles.push(event.target.id);
+                console.log(clickedPuzzleTiles);
             });
+              // $('.puzzlePiece').each(function () {
+             //       $(this).attr('onclick', 'hideDiv(this)');
+              //  });
+
+            });
+
           /*  $('.gridPiece').each(function () {
                 $(this).attr("onclick", "colorDiv(this)");
             }); */
 
-        });
+
 
 
 
@@ -169,9 +179,27 @@ app.on('pageInit', function(page){
             //TODO: image Object nur einmal bauen und mit getter holen.
             //var imgObj = new Image();
             //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+=======
+			var coordinateOld = null;
+			var coordinate = null;
 			
-            console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
+            
+			var getOldCoordinate = new Promise(function(resolve){
+				coordinateOld = (event.target.id).toString().split("d");
+				resolve(coordinateOld);
+			}); 
+>>>>>>> puzzle-weiter
 			
+			getOldCoordinate.then(function(){
+				console.log("promise solved");
+				coordinate = Array.from(coordinateOld[1]);
+				
+				var xCoordinate = coordinate[0];
+				var yCoordinate = coordinate[1];
+				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
+				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
+			
+<<<<<<< HEAD
 			cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
            // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
 			$('#grid'+ coordinateOld[1]).width('100%');
@@ -187,8 +215,40 @@ app.on('pageInit', function(page){
                 $('.overallGridPiece').toggle();
                 $('#backButton').remove()
             })
+=======
+				$('.overallGridPiece').toggle();
+				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+			
+				//TODO: image Object nur einmal bauen und mit getter holen.
+				//var imgObj = new Image();
+				//imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+				
+				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
+				
+				cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
+			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
+				$('#grid'+ coordinateOld[1]).width('100%');
+				$('#grid'+ coordinateOld[1]).height('100%');
+				
+				
+
+
+				$('#puzzleWrapper').append('<a class="button" id="backButton"><i class="f7-icons">close</i></a>');
+				$('.button').click(function() {
+					restorePuzzle('#croppedImageDiv');
+					calculateTileSize(4,'gridPiece');
+					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+					$('.overallGridPiece').toggle();
+					$('.button').remove()
+				})
+			
+			});
+>>>>>>> puzzle-weiter
 
         });
+
+
+
 
         function calculateWrapperSize(imgURL, element) {
             var image = new Image();

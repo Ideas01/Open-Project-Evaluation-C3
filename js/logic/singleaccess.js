@@ -8,6 +8,13 @@
 		puzzleBuilder.buildPuzzle(tileCount, appendToDOM, namespace, color, setclassname);
 	};
 
+    SingleAccess.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, namespace, color, setclassname, clickedPuzzleTiles) {
+
+        var puzzleBuilder = new PuzzleBuilder();
+        puzzleBuilder.buildPuzzleTiles(tileCount, appendToDOM, namespace, color, setclassname,clickedPuzzleTiles);
+    };
+
+
 	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
 
 		var sliderFactory = new SliderFactory();
