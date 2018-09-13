@@ -116,31 +116,40 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
     });
 };
 
-PuzzleBuilder.prototype.calculateWrapperSize = function (imgURL, element, windowSize, percentageSize) {
+PuzzleBuilder.prototype.calculateWrapperSize = function (image, element, percentageSize) {
     var landscape = isLandscape();
-	var elemHeight = $(element).height();
-	var elemWidth = $(element).width();
-	var image = new Image();
-    image.src = imgURL;
 	
-    image.onload = function () {
+	
+		
 		if(landscape == true){
 			var imgFormat = image.width / image.height;
-			$(element).css("height", percentageSize + '%');
-			console.log("ausgerechnet: " + percentageSize);
-			$(element).css("width", elemHeight * imgFormat + "px");
+			
+			new Promise(function(resolve){
+				$(element).css("height", percentageSize + '%');
+				resolve(1);
+			}).then(function(){
+				console.log("ausgerechnet: " + $(element).height() + "  " + elemHeight * imgFormat);
+				
+				var elemHeight = $(element).ready().height();
+				$(element).css("width", elemHeight * imgFormat + "px");
+			});
+			
 			
 		}else{
 			var imgFormat = image.height / image.width;
-			$(element).css("width", percentageSize + '%');
-			console.log("gerechnet2: " + windowSize );
-			$(element).css("height", elemWidth * imgFormat + "px");
+			new Promise(function(resolve){
+				$(element).css("width", percentageSize + '%');
+				resolve(1);
+			}).then(function(){
+				console.log( "landscaped: " +  elemWidth * imgFormat +"  "+ $(element).width()  );
+				
+				var elemWidth = $(element).ready().width();
+				$(element).css("height", elemWidth * imgFormat + "px"); 
+			});
+			
 			
 		}
 
-        
-    };
-    delete(image);
 };
 
 

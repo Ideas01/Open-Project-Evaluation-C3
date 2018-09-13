@@ -149,7 +149,7 @@ app.on('pageInit', function(page){
  	if(page.name === 'puzzle') {
 		var backgroundorigin = {};
 		var clickedPuzzleTiles = ["puzzletile0010","puzzletile0000", "puzzletile3322", "puzzletile0020"];
-		var windowSize = {"width": $(window).width(), "height": $(window).height()}
+		
         
 		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
@@ -165,45 +165,51 @@ app.on('pageInit', function(page){
                 reject("could not load the image");
             };
         });
+		loadImage.then(function(imageObject){
+			console.log("image loaded")
+			var imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
+			
+			
+			$('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
+				
+			var gridReady = new Promise(function (resolve, reject) {
+				singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
+				resolve("ready");
+			});
+			
+			gridReady.then(function (fulfilled) {
+				$(".gridPiece").each(function (n) {
+					for (var i = 0; i < 4; i++) {
+						singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
+					}
+				});
 
-        imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
-
-        var singleAccess = new SingleAccess();
-
-        $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
+				$('.puzzlePiece').click(function (event) {
+					event.target.style.visibility = "hidden";
+					clickedPuzzleTiles.push(event.target.id);
+					console.log(clickedPuzzleTiles);
+				});
+			});
+				
 		
-        var gridReady = new Promise(function (resolve, reject) {
-            singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
-			resolve("ready");
-        });
-		
-        gridReady.then(function (fulfilled) {
-            $(".gridPiece").each(function (n) {
-                for (var i = 0; i < 4; i++) {
-                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
-                }
-            });
+			singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
+			singleAccess.calculateWrapperSize(imageObject, "#puzzleWrapper", 80);
+			singleAccess.calculateWrapperSize(imageObject, "#puzzleGridWrapper", 80);
+			singleAccess.calculateWrapperSize(imageObject, "#croppedImageDiv", 80);
 
-            $('.puzzlePiece').click(function (event) {
-                event.target.style.visibility = "hidden";
-                clickedPuzzleTiles.push(event.target.id);
-                console.log(clickedPuzzleTiles);
-            });
+				$(window).on('resize', function (page) {
+					
+						windowSize = {"width": $(window).width(), "height": $(window).height()}
+						
+						console.log("resized");
+						singleAccess.calculateWrapperSize(imageObject, "#puzzleWrapper", 80);
+						singleAccess.calculateWrapperSize(imageObject, "#puzzleGridWrapper", 80);
+						singleAccess.calculateWrapperSize(imageObject, "#croppedImageDiv", 80);
+				});
+				
 		});
-		
-        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
-
-        singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper", windowSize, 80);
-        singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper", windowSize, 80);
-        singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv", windowSize, 80);
-
-        $$(window).on('resize', function (page) {
-			windowSize = {"width": $(window).width(), "height": $(window).height()}
-			console.log("resized");
-            singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper", windowSize, 80);
-            singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper", windowSize, 80);
-            singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv", windowSize, 80);
-        });
+        
+			
 
         $(".overallGridPiece").click(function (event) {
 			var coordinateOld = null;
@@ -256,7 +262,7 @@ app.on('pageInit', function(page){
         });
 
 
-        function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
+        /* function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
             loadImage.then(function (isLoaded) {
                 var canvasA = document.createElement('canvas');
                 canvasA.width = imgWidth;
@@ -269,10 +275,10 @@ app.on('pageInit', function(page){
             }).catch(function (notLoaded) {
                 //console.log(notLoaded.message);
             })
-        }
+        } */
 
         //(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles)
-		singleAccess.buildMiniOverview(imgSource,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+		//singleAccess.buildMiniOverview(imgSource,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
     }
 	
 	/****************************** puzzle end ****************************/
