@@ -30,13 +30,16 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
 		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
 			newDiv.id = namespace + l + k;
+			newDiv.className = setclassname;
 			
-            newDiv.className = setclassname;
-            newDiv.style.visibility = "visible";
-			newDiv.style.backgroundColor = color;
             //append newDiv to the DOM
 			if($(appendToDOM)){
-				$(appendToDOM).append(newDiv);
+				$(appendToDOM).append(newDiv).ready(function(){
+					$('.' + setclassname).css({
+						"visibility": "visible",
+						"background-color": color 
+					});
+				});
 			} else{
 				console.log("DOM Element konnte nicht gefunden werden.");
 			}

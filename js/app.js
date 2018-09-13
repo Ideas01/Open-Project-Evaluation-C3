@@ -184,7 +184,7 @@ app.on('pageInit', function(page){
 				gridMarker.toggle();
 				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
 
-								
+
 				$('.overallGridPiece').toggle();
 				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
 			
