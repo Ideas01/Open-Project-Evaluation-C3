@@ -21,22 +21,25 @@ function restorePuzzle(croppedID){
 }
 
 
-/** Build the puzzle **/
+//** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
-	
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
 		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
 			newDiv.id = namespace + l + k;
-            newDiv.className = setclassname;
-            newDiv.style.visibility = "visible";
-			newDiv.style.backgroundColor = color;
+			newDiv.className = setclassname;
+			
             //append newDiv to the DOM
 			if($(appendToDOM)){
-				$(appendToDOM).append(newDiv);
-			} else{
+				$(appendToDOM).append(newDiv).ready(function(){
+					$('.' + setclassname).css({
+						"visibility": "visible",
+						"background-color": color,
+					});
+				});
+			}else {
 				console.log("DOM Element konnte nicht gefunden werden.");
 			}
 		}
@@ -113,13 +116,29 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
     });
 };
 
-PuzzleBuilder.prototype.calculateWrapperSize = function (imgURL, element) {
-    var image = new Image();
+PuzzleBuilder.prototype.calculateWrapperSize = function (imgURL, element, windowSize, percentageSize) {
+    var landscape = isLandscape();
+	var elemHeight = $(element).height();
+	var elemWidth = $(element).width();
+	var image = new Image();
     image.src = imgURL;
+	
     image.onload = function () {
-        var imgFormat = image.width / image.height;
-        var elemHeight = $(element).height();
-        $(element).css("width", elemHeight * imgFormat + "px");
+		if(landscape == true){
+			var imgFormat = image.width / image.height;
+			$(element).css("height", percentageSize + '%');
+			console.log("ausgerechnet: " + percentageSize);
+			$(element).css("width", elemHeight * imgFormat + "px");
+			
+		}else{
+			var imgFormat = image.height / image.width;
+			$(element).css("width", percentageSize + '%');
+			console.log("gerechnet2: " + windowSize );
+			$(element).css("height", elemWidth * imgFormat + "px");
+			
+		}
+
+        
     };
     delete(image);
 };

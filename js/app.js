@@ -149,6 +149,7 @@ app.on('pageInit', function(page){
  	if(page.name === 'puzzle') {
 		var backgroundorigin = {};
 		var clickedPuzzleTiles = ["puzzletile0010","puzzletile0000", "puzzletile3322", "puzzletile0020"];
+		var windowSize = {"width": $(window).width(), "height": $(window).height()}
         
 		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
@@ -192,14 +193,16 @@ app.on('pageInit', function(page){
 		
         singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
 
-        singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper");
-        singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-        singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv");
+        singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper", windowSize, 80);
+        singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper", windowSize, 80);
+        singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv", windowSize, 80);
 
         $$(window).on('resize', function (page) {
-            singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper");
-            singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-            singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv");
+			windowSize = {"width": $(window).width(), "height": $(window).height()}
+			console.log("resized");
+            singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper", windowSize, 80);
+            singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper", windowSize, 80);
+            singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv", windowSize, 80);
         });
 
         $(".overallGridPiece").click(function (event) {

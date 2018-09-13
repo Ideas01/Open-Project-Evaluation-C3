@@ -19,9 +19,9 @@
         puzzleBuilder.buildMiniOverview(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles);
 	};
 
-    SingleAccess.prototype.calculateWrapperSize = function (imgURL, element){
+    SingleAccess.prototype.calculateWrapperSize = function (imgURL, element, windowSize, percentageSize){
     	var puzzleBuilder = new PuzzleBuilder();
-    	puzzleBuilder.calculateWrapperSize(imgURL, element);
+    	puzzleBuilder.calculateWrapperSize(imgURL, element,  windowSize, percentageSize);
 	};
 
 	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
