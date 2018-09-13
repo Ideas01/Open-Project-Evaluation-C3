@@ -103,6 +103,48 @@ app.on('pageInit', function(page){
     }
 	/****************************** sliders end ****************************/
 
+
+	if(page.name === 'puzzleGuess'){
+		var guessItems = {
+			Tiere : [
+				'Katze','Hund','Maus'
+			],
+			Autos : [
+				'Audi','BMW','Ford','Mercedes'
+			],
+			Sport: [
+				'Fußball', 'Basketball', 'Fechten', 'Volleyball', 'Eiskunstlaufen','Kugelstoßen'
+			]
+		};
+
+
+
+        var imageSource;
+
+        var loadImage = new Promise(function (resolve, reject) {
+            var backgroundImage = new Image();
+            backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
+            backgroundImage.crossOrigin = "Anonymous";
+            backgroundImage.onload = function () {
+                resolve(backgroundImage);
+            };
+            backgroundImage.onerror = function () {
+                reject("could not load the image");
+            };
+        });
+
+        loadImage.then(function (backgroundImage) {
+			console.log(backgroundImage.src);
+        	imageSource = backgroundImage.src;
+            //image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles
+        	singleAccess.buildMiniOverview(imageSource,'#puzzleOverview',"#puzzleOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+        });
+
+
+		//baue Tabelle mit Begriffen
+
+	}
+    /****************************** puzzleGuess end ****************************/
 	
  	if(page.name === 'puzzle') {
 		var backgroundorigin = {};
@@ -150,14 +192,14 @@ app.on('pageInit', function(page){
 		
         singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
 
-        calculateWrapperSize(imgSource, "#puzzleWrapper");
-        calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-        calculateWrapperSize(imgSource, "#croppedImageDiv");
+        singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper");
+        singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper");
+        singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv");
 
         $$(window).on('resize', function (page) {
-            calculateWrapperSize(imgSource, "#puzzleWrapper");
-            calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-            calculateWrapperSize(imgSource, "#croppedImageDiv");
+            singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper");
+            singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper");
+            singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv");
         });
 
         $(".overallGridPiece").click(function (event) {
@@ -184,7 +226,7 @@ app.on('pageInit', function(page){
 				gridMarker.toggle();
 				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
 
-
+								
 				$('.overallGridPiece').toggle();
 				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
 			
@@ -196,9 +238,6 @@ app.on('pageInit', function(page){
 			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
 				$('#grid'+ coordinateOld[1]).width('100%');
 				$('#grid'+ coordinateOld[1]).height('100%');
-				
-				
-
 
 				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
 				$('#backButton').click(function() {
@@ -210,13 +249,8 @@ app.on('pageInit', function(page){
 					$('.overallGridPiece').toggle();
 					$('#backButton').remove()
 				})
-			
 			});
-
         });
-		
-		
-
 
 
         function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
@@ -229,40 +263,13 @@ app.on('pageInit', function(page){
                 //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
                 context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
                 $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
-				
-				
             }).catch(function (notLoaded) {
                 //console.log(notLoaded.message);
             })
         }
-		
-		buildMiniOverview(imgSource, "#miniOverview");
-		
-		
-		function buildMiniOverview(image, div){
-			var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
-			calculateWrapperSize(image, div);
-			$(div).css("background-image", 'url("'+ image + '")');
-			
-			var originDiv = '#miniOverview';
-			var named = "miniOverviewGrid";
-			
-			var gridReady = new Promise(function (resolve, reject) {
-				singleAccess.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
-				resolve("ready");
-			});
-			
-			gridReady.then(function (fulfilled) {
-				$(".gridPiece").each(function (n) {
-					for (var i = 0; i < 4; i++) {
-						singleAccess.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
-					}
-				});
-			});
-			
-		}
 
-
+        //(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles)
+		singleAccess.buildMiniOverview(imgSource,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
     }
 	
 	/****************************** puzzle end ****************************/
@@ -441,7 +448,53 @@ app.popup.open(popup.el,true);
 	var versuch;
 	$(".next-link").click(function () {
 		
+		/* var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
+		var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		
+		var T = null;	
+		
+		const asyncInit = $.ajax({
+			url: 'http://localhost:3000/',
+			headers: {
+				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
+				'Content-Type':'application/json',
+			},
+			method: 'POST',
+			dataType: 'json',
+			data: query,
+			success: function(r){
+			  console.log('success:' + r.data.createDevice.token);
+			  const globalData = r.data.createDevice.token;
+			  console.log("globaleVariable T:  " + globalData);
+			  T = globalData;
+			},
+			 error: function (r) {
+				console.log('error' + r.Token);
+			}
+			
+		  });
+		
+			  
+		var tid = setInterval(function(){
+			if(T != null){
+				alert("habs" + T);
+				clearInterval(tid);
+				return T;
+
+			}else{
+				console.log("leider nicht");
+			}
+			
+		  //before getting cleared by below timeout. 
+			},500); //delay is in milliseconds 
+
+		alert("after setInterval"); //called second
+
+		setTimeout(function(){
+			 clearInterval(tid); //clear above interval after 15 seconds
+		},15000);
+		
+		console.log("Tneu" + T); */
 		
 	}); 
 	

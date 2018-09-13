@@ -14,6 +14,15 @@
         puzzleBuilder.buildPuzzleTiles(tileCount, appendToDOM, namespace, color, setclassname,clickedPuzzleTiles);
     };
 
+    SingleAccess.prototype.buildMiniOverview = function(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles){
+        var puzzleBuilder = new PuzzleBuilder();
+        puzzleBuilder.buildMiniOverview(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles);
+	};
+
+    SingleAccess.prototype.calculateWrapperSize = function (imgURL, element){
+    	var puzzleBuilder = new PuzzleBuilder();
+    	puzzleBuilder.calculateWrapperSize(imgURL, element);
+	};
 
 	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
 
@@ -26,10 +35,10 @@
 		var dbZugriff = new DBZugriff();
 		
 		if(query != null){
-			console.log("query voll")
+			console.log("query voll");
 			return dbZugriff.callDatabase(query);
 		}else{
-			console.log("query leer")
+			console.log("query leer");
 			return dbZugriff.getToken();
 		}
 	};

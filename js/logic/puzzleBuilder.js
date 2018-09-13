@@ -23,26 +23,20 @@ function restorePuzzle(croppedID){
 
 /** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
-	var landscape = isLandscape();
+	
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
 		   //TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 			var newDiv = document.createElement("div");
 			newDiv.id = namespace + l + k;
-			newDiv.className = setclassname;
-			
+            newDiv.className = setclassname;
+            newDiv.style.visibility = "visible";
+			newDiv.style.backgroundColor = color;
             //append newDiv to the DOM
-			if($(appendToDOM) && landscape == true){
-				$(appendToDOM).append(newDiv).ready(function(){
-					$('.' + setclassname).css({
-						"visibility": "visible",
-						"background-color": color 
-					});
-				});
-			} else if($(appendToDOM) && landscape == false){
-				
-			}else {
+			if($(appendToDOM)){
+				$(appendToDOM).append(newDiv);
+			} else{
 				console.log("DOM Element konnte nicht gefunden werden.");
 			}
 		}
@@ -82,9 +76,7 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 
     var tile = calculateTileSize(tileCount, setclassname);
 
-
 };
-	
 
 	/*tileCountWidth has been set to 12.
 	It has been generated with the following formular:
@@ -95,16 +87,41 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 	function calculateTileSize(tileCount, setclassname){
 		//TODO: zwischen ID und class unterscheiden
 		var percentageTileSize = 1/tileCount * 100;
-			$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
+		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
+		
 	}
 
+ PuzzleBuilder.prototype.buildMiniOverview = function(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles){
+    var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
+     PuzzleBuilder.prototype.calculateWrapperSize(image, div);
+    $(div).css("background-image", 'url("'+ image + '")');
 
-	function isLandscape(){
-		if ($(window).width() >= $(window).height()){
-			console.log("yup");
-			return true;
-		}else{
-			console.log("nö")
-			return false; 
-		}
-	}
+    var gridReady = new Promise(function (resolve, reject) {
+       // PuzzleBuilder.prototype.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
+        PuzzleBuilder.prototype.buildPuzzle(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
+        resolve("ready");
+    });
+
+    gridReady.then(function (fulfilled) {
+        //$(".gridPiece").each(function (n) {
+        $("." + classNameOverview).each(function (n) {
+            for (var i = 0; i < 4; i++) {
+                PuzzleBuilder.prototype.buildPuzzleTiles(3,appendToDOMTiles + n +i, namespaceTiles + n +i,"blue",classNameTiles,miniOverviewClickedPuzzleTiles);
+                //PuzzleBuilder.prototype.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
+            }
+        });
+    });
+};
+
+PuzzleBuilder.prototype.calculateWrapperSize = function (imgURL, element) {
+    var image = new Image();
+    image.src = imgURL;
+    image.onload = function () {
+        var imgFormat = image.width / image.height;
+        var elemHeight = $(element).height();
+        $(element).css("width", elemHeight * imgFormat + "px");
+    };
+    delete(image);
+};
+
+
