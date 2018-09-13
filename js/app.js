@@ -218,16 +218,6 @@ app.on('pageInit', function(page){
 		
 
 
-        function calculateWrapperSize(imgURL, element) {
-            var image = new Image();
-            image.src = imgURL;
-            image.onload = function () {
-                var imgFormat = image.width / image.height;
-                var elemHeight = $(element).height();
-                $(element).css("width", elemHeight * imgFormat + "px");
-            };
-            delete(image);
-        }
 
         function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
             loadImage.then(function (isLoaded) {

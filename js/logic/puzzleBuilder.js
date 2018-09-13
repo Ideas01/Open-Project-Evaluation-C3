@@ -23,7 +23,7 @@ function restorePuzzle(croppedID){
 
 /** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
-	
+	var landscape = isLandscape();
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
@@ -33,14 +33,16 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
 			newDiv.className = setclassname;
 			
             //append newDiv to the DOM
-			if($(appendToDOM)){
+			if($(appendToDOM) && landscape == true){
 				$(appendToDOM).append(newDiv).ready(function(){
 					$('.' + setclassname).css({
 						"visibility": "visible",
 						"background-color": color 
 					});
 				});
-			} else{
+			} else if($(appendToDOM) && landscape == false){
+				
+			}else {
 				console.log("DOM Element konnte nicht gefunden werden.");
 			}
 		}
@@ -82,8 +84,7 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 
 
 };
-
-
+	
 
 	/*tileCountWidth has been set to 12.
 	It has been generated with the following formular:
@@ -94,9 +95,16 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 	function calculateTileSize(tileCount, setclassname){
 		//TODO: zwischen ID und class unterscheiden
 		var percentageTileSize = 1/tileCount * 100;
-		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
-		
+			$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
 	}
 
 
-
+	function isLandscape(){
+		if ($(window).width() >= $(window).height()){
+			console.log("yup");
+			return true;
+		}else{
+			console.log("nö")
+			return false; 
+		}
+	}
