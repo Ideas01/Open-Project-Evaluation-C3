@@ -451,53 +451,7 @@ app.popup.open(popup.el,true);
 	var versuch;
 	$(".next-link").click(function () {
 		
-		/* var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
-		var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		
-		var T = null;	
-		
-		const asyncInit = $.ajax({
-			url: 'http://localhost:3000/',
-			headers: {
-				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
-				'Content-Type':'application/json',
-			},
-			method: 'POST',
-			dataType: 'json',
-			data: query,
-			success: function(r){
-			  console.log('success:' + r.data.createDevice.token);
-			  const globalData = r.data.createDevice.token;
-			  console.log("globaleVariable T:  " + globalData);
-			  T = globalData;
-			},
-			 error: function (r) {
-				console.log('error' + r.Token);
-			}
-			
-		  });
-		
-			  
-		var tid = setInterval(function(){
-			if(T != null){
-				alert("habs" + T);
-				clearInterval(tid);
-				return T;
-
-			}else{
-				console.log("leider nicht");
-			}
-			
-		  //before getting cleared by below timeout. 
-			},500); //delay is in milliseconds 
-
-		alert("after setInterval"); //called second
-
-		setTimeout(function(){
-			 clearInterval(tid); //clear above interval after 15 seconds
-		},15000);
-		
-		console.log("Tneu" + T); */
 		
 	}); 
 	
