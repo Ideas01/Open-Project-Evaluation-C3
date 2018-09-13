@@ -22,7 +22,22 @@ var app  = new Framework7({
   routes: routes,
 });
 
-
+$$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
+        checkSize();
+		
+		$(window).on('resize', function(){
+			checkSize();
+		});
+		
+		function checkSize(){
+			if($(".puzzlePiece").first().width() > 32 && $(".puzzlePiece").first().height() > 32 ){
+				$('.overallGridPiece').css("display","none");
+			}
+			else{
+				$('.overallGridPiece').css("display","inline-block");
+			}
+		}
+});
 
 app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
@@ -133,7 +148,7 @@ app.on('pageInit', function(page){
             });
 		});
 		
-        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
+        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
 
         calculateWrapperSize(imgSource, "#puzzleWrapper");
         calculateWrapperSize(imgSource, "#puzzleGridWrapper");

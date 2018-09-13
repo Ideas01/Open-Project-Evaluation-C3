@@ -1,5 +1,9 @@
 .puzzlePiece {
 	z-index: 6;
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	border: solid 1px #0000db;
     position: relative;
     display: inline-block;
 
@@ -43,7 +47,11 @@
 .overallGridPiece{
 	z-index: 5;
     position: relative;
-    display: inline-block;
+    display: none;
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	border: solid 1px darkgray;
 }
 
 #backButton{
