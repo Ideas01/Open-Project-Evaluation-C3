@@ -535,6 +535,8 @@ app.popup.open(popup.el,true);
 	
 });
 
+
+
 	// Init/Create views
 	var homeView = app.views.create('#view-home', {
 	  url: '/'
