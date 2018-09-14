@@ -94,10 +94,12 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 		
 	}
 
- PuzzleBuilder.prototype.buildMiniOverview = function(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles){
-    var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
-     PuzzleBuilder.prototype.calculateWrapperSize(image, div);
-    $(div).css("background-image", 'url("'+ image + '")');
+ PuzzleBuilder.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
+    console.log(image);
+   var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
+ 
+	PuzzleBuilder.prototype.calculateWrapperSize(image, div, '100%');
+    $(div).css("background-image", 'url("'+ image.src + '")');
 
     var gridReady = new Promise(function (resolve, reject) {
        // PuzzleBuilder.prototype.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
@@ -116,41 +118,38 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
     });
 };
 
-PuzzleBuilder.prototype.calculateWrapperSize = function (image, element, percentageSize) {
-    var landscape = isLandscape();
-	
-	
-		
+
+
+
+PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, percentageSize) {
+    
+	var landscape = isLandscape();
+	console.log(elementArray)
+	elementArray.forEach(function(element){
 		if(landscape == true){
 			var imgFormat = image.width / image.height;
 			
 			new Promise(function(resolve){
 				$(element).css("height", percentageSize + '%');
-				resolve(1);
+				resolve();
 			}).then(function(){
-				console.log("ausgerechnet: " + $(element).height() + "  " + elemHeight * imgFormat);
-				
 				var elemHeight = $(element).ready().height();
 				$(element).css("width", elemHeight * imgFormat + "px");
 			});
-			
-			
 		}else{
 			var imgFormat = image.height / image.width;
+			
 			new Promise(function(resolve){
 				$(element).css("width", percentageSize + '%');
-				resolve(1);
+				resolve();
 			}).then(function(){
-				console.log( "landscaped: " +  elemWidth * imgFormat +"  "+ $(element).width()  );
-				
 				var elemWidth = $(element).ready().width();
 				$(element).css("height", elemWidth * imgFormat + "px"); 
 			});
-			
-			
 		}
-
+	});
 };
+		
 
 
 function isLandscape(){

@@ -14,14 +14,14 @@
         puzzleBuilder.buildPuzzleTiles(tileCount, appendToDOM, namespace, color, setclassname,clickedPuzzleTiles);
     };
 
-    SingleAccess.prototype.buildMiniOverview = function(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles){
+    SingleAccess.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
         var puzzleBuilder = new PuzzleBuilder();
-        puzzleBuilder.buildMiniOverview(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles);
+        puzzleBuilder.buildMiniOverview(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles);
 	};
 
-    SingleAccess.prototype.calculateWrapperSize = function (image, element, percentageSize){
+    SingleAccess.prototype.calculateWrapperSize = function (image, elementArray, percentageSize){
     	var puzzleBuilder = new PuzzleBuilder();
-    	puzzleBuilder.calculateWrapperSize(image, element, percentageSize);
+    	puzzleBuilder.calculateWrapperSize(image, elementArray, percentageSize);
 	};
 
 	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
