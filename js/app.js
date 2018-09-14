@@ -213,57 +213,46 @@ app.on('pageInit', function(page){
 		
         
 		}).then(function(imageObject){
-			console.log("hingekriegt" + imageObject.src);
-			 $(".overallGridPiece").click(function (event) {
-			console.log("grid geklickt")
-			var coordinateOld = null;
-			var coordinate = null;
-			
-            
-			var getOldCoordinate = new Promise(function(resolve){
-				coordinateOld = (event.target.id).toString().split("d");
-				resolve(coordinateOld);
-			}); 
-			
-			getOldCoordinate.then(function(){
-				console.log("promise solved");
-				coordinate = Array.from(coordinateOld[1]);
+			$(".overallGridPiece").click(function (event) {
+				var coordinateOld = null;
+				var coordinate = null;
 				
-				var gridMarker = $("#overallGridMarker");
 				
-				var xCoordinate = coordinate[0];
-				var yCoordinate = coordinate[1];
-				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
-				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
+				var getOldCoordinate = new Promise(function(resolve){
+					coordinateOld = (event.target.id).toString().split("d");
+					resolve(coordinateOld);
+				}); 
 				
-				gridMarker.toggle();
-				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
-
-								
-				$('.overallGridPiece').toggle();
-				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-			
-				//TODO: image Object nur einmal bauen und mit getter holen.
-				
-				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
-				
-				cropImage(imageObject, imageObject.width * xCoordinate/4, imageObject.height * yCoordinate/4,  imageObject.width/4, imageObject.height/4,  imageObject.width, imageObject.height);
-			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
-				$('#grid'+ coordinateOld[1]).width('100%');
-				$('#grid'+ coordinateOld[1]).height('100%');
-
-				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
-				$('#backButton').click(function() {
-					gridMarker.toggle();
+				getOldCoordinate.then(function(){
+					coordinate = Array.from(coordinateOld[1]);
+					var gridMarker = $("#overallGridMarker");
+					var xCoordinate = coordinate[0];
+					var yCoordinate = coordinate[1];
+					var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
 					
-					restorePuzzle('#croppedImageDiv');
-					calculateTileSize(4,'gridPiece');
-					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+					gridMarker.toggle();
+					gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
+			
 					$('.overallGridPiece').toggle();
-					$('#backButton').remove()
-				})
+					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+				
+					
+					cropImage(imageObject, imageObject.width * xCoordinate/4, imageObject.height * yCoordinate/4,  imageObject.width/4, imageObject.height/4,  imageObject.width, imageObject.height);
+					$('#grid'+ coordinateOld[1]).width('100%');
+					$('#grid'+ coordinateOld[1]).height('100%');
+
+					$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+					$('#backButton').click(function() {
+						gridMarker.toggle();
+						
+						restorePuzzle('#croppedImageDiv');
+						calculateTileSize(4,'gridPiece');
+						$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+						$('.overallGridPiece').toggle();
+						$('#backButton').remove()
+					})
+				});
 			});
-        });
 		});
 
        
