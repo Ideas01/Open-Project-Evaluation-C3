@@ -4,12 +4,6 @@
 
 function PuzzleBuilder() {}
 
-/** onclick function to hide a div object **/
-
-function colorDiv(element){
-	element.style.backgroundColor = "pink";
-}
-
 function hideDiv(element){
 	element.style.visibility = "hidden";
 	console.log(element.id);
@@ -20,10 +14,82 @@ function restorePuzzle(croppedID){
     $(croppedID).css('background-image', 'none');
 }
 
+var puzzleGridWrapper = "#puzzleGridWrapper";
+
+
+PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize){		
+		var namespace = wrapperDom.split(wrapperDom.charAt(0));
+		namespace = namespace[1];
+		var buildPuzzleNameId = [namespace + 'Grid'];
+		var buildPuzzleNameClass = [namespace + 'GridDiv'];
+		var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
+		var buildPuzzlePiecesClass = [namespace + 'puzzlePieceDiv'];
+		var overallGridSizeNew = 4;
+		
+		
+		new Promise(function(){
+			var overallGridWrapper = '<div id="'+ puzzleGridWrapper.split(wrapperDom.charAt(0))[1] +'"></div>';
+		$(wrapperDom).parent().append(overallGridWrapper);
+		}).then(function(){
+			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+			PuzzleBuilder.prototype.calculateWrapperSize(imageObject, wrapperArray, 80);
+		});
+		
+		/**building the small pieces **/
+		
+		if(overallGridSize != "" && $.isNumeric(overallGridSize)){
+			overallGridSizeNew = overallGridSize;
+		} else{
+			//TODO exception werfen
+			var errormsg = "Die gegebene gridSize ist keine Nummer";
+			console.log(errormsg);
+		}
+		
+		let clickedPuzzleTiles = [];
+		
+		let gridReady = new Promise(function (resolve, reject) {
+			PuzzleBuilder.prototype.buildPuzzleOld(puzzlePieceCount / 4, wrapperDom, buildPuzzleNameId, "", buildPuzzleNameClass);
+			resolve(0);
+		});
+		
+		gridReady.then(function (fulfilled) {
+			$('.' + buildPuzzleNameClass).css({
+				"z-index": "5",
+				"position": "relative",
+				"display": "inline-block"
+			});
+			
+			$('.' + buildPuzzleNameClass).each(function (n) {
+				for (var i = 0; i < 3; i++) {
+					PuzzleBuilder.prototype.buildPuzzleTiles(puzzlePieceCount / 3, ['#' + buildPuzzleNameId] + n + i, buildPuzzlePiecesId + n + i, "blue", buildPuzzlePiecesClass, clickedPuzzleTiles);
+				}
+			});
+
+			$('.' + buildPuzzlePiecesClass).click(function (event) {
+				event.target.style.visibility = "hidden";
+				clickedPuzzleTiles.push(event.target.id);
+			});
+		}).then(function(){
+			$('.' + buildPuzzlePiecesClass).css({
+				"z-index": "6",
+				"position": "relative",
+				"display": "inline-block",
+				"box-sizing": "border-box",
+				"-moz-box-sizing": "border-box",
+				"-webkit-box-sizing": "border-box",
+				"border": "solid 1px #0000db"
+			});
+		});
+};
+
+
+
 
 //** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
+PuzzleBuilder.prototype.buildPuzzleOld = function (tileCount, appendToDOM, namespace, color, setclassname) {
 	console.log("baue puzzle: " + namespace)
+
+	
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
@@ -99,13 +165,14 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
     console.log(image);
    var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
 	var divArray = [div];
+	
 	PuzzleBuilder.prototype.calculateWrapperSize(image, divArray, '100%');
     $(div).css("background-image", 'url("'+ image.src + '")');
 	
 	
     var gridReady = new Promise(function (resolve, reject) {
-       // PuzzleBuilder.prototype.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
-        PuzzleBuilder.prototype.buildPuzzle(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
+       // PuzzleBuilder.prototype.buildPuzzleOld(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
+        PuzzleBuilder.prototype.buildPuzzleOld(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
         resolve("ready");
     });
 
@@ -127,6 +194,11 @@ PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, pe
    
 	var landscape = isLandscape();
 	console.log(elementArray)
+	if(elementArray.includes(puzzleGridWrapper)){
+	}else{
+		elementArray.push(puzzleGridWrapper);
+	}
+	console.log(elementArray);
 	elementArray.forEach(function(element){
 		 console.log("calculated wrapper: " + element)
 		if(landscape == true){

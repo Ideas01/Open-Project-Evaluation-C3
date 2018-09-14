@@ -1,13 +1,3 @@
-.puzzlePiece {
-	z-index: 6;
-	box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-	border: solid 1px #0000db;
-    position: relative;
-    display: inline-block;
-
-}
 
 #croppedImageDiv{
 	z-index: 4;
@@ -36,12 +26,6 @@
 	font-size: 0;
 }
 
-.gridPiece{
-	z-index: 5;
-    position: relative;
-    display: inline-block;
-	
-}
 
 #puzzleImage{
 	z-index: 1;
