@@ -1,21 +1,20 @@
-
 var app = new Framework7();
 
-function SliderFactory() {}
+function SliderFactory() {
+}
 
 
-
-SliderFactory.prototype.createRangeSliders = function (questionCount, headers) {
+SliderFactory.prototype.createRangeSliders = function (questionCount, questions) {
 
 
     //TODO:CODE FOR INITIALIZING PRE EXISTING
- /** //count the number of range-sliders in sliders.html, so you know how many you have to initialize
-    var sliderCount = $('.page-content .range-slider').length;
-    console.log('childElement count: ' +sliderCount);
-    //array for storing the range-slider references
-    var rangeSliderReferences = [];
-    //for every range-slider...
-    for(var i=0;i< questionCount; i++) {
+    /** //count the number of range-sliders in sliders.html, so you know how many you have to initialize
+     var sliderCount = $('.page-content .range-slider').length;
+     console.log('childElement count: ' +sliderCount);
+     //array for storing the range-slider references
+     var rangeSliderReferences = [];
+     //for every range-slider...
+     for(var i=0;i< questionCount; i++) {
         //store the range-slider references in the array...
         rangeSliderReferences[i] = app.range.create({
             //...and initialize i-th range-slider
@@ -27,62 +26,67 @@ SliderFactory.prototype.createRangeSliders = function (questionCount, headers) {
             }
         });
     }
-    $('.slider-page-content').append('<a href="" id="bewertungBtn" class="button">Bewertung abschicken</a>');
-    return rangeSliderReferences;
- **/
+     $('.slider-page-content').append('<a href="" id="bewertungBtn" class="button">Bewertung abschicken</a>');
+     return rangeSliderReferences;
+     **/
 
-  /*  var sliderHTML = '<div class="range-slider"><input type="range" min="0" max="100" step="1" value="10"></div>';
-    var deferedObject = $.Deferred();
-    deferedObject.done(function () {
-        console.log("guck ma ich");
-        $('.page-content').append(sliderHTML);
-    }).done(function () {
-        console.log("i bims hier");
-        $('.range-slider').append("<p>Hier beginnt ein Absatz, und hier ist er zu Ende.</p>");
-        /*var range = app.range.create({
-            el: '.range-slider',
-            on: {
-                change: function () {
-                    console.log('Range Slider value changed')
-                }
+    /*  var sliderHTML = '<div class="range-slider"><input type="range" min="0" max="100" step="1" value="10"></div>';
+      var deferedObject = $.Deferred();
+      deferedObject.done(function () {
+          console.log("guck ma ich");
+          $('.page-content').append(sliderHTML);
+      }).done(function () {
+          console.log("i bims hier");
+          $('.range-slider').append("<p>Hier beginnt ein Absatz, und hier ist er zu Ende.</p>");
+          /*var range = app.range.create({
+              el: '.range-slider',
+              on: {
+                  change: function () {
+                      console.log('Range Slider value changed')
+                  }
+              }
+          });
+      });
+      deferedObject.resolve(); */
+
+
+    var appendSlider = new Promise(function (resolve, reject) {
+        if (questionCount > 0) {
+            var slidersHTML = '<div class="container"><div class="sliders">';
+            for (var i = 0; i < questionCount; i++) {
+                slidersHTML += '<p><b>' + questions[i] + '</b></p>' +
+                    '<div class="range-slider ' + 'slider' + i + '">' +
+                    '<input type="range" min="0" max="100" step="1" value="10">' +
+                    '</div>';
             }
-        });
-    });
-    deferedObject.resolve(); */
+            slidersHTML += '</div></div>';
+            $('.page-content').append(slidersHTML);
+            resolve(i);
 
-
-    var appendSlider = new Promise(function (resolve,reject) {
-		if(questionCount > 0){
-			for (var i=0; i < questionCount; i++) {
-                var sliderHTML = '<div class="range-slider ' + 'slider' +i + '"><input type="range" min="0" max="100" step="1" value="10"></div>';
-                $('.page-content').append(sliderHTML);
-            }
-			 resolve(i);
- 
-		}
+        }
         reject(new Error("found no range-slider to initialize"));
     });
 
     var initializeSlider = function () {
         appendSlider.then(function (fulfilled) {
             console.log("promise value:" + fulfilled);
-			var init = setInterval(function(){
-				for (var i=0; i < questionCount; i++) {
-					var range = app.range.create({
-						el: '.slider'+i,
-						on: {
-							change: function () {
-								console.log('Range Slider value changed')
-							}
-						}
-					});
-				}
-				if($(".range-knob").length > 0){
-					console.log("foundya")
-					clearInterval(init);
-				}
-			}, 500);
-			
+            var init = setInterval(function () {
+                for (var i = 0; i < questionCount; i++) {
+                    var range = app.range.create({
+                        el: '.slider' + i,
+                        on: {
+                            change: function () {
+                                console.log('Range Slider value changed')
+                            }
+                        }
+                    });
+                }
+                if ($(".range-knob").length > 0) {
+                    console.log("foundya")
+                    clearInterval(init);
+                }
+            }, 500);
+
         }).catch(function (error) {
             console.log(error.message);
         })

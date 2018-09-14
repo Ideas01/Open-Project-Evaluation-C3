@@ -24,10 +24,10 @@
     	puzzleBuilder.calculateWrapperSize(image, elementArray, percentageSize);
 	};
 
-	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
+	SingleAccess.prototype.createRangeSliders = function(data){
 
 		var sliderFactory = new SliderFactory();
-		return sliderFactory.createRangeSliders(questionCount,headers);
+		return sliderFactory.createRangeSliders(data.questions.length,data.questions);
 	};
 	
 	SingleAccess.prototype.getToken = function(query){

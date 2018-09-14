@@ -11,9 +11,21 @@ routes = [
     path: '/puzzle/',
     url: './pages/puzzle.html',
   },
-    {
+  {
     path: '/sliders/',
     url: './pages/sliders.html',
+  },
+  {
+      path: '/settings/',
+      url: './pages/settings.html'
+  },
+  {
+      path: '/success/',
+      url: './pages/success.html'
+  },
+  {
+      path: '/failure/',
+      url: './pages/failure.html'
   },
 
   // Default route (404 page). MUST BE THE LAST
