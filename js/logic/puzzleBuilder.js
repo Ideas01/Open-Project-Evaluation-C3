@@ -23,6 +23,7 @@ function restorePuzzle(croppedID){
 
 //** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
+	console.log("baue puzzle: " + namespace)
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
@@ -97,10 +98,11 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
  PuzzleBuilder.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
     console.log(image);
    var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
- 
-	PuzzleBuilder.prototype.calculateWrapperSize(image, div, '100%');
+	var divArray = [div];
+	PuzzleBuilder.prototype.calculateWrapperSize(image, divArray, '100%');
     $(div).css("background-image", 'url("'+ image.src + '")');
-
+	
+	
     var gridReady = new Promise(function (resolve, reject) {
        // PuzzleBuilder.prototype.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
         PuzzleBuilder.prototype.buildPuzzle(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
@@ -122,10 +124,11 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 
 
 PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, percentageSize) {
-    
+   
 	var landscape = isLandscape();
 	console.log(elementArray)
 	elementArray.forEach(function(element){
+		 console.log("calculated wrapper: " + element)
 		if(landscape == true){
 			var imgFormat = image.width / image.height;
 			

@@ -35,10 +35,12 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 			}
 			else{
 				$('.overallGridPiece').css("display","inline-block");
+				
 			}
 		}
 });
 
+			
 app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
 	
@@ -192,7 +194,7 @@ app.on('pageInit', function(page){
 			});
 				
 			var wrapperArray = ['#puzzleWrapper', '#puzzleGridWrapper', '#croppedImageDiv'];
-			singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
+			
 			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 
 				$(window).on('resize', function (page) {
@@ -203,58 +205,55 @@ app.on('pageInit', function(page){
 				
 			//(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles)
 			singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
-				
+			
+			singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
+			
 			return imageObject;
-		
-        
-		}).then(function(imageObject){
-			$(".overallGridPiece").click(function (event) {
-				var coordinateOld = null;
-				var coordinate = null;
-				
-				
-				var getOldCoordinate = new Promise(function(resolve){
-					coordinateOld = (event.target.id).toString().split("d");
-					resolve(coordinateOld);
-				}); 
-				
-				getOldCoordinate.then(function(){
-					coordinate = Array.from(coordinateOld[1]);
-					var gridMarker = $("#overallGridMarker");
-					var xCoordinate = coordinate[0];
-					var yCoordinate = coordinate[1];
-					var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
-					
-					gridMarker.toggle();
-					gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
-			
-					$('.overallGridPiece').toggle();
-					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-				
-					
-					cropImage(imageObject, imageObject.width * xCoordinate/4, imageObject.height * yCoordinate/4,  imageObject.width/4, imageObject.height/4,  imageObject.width, imageObject.height);
-					$('#grid'+ coordinateOld[1]).width('100%');
-					$('#grid'+ coordinateOld[1]).height('100%');
-
-					$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
-					$('#backButton').click(function() {
-						gridMarker.toggle();
+			}).then(function(imageObject){
+				console.log("bis hierher 9");
+						$('.overallGridPiece').click(function (event) {
+						var coordinateOld = null;
+						var coordinate = null;
 						
-						restorePuzzle('#croppedImageDiv');
-						calculateTileSize(4,'gridPiece');
-						$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-						$('.overallGridPiece').toggle();
-						$('#backButton').remove()
-					})
+						
+						var getOldCoordinate = new Promise(function(resolve){
+							coordinateOld = (event.target.id).toString().split("d");
+							resolve(coordinateOld);
+						}); 
+						
+						getOldCoordinate.then(function(){
+							coordinate = Array.from(coordinateOld[1]);
+							var gridMarker = $("#overallGridMarker");
+							var xCoordinate = coordinate[0];
+							var yCoordinate = coordinate[1];
+							var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
+							
+							gridMarker.toggle();
+							gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
+
+							$('.overallGridPiece').toggle();
+							$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+						
+							
+							cropImage(imageObject, imageObject.width * xCoordinate/4, imageObject.height * yCoordinate/4,  imageObject.width/4, imageObject.height/4,  imageObject.width, imageObject.height);
+							$('#grid'+ coordinateOld[1]).width('100%');
+							$('#grid'+ coordinateOld[1]).height('100%');
+
+							$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+							$('#backButton').click(function() {
+								gridMarker.toggle();
+								
+								restorePuzzle('#croppedImageDiv');
+								calculateTileSize(4,'gridPiece');
+								$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+								$('.overallGridPiece').toggle();
+								$('#backButton').remove()
+							})
+						});
+					});
 				});
-			});
 			
 			
-		});
-
-       
-
-	
         function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
            var canvasA = document.createElement('canvas');
 		   canvasA.width = imgWidth;
