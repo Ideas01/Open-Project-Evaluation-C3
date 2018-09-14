@@ -189,6 +189,8 @@ app.on('pageInit', function(page){
 					clickedPuzzleTiles.push(event.target.id);
 					console.log(clickedPuzzleTiles);
 				});
+				
+
 			});
 				
 		
@@ -207,11 +209,13 @@ app.on('pageInit', function(page){
 						singleAccess.calculateWrapperSize(imageObject, "#croppedImageDiv", 80);
 				});
 				
-		});
+				return imageObject;
+		
         
-			
-
-        $(".overallGridPiece").click(function (event) {
+		}).then(function(imageObject){
+			console.log("hingekriegt" + imageObject.src);
+			 $(".overallGridPiece").click(function (event) {
+			console.log("grid geklickt")
 			var coordinateOld = null;
 			var coordinate = null;
 			
@@ -243,7 +247,7 @@ app.on('pageInit', function(page){
 				
 				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
 				
-				cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
+				cropImage(imageObject, imageObject.width * xCoordinate/4, imageObject.height * yCoordinate/4,  imageObject.width/4, imageObject.height/4,  imageObject.width, imageObject.height);
 			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
 				$('#grid'+ coordinateOld[1]).width('100%');
 				$('#grid'+ coordinateOld[1]).height('100%');
@@ -260,22 +264,22 @@ app.on('pageInit', function(page){
 				})
 			});
         });
+		});
 
+       
 
-        /* function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
-            loadImage.then(function (isLoaded) {
-                var canvasA = document.createElement('canvas');
+	
+        function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
+			console.log("crop");
+           var canvasA = document.createElement('canvas');
                 canvasA.width = imgWidth;
                 canvasA.height = imgHeight;
 
                 var context = canvasA.getContext('2d');
                 //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
-                context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
+                context.drawImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
                 $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
-            }).catch(function (notLoaded) {
-                //console.log(notLoaded.message);
-            })
-        } */
+            }
 
         //(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles)
 		//singleAccess.buildMiniOverview(imgSource,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
