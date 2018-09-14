@@ -103,10 +103,53 @@ app.on('pageInit', function(page){
     }
 	/****************************** sliders end ****************************/
 
+
+	if(page.name === 'puzzleGuess'){
+		var guessItems = {
+			Tiere : [
+				'Katze','Hund','Maus'
+			],
+			Autos : [
+				'Audi','BMW','Ford','Mercedes'
+			],
+			Sport: [
+				'Fußball', 'Basketball', 'Fechten', 'Volleyball', 'Eiskunstlaufen','Kugelstoßen'
+			]
+		};
+
+
+
+        var imageSource;
+
+        var loadImage = new Promise(function (resolve, reject) {
+            var backgroundImage = new Image();
+            backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
+            backgroundImage.crossOrigin = "Anonymous";
+            backgroundImage.onload = function () {
+                resolve(backgroundImage);
+            };
+            backgroundImage.onerror = function () {
+                reject("could not load the image");
+            };
+        });
+
+        loadImage.then(function (backgroundImage) {
+			console.log(backgroundImage.src);
+        	imageSource = backgroundImage.src;
+            //image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles
+        	singleAccess.buildMiniOverview(imageSource,'#puzzleOverview',"#puzzleOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+        });
+
+
+		//baue Tabelle mit Begriffen
+
+	}
+    /****************************** puzzleGuess end ****************************/
 	
  	if(page.name === 'puzzle') {
 		var backgroundorigin = {};
 		var clickedPuzzleTiles = ["puzzletile0010","puzzletile0000", "puzzletile3322", "puzzletile0020"];
+		
         
 		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
@@ -122,147 +165,108 @@ app.on('pageInit', function(page){
                 reject("could not load the image");
             };
         });
-
-        imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
-
-        var singleAccess = new SingleAccess();
-
-        $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
 		
-        var gridReady = new Promise(function (resolve, reject) {
-            singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
-			resolve("ready");
-        });
-		
-        gridReady.then(function (fulfilled) {
-            $(".gridPiece").each(function (n) {
-                for (var i = 0; i < 4; i++) {
-                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
-                }
-            });
-
-            $('.puzzlePiece').click(function (event) {
-                event.target.style.visibility = "hidden";
-                clickedPuzzleTiles.push(event.target.id);
-                console.log(clickedPuzzleTiles);
-            });
-		});
-		
-        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
-
-        calculateWrapperSize(imgSource, "#puzzleWrapper");
-        calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-        calculateWrapperSize(imgSource, "#croppedImageDiv");
-
-        $$(window).on('resize', function (page) {
-            calculateWrapperSize(imgSource, "#puzzleWrapper");
-            calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-            calculateWrapperSize(imgSource, "#croppedImageDiv");
-        });
-
-        $(".overallGridPiece").click(function (event) {
-			var coordinateOld = null;
-			var coordinate = null;
+		loadImage.then(function(imageObject){
 			
-            
-			var getOldCoordinate = new Promise(function(resolve){
-				coordinateOld = (event.target.id).toString().split("d");
-				resolve(coordinateOld);
-			}); 
-			
-			getOldCoordinate.then(function(){
-				console.log("promise solved");
-				coordinate = Array.from(coordinateOld[1]);
+			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
 				
-				var gridMarker = $("#overallGridMarker");
-				
-				var xCoordinate = coordinate[0];
-				var yCoordinate = coordinate[1];
-				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
-				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
-				
-				gridMarker.toggle();
-				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
-
-
-				$('.overallGridPiece').toggle();
-				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-			
-				//TODO: image Object nur einmal bauen und mit getter holen.
-				
-				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
-				
-				cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
-			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
-				$('#grid'+ coordinateOld[1]).width('100%');
-				$('#grid'+ coordinateOld[1]).height('100%');
-				
-				
-
-
-				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
-				$('#backButton').click(function() {
-					gridMarker.toggle();
-					
-					restorePuzzle('#croppedImageDiv');
-					calculateTileSize(4,'gridPiece');
-					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-					$('.overallGridPiece').toggle();
-					$('#backButton').remove()
-				})
-			
-			});
-
-        });
-		
-		
-
-
-
-        function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
-            loadImage.then(function (isLoaded) {
-                var canvasA = document.createElement('canvas');
-                canvasA.width = imgWidth;
-                canvasA.height = imgHeight;
-
-                var context = canvasA.getContext('2d');
-                //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
-                context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
-                $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
-				
-				
-            }).catch(function (notLoaded) {
-                //console.log(notLoaded.message);
-            })
-        }
-		
-		buildMiniOverview(imgSource, "#miniOverview");
-		
-		
-		function buildMiniOverview(image, div){
-			var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
-			calculateWrapperSize(image, div);
-			$(div).css("background-image", 'url("'+ image + '")');
-			
-			var originDiv = '#miniOverview';
-			var named = "miniOverviewGrid";
-			
 			var gridReady = new Promise(function (resolve, reject) {
-				singleAccess.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
+				singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
 				resolve("ready");
 			});
 			
 			gridReady.then(function (fulfilled) {
 				$(".gridPiece").each(function (n) {
 					for (var i = 0; i < 4; i++) {
-						singleAccess.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
+						singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
 					}
+				});
+
+				$('.puzzlePiece').click(function (event) {
+					event.target.style.visibility = "hidden";
+					clickedPuzzleTiles.push(event.target.id);
+					console.log(clickedPuzzleTiles);
+				});
+				
+
+			});
+				
+			var wrapperArray = ['#puzzleWrapper', '#puzzleGridWrapper', '#croppedImageDiv'];
+			singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
+			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+
+				$(window).on('resize', function (page) {
+					
+						windowSize = {"width": $(window).width(), "height": $(window).height()}
+						singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				});
+				
+			//(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles)
+			singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+				
+			return imageObject;
+		
+        
+		}).then(function(imageObject){
+			$(".overallGridPiece").click(function (event) {
+				var coordinateOld = null;
+				var coordinate = null;
+				
+				
+				var getOldCoordinate = new Promise(function(resolve){
+					coordinateOld = (event.target.id).toString().split("d");
+					resolve(coordinateOld);
+				}); 
+				
+				getOldCoordinate.then(function(){
+					coordinate = Array.from(coordinateOld[1]);
+					var gridMarker = $("#overallGridMarker");
+					var xCoordinate = coordinate[0];
+					var yCoordinate = coordinate[1];
+					var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
+					
+					gridMarker.toggle();
+					gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
+			
+					$('.overallGridPiece').toggle();
+					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+				
+					
+					cropImage(imageObject, imageObject.width * xCoordinate/4, imageObject.height * yCoordinate/4,  imageObject.width/4, imageObject.height/4,  imageObject.width, imageObject.height);
+					$('#grid'+ coordinateOld[1]).width('100%');
+					$('#grid'+ coordinateOld[1]).height('100%');
+
+					$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+					$('#backButton').click(function() {
+						gridMarker.toggle();
+						
+						restorePuzzle('#croppedImageDiv');
+						calculateTileSize(4,'gridPiece');
+						$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
+						$('.overallGridPiece').toggle();
+						$('#backButton').remove()
+					})
 				});
 			});
 			
-		}
+			
+		});
 
+       
 
+	
+        function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
+           var canvasA = document.createElement('canvas');
+		   canvasA.width = imgWidth;
+		   canvasA.height = imgHeight;
+
+			var context = canvasA.getContext('2d');
+			//		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
+			context.drawImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
+			$('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
+         }
+
+        
     }
 	
 	/****************************** puzzle end ****************************/
@@ -441,7 +445,53 @@ app.popup.open(popup.el,true);
 	var versuch;
 	$(".next-link").click(function () {
 		
+		/* var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
+		var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		
+		var T = null;	
+		
+		const asyncInit = $.ajax({
+			url: 'http://localhost:3000/',
+			headers: {
+				//'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc3NGQxMWJkNDJiMGE5MmE4MDhiMjE5NDIyMjUxMmQxMjQzY2QzYmQwODJlM2EyMzNlMTk3NDFkNjljNzQ1NzciLCJ0eXBlIjoiZGV2aWNlIiwiaWF0IjoxNTM2MDUxMDI3fQ.39dr_SrXSLoBIXVh1GVBSmAovy6jtMwTQV28uAa6YHE', 
+				'Content-Type':'application/json',
+			},
+			method: 'POST',
+			dataType: 'json',
+			data: query,
+			success: function(r){
+			  console.log('success:' + r.data.createDevice.token);
+			  const globalData = r.data.createDevice.token;
+			  console.log("globaleVariable T:  " + globalData);
+			  T = globalData;
+			},
+			 error: function (r) {
+				console.log('error' + r.Token);
+			}
+			
+		  });
+		
+			  
+		var tid = setInterval(function(){
+			if(T != null){
+				alert("habs" + T);
+				clearInterval(tid);
+				return T;
+
+			}else{
+				console.log("leider nicht");
+			}
+			
+		  //before getting cleared by below timeout. 
+			},500); //delay is in milliseconds 
+
+		alert("after setInterval"); //called second
+
+		setTimeout(function(){
+			 clearInterval(tid); //clear above interval after 15 seconds
+		},15000);
+		
+		console.log("Tneu" + T); */
 		
 	}); 
 	

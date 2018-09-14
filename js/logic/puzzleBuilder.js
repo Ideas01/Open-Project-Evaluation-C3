@@ -21,9 +21,8 @@ function restorePuzzle(croppedID){
 }
 
 
-/** Build the puzzle **/
+//** Build the puzzle **/
 PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespace, color, setclassname) {
-	var landscape = isLandscape();
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
@@ -33,15 +32,13 @@ PuzzleBuilder.prototype.buildPuzzle = function (tileCount, appendToDOM, namespac
 			newDiv.className = setclassname;
 			
             //append newDiv to the DOM
-			if($(appendToDOM) && landscape == true){
+			if($(appendToDOM)){
 				$(appendToDOM).append(newDiv).ready(function(){
 					$('.' + setclassname).css({
 						"visibility": "visible",
-						"background-color": color 
+						"background-color": color,
 					});
 				});
-			} else if($(appendToDOM) && landscape == false){
-				
 			}else {
 				console.log("DOM Element konnte nicht gefunden werden.");
 			}
@@ -82,9 +79,7 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 
     var tile = calculateTileSize(tileCount, setclassname);
 
-
 };
-	
 
 	/*tileCountWidth has been set to 12.
 	It has been generated with the following formular:
@@ -95,11 +90,69 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 	function calculateTileSize(tileCount, setclassname){
 		//TODO: zwischen ID und class unterscheiden
 		var percentageTileSize = 1/tileCount * 100;
-			$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
+		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
+		
 	}
 
+ PuzzleBuilder.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
+    console.log(image);
+   var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
+ 
+	PuzzleBuilder.prototype.calculateWrapperSize(image, div, '100%');
+    $(div).css("background-image", 'url("'+ image.src + '")');
 
-	function isLandscape(){
+    var gridReady = new Promise(function (resolve, reject) {
+       // PuzzleBuilder.prototype.buildPuzzle(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
+        PuzzleBuilder.prototype.buildPuzzle(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
+        resolve("ready");
+    });
+
+    gridReady.then(function (fulfilled) {
+        //$(".gridPiece").each(function (n) {
+        $("." + classNameOverview).each(function (n) {
+            for (var i = 0; i < 4; i++) {
+                PuzzleBuilder.prototype.buildPuzzleTiles(3,appendToDOMTiles + n +i, namespaceTiles + n +i,"blue",classNameTiles,miniOverviewClickedPuzzleTiles);
+                //PuzzleBuilder.prototype.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
+            }
+        });
+    });
+};
+
+
+
+
+PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, percentageSize) {
+    
+	var landscape = isLandscape();
+	console.log(elementArray)
+	elementArray.forEach(function(element){
+		if(landscape == true){
+			var imgFormat = image.width / image.height;
+			
+			new Promise(function(resolve){
+				$(element).css("height", percentageSize + '%');
+				resolve();
+			}).then(function(){
+				var elemHeight = $(element).ready().height();
+				$(element).css("width", elemHeight * imgFormat + "px");
+			});
+		}else{
+			var imgFormat = image.height / image.width;
+			
+			new Promise(function(resolve){
+				$(element).css("width", percentageSize + '%');
+				resolve();
+			}).then(function(){
+				var elemWidth = $(element).ready().width();
+				$(element).css("height", elemWidth * imgFormat + "px"); 
+			});
+		}
+	});
+};
+		
+
+
+function isLandscape(){
 		if ($(window).width() >= $(window).height()){
 			console.log("yup");
 			return true;
