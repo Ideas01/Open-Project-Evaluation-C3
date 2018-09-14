@@ -29,8 +29,9 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		
 		new Promise(function(){
 			var overallGridWrapper = '<div id="'+ puzzleGridWrapper.split(wrapperDom.charAt(0))[1] +'"></div>';
-		$(wrapperDom).parent().append(overallGridWrapper);
+			$(wrapperDom).parent().append(overallGridWrapper);
 		}).then(function(){
+			let wrapperArray = [];
 			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 			PuzzleBuilder.prototype.calculateWrapperSize(imageObject, wrapperArray, 80);
 		});
@@ -48,7 +49,7 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		let clickedPuzzleTiles = [];
 		
 		let gridReady = new Promise(function (resolve, reject) {
-			PuzzleBuilder.prototype.buildPuzzleOld(puzzlePieceCount / 4, wrapperDom, buildPuzzleNameId, "", buildPuzzleNameClass);
+			buildPuzzleStructure(puzzlePieceCount / 4, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
 			resolve(0);
 		});
 		
@@ -80,13 +81,75 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 				"border": "solid 1px #0000db"
 			});
 		});
+		
+		//TODO noch in Variablen umwandeln.
+	//building the Overallgrid.
+	new Promise(function(resolve){
+		buildPuzzleStructure(3, puzzleGridWrapper, "overgrid", "", "overallGridPiece");
+		resolve(imageObject);
+
+	}).then(function(imageObject){
+			$('.overallGridPiece').click(function (event) {
+				console.log("clicked")
+			var coordinateOld = null;
+			var coordinate = null;
+			
+			
+			var getOldCoordinate = new Promise(function(resolve){
+				coordinateOld = (event.target.id).toString().split("d");
+				resolve(coordinateOld);
+			}); 
+			
+			getOldCoordinate.then(function(){
+				coordinate = Array.from(coordinateOld[1]);
+				var gridMarker = $("#overallGridMarker");
+				var xCoordinate = coordinate[0];
+				var yCoordinate = coordinate[1];
+				
+				gridMarker.toggle();
+				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
+
+				$('.overallGridPiece').toggle();
+				$('.puzzleWrapperGridDiv:not(#puzzleWrapperGrid' + coordinateOld[1] + ')').toggle();
+			
+				
+				cropImage(imageObject, imageObject.width * xCoordinate/3, imageObject.height * yCoordinate/3,  imageObject.width/3, imageObject.height/3,  imageObject.width, imageObject.height);
+				
+				$('#puzzleWrapperGrid'+ coordinateOld[1]).width('100%');
+				$('#puzzleWrapperGrid'+ coordinateOld[1]).height('100%');
+
+				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+				$('#backButton').click(function() {
+					gridMarker.toggle();
+					
+					restorePuzzle('#croppedImageDiv');
+					
+					calculateTileSize(3,'puzzleWrapperGridDiv');
+					$('.puzzleWrapperGridDiv:not(#puzzleWrapperGrid' + coordinateOld[1] + ')').toggle();
+					$('.overallGridPiece').toggle();
+					$('#backButton').remove()
+				})
+			});
+		});
+	});
+
 };
 
 
+function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
+   var canvasA = document.createElement('canvas');
+   canvasA.width = imgWidth;
+   canvasA.height = imgHeight;
+
+	var context = canvasA.getContext('2d');
+	//		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
+	context.drawImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
+	$('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
+ }
 
 
 //** Build the puzzle **/
-PuzzleBuilder.prototype.buildPuzzleOld = function (tileCount, appendToDOM, namespace, color, setclassname) {
+function buildPuzzleStructure (tileCount, appendToDOM, namespace, color, setclassname) {
 	console.log("baue puzzle: " + namespace)
 
 	
@@ -171,8 +234,8 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 	
 	
     var gridReady = new Promise(function (resolve, reject) {
-       // PuzzleBuilder.prototype.buildPuzzleOld(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
-        PuzzleBuilder.prototype.buildPuzzleOld(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
+       // buildPuzzleStructure(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
+        buildPuzzleStructure(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
         resolve("ready");
     });
 
