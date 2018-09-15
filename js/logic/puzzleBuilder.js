@@ -18,7 +18,7 @@ var puzzleGridWrapper = "#puzzleGridWrapper";
 
 
 PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize){		
-		var namespace = wrapperDom.split(wrapperDom.charAt(0));
+		let namespace = wrapperDom.split(wrapperDom.charAt(0));
 		namespace = namespace[1];
 		var buildPuzzleNameId = [namespace + 'Grid'];
 		var buildPuzzleNameClass = [namespace + 'GridDiv'];
@@ -43,7 +43,7 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		} else{
 			//TODO exception werfen
 			var errormsg = "Die gegebene gridSize ist keine Nummer";
-			console.log(errormsg);
+			alert(errormsg);
 		}
 		
 		let clickedPuzzleTiles = [];
@@ -85,18 +85,24 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		//TODO noch in Variablen umwandeln.
 	//building the Overallgrid.
 	new Promise(function(resolve){
-		buildPuzzleStructure(3, puzzleGridWrapper, "overgrid", "", "overallGridPiece");
-		resolve(imageObject);
-
-	}).then(function(imageObject){
-			$('.overallGridPiece').click(function (event) {
+		let namespace = puzzleGridWrapper.split(puzzleGridWrapper.charAt(0));
+		namespace = namespace[1];
+		
+		var buildPuzzleNameId = [namespace + '|'];
+		var buildPuzzleNameClass = [namespace + 'Div'];
+		
+		let gridReady = new Promise(function (resolve, reject) {
+			buildPuzzleStructure(3, puzzleGridWrapper, buildPuzzleNameId, "none", buildPuzzleNameClass);
+			
+			
+			$('.' + buildPuzzleNameClass).click(function (event) {
 				console.log("clicked")
 			var coordinateOld = null;
 			var coordinate = null;
 			
 			
 			var getOldCoordinate = new Promise(function(resolve){
-				coordinateOld = (event.target.id).toString().split("d");
+				coordinateOld = (event.target.id).toString().split("|");
 				resolve(coordinateOld);
 			}); 
 			
@@ -105,18 +111,19 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 				var gridMarker = $("#overallGridMarker");
 				var xCoordinate = coordinate[0];
 				var yCoordinate = coordinate[1];
+				console.log("x: " + coordinateOld[1] + " y: "+ yCoordinate);
 				
 				gridMarker.toggle();
 				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
 
-				$('.overallGridPiece').toggle();
+				$('.puzzleGridWrapperDiv').toggle();
 				$('.puzzleWrapperGridDiv:not(#puzzleWrapperGrid' + coordinateOld[1] + ')').toggle();
 			
 				
 				cropImage(imageObject, imageObject.width * xCoordinate/3, imageObject.height * yCoordinate/3,  imageObject.width/3, imageObject.height/3,  imageObject.width, imageObject.height);
 				
-				$('#puzzleWrapperGrid'+ coordinateOld[1]).width('100%');
-				$('#puzzleWrapperGrid'+ coordinateOld[1]).height('100%');
+				$('#puzzleWrapperGrid' + coordinateOld[1]).width('100%');
+				$('#puzzleWrapperGrid' + coordinateOld[1]).height('100%');
 
 				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
 				$('#backButton').click(function() {
@@ -126,13 +133,28 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 					
 					calculateTileSize(3,'puzzleWrapperGridDiv');
 					$('.puzzleWrapperGridDiv:not(#puzzleWrapperGrid' + coordinateOld[1] + ')').toggle();
-					$('.overallGridPiece').toggle();
+					$('.puzzleGridWrapperDiv').toggle();
 					$('#backButton').remove()
 				})
 			});
 		});
-	});
+			
+			resolve(0);
+		});
+		gridReady.then(function(){
+			$('.' + buildPuzzleNameClass).css({
+				"z-index": "5",
+				"position": "relative",
+				"display": "inline-block",
+				"box-sizing": "border-box",
+				"-moz-box-sizing": "border-box",
+				"-webkit-box-sizing": "border-box",
+				"border": "solid 1px darkgray"
+			});
+		});
+		resolve(0);
 
+	});
 };
 
 
