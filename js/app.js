@@ -78,7 +78,7 @@ app.on('pageInit', function(page){
 		});
 	}
 	/****************************** home end ****************************/
-	if(page.name === "settingsTest"){
+/* 	if(page.name === "settingsTest"){
         var key = 'person2';
         $('#saveSettings').click(function(){
 
@@ -107,7 +107,7 @@ app.on('pageInit', function(page){
             console.log(JSON.parse(localStorage.getItem(key)));
         });
 
-	}   /******* settings end *******/
+	}   */ /******* settings end *******/
 	
 	if(page.name === 'sliders') {
         app.popup.close();
