@@ -29,19 +29,21 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 			checkSize();
 		});
 		
-		function checkSize(){
-			if($(".puzzlePiece").first().width() > 32 && $(".puzzlePiece").first().height() > 32 ){
-				$('.overallGridPiece').css("display","none");
-			}
-			else{
-				$('.overallGridPiece').css("display","inline-block");
-			}
-		}
+		
 });
 
+		
+function checkSize(){
+	var element = $("#puzzleWrapper").children().first().children().first();
+	if(element.width() > 32 && element.height() > 32 ){
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "none";
+	}
+	else{
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
+	}
+}
+		
 app.on('pageInit', function(page){
-
-
 	var singleAccess = new SingleAccess();
 	
 	console.log(page.name + " wird ausgeführt");
@@ -75,125 +77,37 @@ app.on('pageInit', function(page){
 			console.log("callbacked: " + T)
 		});
 	}
-
-    /****************************** home end ****************************/
-
-	if(page.name === "settingsTest"){
-        var key = 'person2';
-        $('#saveSettings').click(function(){
-
-        	if (window.localStorage) {
-
-
-                    var person = {
-
-                        Name: 'Hans Peter',
-
-                        Age: 24,
-
-                        Gender: 'Male',
-
-                        Nationality: 'Nigerian'
-                    };
-                    localStorage.setItem(key, JSON.stringify(person));
-
-
-                } else {
-        			console.log("im localstorage ging was schief")
-                }
-        });
-        $('#loadSettings').click(function() {
-            alert(localStorage.getItem(key));
-            console.log(JSON.parse(localStorage.getItem(key)));
-        });
-
-	}
-
-
-
+	/****************************** home end ****************************/
 	
 	if(page.name === 'sliders') {
         app.popup.close();
+		var sliderValues = [];
 
 		//test-data
 		var testDataObj = {
-			questionCount: 8,
+			questionCount: 4,
 			headerArray: [
 				"Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
 			]
 		};
-		//setze activeQuestionCount auf 0
-		//wie hoch ist der questionCount?
-            //wenn questionCount <= 4
-                //createRangeSliders
-            //wenn questionCount > 4
-                //setze activeQuestions auf 3
-                //createRangeSliders
-                //verstecke alle RangeSlider mit id > 3;
+		var singleAccess = new SingleAccess();
 
-        //wenn Werte gesendet werden
-            //verstecke alle RangeSlider mit id < activeQuestionCount
-            //decke alle von activeQuestionCount bis (activeQuestionCount + 4) auf
 		//create range-sliders for the questions and save their references
-		singleAccess.createRangeSliders(testDataObj.questionCount);
+		var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
 
 
+		$('#bewertungBtn').click(function () {
+			alert("es wurde gegklickt");
+			var rangeSliderValues = [];
 
-        $("#sendRatingsButton").click(function(){
-
-
-            /*var popup = app.popup.create({
-                // The Popup
-                content:
-                '<div class="popup" id="popupStart">' +
-                '<div class="view">' +
-                '<div class="page">' +
-                '<div class="navbar">' +
-                '<div class="navbar-inner">' +
-                '<div class="title">Popup</div>' +
-                '<div class="right">' +
-                '<a href="#" class="link popup-close">Close</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="page-content">' +
-                '<div class="block">' +
-                '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
-                '<div class="sk-circle">' +
-                '<div class="sk-circle1 sk-child"></div>' +
-                '<div class="sk-circle2 sk-child"></div>' +
-                '<div class="sk-circle3 sk-child"></div>' +
-                '<div class="sk-circle4 sk-child"></div>' +
-                '<div class="sk-circle5 sk-child"></div>' +
-                '<div class="sk-circle6 sk-child"></div>' +
-                '<div class="sk-circle7 sk-child"></div>' +
-                '<div class="sk-circle8 sk-child"></div>' +
-                '<div class="sk-circle9 sk-child"></div>' +
-                '<div class="sk-circle10 sk-child"></div>' +
-                '<div class="sk-circle11 sk-child"></div>' +
-                '<div class="sk-circle12 sk-child"></div>' +
-                '</div>' +
-                '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>',
-                on: {
-                    opened: function () {
-                    },
-                    close: function(){
-                        $(".popup").remove();
-                    }
-                }
-            });
-            app.popup.open(popup.el,true); */
-        });
-
+			for (var i = 0; i < rangeSliderReferences.length; i++) {
+				rangeSliderValues[i] = rangeSliderReferences[i].getValue();
+			}
+		});
     }
 	/****************************** sliders end ****************************/
 
-	
+
 	if(page.name === 'puzzleGuess'){
 		var guessItems = {
 			Tiere : [
@@ -202,11 +116,12 @@ app.on('pageInit', function(page){
 			Autos : [
 				'Audi','BMW','Ford','Mercedes'
 			],
-			Küche: [
-				'Messer', 'Gabel', 'Kühlschrank', 'Topf', 'Eisfach','Herd'
+			Sport: [
+				'Fußball', 'Basketball', 'Fechten', 'Volleyball', 'Eiskunstlaufen','Kugelstoßen'
 			]
 		};
-		var isCorrect = 'Katze';
+
+
 
         var imageSource;
 
@@ -221,186 +136,58 @@ app.on('pageInit', function(page){
                 reject("could not load the image");
             };
         });
+
         loadImage.then(function (backgroundImage) {
+			console.log(backgroundImage.src);
         	imageSource = backgroundImage.src;
+            //image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles
         	singleAccess.buildMiniOverview(imageSource,'#puzzleOverview',"#puzzleOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
-        }).then(function () {
-            //for each property in guessItems...
-            $.each(guessItems, function (i,value) {
-                //...append a button, set the caption to the guessItems Objects property name...
-                $('#guessOverview').append('<a class="button" id="'+i+'">'+ i +'</a>');
-                //...and set a click listener for each button
-				$('#'+i).click(function () {
-                    //empty the container, which holds the values of the properties
-                    $('#guessItems').empty();
-                    //for each value of a property...
-                    $.each(value,function (i) {
-                        //...append a button, set the caption to the i-th value of the property
-                        $('#guessItems').append('<a class="button" id="'+value[i]+'">'+ value[i]+'</a>');
-                        $('#'+value[i]).click(function () {
-                            checkGuessItem(value[i],isCorrect);
-                        })
-                    });
-                })
-            });
-            }).then(function () {
-            	//append the first property of the guessItems Object by default
-            	 $.each((guessItems[Object.keys(guessItems)[0]]),function (i,value) {
-            	 	$('#guessItems').append('<a class="button" id="'+value+'">'+ value+'</a>');
-                     $('#'+value).click(function () {
-                         checkGuessItem(value,isCorrect);
-                     })
-                })
-
-
         });
 
-		function checkGuessItem(item,correctItem) {
-			if(item === correctItem){
-				alert("ist richtig");
-			}
-			else{
-				alert("ist falsch");
-			}
-        }
+
+		//baue Tabelle mit Begriffen
 
 	}
     /****************************** puzzleGuess end ****************************/
 	
- 	if(page.name === 'puzzle') {
-		var backgroundorigin = {};
-		var clickedPuzzleTiles = ["puzzletile0010","puzzletile0000", "puzzletile3322", "puzzletile0020"];
+ 	if(page.name === 'puzzle') {		
         
 		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
-            backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
+            backgroundImage.src = 'img/katzie.jpg';
+			//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
             backgroundImage.crossOrigin = "Anonymous";
             backgroundImage.onload = function () {
 				const originPictureWidth = backgroundImage.width;
 				const originPictureHeight = backgroundImage.height;
-				backgroundorigin = {image: backgroundImage, imgWidth: originPictureWidth , imgHeight: originPictureHeight};
 			    resolve(backgroundImage);
             };
             backgroundImage.onerror = function () {
                 reject("could not load the image");
             };
         });
-
-        imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
-
-        var singleAccess = new SingleAccess();
-
-        $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
 		
-        var gridReady = new Promise(function (resolve, reject) {
-            singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
-			resolve("ready");
-        });
-		
-        gridReady.then(function (fulfilled) {
-        	console.log(fulfilled);
-            $(".gridPiece").each(function (n) {
-                for (var i = 0; i < 4; i++) {
-                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece", clickedPuzzleTiles);
-                }
-            });
-
-            $('.puzzlePiece').click(function (event) {
-                event.target.style.visibility = "hidden";
-                clickedPuzzleTiles.push(event.target.id);
-                console.log(clickedPuzzleTiles);
-            });
+		loadImage.then(function(imageObject){
+			var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
+			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
+				
+			singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',"" , 6);		
+			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				$(window).on('resize', function (page) {
+						singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				});
+				
+				// bis hierhin.
+				
+			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.	
+			singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
 		});
-		
-        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "", "overallGridPiece");
 
-        singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper");
-        singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-        singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv");
-
-        $$(window).on('resize', function (page) {
-            singleAccess.calculateWrapperSize(imgSource, "#puzzleWrapper");
-            singleAccess.calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-            singleAccess.calculateWrapperSize(imgSource, "#croppedImageDiv");
-        });
-
-        $(".overallGridPiece").click(function (event) {
-			var coordinateOld = null;
-			var coordinate = null;
-			
-            
-			var getOldCoordinate = new Promise(function(resolve){
-				coordinateOld = (event.target.id).toString().split("d");
-				resolve(coordinateOld);
-			}); 
-			
-			getOldCoordinate.then(function(){
-				console.log("promise solved");
-				coordinate = Array.from(coordinateOld[1]);
-				
-				var gridMarker = $("#overallGridMarker");
-				
-				var xCoordinate = coordinate[0];
-				var yCoordinate = coordinate[1];
-				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
-				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
-				
-				gridMarker.toggle();
-				gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
-
-								
-				$('.overallGridPiece').toggle();
-				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-			
-				//TODO: image Object nur einmal bauen und mit getter holen.
-				
-				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
-				
-				cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
-			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
-				$('#grid'+ coordinateOld[1]).width('100%');
-				$('#grid'+ coordinateOld[1]).height('100%');
-
-				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
-				$('#backButton').click(function() {
-					gridMarker.toggle();
-					
-					restorePuzzle('#croppedImageDiv');
-					calculateTileSize(4,'gridPiece');
-					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-					$('.overallGridPiece').toggle();
-					$('#backButton').remove()
-				})
-			});
-        });
-
-
-        function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
-            loadImage.then(function (isLoaded) {
-                var canvasA = document.createElement('canvas');
-                canvasA.width = imgWidth;
-                canvasA.height = imgHeight;
-
-                var context = canvasA.getContext('2d');
-                //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
-                context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
-                $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
-            }).catch(function (notLoaded) {
-                //console.log(notLoaded.message);
-            })
-        }
-
-        //(image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles)
-		singleAccess.buildMiniOverview(imgSource,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
-    }
+        
+	}
 	
 	/****************************** puzzle end ****************************/
-
-
-
-
-
-
+	
 if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;
 		imageArray.maxIndex = imageArray.imageUrls.length -1;
@@ -520,8 +307,55 @@ if (page.name === 'P2'){
 	
     
 	/****************************** P2 end ****************************/
-
-
+	
+	$(".button").click(function(){
+		var popup = app.popup.create({
+			// The Popup
+			content:
+				'<div class="popup" id="popupStart">' +
+					'<div class="view">' +
+						'<div class="page">' +
+							'<div class="navbar">' +
+								'<div class="navbar-inner">' +
+									'<div class="title">Popup</div>' +
+									'<div class="right">' +
+										'<a href="#" class="link popup-close">Close</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+							'<div class="page-content">' +
+								'<div class="block">' +
+									'<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+									'<div class="sk-circle">' +
+										'<div class="sk-circle1 sk-child"></div>' +
+										'<div class="sk-circle2 sk-child"></div>' +
+										'<div class="sk-circle3 sk-child"></div>' +
+										'<div class="sk-circle4 sk-child"></div>' +
+										'<div class="sk-circle5 sk-child"></div>' +
+										'<div class="sk-circle6 sk-child"></div>' +
+										'<div class="sk-circle7 sk-child"></div>' +
+										'<div class="sk-circle8 sk-child"></div>' +
+										'<div class="sk-circle9 sk-child"></div>' +
+										'<div class="sk-circle10 sk-child"></div>' +
+										'<div class="sk-circle11 sk-child"></div>' +
+										'<div class="sk-circle12 sk-child"></div>' +
+									'</div>' +
+									'<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>',
+on: {
+opened: function () {
+},
+close: function(){
+$(".popup").remove();
+}
+}
+});
+app.popup.open(popup.el,true);
+});
 
 	
 	//add click functionality for the right(next) chevron
