@@ -78,6 +78,36 @@ app.on('pageInit', function(page){
 		});
 	}
 	/****************************** home end ****************************/
+	if(page.name === "settingsTest"){
+        var key = 'person2';
+        $('#saveSettings').click(function(){
+
+        	if (window.localStorage) {
+
+
+                    var person = {
+
+                        Name: 'Hans Peter',
+
+                        Age: 24,
+
+                        Gender: 'Male',
+
+                        Nationality: 'Nigerian'
+                    };
+                    localStorage.setItem(key, JSON.stringify(person));
+
+
+                } else {
+        			console.log("im localstorage ging was schief")
+                }
+        });
+        $('#loadSettings').click(function() {
+            alert(localStorage.getItem(key));
+            console.log(JSON.parse(localStorage.getItem(key)));
+        });
+
+	}   /******* settings end *******/
 	
 	if(page.name === 'sliders') {
         app.popup.close();
@@ -116,12 +146,11 @@ app.on('pageInit', function(page){
 			Autos : [
 				'Audi','BMW','Ford','Mercedes'
 			],
-			Sport: [
-				'Fußball', 'Basketball', 'Fechten', 'Volleyball', 'Eiskunstlaufen','Kugelstoßen'
+			Küche: [
+				'Messer', 'Gabel', 'Kühlschrank', 'Topf', 'Eisfach','Herd'
 			]
 		};
-
-
+		var isCorrect = 'Katze';
 
         var imageSource;
 
@@ -136,16 +165,48 @@ app.on('pageInit', function(page){
                 reject("could not load the image");
             };
         });
-
         loadImage.then(function (backgroundImage) {
-			console.log(backgroundImage.src);
         	imageSource = backgroundImage.src;
-            //image, div,appendToDOMOverview,namespaceOverview,classNameOverview,appendToDOMTiles,namespaceTiles,classNameTiles
         	singleAccess.buildMiniOverview(imageSource,'#puzzleOverview',"#puzzleOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+        }).then(function () {
+            //for each property in guessItems...
+            $.each(guessItems, function (i,value) {
+                //...append a button, set the caption to the guessItems Objects property name...
+                $('#guessOverview').append('<a class="button" id="'+i+'">'+ i +'</a>');
+                //...and set a click listener for each button
+				$('#'+i).click(function () {
+                    //empty the container, which holds the values of the properties
+                    $('#guessItems').empty();
+                    //for each value of a property...
+                    $.each(value,function (i) {
+                        //...append a button, set the caption to the i-th value of the property
+                        $('#guessItems').append('<a class="button" id="'+value[i]+'">'+ value[i]+'</a>');
+                        $('#'+value[i]).click(function () {
+                            checkGuessItem(value[i],isCorrect);
+                        })
+                    });
+                })
+            });
+            }).then(function () {
+            	//append the first property of the guessItems Object by default
+            	 $.each((guessItems[Object.keys(guessItems)[0]]),function (i,value) {
+            	 	$('#guessItems').append('<a class="button" id="'+value+'">'+ value+'</a>');
+                     $('#'+value).click(function () {
+                         checkGuessItem(value,isCorrect);
+                     })
+                })
+
+
         });
 
-
-		//baue Tabelle mit Begriffen
+		function checkGuessItem(item,correctItem) {
+			if(item === correctItem){
+				alert("ist richtig");
+			}
+			else{
+				alert("ist falsch");
+			}
+        }
 
 	}
     /****************************** puzzleGuess end ****************************/
