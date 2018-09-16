@@ -20,7 +20,7 @@ var puzzleGridWrapper = "#puzzleGridWrapper";
 PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize){		
 		
 		let namespace = wrapperDom.split(wrapperDom.charAt(0));
-		namespace = namespace[1];
+			namespace = namespace[1];
 		var buildPuzzleNameId = [namespace + 'Grid'];
 		var buildPuzzleNameClass = [namespace + 'GridDiv'];
 		var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
@@ -98,7 +98,6 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 				
 				
 				$('.' + buildPuzzleNameClass).click(function (event) {
-					console.log("clicked")
 				var coordinateOld = null;
 				var coordinate = null;
 				

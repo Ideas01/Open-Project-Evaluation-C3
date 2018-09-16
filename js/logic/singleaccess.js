@@ -4,6 +4,7 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
+	const dbZugriff = new DBZugriff();
 	
 	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
 		puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
@@ -30,9 +31,6 @@
 	};
 	
 	SingleAccess.prototype.getToken = function(query){
-		
-		var dbZugriff = new DBZugriff();
-		
 		if(query != null){
 			console.log("query voll");
 			return dbZugriff.callDatabase(query);
@@ -40,4 +38,8 @@
 			console.log("query leer");
 			return dbZugriff.getToken();
 		}
+	};
+	
+	SingleAccess.prototype.getData = function(query, Token){
+		return dbZugriff.getData(query, Token);
 	};

@@ -50,7 +50,8 @@ app.on('pageInit', function(page){
 
 	if(page.name === 'home'){
 		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
-		//var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		var query2 = '{"query": "query gDevices {devices {id name}}"}'
+		
 		singleAccess.getToken(query);
 		
 		function getToken(callback){
@@ -75,9 +76,32 @@ app.on('pageInit', function(page){
 		
 		getToken(function(T){
 			console.log("callbacked: " + T)
+			
+			function getData(callback){
+			var tid = setInterval(function(){
+				var data = singleAccess.getData(query2, T);
+				if(data != null){
+					console.log("zurückgekommen als: " + T);
+					clearInterval(tid);
+					callback(data);
+					//do s.th with T.
+
+				}else{
+					//console.log("leider nicht");
+				}
+			},500); //delay is in milliseconds 
+
+			setTimeout(function(){
+				 clearInterval(tid); //clear above interval after 15 seconds
+			},15000);
+		
+		};
+			getData(function(data){
+				console.log("got data: " + data);
+			});
+			
 		});
-	}
-	/****************************** home end ****************************/
+	} /****************************** home end ****************************/
 /* 	if(page.name === "settingsTest"){
         var key = 'person2';
         $('#saveSettings').click(function(){
