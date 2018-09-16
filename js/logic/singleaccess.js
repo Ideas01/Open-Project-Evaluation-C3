@@ -30,15 +30,13 @@
 		return sliderFactory.createRangeSliders(questionCount,headers);
 	};
 	
-	SingleAccess.prototype.getToken = function(query){
-		if(query != null){
-			console.log("query voll");
-			return dbZugriff.callDatabase(query);
-		}else{
-			console.log("query leer");
-			return dbZugriff.getToken();
-		}
+	SingleAccess.prototype.initializeDB = function(deviceName){
+		return dbZugriff.initializeDB(deviceName);
 	};
+	
+	SingleAccess.prototype.getContexts = function(deviceName){
+		return dbZugriff.getContexts(deviceName)
+	}; 
 	
 	SingleAccess.prototype.getData = function(query, Token){
 		return dbZugriff.getData(query, Token);

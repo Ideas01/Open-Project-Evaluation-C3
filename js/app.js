@@ -49,58 +49,15 @@ app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
 	if(page.name === 'home'){
-		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
-		var query2 = '{"query": "query gDevices {devices {id name}}"}'
 		
-		singleAccess.getToken(query);
+		var deviceName = "OpenProjectEvalSlider"
+		singleAccess.initializeDB(deviceName);
 		
-		function getToken(callback){
-			var tid = setInterval(function(){
-				var T = singleAccess.getToken();
-				if(T != null){
-					console.log("zurückgekommen als: " + T);
-					clearInterval(tid);
-					callback(T);
-					//do s.th with T.
-
-				}else{
-					//console.log("leider nicht");
-				}
-			},500); //delay is in milliseconds 
-
-			setTimeout(function(){
-				 clearInterval(tid); //clear above interval after 15 seconds
-			},15000);
+		singleAccess.initializeDB(deviceName);
+		singleAccess.getContexts(deviceName);
 		
-		}
 		
-		getToken(function(T){
-			console.log("callbacked: " + T)
-			
-			function getData(callback){
-			var tid = setInterval(function(){
-				var data = singleAccess.getData(query2, T);
-				if(data != null){
-					console.log("zurückgekommen als: " + T);
-					clearInterval(tid);
-					callback(data);
-					//do s.th with T.
-
-				}else{
-					//console.log("leider nicht");
-				}
-			},500); //delay is in milliseconds 
-
-			setTimeout(function(){
-				 clearInterval(tid); //clear above interval after 15 seconds
-			},15000);
-		
-		};
-			getData(function(data){
-				console.log("got data: " + data);
-			});
-			
-		});
+		/* singleAccess.updateDeviceName("banane", deviceName) */
 	} /****************************** home end ****************************/
 /* 	if(page.name === "settingsTest"){
         var key = 'person2';
