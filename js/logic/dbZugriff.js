@@ -12,7 +12,7 @@ function getToken (deviceName) {
 
 
 function getData() {
-	return responsData;
+	return responseData;
 }
 
 
@@ -62,39 +62,19 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 	
 } */
 
+
+	
+	
 DBZugriff.prototype.getContexts = function(deviceName){
 	var query2 = '{ "query": "query {devices {id name}}" }'
 	var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{types id title description}}}"}';
 	
-	
-	
-	
-	function waitForToken(callback){
-		var tid = setInterval(function(){
-			var token = getToken(deviceName);
-			if(token != null){
-				
-				clearInterval(tid);
-				callback(token);
-				console.log("wird ausgeführt..." + token)
-				callDatabase(token, query);
-
-			}else{
-				console.log("leider nicht");
-			}
-		},500); //delay is in milliseconds 
-
-		setTimeout(function(){
-			 clearInterval(tid); //clear above interval after 15 seconds
-		},15000);
-	
-	}
-	
-	waitForToken(function(token){
-			console.log("query: " + query)
-			console.log("token: " + token)
-			console.log("callbacked: " + token)
-			
+	waitForData("token", deviceName, function(token){	
+		console.log("token oder kein token: " + token)
+		callDatabase(token, query);
+		waitForData("responseData", deviceName, function(response){
+			console.log(response)
+		});
 			
 	});
 
@@ -110,7 +90,40 @@ DBZugriff.prototype.getContexts = function(deviceName){
 	 *sendEvalData()
 	**/
 	
+function waitForData(type, deviceName, callback){
+	var tNew = null;
+	var responseNew = null;
 	
+	var waitforD = setInterval(function(){
+		if(type == "token"){
+			tNew = getToken(deviceName);
+			console.log("type war token")
+		}else{
+			console.log("type war kein token")
+			responseNew = getData();
+		}
+		
+		if(tNew != null || responseNew != null){
+			clearInterval(waitforD);
+			if(type == "token"){
+				callback(tNew);
+			}else{
+				callback(responseNew);
+			}
+	
+		}else{
+			console.log("leider nicht");
+		}
+	},500); //delay is in milliseconds 
+
+	setTimeout(function(){
+		 clearInterval(waitforD); //clear above interval after 15 seconds
+	},15000);
+
+}
+
+
+
 function callDatabase(Token, query){
 		$.ajax({
 			url: 'http://192.168.2.104:3000/',
@@ -122,12 +135,11 @@ function callDatabase(Token, query){
 			dataType: 'json',
 			data: query,
 			success: function(response){
-			  responsData = response;
+			  responseData = response;
 			  console.log("success bei callDatabase")
 			},
 			  error: function (response) {
 				  console.log(response)
-				  console.log("nope")
 			}
 		
 	  });
