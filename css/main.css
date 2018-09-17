@@ -275,13 +275,15 @@ Modal Content */
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
+    height:45px!important;
+    width:85px!important;
 }
 
 .toggle:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 40px;
+    width: 40px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -290,29 +292,66 @@ Modal Content */
 }
 
 input:checked + .toggle {
-    background-color: #2196F3;
+    background-color: #d40055;
 }
 
 input:focus + .toggle {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #d40055;
 }
 
 input:checked + .toggle:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(38px);
+    -ms-transform: translateX(38px);
+    transform: translateX(38px);
 }
 
 /* Rounded sliders */
 .toggle.round {
     border-radius: 34px;
+    text-align: center;
+    padding-top: 11px;
+    color: white;
+    font-size: 17px;
+    font-weight:bold;
 }
 
 .toggle.round:before {
     border-radius: 50%;
+    opacity: 0.5;
 }
 
 .togglebuttons {
-    margin: 0 auto;
-    width: 600px;
+    width: 80%;
+    position:relative;
+    left:10%;
+    top: 100px;
+}
+
+.togglebuttons p {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.togglebuttons .toggleoption:first-child {
+    position:relative;
+    left: 20%;
+}
+
+.togglebuttons .toggleoption:last-child {
+    position:relative;
+    left:30%;
+}
+
+.togglebuttons .toggleoption:last-child .togglebutton {
+    position: relative;
+    left: 10%;
+}
+
+.togglebuttons .toggleoption:first-child .togglebutton {
+    position: relative;
+    left: 20%;
+}
+
+.togglebuttons .toggleoption:first-child p:first-child {
+    margin-top:0;
 }

@@ -178,6 +178,30 @@ app.on('pageInit', function (page) {
     }
     /****************************** puzzleGuess end ****************************/
 
+    if(page.name === 'settings') {
+        $("#puzzleColorToggleCheckbox").click(function () {
+            let isToggled = this.checked;
+            console.log(isToggled);
+
+            if (isToggled) {
+                $("#puzzleColorSpan").text("Rot");
+            } else {
+                $("#puzzleColorSpan").text("Blau");
+            }
+        });
+
+        $("#backGroundcolorToggleCheckbox").click(function () {
+            let isToggled = this.checked;
+            console.log(isToggled);
+
+            if (isToggled) {
+                $("#backgroundColorSpan").text("Schwarz");
+            } else {
+                $("#backgroundColorSpan").text("Weiß");
+            }
+        });
+    }
+
     if (page.name === 'puzzle') {
         var backgroundorigin = {};
         var clickedPuzzleTiles = ["puzzletile0010", "puzzletile0000", "puzzletile3322", "puzzletile0020"];
