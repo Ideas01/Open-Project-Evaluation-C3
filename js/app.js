@@ -458,10 +458,8 @@ app.on('pageInit', function (page) {
 
     }
 
-    console.log(page.name);
     if (page.name === 'sliders') {
         $(".help-sliders").click(function () {
-            console.log('test');
             var popup = app.popup.create({
                 content:
                 '<div class="popup" id="popupStart">' +
@@ -610,7 +608,7 @@ app.on('pageInit', function (page) {
 
     });
 
-    $(".startBtn").click(function () {
+    $("#startButton").click(function () {
         var popup = app.popup.create({
             // The Popup
             content:
