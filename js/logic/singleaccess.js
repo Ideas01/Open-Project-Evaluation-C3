@@ -34,8 +34,8 @@
 		return dbZugriff.initializeDB(deviceName);
 	};
 	
-	SingleAccess.prototype.getContexts = function(deviceName){
-		return dbZugriff.getContexts(deviceName)
+	SingleAccess.prototype.getContexts = function(requiredResults, deviceName){
+		return dbZugriff.getContexts(requiredResults, deviceName)
 	}; 
 	
 	SingleAccess.prototype.getData = function(query, Token){

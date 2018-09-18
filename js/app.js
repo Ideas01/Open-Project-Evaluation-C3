@@ -53,10 +53,10 @@ app.on('pageInit', function(page){
 		var deviceName = "OpenProjectEvalSlider"
 		singleAccess.initializeDB(deviceName);
 		
+		var requiredResults = ['types', 'id', 'title', 'description'];
+		singleAccess.getContexts(requiredResults, deviceName);
+		
 		singleAccess.initializeDB(deviceName);
-		singleAccess.getContexts(deviceName);
-		
-		
 		/* singleAccess.updateDeviceName("banane", deviceName) */
 	} /****************************** home end ****************************/
 /* 	if(page.name === "settingsTest"){
