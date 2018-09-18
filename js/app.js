@@ -25,10 +25,6 @@ var app  = new Framework7({
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
         checkSize();
 		
-		$(window).on('resize', function(){
-			checkSize();
-		});
-		
 		
 });
 
@@ -282,7 +278,8 @@ app.on('pageInit', function(page){
 			singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',"" , 6);		
 			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				$(window).on('resize', function (page) {
-						singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+					singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+					checkSize();
 				});
 				
 				// bis hierhin.

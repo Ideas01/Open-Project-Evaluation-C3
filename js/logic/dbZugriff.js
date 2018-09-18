@@ -21,6 +21,7 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 	if(deviceName in tokenList){
 		waitForToken(deviceName, function(token){
 			console.log("bereits gefunden: " + tokenList[deviceName].token);
+			console.log("bereits gefundene Id: " + tokenList[deviceName].id);
 		});
 	}else{
 	console.log("initializingDB....")
@@ -67,22 +68,29 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 		waitForData(name, deviceName, function(response){
 			var contexts = response.contexts;
 			
-			contexts.forEach(function saveContex(context, contextIndex, contexts){
+			contexts.forEach(function(context, contextIndex, contexts){
 				var survey = context.activeSurvey;
 				returnContexts[contextIndex] = {};
-				requiredResults.forEach(function saveResult(result, resultIndex, contexts){
-		
+				
+				requiredResults.forEach(function(result, resultIndex, contexts){
 					returnContexts[contextIndex][result] = survey[result]; 
-					console.log("versuch: "+ returnContexts[contextIndex][result])
 				});
 			});
 			
 		});
 			
 	});
-	console.log("supertolle Nachricht")
-	console.log(returnContexts)
 	return returnContexts;
+}
+
+
+DBZugriff.prototype.updateDeviceContext = function(contextID, deviceID){
+	var query = '{"query": "mutation {updateDevice(data: {context: "'+ contextID +'"}, deviceID: "'+ deviceID +'") {device {context {activeSurvey {title}} id name}}}"}'
+	
+}
+
+DBZugriff.prototype.getPuzzleImages = function(){
+	
 }
 /*
 //TODO: noch schreiben.
