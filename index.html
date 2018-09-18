@@ -1,89 +1,131 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"> -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
- <!--  <meta name="theme-color" content="#2196f3"> -->
+    <meta charset="utf-8">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"> -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--  <meta name="theme-color" content="#2196f3"> -->
 </head>
-  <title>My App</title>
- 
+<title>My App</title>
+
 <link rel="stylesheet" href="framework7/css/framework7.min.css"/>
-  <link rel="stylesheet" href="framework7/css/framework7.ios.min.css"/>
-  <link rel="stylesheet" href="css/framework7-icons.css"/>
-  <link rel="stylesheet" href="css/puzzle.css"/>
-  <link rel="stylesheet" href="css/main.css"/>
-  <link rel="stylesheet" href="css/sliders.css"/>
-  
+<link rel="stylesheet" href="framework7/css/framework7.ios.min.css"/>
+<link rel="stylesheet" href="css/framework7-icons.css"/>
+<link rel="stylesheet" href="css/puzzle.css"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/sliders.css"/>
+<link rel="stylesheet" href="css/404.css"/>
 <body>
-  <div id="app">
+<div id="app">
 
     <!-- Views container -->
     <div class="views ios-edges">
-      
-      <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
-      <div id="view-home" class="view view-main">
-        <!-- Page, data-name contains page name which can be used in page callbacks -->
-		
-		<div class="page" data-name="home">
-          <!-- Top Navbar-->
-        <div class="navbar">
-          <div class="navbar-inner">
-              <img src="img/Logo.svg" style="position: relative; left: 10px;" width="65" height="65" >
-            <div class="left">
-              <!-- Right link contains only icon - additional "icon-only" class-->
-			  <a href="#" data-panel="left" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+
+        <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
+        <div id="view-home" class="view view-main">
+            <!-- Page, data-name contains page name which can be used in page callbacks -->
+
+            <div class="page" data-name="home">
+                <!-- Top Navbar-->
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <img src="img/Logo.svg" style="position: relative; left: 10px;" width="65" height="65">
+                        <div class="left">
+                            <!-- Right link contains only icon - additional "icon-only" class-->
+                            <a href="#" data-panel="left" class="link icon-only open-panel"> <i
+                                    class="icon icon-bars"></i></a>
+                        </div>
+                        <!-- We use a home navbar without left link-->
+                        <div class="center-sliding">Home</div>
+                    </div>
+                </div>
+
+                <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+                <div class="pages navbar-through toolbar-through">
+                    <!-- Page, data-page contains page name-->
+                    <div data-page="index" class="page">
+
+                        <!-- Scrollable page content-->
+                        <div class="page-content">
+                            <h1 class="content-block-title main-header">
+                                <center>HERZLICH WILLKOMMEN
+                            </h1>
+                            <div class="description">
+                                <div class="description-content">
+                                    <p><b>PRORATING ZIEL</b></p>
+                                    <div class="description-text">
+                                        <p>
+											Unser Ziel ist es, durch eure Hilfe, die in dieser App vorgestellten
+                                            Prototypen,
+                                            welche innerhalb der Technische Hochschule von Studenten entwickelt werden,
+                                            zu
+                                            verbessern. Durch eure Teilnahme, können die Studenten analysieren, was
+                                            genau an
+                                            ihrem entwickelten Prototypen fehlt oder weiterentwickelt werden muss. Wir
+                                            freuen uns über jede Teilnahme.
+										</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <div class="description-content">
+                                    <p><b>ANLEITUNG</b></p>
+                                    <div class="description-text">
+                                        <p> Die Bewertung, für den vorgestellten Prototyp, läuft folgendermaßen ab:
+                                            Sobald du
+                                            "Weiter" klickst, öffnet sich ein Fenster in der du die Vorstellung des
+                                            Prototyps
+                                            beginnen kannst, dies geschieht in dem du auf "Play" klickst. Daraufhin
+                                            werden
+                                            dir
+                                            Auschnitte/ Screenshots des Prototyps angezeigt. Diese kannst du dir in
+                                            aller
+                                            Ruhe
+                                            anschauen. Du kannst ebenfalls nach links und rechts wischen, falls du dir
+                                            eines
+                                            der
+                                            Screenshots nochmal genauer anschauen möchtest. Sobald du dich durchgewischt
+                                            hast,
+                                            folgt die Bewertung des Prototyps, diese kannst du anhand von Regler
+                                            durchführen.
+                                            Abschließend kannst du, dann an einem kleinen Spiel, in dem du ein
+                                            Puzzleteil
+                                            aufdecken kannst teilnehmen und raten was sich hinter dem verdeckten Puzzle
+                                            versteckt. 
+										</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Trigger/Open The Popup -->
+                            <a href="/auswahl/" class="startBtn" ><img src="img/next.svg"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-			<!-- We use a home navbar without left link-->
-            <div class="center-sliding" >Home</div>
-          </div>
         </div>
-
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
-            <!-- Page, data-page contains page name-->
-            <div data-page="index" class="page">
-
-                <!-- Scrollable page content-->
-                <div class="page-content">
-                    <h1  class="content-block-title main-header"><center>HERZLICH WILLKOMMEN</h1>
-                    <div class="description1">
-                        <p><b>PRORATING ZIEL</b></p>
-                        <textarea>Unser Ziel ist es, durch eure Hilfe, die in dieser App vorgestellten Prototypen, welche innerhalb der Technische Hochschule von Studenten entwickelt werden, zu verbessern. Durch eure Teilnahme, können die Studenten analysieren, was genau an ihrem entwickelten Prototypen fehlt oder weiterentwickelt werden muss. Wir freuen uns über jede Teilnahme.</textarea>
-                    </div>
-                    <div class="description2">
-                        <p>ANLEITUNG</p>
-                        <textarea>Die Bewertung, für den vorgestellten Prototyp, läuft folgendermaßen ab: Sobald du "Weiter" klickst, öffnet sich ein Fenster in der du die Vorstellung des Prototyps beginnen kannst, dies geschieht in dem du auf "Play" klickst. Daraufhin werden dir Auschnitte/ Screenshots des Prototyps angezeigt. Diese kannst du dir in aller Ruhe anschauen. Du kannst ebenfalls nach links und rechts wischen, falls du dir eines der Screenshots nochmal genauer anschauen möchtest. Sobald du dich durchgewischt hast, folgt die Bewertung des Prototyps, diese kannst du anhand von Regler durchführen. Abschließend kannst du, dann an einem kleinen Spiel, in dem du ein Puzzleteil aufdecken kannst teilnehmen und raten was sich hinter dem verdeckten Puzzle versteckt.   </textarea>
-                    </div>
-                    
-                     <!-- Trigger/Open The Popup -->
-                    <a href="#" class="startBtn"><img src="img/next.svg"></a>
-				</div>
-			</div>
-        </div>
-      </div>
     </div>
-  </div>
-  <!-- Cordova -->
-  <!--
-  <script src="cordova.js"></script>
-  -->
-  <script src="js/jquery.min.js"></script>
+    <!-- Cordova -->
+    <!--
+    <script src="cordova.js"></script>
+    -->
+    <script src="js/jquery.min.js"></script>
     <!-- Framework7 library -->
-  <script src="framework7/js/framework7.min.js"></script>
-  <!-- Framework7 library -->
-  <script type="text/javascript" src="js/logic/puzzleBuilder.js"></script>
-  <script type="text/javascript" src="js/logic/sliderFactory.js"></script>
-  <script type="text/javascript" src="js/logic/dbZugriff.js"></script>
-  <script src="js/logic/singleaccess.js"></script>
+    <script src="framework7/js/framework7.min.js"></script>
+    <!-- Framework7 library -->
+    <script type="text/javascript" src="js/logic/puzzleBuilder.js"></script>
+    <script type="text/javascript" src="js/logic/sliderFactory.js"></script>
+    <script type="text/javascript" src="js/logic/dbZugriff.js"></script>
+    <script src="js/logic/singleaccess.js"></script>
 
 
-  <!-- App routes -->
-  <script src="./js/routes.js"></script>
-  
+    <!-- App routes -->
+    <script src="./js/routes.js"></script>
 
-  <!-- Your custom app scripts -->
-  <script src="./js/app.js"></script>
+
+    <!-- Your custom app scripts -->
+    <script src="./js/app.js"></script>
 </body>
 </html>
