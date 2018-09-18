@@ -89,32 +89,98 @@ app.on('pageInit', function(page){
         });
 
 	}   */ /******* settings end *******/
-	
-	if(page.name === 'sliders') {
+    if(page.name === 'sliders') {
         app.popup.close();
-		var sliderValues = [];
-
-		//test-data
-		var testDataObj = {
-			questionCount: 4,
-			headerArray: [
-				"Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
-			]
-		};
-		var singleAccess = new SingleAccess();
-
-		//create range-sliders for the questions and save their references
-		var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
+        var sliderValues = [];
 
 
-		$('#bewertungBtn').click(function () {
-			alert("es wurde gegklickt");
-			var rangeSliderValues = [];
+        //test-data
+        var testDataObj = {
+            questionCount: 3,
+            headerArray: [
+                "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+            ]
+        };
 
-			for (var i = 0; i < rangeSliderReferences.length; i++) {
-				rangeSliderValues[i] = rangeSliderReferences[i].getValue();
-			}
-		});
+        //set variable for the remaining questions
+        var remainingQuestions = testDataObj.questionCount;
+        var rangeSliderReferences = singleAccess.createRangeSliders(remainingQuestions);
+
+        $("#sendRatingsButton").click(function(){
+            remainingQuestions -= rangeSliderReferences.length;
+
+            if(remainingQuestions > 0){
+                console.log("Es gibt mehr questions als slider");
+
+                //save slider values of the existing sliders
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push(rangeSliderReferences[i].value);
+                    $('.range-bar').remove();
+                    $('.range-knob-wrap').remove();
+                    //app.range.destroy(rangeSliderReferences[i]);
+                }
+                rangeSliderReferences = singleAccess.createRangeSliders(remainingQuestions);
+                for(var i=0; i<=remainingQuestions;i++){
+
+                    app.range.setValue('#slider'+i,0);
+                }
+
+                console.log(sliderValues);
+            }
+            else {
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push(rangeSliderReferences[i].value);
+                }
+                var popup = app.popup.create({
+                    // The Popup
+                    content:
+                    '<div class="popup" id="popupStart">' +
+                    '<div class="view">' +
+                    '<div class="page">' +
+                    '<div class="navbar">' +
+                    '<div class="navbar-inner">' +
+                    '<div class="title">Popup</div>' +
+                    '<div class="right">' +
+                    '<a href="#" class="link popup-close">Close</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="page-content">' +
+                    '<div class="block">' +
+                    '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+                    '<div class="sk-circle">' +
+                    '<div class="sk-circle1 sk-child"></div>' +
+                    '<div class="sk-circle2 sk-child"></div>' +
+                    '<div class="sk-circle3 sk-child"></div>' +
+                    '<div class="sk-circle4 sk-child"></div>' +
+                    '<div class="sk-circle5 sk-child"></div>' +
+                    '<div class="sk-circle6 sk-child"></div>' +
+                    '<div class="sk-circle7 sk-child"></div>' +
+                    '<div class="sk-circle8 sk-child"></div>' +
+                    '<div class="sk-circle9 sk-child"></div>' +
+                    '<div class="sk-circle10 sk-child"></div>' +
+                    '<div class="sk-circle11 sk-child"></div>' +
+                    '<div class="sk-circle12 sk-child"></div>' +
+                    '</div>' +
+                    '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                    on: {
+                        opened: function () {
+                        },
+                        close: function(){
+                            $(".popup").remove();
+                        }
+                    }
+                });
+                app.popup.open(popup.el,true);
+                console.log(sliderValues);
+            }
+        });
+
     }
 	/****************************** sliders end ****************************/
 

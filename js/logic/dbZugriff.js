@@ -26,7 +26,7 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 	tokenList[deviceName].token = null;
 	console.log("datenbankzugriff gestartet");
 	$.ajax({
-		url: 'http://192.168.2.104:3000/',
+		url: 'http://192.168.193.1:3000/',
 		headers: {
 			'Content-Type':'application/json',
 		},
