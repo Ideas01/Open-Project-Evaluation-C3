@@ -22,228 +22,279 @@ var app  = new Framework7({
   routes: routes,
 });
 
+$$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
+        checkSize();
+		
+		$(window).on('resize', function(){
+			checkSize();
+		});
+		
+		
+});
 
-
+		
+function checkSize(){
+	var element = $("#puzzleWrapper").children().first().children().first();
+	if(element.width() > 32 && element.height() > 32 ){
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "none";
+	}
+	else{
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
+	}
+}
+		
 app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
 	
 	console.log(page.name + " wird ausgeführt");
 
 	if(page.name === 'home'){
-		var query = '{"query":"mutation cDevice {createDevice(data: {name: \\"TestAndroid\\"}) {device {id name context {id} owners {id}} token}}"}';
-		//var query2 = '{"query": "query gDevices {devices {id name}}"}'
-		singleAccess.getToken(query);
 		
-		function getToken(callback){
-			var tid = setInterval(function(){
-				var T = singleAccess.getToken();
-				if(T != null){
-					alert("zurückgekommen als: " + T);
-					clearInterval(tid);
-					callback(T);
-					//do s.th with T.
+		var deviceName = "OpenProjectEvalSlider"
+		singleAccess.initializeDB(deviceName);
+		
+		singleAccess.initializeDB(deviceName);
+		singleAccess.getContexts(deviceName);
+		
+		
+		/* singleAccess.updateDeviceName("banane", deviceName) */
+	} /****************************** home end ****************************/
+/* 	if(page.name === "settingsTest"){
+        var key = 'person2';
+        $('#saveSettings').click(function(){
 
-				}else{
-					//console.log("leider nicht");
-				}
-			},500); //delay is in milliseconds 
+        	if (window.localStorage) {
 
-			setTimeout(function(){
-				 clearInterval(tid); //clear above interval after 15 seconds
-			},15000);
-		
-		}
-		
-		getToken(function(T){
-			console.log("callbacked: " + T)
-		});
-	}
-	
-	
-	if(page.name === 'sliders') {
+
+                    var person = {
+
+                        Name: 'Hans Peter',
+
+                        Age: 24,
+
+                        Gender: 'Male',
+
+                        Nationality: 'Nigerian'
+                    };
+                    localStorage.setItem(key, JSON.stringify(person));
+
+
+                } else {
+        			console.log("im localstorage ging was schief")
+                }
+        });
+        $('#loadSettings').click(function() {
+            alert(localStorage.getItem(key));
+            console.log(JSON.parse(localStorage.getItem(key)));
+        });
+
+	}   */ /******* settings end *******/
+    if(page.name === 'sliders') {
         app.popup.close();
-		var sliderValues = [];
+        var sliderValues = [];
 
-		//test-data
-		var testDataObj = {
-			questionCount: 4,
-			headerArray: [
-				"Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+
+        //test-data
+        var testDataObj = {
+            questionCount: 3,
+            headerArray: [
+                "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
+            ]
+        };
+
+        //set variable for the remaining questions
+        var remainingQuestions = testDataObj.questionCount;
+        var rangeSliderReferences = singleAccess.createRangeSliders(remainingQuestions);
+
+        $("#sendRatingsButton").click(function(){
+            remainingQuestions -= rangeSliderReferences.length;
+
+            if(remainingQuestions > 0){
+                console.log("Es gibt mehr questions als slider");
+
+                //save slider values of the existing sliders
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push(rangeSliderReferences[i].value);
+                    $('.range-bar').remove();
+                    $('.range-knob-wrap').remove();
+                    //app.range.destroy(rangeSliderReferences[i]);
+                }
+                rangeSliderReferences = singleAccess.createRangeSliders(remainingQuestions);
+                for(var i=0; i<=remainingQuestions;i++){
+
+                    app.range.setValue('#slider'+i,0);
+                }
+
+                console.log(sliderValues);
+            }
+            else {
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push(rangeSliderReferences[i].value);
+                }
+                var popup = app.popup.create({
+                    // The Popup
+                    content:
+                    '<div class="popup" id="popupStart">' +
+                    '<div class="view">' +
+                    '<div class="page">' +
+                    '<div class="navbar">' +
+                    '<div class="navbar-inner">' +
+                    '<div class="title">Popup</div>' +
+                    '<div class="right">' +
+                    '<a href="#" class="link popup-close">Close</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="page-content">' +
+                    '<div class="block">' +
+                    '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+                    '<div class="sk-circle">' +
+                    '<div class="sk-circle1 sk-child"></div>' +
+                    '<div class="sk-circle2 sk-child"></div>' +
+                    '<div class="sk-circle3 sk-child"></div>' +
+                    '<div class="sk-circle4 sk-child"></div>' +
+                    '<div class="sk-circle5 sk-child"></div>' +
+                    '<div class="sk-circle6 sk-child"></div>' +
+                    '<div class="sk-circle7 sk-child"></div>' +
+                    '<div class="sk-circle8 sk-child"></div>' +
+                    '<div class="sk-circle9 sk-child"></div>' +
+                    '<div class="sk-circle10 sk-child"></div>' +
+                    '<div class="sk-circle11 sk-child"></div>' +
+                    '<div class="sk-circle12 sk-child"></div>' +
+                    '</div>' +
+                    '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                    on: {
+                        opened: function () {
+                        },
+                        close: function(){
+                            $(".popup").remove();
+                        }
+                    }
+                });
+                app.popup.open(popup.el,true);
+                console.log(sliderValues);
+            }
+        });
+
+    }
+	/****************************** sliders end ****************************/
+
+
+	if(page.name === 'puzzleGuess'){
+		var guessItems = {
+			Tiere : [
+				'Katze','Hund','Maus'
+			],
+			Autos : [
+				'Audi','BMW','Ford','Mercedes'
+			],
+			Küche: [
+				'Messer', 'Gabel', 'Kühlschrank', 'Topf', 'Eisfach','Herd'
 			]
 		};
-		var singleAccess = new SingleAccess();
+		var isCorrect = 'Katze';
 
-		//create range-sliders for the questions and save their references
-		var rangeSliderReferences = singleAccess.createRangeSliders(testDataObj.questionCount);
+        var imageSource;
 
-
-		$('#bewertungBtn').click(function () {
-			alert("es wurde gegklickt");
-			var rangeSliderValues = [];
-
-			for (var i = 0; i < rangeSliderReferences.length; i++) {
-				rangeSliderValues[i] = rangeSliderReferences[i].getValue();
-			}
-		});
-    }
-	
-
-	
- 	if(page.name === 'puzzle') {
-		var backgroundorigin = {};
-		var clickedPuzzleTiles = ["puzzletile0010","puzzletile0000", "puzzletile3322", "puzzletile0020"];
-        
-		var loadImage = new Promise(function (resolve, reject) {
+        var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
             backgroundImage.src = 'https://i.imgur.com/fHyEMsl.jpg';
             backgroundImage.crossOrigin = "Anonymous";
             backgroundImage.onload = function () {
+                resolve(backgroundImage);
+            };
+            backgroundImage.onerror = function () {
+                reject("could not load the image");
+            };
+        });
+        loadImage.then(function (backgroundImage) {
+        	imageSource = backgroundImage.src;
+        	singleAccess.buildMiniOverview(imageSource,'#puzzleOverview',"#puzzleOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+        }).then(function () {
+            //for each property in guessItems...
+            $.each(guessItems, function (i,value) {
+                //...append a button, set the caption to the guessItems Objects property name...
+                $('#guessOverview').append('<a class="button" id="'+i+'">'+ i +'</a>');
+                //...and set a click listener for each button
+				$('#'+i).click(function () {
+                    //empty the container, which holds the values of the properties
+                    $('#guessItems').empty();
+                    //for each value of a property...
+                    $.each(value,function (i) {
+                        //...append a button, set the caption to the i-th value of the property
+                        $('#guessItems').append('<a class="button" id="'+value[i]+'">'+ value[i]+'</a>');
+                        $('#'+value[i]).click(function () {
+                            checkGuessItem(value[i],isCorrect);
+                        })
+                    });
+                })
+            });
+            }).then(function () {
+            	//append the first property of the guessItems Object by default
+            	 $.each((guessItems[Object.keys(guessItems)[0]]),function (i,value) {
+            	 	$('#guessItems').append('<a class="button" id="'+value+'">'+ value+'</a>');
+                     $('#'+value).click(function () {
+                         checkGuessItem(value,isCorrect);
+                     })
+                })
+
+
+        });
+
+		function checkGuessItem(item,correctItem) {
+			if(item === correctItem){
+				alert("ist richtig");
+			}
+			else{
+				alert("ist falsch");
+			}
+        }
+
+	}
+    /****************************** puzzleGuess end ****************************/
+	
+ 	if(page.name === 'puzzle') {		
+        
+		var loadImage = new Promise(function (resolve, reject) {
+            var backgroundImage = new Image();
+            backgroundImage.src = 'img/katzie.jpg';
+			//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
+            backgroundImage.crossOrigin = "Anonymous";
+            backgroundImage.onload = function () {
 				const originPictureWidth = backgroundImage.width;
 				const originPictureHeight = backgroundImage.height;
-				backgroundorigin = {image: backgroundImage, imgWidth: originPictureWidth , imgHeight: originPictureHeight};
 			    resolve(backgroundImage);
             };
             backgroundImage.onerror = function () {
                 reject("could not load the image");
             };
         });
-
-
-
-        //imgObj = new Image();
-        //imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
-
-        imgSource = 'https://i.imgur.com/fHyEMsl.jpg';
-
-        var singleAccess = new SingleAccess();
-
-        $('#puzzleWrapper').css("background-image", 'url("' + imgSource + '")');
-
-        var gridReady = new Promise(function (resolve, reject) {
-            //singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid", "yellow", "gridPiece");
-            singleAccess.buildPuzzle(4, "#puzzleWrapper", "grid","", "gridPiece");
-			resolve("ready");
-        });
-        gridReady.then(function (fulfilled) {
-            $(".gridPiece").each(function (n) {
-                for (var i = 0; i < 4; i++) {
-                    singleAccess.buildPuzzleTiles(3, '#grid' + n + i, "puzzletile" + n + i, "blue", "puzzlePiece",clickedPuzzleTiles);
-                }
-                });
-
-            $('.puzzlePiece').click(function (event) {
-                event.target.style.visibility = "hidden";
-                clickedPuzzleTiles.push(event.target.id);
-                console.log(clickedPuzzleTiles);
-            });
-              // $('.puzzlePiece').each(function () {
-             //       $(this).attr('onclick', 'hideDiv(this)');
-              //  });
-
-            });
-
-          /*  $('.gridPiece').each(function () {
-                $(this).attr("onclick", "colorDiv(this)");
-            }); */
-
-
-
-
-
-
-        singleAccess.buildPuzzle(4, "#puzzleGridWrapper", "overgrid", "lime", "overallGridPiece");
-
-        calculateWrapperSize(imgSource, "#puzzleWrapper");
-        calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-        calculateWrapperSize(imgSource, "#croppedImageDiv");
-
-        $$(window).on('resize', function (page) {
-            calculateWrapperSize(imgSource, "#puzzleWrapper");
-            calculateWrapperSize(imgSource, "#puzzleGridWrapper");
-            calculateWrapperSize(imgSource, "#croppedImageDiv");
-        });
-
-        $(".overallGridPiece").click(function (event) {
-			var coordinateOld = null;
-			var coordinate = null;
-			
-            
-			var getOldCoordinate = new Promise(function(resolve){
-				coordinateOld = (event.target.id).toString().split("d");
-				resolve(coordinateOld);
-			}); 
-			
-			getOldCoordinate.then(function(){
-				console.log("promise solved");
-				coordinate = Array.from(coordinateOld[1]);
+		
+		loadImage.then(function(imageObject){
+			var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
+			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
 				
-				var xCoordinate = coordinate[0];
-				var yCoordinate = coordinate[1];
-				console.log("X: "+ xCoordinate + "y: "+ yCoordinate);
-				var pieceSize = {"pieceHeight": $('#croppedImageDiv').width()/4, "pieceWidth": $('#croppedImageDiv').width()/4};
-			
-
-								
-				$('.overallGridPiece').toggle();
-				$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-			
-				//TODO: image Object nur einmal bauen und mit getter holen.
-				//imgObj.src = 'https://www.advopedia.de/var/advopedia/storage/images/news/kurios/tierische-vorladung-wenn-die-katze-vor-gericht-muss/151031-1-ger-DE/tierische-vorladung-wenn-die-katze-vor-gericht-muss_ng_image_full.jpg';
+			singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',"" , 6);		
+			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				$(window).on('resize', function (page) {
+						singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				});
 				
-				console.log("backgroundorigin: " + backgroundorigin.imgWidth + "+" + backgroundorigin.imgHeight);
+				// bis hierhin.
 				
-				cropImage( backgroundorigin.imgWidth * xCoordinate/4, backgroundorigin.imgHeight * yCoordinate/4,  backgroundorigin.imgWidth/4, backgroundorigin.imgHeight/4,  backgroundorigin.imgWidth, backgroundorigin.imgHeight);
-			   // console.log("imagedivheight: " +  * xCoordinate/4 + "imagedivwidth: "+ $('#croppedImageDiv').height() * yCoordinate/4)
-				$('#grid'+ coordinateOld[1]).width('100%');
-				$('#grid'+ coordinateOld[1]).height('100%');
-				
-				
+			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.	
+			singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+		});
 
-
-				$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
-				$('#backButton').click(function() {
-					restorePuzzle('#croppedImageDiv');
-					calculateTileSize(4,'gridPiece');
-					$('.gridPiece:not(#grid' + coordinateOld[1] + ')').toggle();
-					$('.overallGridPiece').toggle();
-					$('#backButton').remove()
-				})
-			
-			});
-
-        });
-
-
-
-
-        function calculateWrapperSize(imgURL, element) {
-            var image = new Image();
-            image.src = imgURL;
-            image.onload = function () {
-                var imgFormat = image.width / image.height;
-                var elemHeight = $(element).height();
-                $(element).css("width", elemHeight * imgFormat + "px");
-            };
-            delete(image);
-        }
-
-        function cropImage(sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
-            loadImage.then(function (isLoaded) {
-                var canvasA = document.createElement('canvas');
-                canvasA.width = imgWidth;
-                canvasA.height = imgHeight;
-
-                var context = canvasA.getContext('2d');
-                //		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
-                context.drawImage(isLoaded, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
-                $('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
-
-            }).catch(function (notLoaded) {
-                //console.log(notLoaded.message);
-            })
-        }
-
-    }
+        
+	}
+	
+	/****************************** puzzle end ****************************/
 	
 if (page.name === 'P2'){
 		imageArray.currentIndex = imageArray.startIndex;
@@ -361,7 +412,10 @@ if (page.name === 'P2'){
 	 });
 
 	}
-       
+	
+    
+	/****************************** P2 end ****************************/
+	
 	$(".button").click(function(){
 		var popup = app.popup.create({
 			// The Popup
