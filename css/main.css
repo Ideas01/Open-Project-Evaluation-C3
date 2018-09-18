@@ -30,7 +30,9 @@ body {
 }
 
 .next a img {
-    width: 35%;
+	position: absolute;
+    width: 17%;
+	left: 41%;
 }
 
 .description1 {
