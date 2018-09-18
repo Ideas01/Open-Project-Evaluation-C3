@@ -41,3 +41,18 @@
 	SingleAccess.prototype.getData = function(query, Token){
 		return dbZugriff.getData(query, Token);
 	};
+	
+	
+	
+	
+	
+	SingleAccess.prototype.getPuzzleImages = function(){
+		 dbZugriff.getPuzzleImages();
+	};
+	
+	SingleAccess.prototype.updateDeviceContext = function(contextID){
+		dbZugriff.updateDeviceContext(contextID);
+	}
+		
+		
+	

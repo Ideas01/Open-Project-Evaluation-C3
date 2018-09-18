@@ -53,6 +53,7 @@ app.on('pageInit', function(page){
 		singleAccess.getContexts(requiredResults, deviceName);
 		
 		singleAccess.initializeDB(deviceName);
+		
 		/* singleAccess.updateDeviceName("banane", deviceName) */
 	} /****************************** home end ****************************/
 /* 	if(page.name === "settingsTest"){
@@ -86,6 +87,11 @@ app.on('pageInit', function(page){
 
 	}   */ /******* settings end *******/
     if(page.name === 'sliders') {
+		//nur zum testen
+		singleAccess.getPuzzleImages();
+		
+		
+		
         app.popup.close();
         var sliderValues = [];
 
