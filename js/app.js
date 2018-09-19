@@ -78,38 +78,8 @@ app.on('pageInit', function(page){
 		
 		singleAccess.updateDeviceContext();
 		
-		/* singleAccess.updateDeviceName("banane", deviceName) */
 	} /****************************** home end ****************************/
-/* 	if(page.name === "settingsTest"){
-        var key = 'person2';
-        $('#saveSettings').click(function(){
 
-        	if (window.localStorage) {
-
-
-                    var person = {
-
-                        Name: 'Hans Peter',
-
-                        Age: 24,
-
-                        Gender: 'Male',
-
-                        Nationality: 'Nigerian'
-                    };
-                    localStorage.setItem(key, JSON.stringify(person));
-
-
-                } else {
-        			console.log("im localstorage ging was schief")
-                }
-        });
-        $('#loadSettings').click(function() {
-            alert(localStorage.getItem(key));
-            console.log(JSON.parse(localStorage.getItem(key)));
-        });
-
-	}   */ /******* settings end *******/
     if(page.name === 'sliders') {
 		//nur zum testen
 		singleAccess.getPuzzleImages();

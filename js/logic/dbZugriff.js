@@ -60,14 +60,16 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 	
 DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	//var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{types id title description}}}"}';
-	var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{';
 	var name = 'contexts';
 	var returnContexts = {};
+	
+	//build query
+	var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{';
 	requiredResults.forEach(function(el){
 		query += el + ' ';
 	});
+	query += '}}}"}'; //query build end
 	
-	query += '}}}"}';
 	
 	waitForToken(deviceName, function(token){	
 		callDatabase(name, token, query);
@@ -90,6 +92,11 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	return returnContexts;
 }
 
+function survey(name, age, sex) {
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
 
 DBZugriff.prototype.updateDeviceContext = function(contextID){
 	var query = '{"query": "mutation {updateDevice(data: {context: "'+ contextID +'"}, deviceID: "'+ deviceID +'") {device {context {activeSurvey {title}} id name}}}"}';
