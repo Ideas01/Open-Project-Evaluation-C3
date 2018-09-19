@@ -2,14 +2,14 @@
 function DBZugriff() {}
 
 
-var tokenList = {};
+var globalTokenList = {};
 
-function setGlobalTokenList(newTokenlist){
-	tokenList = newToken;
+function setGlobalTokenList(newGlobalTokenlist){
+	globalTokenList = newGlobalTokenlist;
 }
 
 DBZugriff.prototype.getGlobalTokenList = function(){
-	return tokenList;
+	return globalTokenList;
 }
 
 
@@ -24,63 +24,58 @@ DBZugriff.prototype.getGlobalContextList = function(){
 }
 
 
+var globalContextData ={};
+
+function setglobalContextData(newGlobalContextData){
+	globalContextData = newGlobalContextData;
+}
+
+DBZugriff.prototype.getGlobalContextData = function(){
+	return globalContextData;
+}
+
+
 var serverAdresse = 'http://192.168.43.174:3000/';
-var actualDevice = null;
 
-
-/* var serverAdresse = 'http://192.168.2.104:3000/';
-var tokenList = {};
-var actualDevice = null; */
-
-//nur zum Testen
-var deviceID = null;
-var actualDeviceName = "OpenProjectEvalSlider";
-
-function getToken (deviceName) {
-	console.log("deviceToken ist " + tokenList[deviceName].token)
-	return tokenList[deviceName].token;
-}
-
-
-function getData() {
-	return tokenList[actualDevice].data;
-}
 
 
 DBZugriff.prototype.initializeDB = function(deviceName){
 	var query = '{"query":"mutation {createDevice(data: {name: \\"' + deviceName + '\\"}) {device {id name context {id} owners {id}} token}}"}';
-		actualDevice = "deviceName";
-		
+	
+	var tokenList = DBZugriff.prototype.getGlobalTokenList();	
 	if(deviceName in tokenList){
 		waitForToken(deviceName, function(token){
 			console.log("bereits gefunden: " + tokenList[deviceName].token);
 			console.log("bereits gefundene Id: " + tokenList[deviceName].id);
 		});
 	}else{
-	console.log("initializingDB....")
-	tokenList[deviceName] = {};
-	tokenList[deviceName].data = null;
-	tokenList[deviceName].token = null;
-	console.log("datenbankzugriff gestartet");
-	$.ajax({
-		url: serverAdresse,
-		headers: {
-			'Content-Type':'application/json',
-		},
-		method: 'POST',
-		dataType: 'json',
-		data: query,
-		success: function(r){
-		  let response = r.data.createDevice;
-		  tokenList[deviceName].token = response.token;
-		  tokenList[deviceName].id = response.device.id;
-		  deviceID = tokenList[deviceName].id;
-		  console.log("db initialized")
-		},
-		 error: function (r) {
-		}
+		console.log("initializingDB....")
 		
-	  });
+		tokenList[deviceName] = {};
+		tokenList[deviceName].data = null;
+		tokenList[deviceName].token = null;
+		console.log("datenbankzugriff gestartet");
+		$.ajax({
+			url: serverAdresse,
+			headers: {
+				'Content-Type':'application/json',
+			},
+			method: 'POST',
+			dataType: 'json',
+			data: query,
+			success: function(r){
+			  let response = r.data.createDevice;
+			  tokenList[deviceName].token = response.token;
+			  tokenList[deviceName].id = response.device.id;
+			  
+			  setGlobalTokenList(tokenList);
+			  console.log("db initialized")
+			  console.log(tokenList[deviceName].id)
+			},
+			 error: function (r) {
+			}
+			
+		});
 	}
 }
 
@@ -107,7 +102,7 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 				contexts.forEach(function(contextElement, contextIndex, contexts){
 					var survey = contextElement.activeSurvey;
 					var surveyKeys = listAllKeys(survey);
-					var finalSurvey = new FinalSurvey("kkk", contextIndex, surveyKeys, survey);
+					var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
 					
 					
 					let contextList = DBZugriff.prototype.getGlobalContextList();
@@ -124,12 +119,12 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 
 
 
-function FinalSurvey(name, id, surveyKeys, survey){
-	var Object = this;
-	Object.name = name; //not necessary only for future references
+function FinalSurvey(contextId, id, surveyKeys, survey){
+	var object = this;
 	
+	object.contextId = contextId;
 	surveyKeys.forEach(function(surveyKeyElement){
-		Object[surveyKeyElement] = survey[surveyKeyElement];
+		object[surveyKeyElement] = survey[surveyKeyElement];
 	});
 	
 	
@@ -149,22 +144,32 @@ function listAllKeys(obj) {
 
 
 
-DBZugriff.prototype.updateDeviceContext = function(contextID){
-	// var query = '{"query": "mutation {updateDevice(data: {context: "'+ contextID +'"}, deviceID: "'+ deviceID +'") {device {context {activeSurvey {title}} id name}}}"}';
-	// var name = "updateContext";
+DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
 	
+	waitForToken(deviceName, function(token){
+		var tokenList = DBZugriff.prototype.getGlobalTokenList();
+		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + tokenList[deviceName].id +'\\") {device {context {activeSurvey {title}} id name}}}"}';
+		var name = "updateContext";
+		
+		callDatabase(name, token, query);
+		waitForData(name, deviceName, function(response){
+			console.log(name + "erfolgreich zurück")
+			console.log(response);
+		});
+	
+	});
 	// callDatabase(name, getToken(), query); 
 	
-}
+} 
 
-DBZugriff.prototype.getPuzzleImages = function(){
+/* DBZugriff.prototype.getPuzzleImages = function(){
 	console.log("send deviceID for images: "+ deviceID)
 	//var query = '{"query" : "query {device(deviceID: "688b51557fd7362a4cc14b41d24f494f321efb7baaa59d17dccf3936d420f0b2"){context{activeSurvey{images{url}}}}}" }'
 	var query2 = '{"query": "query {device(deviceID: "'+ deviceID +'"){context{activeSurvey{images{url}}}}}"}';
 	console.log("query send for images: " + query);
 	var name = "puzzleImages"
 	
-	console.log("aktueller Device Name: "+ actualDeviceName)
+	console.log("aktueller Device Name: ")
 	waitForToken(actualDeviceName, function(token){	
 		callDatabase(name, token, query);
 		waitForData(name, actualDeviceName, function(response){
@@ -173,7 +178,7 @@ DBZugriff.prototype.getPuzzleImages = function(){
 		});
 	});
 }
-
+ */
 
 /*
 //TODO: noch schreiben.
@@ -186,13 +191,13 @@ DBZugriff.prototype.getPuzzleImages = function(){
 	
 	
 function waitForToken(deviceName, callback){
-	var tNew = null;
 	
 	var waitforT = setInterval(function(){
 		
-		tNew = getToken(deviceName);
+		var tokenList = DBZugriff.prototype.getGlobalTokenList();
+		var tNew = tokenList[deviceName].token;
 		
-		if(tNew != null){
+		if(tNew != undefined){
 			clearInterval(waitforT);
 				callback(tNew);
 		}else{
@@ -207,12 +212,12 @@ function waitForToken(deviceName, callback){
 
 	
 function waitForData(dataReference, deviceName, callback){
-	var responseNew = null;
 		
 	var waitforD = setInterval(function(){
-		responseNew = getData(dataReference);
+		var contextData= DBZugriff.prototype.getGlobalContextData();
+		var responseNew = contextData[dataReference].data;
 		
-		if(responseNew != null){
+		if(responseNew != undefined){
 			clearInterval(waitforD);
 			callback(responseNew);
 		}else{
@@ -232,11 +237,14 @@ function callDatabase(dataReference, Token, query){
 	
 		console.log("initializingDB... for: " + dataReference)
 		
-		tokenList[actualDevice] = {};
-		tokenList[actualDevice].data = null;
-		tokenList[dataReference] ={};
-		tokenList[dataReference].data = null;
+		var contextData= DBZugriff.prototype.getGlobalContextData();
+		contextData[dataReference] = {};
+		contextData[dataReference].data = null;
 		
+		
+		/* tokenList[actualDevice].data = null;
+		tokenList[dataReference] ={};
+		tokenList[dataReference].data = null; */
 		
 		console.log("datenbankzugriff gestartet");
 		
@@ -251,10 +259,9 @@ function callDatabase(dataReference, Token, query){
 			dataType: 'json',
 			data: query,
 			success: function(r){
-			  responseData = r.data;
-			  tokenList[actualDevice].data = responseData;
-			  tokenList[dataReference].data = responseData;
-			  console.log(tokenList[dataReference].data)
+			  
+			  let responseData = r.data;
+			  contextData[dataReference].data = responseData;
 			  console.log("success bei callDatabase")
 			},
 			  error: function (response) {

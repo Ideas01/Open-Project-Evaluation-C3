@@ -57,8 +57,8 @@
 		 dbZugriff.getPuzzleImages();
 	};
 	
-	SingleAccess.prototype.updateDeviceContext = function(contextID){
-		dbZugriff.updateDeviceContext(contextID);
+	SingleAccess.prototype.updateDeviceContext = function(contextID, deviceName){
+		dbZugriff.updateDeviceContext(contextID, deviceName);
 	}
 		
 

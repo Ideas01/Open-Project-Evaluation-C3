@@ -93,7 +93,6 @@ app.on('pageInit', function(page){
 				
 				var contextList = singleAccess.getGlobalContextList();
 				if(contextList[1] != undefined){
-					console.log("ok");
 					clearInterval(waitforC);
 					callback(contextList);
 				}else{
@@ -108,11 +107,14 @@ app.on('pageInit', function(page){
 		}
 		
 		waitForContexts(function(contextList){
+			
+			
+			singleAccess.updateDeviceContext(contextList[0], deviceName)
 			console.log("zurück contextlist")
 			console.log(contextList);
 		});
-		singleAccess.updateDeviceContext();
 		
+		singleAccess.initializeDB(deviceName);
 	} /****************************** home end ****************************/
 
 	/****************************** prototype Auswahl start *************/
