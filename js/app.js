@@ -50,9 +50,33 @@ app.on('pageInit', function(page){
 		singleAccess.initializeDB(deviceName);
 		
 		var requiredResults = ['types', 'id', 'title', 'description'];
-		singleAccess.getContexts(requiredResults, deviceName);
+		var contexts = singleAccess.getContexts(requiredResults, deviceName);
 		
-		singleAccess.initializeDB(deviceName);
+		
+		var obj = {"key": "value"};
+		
+		function listAllKeys(o) {
+			var objectToInspect;     
+			var result = [];
+			
+			for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+			  result = result.concat(Object.keys(objectToInspect));  
+			}
+			
+			return result; 
+		}
+		
+		console.log(contexts)
+		console.log(obj);
+		console.log(listAllKeys(obj))
+		
+		
+		
+		
+		console.log("app.js")
+		//console.log(contexts[C0]);
+		
+		singleAccess.updateDeviceContext();
 		
 		/* singleAccess.updateDeviceName("banane", deviceName) */
 	} /****************************** home end ****************************/

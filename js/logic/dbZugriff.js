@@ -76,10 +76,11 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 			
 			contexts.forEach(function(context, contextIndex, contexts){
 				var survey = context.activeSurvey;
-				returnContexts[contextIndex] = {};
+				returnContexts["C" + contextIndex] = {};
 				
 				requiredResults.forEach(function(result, resultIndex, contexts){
-					returnContexts[contextIndex][result] = survey[result]; 
+					returnContexts["C" + contextIndex][result] = {};
+					returnContexts["C" + contextIndex][result] = "survey" : survey[result]; 
 				});
 			});
 			
