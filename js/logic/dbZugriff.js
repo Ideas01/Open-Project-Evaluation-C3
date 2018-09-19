@@ -92,10 +92,10 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	return returnContexts;
 }
 
-function survey(name, age, sex) {
-  this.name = name;
-  this.age = age;
-  this.sex = sex;
+function survey(requiredResults) {
+  requiredResults.forEach(function(element){
+	  this[element] = element;
+  });
 }
 
 DBZugriff.prototype.updateDeviceContext = function(contextID){
