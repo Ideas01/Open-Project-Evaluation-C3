@@ -43,7 +43,9 @@
 	};
 	
 	
-	
+	SingleAccess.prototype.getGlobalContextList = function(){
+		return dbZugriff.getGlobalContextList();
+	}
 	
 	
 	SingleAccess.prototype.getPuzzleImages = function(){

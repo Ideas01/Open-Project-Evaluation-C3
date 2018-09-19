@@ -23,9 +23,7 @@ var app  = new Framework7({
 });
 
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
-        checkSize();
-		
-		
+        checkSize();	
 });
 
 		
@@ -38,6 +36,8 @@ function checkSize(){
 		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
 	}
 }
+
+
 		
 app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
@@ -49,33 +49,35 @@ app.on('pageInit', function(page){
 		var deviceName = "OpenProjectEvalSlider"
 		singleAccess.initializeDB(deviceName);
 		
-		var requiredResults = ['types', 'id', 'title', 'description'];
+		var requiredResults = ['id', 'title', 'description'];
+		
 		var contexts = singleAccess.getContexts(requiredResults, deviceName);
 		
 		
-		var obj = {"key": "value"};
 		
-		function listAllKeys(o) {
-			var objectToInspect;     
-			var result = [];
-			
-			for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
-			  result = result.concat(Object.keys(objectToInspect));  
-			}
-			
-			return result; 
+		function waitForContexts (callback){
+			var waitforC = setInterval(function(){
+				
+				var contextList = singleAccess.getGlobalContextList();
+				if(contextList[1] != undefined){
+					console.log("ok");
+					clearInterval(waitforC);
+					callback(contextList);
+				}else{
+					console.log("leider kein Context");
+				}
+			},500); //delay is in milliseconds 
+
+			setTimeout(function(){
+				 clearInterval(waitforC); //clear above interval after 15 seconds
+			},15000);
+	
 		}
 		
-		console.log(contexts)
-		console.log(obj);
-		console.log(listAllKeys(obj))
-		
-		
-		
-		
-		console.log("app.js")
-		//console.log(contexts[C0]);
-		
+		waitForContexts(function(contextList){
+			console.log("zurück contextlist")
+			console.log(contextList);
+		});
 		singleAccess.updateDeviceContext();
 		
 	} /****************************** home end ****************************/

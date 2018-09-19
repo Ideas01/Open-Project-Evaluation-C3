@@ -1,16 +1,43 @@
 
 function DBZugriff() {}
 
-var serverAdresse = 'http://192.168.2.104:3000/';
+
 var tokenList = {};
+
+function setGlobalTokenList(newTokenlist){
+	tokenList = newToken;
+}
+
+DBZugriff.prototype.getGlobalTokenList = function(){
+	return tokenList;
+}
+
+
+var globalContextList = [];
+
+function setGlobalContextList(newGlobalContextList){
+	globalContextList = newGlobalContextList;
+}
+
+DBZugriff.prototype.getGlobalContextList = function(){
+	return globalContextList;
+}
+
+
+var serverAdresse = 'http://192.168.43.174:3000/';
 var actualDevice = null;
+
+
+/* var serverAdresse = 'http://192.168.2.104:3000/';
+var tokenList = {};
+var actualDevice = null; */
 
 //nur zum Testen
 var deviceID = null;
 var actualDeviceName = "OpenProjectEvalSlider";
 
 function getToken (deviceName) {
-	console.log("deviceToken ist da " + tokenList[deviceName].token)
+	console.log("deviceToken ist " + tokenList[deviceName].token)
 	return tokenList[deviceName].token;
 }
 
@@ -48,6 +75,7 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 		  tokenList[deviceName].token = response.token;
 		  tokenList[deviceName].id = response.device.id;
 		  deviceID = tokenList[deviceName].id;
+		  console.log("db initialized")
 		},
 		 error: function (r) {
 		}
@@ -61,7 +89,7 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	//var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{types id title description}}}"}';
 	var name = 'contexts';
-	var returnContexts = {};
+	var versuch = {}
 	
 	//build query
 	var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{';
@@ -70,39 +98,63 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	});
 	query += '}}}"}'; //query build end
 	
-	
-	waitForToken(deviceName, function(token){	
-		callDatabase(name, token, query);
-		waitForData(name, deviceName, function(response){
-			var contexts = response.contexts;
-			
-			contexts.forEach(function(context, contextIndex, contexts){
-				var survey = context.activeSurvey;
-				returnContexts["C" + contextIndex] = {};
+	var versuch = new Promise(function(resolve){
+		waitForToken(deviceName, function(token){	
+			callDatabase(name, token, query);
+			waitForData(name, deviceName, function(response){
+				var contexts = response.contexts;
 				
-				requiredResults.forEach(function(result, resultIndex, contexts){
-					returnContexts["C" + contextIndex][result] = {};
-					returnContexts["C" + contextIndex][result] = "survey" : survey[result]; 
+				contexts.forEach(function(contextElement, contextIndex, contexts){
+					var survey = contextElement.activeSurvey;
+					var surveyKeys = listAllKeys(survey);
+					var finalSurvey = new FinalSurvey("kkk", contextIndex, surveyKeys, survey);
+					
+					
+					let contextList = DBZugriff.prototype.getGlobalContextList();
+					contextList.push(finalSurvey);
+					console.log(contextList[0])
+					setGlobalContextList(contextList);
+					resolve(contextList);
+					
 				});
-			});
-			
+			});	
 		});
-			
 	});
-	return returnContexts;
+	
 }
 
-function survey(requiredResults) {
-  requiredResults.forEach(function(element){
-	  this[element] = element;
-  });
+
+
+function FinalSurvey(name, id, surveyKeys, survey){
+	var Object = this;
+	Object.name = name; //not necessary only for future references
+	
+	surveyKeys.forEach(function(surveyKeyElement){
+		Object[surveyKeyElement] = survey[surveyKeyElement];
+	});
+	
+	
 }
+
+
+function listAllKeys(o) {
+	var objectToInspect;     
+	var result = [];
+	
+	for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+	  result = result.concat(Object.keys(objectToInspect));  
+	}
+	
+	return result; 
+}
+
+
 
 DBZugriff.prototype.updateDeviceContext = function(contextID){
-	var query = '{"query": "mutation {updateDevice(data: {context: "'+ contextID +'"}, deviceID: "'+ deviceID +'") {device {context {activeSurvey {title}} id name}}}"}';
-	var name = "updateContext";
+	// var query = '{"query": "mutation {updateDevice(data: {context: "'+ contextID +'"}, deviceID: "'+ deviceID +'") {device {context {activeSurvey {title}} id name}}}"}';
+	// var name = "updateContext";
 	
-	callDatabase(name, getToken(), query);
+	// callDatabase(name, getToken(), query); 
 	
 }
 
