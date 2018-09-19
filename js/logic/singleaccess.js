@@ -34,17 +34,33 @@
 	};
 
     /*************************************** DB Zugriff ***************************************************************/
+	
 	SingleAccess.prototype.initializeDB = function(deviceName){
 		return dbZugriff.initializeDB(deviceName);
 	};
 	
-	SingleAccess.prototype.getContexts = function(deviceName){
-		return dbZugriff.getContexts(deviceName)
+	SingleAccess.prototype.getContexts = function(requiredResults, deviceName){
+		return dbZugriff.getContexts(requiredResults, deviceName)
 	}; 
 	
 	SingleAccess.prototype.getData = function(query, Token){
 		return dbZugriff.getData(query, Token);
 	};
+	
+	
+	SingleAccess.prototype.getGlobalContextList = function(){
+		return dbZugriff.getGlobalContextList();
+	}
+	
+	
+	SingleAccess.prototype.getPuzzleImages = function(){
+		 dbZugriff.getPuzzleImages();
+	};
+	
+	SingleAccess.prototype.updateDeviceContext = function(contextID){
+		dbZugriff.updateDeviceContext(contextID);
+	}
+		
 
     /*************************************** SwiperFactory ***************************************************************/
 	 SingleAccess.prototype.initializeSwiper = function () {
