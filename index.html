@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<head>
+<head xmlns="http://www.w3.org/1999/html">
     <meta charset="utf-8">
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"> -->
     <meta name="viewport"
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="framework7/css/framework7.ios.min.css"/>
 <link rel="stylesheet" href="css/framework7-icons.css"/>
 <link rel="stylesheet" href="css/puzzle.css"/>
+<link rel="stylesheet" href="css/puzzleGuess.css"/>
 <link rel="stylesheet" href="css/main.css"/>
 <link rel="stylesheet" href="css/sliders.css"/>
 <link rel="stylesheet" href="css/404.css"/>
@@ -50,7 +51,7 @@
                         <!-- Scrollable page content-->
                         <div class="page-content">
                             <h1 class="content-block-title main-header">
-                                <center>HERZLICH WILLKOMMEN
+                                <center>HERZLICH WILLKOMMEN</center>
                             </h1>
                             <div class="description">
                                 <div class="description-content">
@@ -100,13 +101,14 @@
                             </div>
 
                             <!-- Trigger/Open The Popup -->
-                            <a href="/auswahl/" class="startBtn" ><img src="img/next.svg"></a>
+                            <a href="/puzzle/" class="startBtn" ><img src="img/next.svg"></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- Cordova -->
     <!--
     <script src="cordova.js"></script>
@@ -116,6 +118,7 @@
     <script src="framework7/js/framework7.min.js"></script>
     <!-- Framework7 library -->
     <script type="text/javascript" src="js/logic/puzzleBuilder.js"></script>
+    <script type="text/javascript" src="js/logic/swiperFactory.js"></script>
     <script type="text/javascript" src="js/logic/sliderFactory.js"></script>
     <script type="text/javascript" src="js/logic/dbZugriff.js"></script>
     <script src="js/logic/singleaccess.js"></script>

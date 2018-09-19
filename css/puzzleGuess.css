@@ -2,9 +2,10 @@
     position: absolute;
     background-size: cover;
     top: 25%;
-    left: 25%;
-    width: 50%;
-    height: 50%;
+    left: 60%;
+    width: 87px;
+    height: 75px;
+    background-color: red;
     font-size: 0;
 }
 

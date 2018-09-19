@@ -70,10 +70,10 @@ DBZugriff.prototype.getContexts = function(deviceName){
 	var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{types id title description}}}"}';
 	
 	waitForData("token", deviceName, function(token){	
-		console.log("token oder kein token: " + token)
+		//console.log("token oder kein token: " + token)
 		callDatabase(token, query);
 		waitForData("responseData", deviceName, function(response){
-			console.log(response)
+			//console.log(response)
 		});
 			
 	});
@@ -97,9 +97,9 @@ function waitForData(type, deviceName, callback){
 	var waitforD = setInterval(function(){
 		if(type == "token"){
 			tNew = getToken(deviceName);
-			console.log("type war token")
+			//console.log("type war token")
 		}else{
-			console.log("type war kein token")
+			//console.log("type war kein token")
 			responseNew = getData();
 		}
 		
@@ -112,7 +112,7 @@ function waitForData(type, deviceName, callback){
 			}
 	
 		}else{
-			console.log("leider nicht");
+			//console.log("leider nicht");
 		}
 	},500); //delay is in milliseconds 
 
@@ -136,7 +136,7 @@ function callDatabase(Token, query){
 			data: query,
 			success: function(response){
 			  responseData = response;
-			  console.log("success bei callDatabase")
+			 // console.log("success bei callDatabase")
 			},
 			  error: function (response) {
 				  console.log(response)

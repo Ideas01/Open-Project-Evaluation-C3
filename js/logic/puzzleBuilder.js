@@ -112,7 +112,6 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 					var gridMarker = $("#overallGridMarker");
 					var xCoordinate = coordinate[0];
 					var yCoordinate = coordinate[1];
-					console.log("x: " + coordinateOld[1] + " y: "+ yCoordinate);
 					
 					gridMarker.toggle();
 					gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
@@ -178,9 +177,7 @@ function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight,
 
 //** Build the puzzle **/
 function buildPuzzleStructure (tileCount, appendToDOM, namespace, color, setclassname) {
-	console.log("baue puzzle: " + namespace)
 
-	
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
@@ -253,7 +250,6 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 	}
 
  PuzzleBuilder.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
-    console.log(image);
    var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
 	var divArray = [div];
 	
@@ -284,14 +280,11 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, percentageSize) {
    
 	var landscape = isLandscape();
-	console.log(elementArray)
 	if(elementArray.includes(puzzleGridWrapper)){
 	}else{
 		elementArray.push(puzzleGridWrapper);
 	}
-	console.log(elementArray);
 	elementArray.forEach(function(element){
-		 console.log("calculated wrapper: " + element)
 		if(landscape == true){
 			var imgFormat = image.width / image.height;
 			
@@ -321,9 +314,9 @@ PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, pe
 function isLandscape(){
 		if ($(window).width() >= $(window).height()){
 			console.log("yup");
-			return true;
+			 return true;
 		}else{
-			console.log("nö")
+			console.log("nö");
 			return false; 
 		}
 	}

@@ -4,16 +4,24 @@ routes = [
         url: './index.html',
     },
     {
+        path: '/auswahl/',
+        url: './pages/prototypeAuswahl.html',
+    },
+    {
         path: '/prototype/',
         url: './pages/prototype2.html',
+    },
+    {
+        path: '/sliders/',
+        url: './pages/sliders.html',
     },
     {
         path: '/puzzle/',
         url: './pages/puzzle.html',
     },
     {
-        path: '/sliders/',
-        url: './pages/sliders.html',
+        path: '/puzzleGuess/',
+        url: './pages/puzzleGuess.html',
     },
     {
         path: '/settings/',
@@ -27,11 +35,6 @@ routes = [
         path: '/failure/',
         url: './pages/failure.html'
     },
-    {
-        path: '/auswahl/',
-        url: './pages/prototypeAuswahl.html',
-    },
-
     // Default route (404 page). MUST BE THE LAST
     {
         path: '(.*)',
