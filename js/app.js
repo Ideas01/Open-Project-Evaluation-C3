@@ -56,12 +56,10 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
     app.popup.open(popup.el, true);
 
     checkSize();
-		
-		$(window).on('resize', function(){
-			checkSize();
-		});
+	
 });
 
+		
 function checkSize(){
 	var element = $("#puzzleWrapper").children().first().children().first();
 	if(element.width() > 32 && element.height() > 32 ){
@@ -69,9 +67,10 @@ function checkSize(){
 	}
 	else{
 		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
-
 	}
 }
+
+
 		
 app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
@@ -80,16 +79,41 @@ app.on('pageInit', function(page){
 
 	if(page.name === 'home'){
 		
-		var deviceName = "OpenProjectEvalSlider";
+		var deviceName = "OpenProjectEvalSlider"
 		singleAccess.initializeDB(deviceName);
 		
-		singleAccess.initializeDB(deviceName);
-		singleAccess.getContexts(deviceName);
+		var requiredResults = ['id', 'title', 'description'];
+		
+		var contexts = singleAccess.getContexts(requiredResults, deviceName);
 		
 		
-		/* singleAccess.updateDeviceName("banane", deviceName) */
-	}
-	/****************************** home end ****************************/
+		
+		function waitForContexts (callback){
+			var waitforC = setInterval(function(){
+				
+				var contextList = singleAccess.getGlobalContextList();
+				if(contextList[1] != undefined){
+					console.log("ok");
+					clearInterval(waitforC);
+					callback(contextList);
+				}else{
+					console.log("leider kein Context");
+				}
+			},500); //delay is in milliseconds 
+
+			setTimeout(function(){
+				 clearInterval(waitforC); //clear above interval after 15 seconds
+			},15000);
+	
+		}
+		
+		waitForContexts(function(contextList){
+			console.log("zurück contextlist")
+			console.log(contextList);
+		});
+		singleAccess.updateDeviceContext();
+		
+	} /****************************** home end ****************************/
 
 	/****************************** prototype Auswahl start *************/
 	if(page.name === 'auswahl'){
@@ -339,6 +363,7 @@ app.on('pageInit', function(page){
 			singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',"" , 6);		
 			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				$(window).on('resize', function (page) {
+					checkSize();
 				    singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				});
 				
