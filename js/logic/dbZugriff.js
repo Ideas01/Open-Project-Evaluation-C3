@@ -120,7 +120,6 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 			});	
 		});
 	});
-	
 }
 
 
@@ -137,11 +136,11 @@ function FinalSurvey(name, id, surveyKeys, survey){
 }
 
 
-function listAllKeys(o) {
+function listAllKeys(obj) {
 	var objectToInspect;     
 	var result = [];
 	
-	for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+	for(objectToInspect = obj; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
 	  result = result.concat(Object.keys(objectToInspect));  
 	}
 	
