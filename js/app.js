@@ -109,7 +109,10 @@ app.on('pageInit', function(page){
 		waitForContexts(function(contextList){
 			
 			
-			singleAccess.updateDeviceContext(contextList[0], deviceName)
+			singleAccess.updateDeviceContext(contextList[0], deviceName);
+			
+			singleAccess.getPrototypeImages(contextList[0], deviceName);
+			
 			console.log("zurück contextlist")
 			console.log(contextList);
 		});

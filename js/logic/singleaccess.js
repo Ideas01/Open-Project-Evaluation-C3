@@ -50,8 +50,11 @@
 	
 	SingleAccess.prototype.getGlobalContextList = function(){
 		return dbZugriff.getGlobalContextList();
-	}
+	};
 	
+	SingleAccess.prototype.getPrototypeImages = function(contextID, deviceName){
+		dbZugriff.getPrototypeImages(contextID, deviceName)
+	};
 	
 	SingleAccess.prototype.getPuzzleImages = function(){
 		 dbZugriff.getPuzzleImages();
@@ -59,7 +62,7 @@
 	
 	SingleAccess.prototype.updateDeviceContext = function(contextID, deviceName){
 		dbZugriff.updateDeviceContext(contextID, deviceName);
-	}
+	};
 		
 
     /*************************************** SwiperFactory ***************************************************************/

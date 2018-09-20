@@ -144,11 +144,11 @@ function listAllKeys(obj) {
 
 
 
-DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
+DBZugriff.prototype.updateDeviceContext = function(contextID, deviceName){
 	
 	waitForToken(deviceName, function(token){
 		var tokenList = DBZugriff.prototype.getGlobalTokenList();
-		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + tokenList[deviceName].id +'\\") {device {context {activeSurvey {title}} id name}}}"}';
+		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ contextID.contextId +'\\"}, deviceID: \\"' + tokenList[deviceName].id +'\\") {device {context {activeSurvey {title}} id name}}}"}';
 		var name = "updateContext";
 		
 		callDatabase(name, token, query);
@@ -160,8 +160,28 @@ DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
 	});
 } 
 
-DBZugriff.prototype.getPrototypeImages = function(){
-	var query = '{"query": "query{ }"}'
+DBZugriff.prototype.getPrototypeImages = function(contextID, deviceName){
+	console.log("images gestartet...")
+	
+	waitForToken(deviceName, function(token){
+		var tokenList = DBZugriff.prototype.getGlobalTokenList();
+		var query = '{"query": "query {context(contextID: \\"' + contextID.contextId + '\\"){id activeSurvey{images{id name url}}}}"}';
+		var name = "prototypeImages";
+		
+		callDatabase(name, token, query);
+		waitForData(name, deviceName, function(response){
+			console.log(name + "erfolgreich zurück")
+			console.log(response);
+			var images = response.context.activeSurvey.images;
+			var contextData = DBZugriff.prototype.getGlobalContextData();
+			contextData[name] = images;
+			setglobalContextData(contextData);			
+		});
+	});
+}
+
+DBZugriff.prototype.getQuestions = function(deviceName){
+	
 }
 
 
@@ -185,7 +205,6 @@ DBZugriff.prototype.getPrototypeImages = function(){
 
 /*
 //TODO: noch schreiben.
-	 *getPrototypeImages()
 	 *getQuestions()
 	 *getPuzzleImages()
 	 *sendEvalData()
