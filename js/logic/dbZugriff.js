@@ -158,9 +158,12 @@ DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
 		});
 	
 	});
-	// callDatabase(name, getToken(), query); 
-	
 } 
+
+DBZugriff.prototype.getPrototypeImages = function(){
+	var query = '{"query": "query{ }"}'
+}
+
 
 /* DBZugriff.prototype.getPuzzleImages = function(){
 	console.log("send deviceID for images: "+ deviceID)
@@ -182,7 +185,6 @@ DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
 
 /*
 //TODO: noch schreiben.
-	 *updateDeviceContext()
 	 *getPrototypeImages()
 	 *getQuestions()
 	 *getPuzzleImages()
