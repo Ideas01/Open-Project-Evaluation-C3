@@ -3,11 +3,11 @@ article{
 	position: absolute;
 	display: block;
 	top: 25%;
-	padding: 4%;
+	padding: 1% 4% 0 4%;
 	word-wrap: normal; 
 	width: 95%;
 	height: 20%;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 .page-content{
