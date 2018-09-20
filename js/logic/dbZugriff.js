@@ -96,7 +96,7 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	var versuch = new Promise(function(resolve){
 		waitForToken(deviceName, function(token){	
 			callDatabase(name, token, query);
-			waitForData(name, deviceName, function(response){
+			DBZugriff.prototype.waitForData(name, deviceName, function(response){
 				var contexts = response.contexts;
 				
 				contexts.forEach(function(contextElement, contextIndex, contexts){
@@ -152,7 +152,7 @@ DBZugriff.prototype.updateDeviceContext = function(contextID, deviceName){
 		var name = "updateContext";
 		
 		callDatabase(name, token, query);
-		waitForData(name, deviceName, function(response){
+		DBZugriff.prototype.waitForData(name, deviceName, function(response){
 			console.log(name + "erfolgreich zurück")
 			console.log(response);
 		});
@@ -169,12 +169,14 @@ DBZugriff.prototype.getPrototypeImages = function(contextID, deviceName){
 		var name = "prototypeImages";
 		
 		callDatabase(name, token, query);
-		waitForData(name, deviceName, function(response){
+		DBZugriff.prototype.waitForData(name, deviceName, function(response){
 			console.log(name + "erfolgreich zurück")
 			console.log(response);
+			
 			var images = response.context.activeSurvey.images;
 			var contextData = DBZugriff.prototype.getGlobalContextData();
-			contextData[name] = images;
+			contextData[name] ={};
+			contextData[name].data = images;
 			setglobalContextData(contextData);			
 		});
 	});
@@ -232,17 +234,19 @@ function waitForToken(deviceName, callback){
 }	
 
 	
-function waitForData(dataReference, deviceName, callback){
+DBZugriff.prototype.waitForData = function(dataReference, deviceName, callback){
 		
 	var waitforD = setInterval(function(){
 		var contextData= DBZugriff.prototype.getGlobalContextData();
-		var responseNew = contextData[dataReference].data;
+			console.log("mememe")
+			console.log(contextData);
+		var responseNew = contextData[dataReference];
 		
-		if(responseNew != undefined){
+		if(responseNew != undefined && responseNew.data != undefined){
 			clearInterval(waitforD);
-			callback(responseNew);
+			callback(responseNew.data);
 		}else{
-			console.log("leider keine Daten");
+			console.log("leider keine Daten für " + dataReference);
 		}
 	},500); //delay is in milliseconds 
 

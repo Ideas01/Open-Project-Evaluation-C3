@@ -85,9 +85,7 @@ app.on('pageInit', function(page){
 		var requiredResults = ['id', 'title', 'description'];
 		
 		var contexts = singleAccess.getContexts(requiredResults, deviceName);
-		
-		
-		
+				
 		function waitForContexts (callback){
 			var waitforC = setInterval(function(){
 				
@@ -103,12 +101,9 @@ app.on('pageInit', function(page){
 			setTimeout(function(){
 				 clearInterval(waitforC); //clear above interval after 15 seconds
 			},15000);
-	
 		}
 		
 		waitForContexts(function(contextList){
-			
-			
 			singleAccess.updateDeviceContext(contextList[0], deviceName);
 			
 			singleAccess.getPrototypeImages(contextList[0], deviceName);
@@ -117,7 +112,15 @@ app.on('pageInit', function(page){
 			console.log(contextList);
 		});
 		
-		singleAccess.initializeDB(deviceName);
+		
+		singleAccess.waitForData("prototypeImages", deviceName, function(response){
+			console.log(name + "erfolgreich zurück prototypeImages")
+			console.log(response);
+		});
+		
+		
+		
+		
 	} /****************************** home end ****************************/
 
 	/****************************** prototype Auswahl start *************/

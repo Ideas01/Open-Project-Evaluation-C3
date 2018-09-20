@@ -63,6 +63,10 @@
 	SingleAccess.prototype.updateDeviceContext = function(contextID, deviceName){
 		dbZugriff.updateDeviceContext(contextID, deviceName);
 	};
+	
+	SingleAccess.prototype.waitForData = function(dataReference, deviceName, callback){
+		return dbZugriff.waitForData(dataReference, deviceName, callback);
+	};
 		
 
     /*************************************** SwiperFactory ***************************************************************/
