@@ -24,26 +24,24 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
     var popup = app.popup.create({
         content:
         '<div class="popup" id="popupStart">' +
-        '<div class="view">' +
-        '<div class="page popupStartpage ">' +
-        '<div class="navbar">' +
-        '<div class="navbar-inner">' +
-        '<div class="title">Spielanleitung</div>' +
-        '<div class="right">' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="page-content">' +
-        '<div class="block">' +
-        '<p>Erklärungstext ergänzen..... und richtigen icons einfügen <img src="img/swipe.png"/></p>' +
-        '<a href="#" class="popup-close" >' +
-        '<a class="button popup-close"> Los geht´s! </a>' +
-        '</a>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
+			'<div class="view">' +
+				'<div class="page popupStartpage ">' +
+					'<div class="navbar">' +
+						'<div class="navbar-inner">' +
+							'<div class="title">Spielanleitung</div>' +
+							'<div class="right"></div>' +
+						'</div>' +
+					'</div>' +
+					'<div class="page-content">' +
+						'<div class="block">' +
+							'<p>Erklärungstext ergänzen..... und richtigen icons einfügen <img src="img/swipe.png"/></p>' +
+							'<a href="#" class="popup-close" >' +
+								'<a class="button popup-close"> Los geht´s! </a>' +
+							'</a>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
         '</div>',
         on: {
             opened: function () {
@@ -74,6 +72,7 @@ function checkSize(){
 		
 app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
+	var prototypeImagesKey = null;
 	
 	console.log(page.name + " wird ausgeführt");
 
@@ -84,45 +83,88 @@ app.on('pageInit', function(page){
 		
 		var requiredResults = ['id', 'title', 'description'];
 		
-		var contexts = singleAccess.getContexts(requiredResults, deviceName);
+		var contextsKey = singleAccess.getContexts(requiredResults, deviceName);
 				
-		function waitForContexts (callback){
-			var waitforC = setInterval(function(){
-				
-				var contextList = singleAccess.getGlobalContextList();
-				if(contextList[1] != undefined){
-					clearInterval(waitforC);
-					callback(contextList);
-				}else{
-					console.log("leider kein Context");
-				}
-			},500); //delay is in milliseconds 
-
-			setTimeout(function(){
-				 clearInterval(waitforC); //clear above interval after 15 seconds
-			},15000);
-		}
+		//console.log(contextsKey);
 		
 		waitForContexts(function(contextList){
 			singleAccess.updateDeviceContext(contextList[0], deviceName);
 			
 			singleAccess.getPrototypeImages(contextList[0], deviceName);
 			
-			console.log("zurück contextlist")
+			singleAccess.getQuestions(contextList[0], deviceName);
+			
+		
+			console.log("zurück contextlist");
 			console.log(contextList);
 		});
 		
 		
 		singleAccess.waitForData("prototypeImages", deviceName, function(response){
-			console.log(name + "erfolgreich zurück prototypeImages")
-			console.log(response);
+			console.log(name + "erfolgreich zurück prototypeImages");
+			console.log(response[0].id);
+		});
+
+		singleAccess.waitForData("questions", deviceName, function(response){
+			console.log(name + "erfolgreich zurück questions");
+			console.log(response[0].type);
 		});
 		
 		
 		
 		
+		
+
+		/* singleAccess.waitForData("questions", deviceName, function(response){
+			console.log(name + "erfolgreich zurück questions");
+			console.log(response[0].type);
+		});  */
+		
+		
 	} /****************************** home end ****************************/
 
+	
+	function waitForData(dataReference, deviceName, callback){
+		
+		var waitforD = setInterval(function(){
+			var contextData= singleAccess.getGlobalContextData();
+			console.log("globalContextData")
+			console.log(contextData)
+			
+			var responseNew = contextData[dataReference];
+			
+			if(responseNew != undefined && responseNew.data != undefined){
+				console.log("habe Daten für " + dataReference)
+				console.log(responseNew.data)
+				clearInterval(waitforD);
+				callback(responseNew.data);
+			}else{
+				console.log("leider keine Daten für " + dataReference);
+			}
+		},500); //delay is in milliseconds 
+
+		setTimeout(function(){
+			 clearInterval(waitforD); //clear above interval after 15 seconds
+		},15000);
+
+	}
+
+	function waitForContexts (callback){
+		var waitforC = setInterval(function(){
+			
+			var contextList = singleAccess.getGlobalContextList();
+			if(contextList[1] != undefined){
+				clearInterval(waitforC);
+				callback(contextList);
+			}else{
+				console.log("leider kein Context");
+			}
+		},500); //delay is in milliseconds 
+
+		setTimeout(function(){
+			 clearInterval(waitforC); //clear above interval after 15 seconds
+		},15000);
+	}
 	/****************************** prototype Auswahl start *************/
 	if(page.name === 'auswahl'){
         $("#startButton").click(function(){
@@ -130,28 +172,28 @@ app.on('pageInit', function(page){
                 // The Popup
                 content:
                 '<div class="popup" id="popupStart">' +
-                '<div class="view">' +
-                '<div class="page popupStartpage">' +
-                '<div class="navbar popupNavbar">' +
-                '<div class="navbar-inner">' +
-                '<div class="title">Popup</div>' +
-                '<div class="right">' +
-                '<a href="#" class="link popup-close">Close</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="page-content">' +
-                '<div class="block">' +
-                '<p>START PROTOTYP RATING</p>' +
-                '<div class="next" text-align="center">' +
-                '<a href="/prototype/" class="popup-close">' +
-                '<img src="img/start.svg" class="next-button">' +
-                '</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
+					'<div class="view">' +
+						'<div class="page popupStartpage">' +
+							'<div class="navbar popupNavbar">' +
+								'<div class="navbar-inner">' +
+									'<div class="title">Popup</div>' +
+									'<div class="right">' +
+										'<a href="#" class="link popup-close">Close</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+							'<div class="page-content">' +
+								'<div class="block">' +
+									'<p>START PROTOTYP RATING</p>' +
+									'<div class="next" text-align="center">' +
+										'<a href="/prototype/" class="popup-close">' +
+										'<img src="img/start.svg" class="next-button">' +
+										'</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
                 '</div>',
                 on: {
                     opened: function () {
@@ -163,8 +205,15 @@ app.on('pageInit', function(page){
             });
             app.popup.open(popup.el,true);
         });
-    }
-    /****************************** prototyp auswahl ende **************/
+		
+		
+		singleAccess.waitForData("prototypeImages", deviceName, function(response){
+			console.log(name + "erfolgreich zurück prototypeImages")
+			console.log(response[0].url);
+			console.log(response[1].url);
+			
+		});
+    } /****************************** prototyp auswahl ende **************/
 
 
 	/****************************** P2 Start ***************************/

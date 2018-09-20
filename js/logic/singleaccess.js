@@ -60,12 +60,20 @@
 		 dbZugriff.getPuzzleImages();
 	};
 	
-	SingleAccess.prototype.updateDeviceContext = function(contextID, deviceName){
-		dbZugriff.updateDeviceContext(contextID, deviceName);
+	SingleAccess.prototype.updateDeviceContext = function(context, deviceName){
+		dbZugriff.updateDeviceContext(context, deviceName);
 	};
 	
 	SingleAccess.prototype.waitForData = function(dataReference, deviceName, callback){
 		return dbZugriff.waitForData(dataReference, deviceName, callback);
+	};
+	
+	SingleAccess.prototype.getQuestions = function(context, deviceName){
+		return dbZugriff.getQuestions(context, deviceName);
+	};
+	
+	SingleAccess.prototype.getGlobalContextData = function(){
+		return dbZugriff.getGlobalContextData();
 	};
 		
 

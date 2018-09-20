@@ -26,8 +26,10 @@ DBZugriff.prototype.getGlobalContextList = function(){
 
 var globalContextData ={};
 
-function setglobalContextData(newGlobalContextData){
-	globalContextData = newGlobalContextData;
+function setglobalContextData(dataReferenceName, data){
+	globalContextData[dataReferenceName] = {};
+	globalContextData[dataReferenceName].data = data;
+	
 }
 
 DBZugriff.prototype.getGlobalContextData = function(){
@@ -83,7 +85,7 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 	
 DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	//var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{types id title description}}}"}';
-	var name = 'contexts';
+	var dataReferenceName = 'contexts';
 	var versuch = {}
 	
 	//build query
@@ -93,28 +95,26 @@ DBZugriff.prototype.getContexts = function(requiredResults, deviceName){
 	});
 	query += '}}}"}'; //query build end
 	
-	var versuch = new Promise(function(resolve){
-		waitForToken(deviceName, function(token){	
-			callDatabase(name, token, query);
-			DBZugriff.prototype.waitForData(name, deviceName, function(response){
-				var contexts = response.contexts;
+	waitForToken(deviceName, function(token){	
+		callDatabase(dataReferenceName, token, query, function(response){
+			var contexts = response.contexts;
+			
+			contexts.forEach(function(contextElement, contextIndex, contexts){
+				var survey = contextElement.activeSurvey;
+				var surveyKeys = listAllKeys(survey);
+				var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
 				
-				contexts.forEach(function(contextElement, contextIndex, contexts){
-					var survey = contextElement.activeSurvey;
-					var surveyKeys = listAllKeys(survey);
-					var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
-					
-					
-					let contextList = DBZugriff.prototype.getGlobalContextList();
-					contextList.push(finalSurvey);
-					console.log(contextList[0])
-					setGlobalContextList(contextList);
-					resolve(contextList);
-					
-				});
-			});	
-		});
+				
+				let contextList = DBZugriff.prototype.getGlobalContextList();
+				contextList.push(finalSurvey);
+				console.log(contextList[0])
+				
+				setGlobalContextList(contextList);				
+			});
+		});	
 	});
+	
+	return dataReferenceName;
 }
 
 
@@ -144,48 +144,88 @@ function listAllKeys(obj) {
 
 
 
-DBZugriff.prototype.updateDeviceContext = function(contextID, deviceName){
+DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
+	var tokenList = DBZugriff.prototype.getGlobalTokenList();
+	var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + tokenList[deviceName].id +
+					'\\") {device {context {activeSurvey {title}} id name}}}"}';
+	var name = "deviceContext";
 	
 	waitForToken(deviceName, function(token){
-		var tokenList = DBZugriff.prototype.getGlobalTokenList();
-		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ contextID.contextId +'\\"}, deviceID: \\"' + tokenList[deviceName].id +'\\") {device {context {activeSurvey {title}} id name}}}"}';
-		var name = "updateContext";
-		
-		callDatabase(name, token, query);
-		DBZugriff.prototype.waitForData(name, deviceName, function(response){
-			console.log(name + "erfolgreich zurück")
-			console.log(response);
+		callDatabase(name, token, query , function(response){
+				console.log(name + "erfolgreich zurück")
+				console.log(response);
 		});
-	
 	});
 } 
 
-DBZugriff.prototype.getPrototypeImages = function(contextID, deviceName){
+DBZugriff.prototype.getPrototypeImages = function(context, deviceName){
 	console.log("images gestartet...")
+	var dataReferenceName = "prototypeImages";
+	var tokenList = DBZugriff.prototype.getGlobalTokenList();
+	var query = '{"query": "query {context(contextID: \\"' + context.contextId + 
+	'\\"){id activeSurvey{images{id name url}}}}"}';
 	
 	waitForToken(deviceName, function(token){
-		var tokenList = DBZugriff.prototype.getGlobalTokenList();
-		var query = '{"query": "query {context(contextID: \\"' + contextID.contextId + '\\"){id activeSurvey{images{id name url}}}}"}';
-		var name = "prototypeImages";
-		
-		callDatabase(name, token, query);
-		DBZugriff.prototype.waitForData(name, deviceName, function(response){
-			console.log(name + "erfolgreich zurück")
+		callDatabase(dataReferenceName, token, query, function(response){
+					
+			console.log(dataReferenceName + "erfolgreich")
 			console.log(response);
 			
 			var images = response.context.activeSurvey.images;
-			var contextData = DBZugriff.prototype.getGlobalContextData();
-			contextData[name] ={};
-			contextData[name].data = images;
-			setglobalContextData(contextData);			
+			setglobalContextData(dataReferenceName, images);			
 		});
 	});
-}
-
-DBZugriff.prototype.getQuestions = function(deviceName){
 	
+	return dataReferenceName;
 }
 
+DBZugriff.prototype.getQuestions = function(context, deviceName){
+	console.log("questions Anfrage gestartet...");
+	var dataReferenceName = "questions";
+	
+	var query = '{"query": "query {context(contextID: \\"' + context.contextId + '\\"){' +
+					'activeSurvey {'+
+					  'questions {id value type' +
+						'... on RegulatorQuestion {'+
+						  'labels {' +
+							'image {url}' +
+							'label ' +
+							'value' +
+							'}' +
+						  'default ' +
+						  'max ' +
+						  'min ' +
+						  'stepSize'+ 
+						'}}}}}' +
+					'"}'	
+	
+	waitForToken(deviceName, function(token){
+		callDatabase(dataReferenceName, token, query, function(response){
+			
+			console.log(dataReferenceName + "erfolgreich")
+			
+			var result = response.context.activeSurvey.questions;
+			setglobalContextData(dataReferenceName, undefined);
+			var questions =[];
+			console.log("will wissen was drin ist")
+			console.log(globalContextData);
+			result.forEach(function(element){
+				
+				if(element.type == "REGULATOR"){
+					questions.push(element);
+				}else{
+					console.log("datei "+ element.type +" wurde verworfen.")
+				}
+			});
+					
+			setglobalContextData(dataReferenceName, questions);	
+
+			
+		});
+	});
+	
+	return dataReferenceName;
+}
 
 /* DBZugriff.prototype.getPuzzleImages = function(){
 	console.log("send deviceID for images: "+ deviceID)
@@ -207,9 +247,10 @@ DBZugriff.prototype.getQuestions = function(deviceName){
 
 /*
 //TODO: noch schreiben.
-	 *getQuestions()
 	 *getPuzzleImages()
 	 *sendEvalData()
+	 
+	 *noch prüfungsfunction bauen, die checkt, ob dataReferenceName schon vergeben.
 	**/
 	
 	
@@ -238,11 +279,11 @@ DBZugriff.prototype.waitForData = function(dataReference, deviceName, callback){
 		
 	var waitforD = setInterval(function(){
 		var contextData= DBZugriff.prototype.getGlobalContextData();
-			console.log("mememe")
-			console.log(contextData);
 		var responseNew = contextData[dataReference];
 		
 		if(responseNew != undefined && responseNew.data != undefined){
+			console.log("habe Daten für " + dataReference)
+			console.log(responseNew.data)
 			clearInterval(waitforD);
 			callback(responseNew.data);
 		}else{
@@ -258,7 +299,7 @@ DBZugriff.prototype.waitForData = function(dataReference, deviceName, callback){
 
 
 
-function callDatabase(dataReference, Token, query){
+function callDatabase(dataReference, Token, query, callback){
 	
 		console.log("initializingDB... for: " + dataReference)
 		
@@ -286,7 +327,8 @@ function callDatabase(dataReference, Token, query){
 			success: function(r){
 			  
 			  let responseData = r.data;
-			  contextData[dataReference].data = responseData;
+			  callback(responseData); 
+			  //contextData[dataReference].data = responseData;
 			  console.log("success bei callDatabase")
 			},
 			  error: function (response) {
