@@ -71,6 +71,11 @@ function checkSize(){
 
 		
 app.on('pageInit', function(page){
+	
+	// var mydata = pictureURLs;
+	// console.log("testDaten:")
+	// console.log(mydata);
+	
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
 	
@@ -107,7 +112,7 @@ app.on('pageInit', function(page){
 
 		singleAccess.waitForData("questions", deviceName, function(response){
 			console.log(name + "erfolgreich zurück questions");
-			console.log(response[0].type);
+			console.log(response[0].id);
 		});
 		
 		

@@ -29,12 +29,8 @@ var globalContextData ={};
 function setglobalContextData(dataReferenceName, data){
 	globalContextData[dataReferenceName] = {};
 	globalContextData[dataReferenceName].data = data;
-	
 }
 
-DBZugriff.prototype.getGlobalContextData = function(){
-	return globalContextData;
-}
 
 
 var serverAdresse = 'http://192.168.43.174:3000/';
@@ -73,6 +69,7 @@ DBZugriff.prototype.initializeDB = function(deviceName){
 			  setGlobalTokenList(tokenList);
 			  console.log("db initialized")
 			  console.log(tokenList[deviceName].id)
+			   console.log(tokenList[deviceName].token)
 			},
 			 error: function (r) {
 			}
@@ -207,14 +204,11 @@ DBZugriff.prototype.getQuestions = function(context, deviceName){
 			var result = response.context.activeSurvey.questions;
 			setglobalContextData(dataReferenceName, undefined);
 			var questions =[];
-			console.log("will wissen was drin ist")
-			console.log(globalContextData);
 			result.forEach(function(element){
-				
 				if(element.type == "REGULATOR"){
 					questions.push(element);
 				}else{
-					console.log("datei "+ element.type +" wurde verworfen.")
+					//do nothing.
 				}
 			});
 					
@@ -227,23 +221,25 @@ DBZugriff.prototype.getQuestions = function(context, deviceName){
 	return dataReferenceName;
 }
 
-/* DBZugriff.prototype.getPuzzleImages = function(){
-	console.log("send deviceID for images: "+ deviceID)
-	//var query = '{"query" : "query {device(deviceID: "688b51557fd7362a4cc14b41d24f494f321efb7baaa59d17dccf3936d420f0b2"){context{activeSurvey{images{url}}}}}" }'
-	var query2 = '{"query": "query {device(deviceID: "'+ deviceID +'"){context{activeSurvey{images{url}}}}}"}';
-	console.log("query send for images: " + query);
-	var name = "puzzleImages"
+DBZugriff.prototype.getPuzzleImages = function(context, deviceName){
+	var query = '{"query": "query {context(contextID: \\"' + context.contextId + '\\"){activeSurvey{images{id name type hash url}}}}" }'
+	var dataReferenceName = "puzzleImages";
 	
-	console.log("aktueller Device Name: ")
-	waitForToken(actualDeviceName, function(token){	
-		callDatabase(name, token, query);
-		waitForData(name, actualDeviceName, function(response){
-			console.log("hab bilders");
+	
+	
+}
+
+
+DBZugriff.prototype.sendEvalData = function(question, deviceName){
+	var query = '{"mutation": "mutation {createAnswer(data:{questionID: \\"' + question.id + '\\" rating: 5}){voteCreated answer{question}}}" }'
+	
+	waitForToken(deviceName, function(token){
+		callDatabase(dataReferenceName, token, query, function(response){
+			console.log(dataReferenceName + "erfolgreich")
 			console.log(response);
 		});
 	});
 }
- */
 
 /*
 //TODO: noch schreiben.
@@ -278,21 +274,22 @@ function waitForToken(deviceName, callback){
 DBZugriff.prototype.waitForData = function(dataReference, deviceName, callback){
 		
 	var waitforD = setInterval(function(){
-		var contextData= DBZugriff.prototype.getGlobalContextData();
+		var contextData= globalContextData;
 		var responseNew = contextData[dataReference];
 		
 		if(responseNew != undefined && responseNew.data != undefined){
 			console.log("habe Daten für " + dataReference)
-			console.log(responseNew.data)
+			
 			clearInterval(waitforD);
 			callback(responseNew.data);
 		}else{
-			console.log("leider keine Daten für " + dataReference);
+			//do nothing.
 		}
 	},500); //delay is in milliseconds 
 
 	setTimeout(function(){
 		 clearInterval(waitforD); //clear above interval after 15 seconds
+		 console.log("keine Daten für " + dataReference + " erhalten.")
 	},15000);
 
 }
@@ -303,14 +300,9 @@ function callDatabase(dataReference, Token, query, callback){
 	
 		console.log("initializingDB... for: " + dataReference)
 		
-		var contextData= DBZugriff.prototype.getGlobalContextData();
+		var contextData= globalContextData;
 		contextData[dataReference] = {};
 		contextData[dataReference].data = null;
-		
-		
-		/* tokenList[actualDevice].data = null;
-		tokenList[dataReference] ={};
-		tokenList[dataReference].data = null; */
 		
 		console.log("datenbankzugriff gestartet");
 		
