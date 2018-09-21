@@ -87,7 +87,8 @@ body {
 
 .startBtn {
     position: absolute;
-    left: calc(50% - 140px);
+    z-index: 5;
+	left: calc(50% - 140px);
     bottom: 0px;
 }
 

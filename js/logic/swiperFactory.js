@@ -10,7 +10,7 @@ SwiperFactory.prototype.initializeSwiper = function () {
 SwiperFactory.prototype.buildPrototypeSwiper =function (swiperElement, imageArray) {
     var nameSpace = 'prototypeSwiper';
     for(var n=0; n < imageArray.imageUrls.length; n++){
-        swiperElement.appendSlide('<div class="testslider swiper-slide" id="'+ nameSpace + n + '"></div>');
+        swiperElement.appendSlide('<div class="swiper-slide" id="'+ nameSpace + n + '"></div>');
         $("#"+ nameSpace +n).css('background-image','url("' + getImageUrl(imageArray.imageUrls,n) +'")');
         $("#" + nameSpace+n).css('background-size',"contain");
         $("#"+ nameSpace +n).css('background-repeat',"no-repeat");
@@ -38,7 +38,6 @@ SwiperFactory.prototype.buildSelectionSwiper = function(swiperElement, contextCo
         swiperElement.appendSlide('<div class="swiper-slide" id="'+ nameSpace + i + '"></div>');
         $("#"+ nameSpace + i).css('margin', '1%');
         $("#"+ nameSpace + i).css('align-content', 'center');
-        $("#"+ nameSpace + i).css('width', '45%');
         $("#"+ nameSpace + i).css(' height', '90%');
 
         swiperArray.push([nameSpace + i]);
