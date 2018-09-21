@@ -234,20 +234,21 @@ DBZugriff.prototype.getPuzzleImages = function(context, deviceName){
 }
 
 
-DBZugriff.prototype.sendEvalData = function(question, deviceName){
-	var query = '{"mutation": "mutation {createAnswer(data:{questionID: \\"' + question.id + '\\" rating:' + + '}){voteCreated answer{question}}}" }'
-	
+DBZugriff.prototype.sendEvalData = function(questionID, answer, deviceName){
+	var query = '{"query": "mutation {createAnswer(data:{questionID: \\"' + questionID + '\\" rating:' + answer + '}){voteCreated answer{question}}}" }'
+	var dataReferenceName = "evalData"
 	waitForToken(deviceName, function(token){
 		callDatabase(dataReferenceName, token, query, function(response){
 			console.log(dataReferenceName + "erfolgreich")
-			console.log(response);
+			console.log(response.createAnswer.voteCreated);
+			
+			setglobalContextData(dataReferenceName, response);
 		});
 	});
 }
 
 /*
 //TODO: noch schreiben.
-	 *getPuzzleImages()
 	 *sendEvalData()
 	 
 	 *noch prüfungsfunction bauen, die checkt, ob dataReferenceName schon vergeben.
@@ -293,7 +294,6 @@ DBZugriff.prototype.waitForData = function(dataReference, deviceName, callback){
 
 	setTimeout(function(){
 		 clearInterval(waitforD); //clear above interval after 15 seconds
-		 console.log("keine Daten für " + dataReference + " erhalten.")
 	},15000);
 
 }

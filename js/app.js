@@ -95,7 +95,10 @@ app.on('pageInit', function(page){
 			
 			singleAccess.getQuestions(contextList[0], deviceName);
 			
-		
+			singleAccess.getPuzzleImages(contextList[0], deviceName);
+			
+			
+			
 			console.log("zurück contextlist");
 			console.log(contextList);
 		});
@@ -109,9 +112,13 @@ app.on('pageInit', function(page){
 		singleAccess.waitForData("questions", deviceName, function(response){
 			console.log(name + "erfolgreich zurück questions");
 			console.log(response[0].id);
+			singleAccess.sendEvalData(response[0].id, 5, deviceName); //erg. muss noch gefüllt werden.
 		});
 		
-		
+		singleAccess.waitForData("puzzleImages", deviceName, function(response){
+			console.log(name + "erfolgreich zurück pImages");
+			console.log(response[0].url);
+		});
 		
 		
 		
@@ -125,30 +132,6 @@ app.on('pageInit', function(page){
 	} /****************************** home end ****************************/
 
 	
-	function waitForData(dataReference, deviceName, callback){
-		
-		var waitforD = setInterval(function(){
-			var contextData= singleAccess.getGlobalContextData();
-			console.log("globalContextData")
-			console.log(contextData)
-			
-			var responseNew = contextData[dataReference];
-			
-			if(responseNew != undefined && responseNew.data != undefined){
-				console.log("habe Daten für " + dataReference)
-				console.log(responseNew.data)
-				clearInterval(waitforD);
-				callback(responseNew.data);
-			}else{
-				console.log("leider keine Daten für " + dataReference);
-			}
-		},500); //delay is in milliseconds 
-
-		setTimeout(function(){
-			 clearInterval(waitforD); //clear above interval after 15 seconds
-		},15000);
-
-	}
 
 	function waitForContexts (callback){
 		var waitforC = setInterval(function(){

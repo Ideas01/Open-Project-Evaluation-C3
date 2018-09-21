@@ -59,8 +59,8 @@
 		return dbZugriff.getPuzzleImages(context, deviceName);
 	};
 	
-	SingleAccess.prototype.sendEvalData = function(question, deviceName){
-		dbZugriff.prototype.sendEvalData(question, deviceName);
+	SingleAccess.prototype.sendEvalData = function(question, answer, deviceName){
+		dbZugriff.sendEvalData(question, answer, deviceName);
 	};
 	
 	
