@@ -1,21 +1,51 @@
 function SwiperFactory() {}
 
+
 SwiperFactory.prototype.initializeSwiper = function () {
     new Swiper('.swiper-container', {
         spaceBetween: 100
     });
 };
 
-SwiperFactory.prototype.fillSwiper =function (imageArray) {
-    var mySwiper = document.querySelector('.swiper-container').swiper;
-
+SwiperFactory.prototype.buildPrototypeSwiper =function (swiperElement, imageArray) {
+    var nameSpace = 'prototypeSwiper';
     for(var n=0; n < imageArray.imageUrls.length; n++){
-        mySwiper.appendSlide('<div class="testslider swiper-slide" id="swiper' + n + '"></div>');
-        $("#swiper" +n).css('background-image','url("' + getImageUrl(imageArray.imageUrls,n) +'")');
-        $("#swiper"+n).css('background-size',"contain");
-        $("#swiper"+n).css('background-repeat',"no-repeat");
+        swiperElement.appendSlide('<div class="testslider swiper-slide" id="'+ nameSpace + n + '"></div>');
+        $("#"+ nameSpace +n).css('background-image','url("' + getImageUrl(imageArray.imageUrls,n) +'")');
+        $("#" + nameSpace+n).css('background-size',"contain");
+        $("#"+ nameSpace +n).css('background-repeat',"no-repeat");
     }
-    return mySwiper;
+    return swiperElement;
+};
+
+
+function nameSpaceIsAvailable(nameSpace){
+	if(document.querySelector("#" + nameSpace) != null){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
+SwiperFactory.prototype.buildSelectionSwiper = function(swiperElement, contextCount){
+    let contextPerPage = 4;
+    let swiperCount = calculateSwiperCount(contextCount,contextPerPage);
+    var swiperArray = [];
+	var nameSpace = "prototypeSelectionSwiper";
+
+    for (var i=1;i <= swiperCount; i++){
+        swiperElement.appendSlide('<div class="swiper-slide" id="'+ nameSpace + i + '"></div>');
+        $("#"+ nameSpace + i).css('margin', '1%');
+        $("#"+ nameSpace + i).css('align-content', 'center');
+        $("#"+ nameSpace + i).css('width', '45%');
+        $("#"+ nameSpace + i).css(' height', '90%');
+
+        swiperArray.push([nameSpace + i]);
+        swiperElement.id = swiperArray;
+    }
+    swiperElement.contextPerPage = contextPerPage;
+    return swiperElement;
 };
 
 SwiperFactory.prototype.setHandler = function (mySwiper) {
@@ -71,4 +101,23 @@ SwiperFactory.prototype.setHandler = function (mySwiper) {
 function getImageUrl(urlArray, imageIndex)
 {
     return urlArray[imageIndex];
+}
+
+function calculateSwiperCount(contextCount, contextPerPage) {
+    //is there a context to display and can the contexts be displayed on one swiper?
+    if (contextCount > 0 && contextCount <= contextPerPage )
+    {
+        //only one swiper is necessary to display all contexts
+        return 1;
+    }
+    let temp = contextCount % contextPerPage;
+    if(temp === 0){
+        //all swipers display four contexts
+        return contextCount/contextPerPage;
+    }
+    else if(temp > 0){
+        //there is one swiper which does not display four contexts
+         return Math.floor(contextCount/contextPerPage +1);
+    }
+    return 0;
 }

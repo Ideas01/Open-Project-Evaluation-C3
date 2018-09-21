@@ -6,6 +6,7 @@
 	const sliderFactory = new SliderFactory();
 	const dbZugriff = new DBZugriff();
 	const swiperFactory = new SwiperFactory();
+	const choiceFactory = new ChoiceFactory();
 
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
@@ -84,10 +85,20 @@
 		 return swiperFactory.initializeSwiper();
      };
 	
-	 SingleAccess.prototype.fillSwiper = function (imageArray) {
-		return swiperFactory.fillSwiper(imageArray);
+	 SingleAccess.prototype.buildPrototypeSwiper = function (swiperElement, imageArray) {
+		return swiperFactory.buildPrototypeSwiper(swiperElement, imageArray);
      };
 
 	 SingleAccess.prototype.setHandler = function (swiper) {
 		 return swiperFactory.setHandler(swiper);
      };
+	 
+	 SingleAccess.prototype.buildSelectionSwiper = function(swiperElement, contextCount){
+		return swiperFactory.buildSelectionSwiper(swiperElement, contextCount);
+	};
+	 
+	/************************************** choice Factory ****************************************************************/
+	
+	SingleAccess.prototype.buildPrototypeChoice = function (id,appendToSwiperId) {
+        return choiceFactory.buildPrototypeChoice(id,appendToSwiperId);
+    };

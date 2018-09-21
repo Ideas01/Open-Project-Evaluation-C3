@@ -3,6 +3,10 @@ routes = [
         path: '/',
         url: './index.html',
     },
+	{
+		path: '/prototypeSelection/',
+		url: './pages/prototypeSelection.html',
+	},
     {
         path: '/auswahl/',
         url: './pages/prototypeAuswahl.html',

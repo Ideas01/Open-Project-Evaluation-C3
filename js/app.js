@@ -198,7 +198,31 @@ app.on('pageInit', function(page){
 			
 		});
     } /****************************** prototyp auswahl ende **************/
+		
+/****************************** prototypeSelection********************/
+  if(page.name ==='prototypeSelection'){
+      var contextCount =7;
+        singleAccess.initializeSwiper();
+		let prototypeSelectionSwiper = document.querySelector('#prototypeSelectionSwiper').swiper;
+        var mySwiper = singleAccess.buildSelectionSwiper(prototypeSelectionSwiper, contextCount);
 
+        var remainingQuestions = contextCount;
+
+        $('.swiper-slide').each(function (index,value) {
+            for (var i=0;i < mySwiper.contextPerPage;i++){
+                singleAccess.buildPrototypeChoice(i,value.id);
+            }
+        });
+
+
+
+
+        $("#startButton").click(function(){
+			// hier ausgewählten Eintrag mit updateContext versehen.
+        });
+
+
+    } /***************** prototype Selection End ***********************/
 
 	/****************************** P2 Start ***************************/
     if (page.name === 'P2'){
@@ -206,11 +230,16 @@ app.on('pageInit', function(page){
             imageUrls:  ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"]
         };
         singleAccess.initializeSwiper();
-
-        var mySwiper = singleAccess.fillSwiper(imageArray);
+		let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
+        var mySwiper = singleAccess.buildPrototypeSwiper(prototypeSwiper, imageArray);
 
         singleAccess.setHandler(mySwiper);
 
+		
+		
+		
+		
+		
         $(".help").click(function () {
             var popup = app.popup.create({
                 content:
