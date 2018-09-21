@@ -43,38 +43,40 @@
 		return dbZugriff.getContexts(requiredResults, deviceName)
 	}; 
 	
-	SingleAccess.prototype.getData = function(query, Token){
-		return dbZugriff.getData(query, Token);
-	};
-	
-	
-	SingleAccess.prototype.getGlobalContextList = function(){
-		return dbZugriff.getGlobalContextList();
+	SingleAccess.prototype.updateDeviceContext = function(context, deviceName){
+		dbZugriff.updateDeviceContext(context, deviceName);
 	};
 	
 	SingleAccess.prototype.getPrototypeImages = function(contextID, deviceName){
 		dbZugriff.getPrototypeImages(contextID, deviceName)
 	};
 	
-	SingleAccess.prototype.getPuzzleImages = function(){
-		 dbZugriff.getPuzzleImages();
+	SingleAccess.prototype.getQuestions = function(context, deviceName){
+		return dbZugriff.getQuestions(context, deviceName);
 	};
 	
-	SingleAccess.prototype.updateDeviceContext = function(context, deviceName){
-		dbZugriff.updateDeviceContext(context, deviceName);
+	SingleAccess.prototype.getPuzzleImages = function(context, deviceName){
+		return dbZugriff.getPuzzleImages(context, deviceName);
 	};
 	
+	SingleAccess.prototype.sendEvalData = function(question, deviceName){
+		dbZugriff.prototype.sendEvalData(question, deviceName);
+	};
+	
+	
+		
 	SingleAccess.prototype.waitForData = function(dataReference, deviceName, callback){
 		return dbZugriff.waitForData(dataReference, deviceName, callback);
 	};
 	
-	SingleAccess.prototype.getQuestions = function(context, deviceName){
-		return dbZugriff.getQuestions(context, deviceName);
+	SingleAccess.prototype.getGlobalContextList = function(){
+		return dbZugriff.getGlobalContextList();
 	};
 	
 	SingleAccess.prototype.getGlobalContextData = function(){
 		return dbZugriff.getGlobalContextData();
 	};
+	
 		
 
     /*************************************** SwiperFactory ***************************************************************/

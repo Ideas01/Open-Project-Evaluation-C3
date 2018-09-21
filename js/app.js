@@ -72,10 +72,6 @@ function checkSize(){
 		
 app.on('pageInit', function(page){
 	
-	// var mydata = pictureURLs;
-	// console.log("testDaten:")
-	// console.log(mydata);
-	
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
 	

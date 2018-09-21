@@ -221,17 +221,21 @@ DBZugriff.prototype.getQuestions = function(context, deviceName){
 	return dataReferenceName;
 }
 
+// puzzleImages are saved local at this point. Because they isn´t a Settingspage to set them dynamically.
 DBZugriff.prototype.getPuzzleImages = function(context, deviceName){
-	var query = '{"query": "query {context(contextID: \\"' + context.contextId + '\\"){activeSurvey{images{id name type hash url}}}}" }'
+	//query is not existent this time;
+	
 	var dataReferenceName = "puzzleImages";
 	
+	var puzzlePicutureObj = pictureURLs.data;
 	
+	setglobalContextData(dataReferenceName, puzzlePicutureObj)
 	
 }
 
 
 DBZugriff.prototype.sendEvalData = function(question, deviceName){
-	var query = '{"mutation": "mutation {createAnswer(data:{questionID: \\"' + question.id + '\\" rating: 5}){voteCreated answer{question}}}" }'
+	var query = '{"mutation": "mutation {createAnswer(data:{questionID: \\"' + question.id + '\\" rating:' + + '}){voteCreated answer{question}}}" }'
 	
 	waitForToken(deviceName, function(token){
 		callDatabase(dataReferenceName, token, query, function(response){

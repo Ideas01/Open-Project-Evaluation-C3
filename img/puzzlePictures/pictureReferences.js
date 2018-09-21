@@ -1,46 +1,23 @@
 
-var pictureURLs = {"data": [
-{
-	"url": "img/puzzlePictures/bananen.jpg",
-	"correctAnswer": "Bananen",
-	"category": "Obst",
-	"wrongAnswers": 
-		[
-		{"name": "Erdbeeren"},
-		{"name": "Blaubeeren"},
-		{"name": "Himbeeren"},
-		{"name": "Kirschen"},
-		{"name": "Mandarinen"},
-		]
+var pictureURLs = {
+data: [{
+	url: "img/puzzlePictures/bananen.jpg",
+	correctAnswer: "Bananen",
+	category: "Obst",
+	wrongAnswers: ["Erdbeeren", "Blaubeeren", "Himbeeren", "Kirschen", "Mandarinen"]
 	
-},
-{
-	"url": "img/puzzlePictures/schraubenzieher.jpg",
-	"correctAnswer": "Schraubenzieher",
-	"category": "Werkzeuge",
-	"wrongAnswers": 
-		[
-		{"name": "Bohrer"},
-		{"name": "Hammer"},
-		{"name": "Schraube"},
-		{"name": "Strommesser"},
-		{"name": "Amboss"},
-		]
+},{
+	url: "img/puzzlePictures/schraubenzieher.jpg",
+	correctAnswer: "Schraubenzieher",
+	category: "Werkzeuge",
+	wrongAnswers: ["Bohrer", "Hammer", "Schraube", "Strommesser", "Amboss"]
 	
-}{
-	"url": "img/puzzlePictures/banane.jpg",
-	"correctAnswer": "Bananen",
-	"category": "Obst",
-	"wrongAnswers": 
-		[
-		{"name": "Kiwi"},
-		{"name": "Sternfrucht"},
-		{"name": "Zitrone"},
-		{"name": "Honigmelone"},
-		{"name": "Anannas"},
-		]
+},{
+	url: "img/puzzlePictures/banane.jpg",
+	correctAnswer: "Banane",
+	category: "Obst",
+	wrongAnswers: 
+		["Erdbeere", "Blaubeere", "Himbeere", "Kirsche", "Mandarine"]
 	
-},
-
-]
+}]
 }
