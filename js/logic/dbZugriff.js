@@ -140,6 +140,16 @@ function listAllKeys(obj) {
 }
 
 
+function nameSpaceIsAvailable(nameSpace){
+	if(document.querySelector("#" + nameSpace) != null){
+		console.log("nope")
+		return false;
+	}else{
+		console.log("yau")
+		return true;
+	}
+}
+
 
 DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
 	var tokenList = DBZugriff.prototype.getGlobalTokenList();

@@ -85,17 +85,17 @@
 		 return swiperFactory.initializeSwiper();
      };
 	
-	 SingleAccess.prototype.buildPrototypeSwiper = function (swiperElement, imageArray) {
-		return swiperFactory.buildPrototypeSwiper(swiperElement, imageArray);
+	 SingleAccess.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, type, contentArray) {
+		return swiperFactory.buildSwiper(maxContentPerSwiper, nameSpace, type, contentArray);
      };
 
 	 SingleAccess.prototype.setHandler = function (swiper) {
 		 return swiperFactory.setHandler(swiper);
      };
 	 
-	 SingleAccess.prototype.buildSelectionSwiper = function(swiperElement, contextCount){
-		return swiperFactory.buildSelectionSwiper(swiperElement, contextCount);
-	};
+	 SingleAccess.prototype.fillSwiper = function(elementsArray, wrapperNameSpace){
+		 swiperFactory.fillSwiper(elementsArray, wrapperNameSpace);
+	 };
 	 
 	/************************************** choice Factory ****************************************************************/
 	

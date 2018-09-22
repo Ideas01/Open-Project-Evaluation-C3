@@ -7,15 +7,6 @@ var app  = new Framework7({
   id: 'io.framework7.testapp', // App bundle ID
   name: 'Framework7', // App name
   theme: 'auto', // Automatic theme detection
-  // App root data
-  data: function () {
-    return {
-      user: {
-        firstName: 'John',
-        lastName: 'Doe',
-      }
-    };
-  },
   // App routes
   routes: routes,
 });
@@ -69,7 +60,7 @@ function checkSize(){
 }
 
 
-		
+
 app.on('pageInit', function(page){
 	
 	var singleAccess = new SingleAccess();
@@ -77,7 +68,7 @@ app.on('pageInit', function(page){
 	
 	console.log(page.name + " wird ausgeführt");
 
-	if(page.name === 'home'){
+if(page.name === 'home'){
 		
 		var deviceName = "OpenProjectEvalSlider"
 		singleAccess.initializeDB(deviceName);
@@ -199,46 +190,78 @@ app.on('pageInit', function(page){
 		});
     } /****************************** prototyp auswahl ende **************/
 		
-/****************************** prototypeSelection********************/
+/***************************** prototypeSelection********************/
+
   if(page.name ==='prototypeSelection'){
-      var contextCount =7;
-        singleAccess.initializeSwiper();
-		let prototypeSelectionSwiper = document.querySelector('#prototypeSelectionSwiper').swiper;
-        var mySwiper = singleAccess.buildSelectionSwiper(prototypeSelectionSwiper, contextCount);
+    var contextCount =7;
+	  singleAccess.initializeSwiper();
+	
+	var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+	
+	var contentArray = [{
+		title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel"> title1 </h2>',
+		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+		image1:	  '<img class="prototypeSelectionImg" />',
+		image2:   '<img class="prototypeSelectionImg" />'
+	},{
+		title:    '<h2 class ="prototypChoiceTitle"> title2 </h2>',
+		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+		image1:	  '<img class="prototypeSelectionImg" />',
+		image2:   '<img class="prototypeSelectionImg" />'
+	},{
+		title:    '<h2 class ="prototypChoiceTitle"> title3 </h2>',
+		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+		image1:	  '<img class="prototypeSelectionImg" />',
+		image2:   '<img class="prototypeSelectionImg" />'
+	},{
+		title:    '<h2 class ="prototypChoiceTitle"> title 4 </h2>',
+		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+		image1:	  '<img class="prototypeSelectionImg" />',
+		image2:   '<img class="prototypeSelectionImg" />'
+	}];
+	
+	var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
+	
+	let elementsArray = [{
+		id: "versuchstitel",
+		newContent: "hallalala"
+	}]
+	
+	singleAccess.fillSwiper(elementsArray, "leer");
+	 
+	//var mySwiper = singleAccess.buildSelectionSwiper(prototypeSelectionSwiper, contextCount);
 
-        var remainingQuestions = contextCount;
+	var remainingQuestions = contextCount;
 
-        $('.swiper-slide').each(function (index,value) {
-            for (var i=0;i < mySwiper.contextPerPage;i++){
-                singleAccess.buildPrototypeChoice(i,value.id);
-            }
-        });
-
-
+	$('.swiper-slide').each(function (index,value) {
+		for (var i=0;i < mySwiper.contextPerPage;i++){
+			singleAccess.buildPrototypeChoice(i,value.id);
+		}
+	});
 
 
-        $("#startButton").click(function(){
-			// hier ausgewählten Eintrag mit updateContext versehen.
-        });
+
+
+	$("#startButton").click(function(){
+		// hier ausgewählten Eintrag mit updateContext versehen.
+	});
 
 
     } /***************** prototype Selection End ***********************/
 
 	/****************************** P2 Start ***************************/
     if (page.name === 'P2'){
-        var imageArray = {
-            imageUrls:  ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"]
-        };
+        var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
         singleAccess.initializeSwiper();
+		
+		
 		let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
-        var mySwiper = singleAccess.buildPrototypeSwiper(prototypeSwiper, imageArray);
+
+        var mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
 
         singleAccess.setHandler(mySwiper);
 
-		
-		
-		
-		
+
 		
         $(".help").click(function () {
             var popup = app.popup.create({
