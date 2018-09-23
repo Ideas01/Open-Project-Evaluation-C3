@@ -1,12 +1,15 @@
 #puzzleOverview{
     position: absolute;
     background-size: cover;
-    top: 25%;
-    left: 60%;
-    width: 87px;
-    height: 75px;
+    height: 50%;
     background-color: red;
     font-size: 0;
+    margin-top: 1%;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 
 .miniOverviewGridPiece, .miniOverviewPuzzlePiece{
@@ -16,15 +19,31 @@
 }
 
 #guessOverview{
-    top: 25%;
-    left: 75%;
-    width: 25%;
-    height: 25%;
+    position: absolute;
+    top: 70%;
+    left: 40%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
 
 #guessItems{
-    top: 25%;
-    left: 100%;
-    width: 25%;
-    height: 25%;
+    position: absolute;
+    top: 80%;
+    left: 40%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+.guessButton {
+    font-size: 16px;
+    line-height: 36px;
+    height: 36px;
+    text-transform: uppercase;
+    min-width: 64px;
+    background: -moz-linear-gradient(top, #d40055, #d40055);
+    padding: 17px 34px;
+    margin: 8%;
+}
+
+.md a{
+    color: #ffffff;
 }
