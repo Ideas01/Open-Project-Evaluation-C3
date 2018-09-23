@@ -98,7 +98,7 @@
 	 };
 	 
 	/************************************** choice Factory ****************************************************************/
-	
 	SingleAccess.prototype.buildPrototypeChoice = function (id,appendToSwiperId) {
         return choiceFactory.buildPrototypeChoice(id,appendToSwiperId);
     };
+	
