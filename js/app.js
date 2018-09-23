@@ -63,19 +63,22 @@ function checkSize(){
 
 app.on('pageInit', function(page){
 	
+	
+	
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
 	
 	console.log(page.name + " wird ausgeführt");
 
 if(page.name === 'home'){
+
 		
 		var deviceName = "OpenProjectEvalSlider"
 		singleAccess.initializeDB(deviceName);
 		
 		var requiredResults = ['id', 'title', 'description'];
 		
-		var contextsKey = singleAccess.getContexts(requiredResults, deviceName);
+		singleAccess.getContexts(requiredResults, deviceName);
 				
 		//console.log(contextsKey);
 		
@@ -194,30 +197,48 @@ if(page.name === 'home'){
 
   if(page.name ==='prototypeSelection'){
     var contextCount =7;
+	var contentArray = [];
+	
+	waitForContexts(function(contextList){
+		contextlist.forEach(function(context, contextIndex, contextlist){
+			let selectionContent = {
+				title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel">' + contextList[contextIndex].title + ' </h2>',
+				content:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+				image1:	  '<img class="prototypeSelectionImg" src="' +  + '"/>',
+				image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>',
+				image3:   '<img class="prototypeSelectionImg" src="'+ +'"/>',
+			}
+		});
+			
+	});
+		
 	  singleAccess.initializeSwiper();
+	  
 	
 	var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+	
+	
 	
 	var contentArray = [{
 		title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel"> title1 </h2>',
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" />',
-		image2:   '<img class="prototypeSelectionImg" />'
+		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
+		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
 	},{
 		title:    '<h2 class ="prototypChoiceTitle"> title2 </h2>',
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" />',
-		image2:   '<img class="prototypeSelectionImg" />'
+		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
+		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
 	},{
 		title:    '<h2 class ="prototypChoiceTitle"> title3 </h2>',
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" />',
-		image2:   '<img class="prototypeSelectionImg" />'
+		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
+		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
 	},{
 		title:    '<h2 class ="prototypChoiceTitle"> title 4 </h2>',
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" />',
-		image2:   '<img class="prototypeSelectionImg" />'
+		image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
 	}];
 	
 	var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
@@ -471,6 +492,7 @@ if(page.name === 'home'){
 	
 	/****************************** puzzle end ****************************/
     if(page.name === 'puzzleGuess'){
+				
         var guessItems = {
             Tiere : [
                 'Katze','Hund','Maus'
@@ -504,7 +526,7 @@ if(page.name === 'home'){
             //for each property in guessItems...
             $.each(guessItems, function (i,value) {
                 //...append a button, set the caption to the guessItems Objects property name...
-                $('#guessOverview').append('<a class="button" id="'+i+'">'+ i +'</a>');
+                $('#guessOverview').append('<a class="button" id="'+ i +'">'+ i +'</a>');
                 //...and set a click listener for each button
                 $('#'+i).click(function () {
                     //empty the container, which holds the values of the properties
@@ -530,9 +552,11 @@ if(page.name === 'home'){
         });
         function checkGuessItem(item,correctItem) {
             if(item === correctItem){
-                alert("ist richtig");
+				app.router.navigate('/success/');
+                //alert("ist richtig");
             }
             else{
+				app.router.navigate('/failure/');
                 alert("ist falsch");
             }
         }
