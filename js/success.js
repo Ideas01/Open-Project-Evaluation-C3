@@ -1,6 +1,12 @@
+function Success() {}
+
+Success.prototype.buildConfetty = function(){
+	
 let W = window.innerWidth;
 let H = window.innerHeight;
-const canvas = document.getElementById("canvas");
+document.getElementById("canvasSuccess").ready(function(){
+	const canvas = document.getElementById("canvasSuccess");
+});
 const context = canvas.getContext("2d");
 const maxConfettis = 150;
 const particles = [];
@@ -102,3 +108,4 @@ canvas.width = W;
 canvas.height = H;
 Draw();
 
+};

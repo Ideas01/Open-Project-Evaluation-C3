@@ -564,6 +564,11 @@ if(page.name === 'home'){
     }
     /****************************** puzzleGuess end ****************************/
 
+	if(page.name === 'success'){
+		singleAccess.buildConfetty();
+	}
+	
+	
 });
 
 	// Init/Create views
