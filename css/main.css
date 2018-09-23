@@ -13,13 +13,23 @@ body {
 }
 
 .center-sliding {
-    margin: 39%;
+    margin: 0;
+    position: absolute;
+    top: 25%;
+    left: 47%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+    font-size: 18px;
 }
 
 .center {
-    position: relative;
-    bottom: 0px;
-    width: 100%;
+    margin: 0;
+    position: absolute;
+    top: 25%;
+    left: 47%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+    font-size: 18px;
 }
 
 .next {
