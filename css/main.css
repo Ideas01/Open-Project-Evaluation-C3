@@ -361,7 +361,7 @@ input:checked + .toggle:before {
 
 /****Success Side****/
 
-h2 {
+h4 {
     position: absolute;
     margin-top: 30vh;
     width: 100%;
@@ -372,12 +372,6 @@ h2 {
     opacity: 0.5;
 }
 
-canvas {
-    overflow-y: hidden;
-    overflow-x: hidden;
-    width: 100%;
-    margin: 0;
-}
 
 /***Sucess Side End****/
 
