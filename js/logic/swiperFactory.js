@@ -84,7 +84,7 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, 
 						$("#"+ nameSpace + m + i + 'Div').css({
 							'position': 'relative',
 							'display': 'inline-block',
-							'background-color': "lime",
+							//'background-color': "lime",
 							'margin': '1%',
 							'align-content':'center',
 							'width': contentWidth +'%', 

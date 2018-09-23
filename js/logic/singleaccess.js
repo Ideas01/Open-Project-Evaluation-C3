@@ -1,5 +1,3 @@
-
-
 	function SingleAccess() {}
 	
 	const puzzleBuilder = new PuzzleBuilder();
@@ -7,6 +5,7 @@
 	const dbZugriff = new DBZugriff();
 	const swiperFactory = new SwiperFactory();
 	const choiceFactory = new ChoiceFactory();
+	const success = new Success();
 
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
@@ -78,8 +77,7 @@
 		return dbZugriff.getGlobalContextData();
 	};
 	
-		
-
+	
     /*************************************** SwiperFactory ***************************************************************/
 	 SingleAccess.prototype.initializeSwiper = function () {
 		 return swiperFactory.initializeSwiper();
@@ -98,7 +96,13 @@
 	 };
 	 
 	/************************************** choice Factory ****************************************************************/
+	
 	SingleAccess.prototype.buildPrototypeChoice = function (id,appendToSwiperId) {
         return choiceFactory.buildPrototypeChoice(id,appendToSwiperId);
     };
 	
+	
+	/************************************** dianas SuccessSeite ***********************************************************/
+	SingleAccess.prototype.buildConfetty = function(){
+		success.buildConfetty();
+	};
