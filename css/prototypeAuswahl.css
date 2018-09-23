@@ -21,6 +21,14 @@ article{
 
 }
 
+.prototypeSelectionImg{
+	position: absolute;
+	display: inline-block;
+	height: 40%;
+	top: 60%;
+	margin-right: 2%;
+}
+
 .choicePageContent{
 	position: absolute;
 	margin: 3% 10%;

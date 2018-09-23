@@ -1,18 +1,3 @@
 .swiper-container{
-	height: 100%;
-}
-
-.selectionImgWrapper{
-	position: relative;
-	top: 55%;
-	height: 40%;
-	display: inline-block;
-	margin-right: 5%;
-}
-
-.prototypeSelectionImg{
-	position: relative;
-	display: inline-block;
-	height: 100%;
-	margin-right: 2%;
+height: 100%;
 }
