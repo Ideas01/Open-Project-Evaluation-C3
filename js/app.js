@@ -64,7 +64,7 @@ function checkSize(){
 app.on('pageInit', function(page){
 	
 	
-	
+	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
 	
@@ -73,10 +73,10 @@ app.on('pageInit', function(page){
 if(page.name === 'home'){
 
 		
-		var deviceName = "OpenProjectEvalSlider"
+		
 		singleAccess.initializeDB(deviceName);
 		
-		var requiredResults = ['id', 'title', 'description'];
+		var requiredResults = ['id', 'title', 'description', 'images{url}'];
 		
 		singleAccess.getContexts(requiredResults, deviceName);
 				
@@ -109,10 +109,10 @@ if(page.name === 'home'){
 			singleAccess.sendEvalData(response[0].id, 5, deviceName); //erg. muss noch gefüllt werden.
 		});
 		
-		singleAccess.waitForData("puzzleImages", deviceName, function(response){
+		/* singleAccess.waitForData("puzzleImages", deviceName, function(response){
 			console.log(name + "erfolgreich zurück pImages");
 			console.log(response[0].url);
-		});
+		}); */
 		
 		
 		
@@ -185,41 +185,75 @@ if(page.name === 'home'){
         });
 		
 		
-		singleAccess.waitForData("prototypeImages", deviceName, function(response){
+		/* singleAccess.waitForData("prototypeImages", deviceName, function(response){
 			console.log(name + "erfolgreich zurück prototypeImages")
 			console.log(response[0].url);
 			console.log(response[1].url);
 			
-		});
+		}); */
     } /****************************** prototyp auswahl ende **************/
 		
 /***************************** prototypeSelection********************/
 
   if(page.name ==='prototypeSelection'){
-    var contextCount =7;
-	var contentArray = [];
+	singleAccess.initializeSwiper();
 	
-	waitForContexts(function(contextList){
-		contextlist.forEach(function(context, contextIndex, contextlist){
-			let selectionContent = {
-				title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel">' + contextList[contextIndex].title + ' </h2>',
-				content:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
-				image1:	  '<img class="prototypeSelectionImg" src="' +  + '"/>',
-				image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>',
-				image3:   '<img class="prototypeSelectionImg" src="'+ +'"/>',
-			}
+    //var contextCount =7;
+	var contentArray = [];
+	var counter = 0;
+	var picturesPerChoice = 3;
+	var selectionContent = {};
+	var protoImages = [];
+
+	new Promise(function(resolve){
+		waitForContexts(function(contextList){
+			var contextList = contextList;
+			console.log("contextlist")
+			console.log(contextList)
+				contextList.forEach(function(context, contextIndex, contextList){
+					
+					var imageURLs = contextList[contextIndex].images;
+					console.log("imageUrls")
+					console.log(imageURLs)
+					counter = imageURLs.length;
+					
+					
+					selectionContent = {
+						aTitle:    '<h2 class ="prototypChoiceTitle" id="versuchstitel">' + contextList[contextIndex].title + ' </h2>',
+						bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+					};
+					
+					for(var i=0; i < picturesPerChoice; i++){
+						if(counter > 0){
+							selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
+							counter --;
+						}
+					
+					}
+					
+					
+					console.log("selectionContent");
+					console.log(selectionContent)
+					contentArray.push(selectionContent);
+					
+					console.log("contentArray vorher");
+					console.log(contentArray)
+					resolve(contentArray);
+				});
 		});
-			
-	});
-		
-	  singleAccess.initializeSwiper();
+	 }).then(function(contentArray){
+		 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
+		 
+	 });
+	  
+	 
 	  
 	
 	var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
 	
 	
 	
-	var contentArray = [{
+	/* contentArray = [{
 		title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel"> title1 </h2>',
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
 		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
@@ -239,9 +273,9 @@ if(page.name === 'home'){
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
 		image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
 		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
-	}];
+	}]; */
 	
-	var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
+	
 	
 	let elementsArray = [{
 		id: "versuchstitel",
@@ -252,7 +286,7 @@ if(page.name === 'home'){
 	 
 	//var mySwiper = singleAccess.buildSelectionSwiper(prototypeSelectionSwiper, contextCount);
 
-	var remainingQuestions = contextCount;
+	//var remainingQuestions = contextCount;
 
 	$('.swiper-slide').each(function (index,value) {
 		for (var i=0;i < mySwiper.contextPerPage;i++){
