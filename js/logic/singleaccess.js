@@ -78,8 +78,7 @@
 		return dbZugriff.getGlobalContextData();
 	};
 	
-		
-
+	
     /*************************************** SwiperFactory ***************************************************************/
 	 SingleAccess.prototype.initializeSwiper = function () {
 		 return swiperFactory.initializeSwiper();
@@ -102,3 +101,9 @@
 	SingleAccess.prototype.buildPrototypeChoice = function (id,appendToSwiperId) {
         return choiceFactory.buildPrototypeChoice(id,appendToSwiperId);
     };
+	
+	
+	/************************************** dianas SuccessSeite ***********************************************************/
+	SingleAccess.prototype.buildConfetty = function(){
+		Success.buildConfetty();
+	};
