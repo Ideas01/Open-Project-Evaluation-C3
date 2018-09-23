@@ -16,18 +16,7 @@ SwiperFactory.prototype.initializeSwiper = function () {
 *		newContent: "content" //the content to fill the tags with
 *    },{},...]
 ***********************************************************/
-SwiperFactory.prototype.fillSwiper = function(elementsArray, wrapperNameSpace){
-	console.log("funzt bis hier 0")
-	elementsArray.forEach(function(element){
-		console.log("funzt bis hier 1")
-		$('#' + element.id).ready(function(){
-			console.log("funzt bis hier 2")
-			document.getElementById(element.id).innerHTML = element.newContent;
-		});
-		
-	});
-	
-}
+
 
 SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, type, contentArray) {
 	if(nameSpaceIsAvailable()){
@@ -35,14 +24,9 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, 
 		var counter = 0;
 		var swiperElement = document.querySelector('#' + nameSpace).swiper;
 		
-		console.log("swiperElement")
-		console.log(contentArray)
-		
 		
 		var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
-			//swiperCount = Math.round(swiperCount);
-		console.log("swiperCount")
-		console.log(swiperCount);
+			swiperCount = Math.ceil(swiperCount);
 		
 		for (var i=0; i < swiperCount; i++){
 			console.log("element gefunden")

@@ -91,10 +91,6 @@
 		 return swiperFactory.setHandler(swiper);
      };
 	 
-	 SingleAccess.prototype.fillSwiper = function(elementsArray, wrapperNameSpace){
-		 swiperFactory.fillSwiper(elementsArray, wrapperNameSpace);
-	 };
-	 
 	/************************************** choice Factory ****************************************************************/
 	
 	SingleAccess.prototype.buildPrototypeChoice = function (id,appendToSwiperId) {

@@ -252,7 +252,7 @@ if(page.name === 'home'){
 	var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
 	
 	
-	
+	//Testarray für mehr inhalt
 	/* contentArray = [{
 		title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel"> title1 </h2>',
 		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
@@ -275,18 +275,8 @@ if(page.name === 'home'){
 		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
 	}]; */
 	
-	
-	
-	let elementsArray = [{
-		id: "versuchstitel",
-		newContent: "hallalala"
-	}]
-	
-	singleAccess.fillSwiper(elementsArray, "leer");
-	 
-	//var mySwiper = singleAccess.buildSelectionSwiper(prototypeSelectionSwiper, contextCount);
 
-	//var remainingQuestions = contextCount;
+	 
 
 	$('.swiper-slide').each(function (index,value) {
 		for (var i=0;i < mySwiper.contextPerPage;i++){
@@ -306,15 +296,35 @@ if(page.name === 'home'){
 
 	/****************************** P2 Start ***************************/
     if (page.name === 'P2'){
-        var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+        var imageArray = [];
+		//["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
         singleAccess.initializeSwiper();
 		
+		//TODO aktuellen ContextIndex übergeben
+		waitForContexts(function(contextList){
+			singleAccess.getPrototypeImages(contextList[0], deviceName);
+		});
 		
-		let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
+		new Promise(function(resolve){
+			singleAccess.waitForData("prototypeImages", deviceName, function(prototypeImages){
+								
+				prototypeImages.forEach(function(image, imageIndex, prototypeImages){
+					imageArray.push(prototypeImages[imageIndex].url);
+					});
+				resolve(imageArray);	
+			});
+		
+		}).then(function(imageArray){
+			console.log("imageArray")
+			console.log(imageArray);
+			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
 
-        var mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
+			var mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
 
-        singleAccess.setHandler(mySwiper);
+			singleAccess.setHandler(mySwiper);
+		});
+		
+		
 
 
 		
