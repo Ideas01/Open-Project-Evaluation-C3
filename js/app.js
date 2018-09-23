@@ -91,8 +91,7 @@ if(page.name === 'home'){
 			
 			singleAccess.getPuzzleImages(contextList[0], deviceName);
 			
-			
-			
+
 			console.log("zurück contextlist");
 			console.log(contextList);
 		});
@@ -197,20 +196,24 @@ if(page.name === 'home'){
 
   if(page.name ==='prototypeSelection'){
     var contextCount =7;
-	var contentArray = [];
+	var contentArray0 = [];
 	
 	waitForContexts(function(contextList){
-		contextlist.forEach(function(context, contextIndex, contextlist){
+		console.log(contextList)
+		contextList.forEach(function(context, contextIndex, contextList){
 			let selectionContent = {
 				title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel">' + contextList[contextIndex].title + ' </h2>',
-				content:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+				content:  '<article class="descriptionPChoice">' + contextList[contextIndex].description + '</article>',
 				image1:	  '<img class="prototypeSelectionImg" src="' +  + '"/>',
 				image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>',
-				image3:   '<img class="prototypeSelectionImg" src="'+ +'"/>',
+				image3:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
 			}
+			contentArray0.push(selectionContent);
 		});
 			
 	});
+	console.log("contentArray0");
+	console.log(contentArray0);
 		
 	  singleAccess.initializeSwiper();
 	  
