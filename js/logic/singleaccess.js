@@ -1,5 +1,3 @@
-
-
 	function SingleAccess() {}
 	
 	const puzzleBuilder = new PuzzleBuilder();
@@ -7,6 +5,7 @@
 	const dbZugriff = new DBZugriff();
 	const swiperFactory = new SwiperFactory();
 	const choiceFactory = new ChoiceFactory();
+	const success = new Success();
 
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
@@ -105,5 +104,5 @@
 	
 	/************************************** dianas SuccessSeite ***********************************************************/
 	SingleAccess.prototype.buildConfetty = function(){
-		Success.buildConfetty();
+		success.buildConfetty();
 	};
