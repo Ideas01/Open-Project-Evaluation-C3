@@ -3,6 +3,12 @@ var $$ = Dom7;
 
 // Framework7 App main instance
 var app  = new Framework7({
+    data: function (){
+        return {
+            pointCount: 144,
+            clickedPuzzleTiles: []
+        }
+    },
   root: '#app', // App root element
   id: 'io.framework7.testapp', // App bundle ID
   name: 'Framework7', // App name
@@ -71,9 +77,6 @@ app.on('pageInit', function(page){
 	console.log(page.name + " wird ausgeführt");
 
 if(page.name === 'home'){
-
-		
-		
 		singleAccess.initializeDB(deviceName);
 		
 		var requiredResults = ['id', 'title', 'description', 'images{url}'];
@@ -135,7 +138,7 @@ if(page.name === 'home'){
 				clearInterval(waitforC);
 				callback(contextList);
 			}else{
-				console.log("leider kein Context");
+				//console.log("leider kein Context");
 			}
 		},500); //delay is in milliseconds 
 
@@ -228,23 +231,24 @@ if(page.name === 'home'){
 							selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
 							counter --;
 						}
-					
 					}
-					
 					
 					console.log("selectionContent");
 					console.log(selectionContent)
 					contentArray.push(selectionContent);
 					
 					console.log("contentArray vorher");
-					console.log(contentArray)
+					console.log(contentArray);
 					resolve(contentArray);
 				});
 		});
 	 }).then(function(contentArray){
+	     
 		 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
 		 
-	 });
+	 }).then(function () {
+	     $()
+    });
 	  
 	 
 	  
@@ -370,40 +374,148 @@ if(page.name === 'home'){
     /****************************** sliders start *********************/
     if(page.name === 'sliders') {
         app.popup.close();
+        //$('.range-sliders').css('display','none');
+        //var deviceName = "OpenProjectEvalSlider";
+        /*  waitForContexts(function(contextList){
+              singleAccess.updateDeviceContext(contextList[0], deviceName);
+              singleAccess.getQuestions(contextList[0], deviceName);
+
+              console.log("zurück contextlist");
+              console.log(contextList);
+          }); */
+
+        /*      singleAccess.waitForData("questions", deviceName, function(response){
+                 console.log(name + "erfolgreich zurück questions");
+                 console.log(response);
+             }); */
+
+        var response = [
+            {min:2,
+                max:10,
+                stepSize:2,
+                label:["zufrieden","unzufrieden"],
+                value:"erste Frage"
+            } ,
+            {min:0,
+                max:10,
+                stepSize:10,
+                label:["zufrieden","unzufrieden"],
+                value:"zweite Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"dritte Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"vierte Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:1,
+                label:["zufrieden","unzufrieden"],
+                value:"fünfte Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"sechste Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"siebte "
+            },
+            {min:4,
+                max:30,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"8 frage"
+            },
+            {min:0,
+                max:20,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"9. frage"
+            }/*,
+           {min:0,
+               max:40,
+               stepSize:5,
+               label:["zufrieden","unzufrieden"],
+               value:"10. frage"
+           } */
+        ];
+        console.log(response);
+
+
+        //array for saving the values of the sliders
         var sliderValues = [];
 
-        //test-data
-        var testDataObj = {
-            questionCount: 10,
-            headerArray: [
-                "Frage1", "Frage2", "Frage3", "Frage4", "Frage5"
-            ]
-        };
+        //index where to start in the questions
+        var currentIndex = 0;
 
-        //set variable for the remaining questions
-        var remainingQuestions = testDataObj.questionCount;
-        var rangeSliderReferences = singleAccess.createRangeSliders(remainingQuestions);
+        //to check if there are any questions left
+        var remainingQuestions = response.length;
 
+        //initialize the sliders, starting with the data at startIndex
+        try {
+            var rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
+        } catch (e) {
+            if (e instanceof RangeError) {
+                console.log(e.message);
+            }
+        }
+        //raise the index, so we know at which point to access the data
+        currentIndex += rangeSliderReferences.length;
+
+        //when the button is clicked
         $("#sendRatingsButton").click(function(){
+            //subtract the amount of initialized rangeSliders, so we know how many questions are left
             remainingQuestions -= rangeSliderReferences.length;
 
+            //if there are questions left..
             if(remainingQuestions > 0){
 
+                //...save slider values of the existing sliders
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push({
+                        id: rangeSliderReferences[i].questionId,
+                        value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+                    });
+                }
+                //TODO: DELETE AFTER TESTING
+                console.log(sliderValues);
+
+                //initialize the sliders, starting with data at startIndex
+                try {
+                    rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
+                }catch (e) {
+                    if (e instanceof RangeError) {
+                        console.log(e.message);
+                    }
+                }
+                //raise the index, so we know at which point to access the data
+                currentIndex += rangeSliderReferences.length;
+            }
+            //no more questions to display
+            else {
                 //save slider values of the existing sliders
                 for (var i=0;i< rangeSliderReferences.length; i++){
-                    sliderValues.push(rangeSliderReferences[i].value);
-                    $('.range-bar').remove();
-                    $('.range-knob-wrap').remove();
+                    sliderValues.push({
+                        id: rangeSliderReferences[i].questionId,
+                        value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+                    });
                 }
-                rangeSliderReferences = singleAccess.createRangeSliders(remainingQuestions);
-                for(var i=0; i<=remainingQuestions;i++){
-                    app.range.setValue('#slider'+i,0);
-                }
-            }
-            else {
-                for (var i=0;i< rangeSliderReferences.length; i++){
-                    sliderValues.push(rangeSliderReferences[i].value);
-                }
+                //TODO: DELETE AFTER TESTING
+                console.log(sliderValues);
+
+                //create the popup, which is used to get to the next page
                 var popup = app.popup.create({
                     // The Popup
                     content:
@@ -453,51 +565,56 @@ if(page.name === 'home'){
             }
         });
 
-            $(".help-sliders").click(function () {
-                var popup = app.popup.create({
-                    content:
-                    '<div class="popup" id="popupStart">' +
-                    '<div class="view">' +
-                    '<div class="page popupStartpage ">' +
-                    '<div class="navbar">' +
-                    '<div class="navbar-inner">' +
-                    '<div class="title">HILFE</div>' +
-                    '<div class="right">' +
-                    '<a href="#" class="link popup-close">Close</a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="page-content">' +
-                    '<div class="block">' +
-                    '<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
-                    'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
-                    'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ' +
-                    'amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
-                    'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
-                    'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>' +
-                    '<a href="#" class="popup-close" >' +
-                    '<a class="button popup-close"> Los geht´s! </a>' +
-                    '</a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>',
+        $(".help-sliders").click(function () {
+            var popup = app.popup.create({
+                content:
+                '<div class="popup" id="popupStart">' +
+                '<div class="view">' +
+                '<div class="page popupStartpage ">' +
+                '<div class="navbar">' +
+                '<div class="navbar-inner">' +
+                '<div class="title">HILFE</div>' +
+                '<div class="right">' +
+                '<a href="#" class="link popup-close">Close</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="page-content">' +
+                '<div class="block">' +
+                '<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
+                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
+                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ' +
+                'amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
+                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
+                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>' +
+                '<a href="#" class="popup-close" >' +
+                '<a class="button popup-close"> Los geht´s! </a>' +
+                '</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>',
 
 
-                    on: {
-                        close: function () {
-                            $(".popup").remove();
-                        }
+                on: {
+                    close: function () {
+                        $(".popup").remove();
                     }
-                });
-                app.popup.open(popup.el, true);
+                }
             });
+            app.popup.open(popup.el, true);
+        });
     }
-	/****************************** sliders end ****************************/
+    /****************************** sliders end ****************************/
 
+
+    /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
+        var pointCount = app.data.pointCount;
+ 	    var clickedPuzzleTiles = [];
+
 		var loadImage = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
             backgroundImage.src = 'img/katzie.jpg';
@@ -517,7 +634,8 @@ if(page.name === 'home'){
 			var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
 			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
 				
-			singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',"" , 6);		
+			var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',clickedPuzzleTiles , 6);
+			console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
 			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				$(window).on('resize', function (page) {
 					checkSize();
@@ -527,15 +645,24 @@ if(page.name === 'home'){
 				// bis hierhin.
 				
 			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.	
-			singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
-		});
-
-        
+            singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece","");
+		    return puzzlePieceClassName;
+		}).then(function (puzzlePieceClassName) {
+            $('.'+ puzzlePieceClassName).click(function (event) {
+                event.target.style.visibility = "hidden";
+                var puzzlePieceId = event.target.id.split('|');
+                app.data.clickedPuzzleTiles.push(puzzlePieceId[1]);
+                pointCount -= event.target.pointReduction;
+            })
+        });
 	}
 	
 	/****************************** puzzle end ****************************/
     if(page.name === 'puzzleGuess'){
-				
+    console.log(app.data.clickedPuzzleTiles);
+
+
+
         var guessItems = {
             Tiere : [
                 'Katze','Hund','Maus'
@@ -549,8 +676,6 @@ if(page.name === 'home'){
         };
         var isCorrect = 'Katze';
 
-        //var imageSource;
-
         var loadImage2 = new Promise(function (resolve, reject) {
             var backgroundImage = new Image();
             backgroundImage.src = 'img/katzie.jpg';
@@ -563,8 +688,8 @@ if(page.name === 'home'){
             };
         });
         loadImage2.then(function (backgroundImage) {
-            //imageSource = backgroundImage.src;
-            singleAccess.buildMiniOverview(backgroundImage,'#puzzleOverview',"#puzzleOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece");
+            //(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles)
+            singleAccess.buildMiniOverview(backgroundImage,'#puzzleOverview',"#puzzleOverview","miniOverviewGrids","miniOverviewGridPiece",'#miniOverviewGrids',"miniOverviewPuzzletiles","miniOverviewPuzzlePiece",app.data.clickedPuzzleTiles);
         }).then(function () {
             //for each property in guessItems...
             $.each(guessItems, function (i,value) {
@@ -596,11 +721,9 @@ if(page.name === 'home'){
         function checkGuessItem(item,correctItem) {
             if(item === correctItem){
 				app.router.navigate('/success/');
-                //alert("ist richtig");
             }
             else{
 				app.router.navigate('/failure/');
-                alert("ist falsch");
             }
         }
 
