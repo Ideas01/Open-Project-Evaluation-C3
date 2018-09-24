@@ -23,8 +23,9 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, 
 		var keysArray = listAllKeys(contentArray[0]);
 		var counter = 0;
 		var swiperElement = document.querySelector('#' + nameSpace).swiper;
-		
-		
+		console.log("swiperE")
+		console.log(swiperElement)
+		$('.swiper-wrapper').empty();
 		var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
 			swiperCount = Math.ceil(swiperCount);
 		

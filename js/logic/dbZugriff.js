@@ -33,7 +33,7 @@ function setglobalContextData(dataReferenceName, data){
 
 
 
-var serverAdresse = 'http://192.168.43.174:3000/';
+var serverAdresse = 'http://192.168.2.104:3000/';
 
 
 

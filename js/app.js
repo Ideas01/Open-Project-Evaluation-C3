@@ -296,22 +296,21 @@ if(page.name === 'home'){
 
 	/****************************** P2 Start ***************************/
     if (page.name === 'P2'){
-        var imageArray = [];
-		//["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+        var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
         singleAccess.initializeSwiper();
-		
+		var mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
 		//TODO aktuellen ContextIndex übergeben
 		waitForContexts(function(contextList){
 			singleAccess.getPrototypeImages(contextList[0], deviceName);
 		});
 		
-		new Promise(function(resolve){
+		new Promise(function(resolve, reject){
 			singleAccess.waitForData("prototypeImages", deviceName, function(prototypeImages){
-								
+				imageArray = [];				
 				prototypeImages.forEach(function(image, imageIndex, prototypeImages){
 					imageArray.push(prototypeImages[imageIndex].url);
 					});
-				resolve(imageArray);	
+				resolve(imageArray);
 			});
 		
 		}).then(function(imageArray){
@@ -319,7 +318,7 @@ if(page.name === 'home'){
 			console.log(imageArray);
 			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
 
-			var mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
+			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
 
 			singleAccess.setHandler(mySwiper);
 		});
