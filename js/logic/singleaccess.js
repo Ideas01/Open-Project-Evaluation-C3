@@ -9,19 +9,11 @@
 
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
-		puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
-	};
-	
-	SingleAccess.prototype.buildPuzzleOld = function (tileCount, appendToDOM, namespace, color, setclassname) {
-		puzzleBuilder.buildPuzzleOld(tileCount, appendToDOM, namespace, color, setclassname);
+		return puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
 	};
 
-    SingleAccess.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, namespace, color, setclassname, clickedPuzzleTiles) {
-        puzzleBuilder.buildPuzzleTiles(tileCount, appendToDOM, namespace, color, setclassname,clickedPuzzleTiles);
-    };
-
-    SingleAccess.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
-        puzzleBuilder.buildMiniOverview(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles);
+    SingleAccess.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles){
+        puzzleBuilder.buildMiniOverview(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles);
 	};
 
     SingleAccess.prototype.calculateWrapperSize = function (image, elementArray, percentageSize){
@@ -29,8 +21,8 @@
 	};
 
     /*************************************** SLIDERS ******************************************************************/
-	SingleAccess.prototype.createRangeSliders = function(questionCount,headers){
-		return sliderFactory.createRangeSliders(questionCount,headers);
+	SingleAccess.prototype.determineRangeSliderAmount = function (startIndex, questionCount, rangeSliderObjects){
+		return sliderFactory.determineRangeSliderAmount(startIndex, questionCount, rangeSliderObjects);
 	};
 
     /*************************************** DB Zugriff ***************************************************************/
