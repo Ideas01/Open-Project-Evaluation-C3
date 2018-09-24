@@ -207,7 +207,6 @@
 
 /*********** popupStart end **************/
 .md .button {
-    border: 0px solid #0a3c59;
     background: #d40055;
     background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
     background: -webkit-linear-gradient(top, #d40055, #d40055);
@@ -222,7 +221,6 @@
     -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
     -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
     box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
-    text-shadow: #1d1f21 0 1px 0;
     color: #ffffff;
     font-size: 16px;
     font-family: helvetica, serif;

@@ -569,7 +569,7 @@ if(page.name === 'home'){
             //for each property in guessItems...
             $.each(guessItems, function (i,value) {
                 //...append a button, set the caption to the guessItems Objects property name...
-                $('#guessOverview').append('<a class="button" id="'+ i +'">'+ i +'</a>');
+                $('#guessOverview').append('<a class="guessButton" id="'+ i +'">'+ i +'</a>');
                 //...and set a click listener for each button
                 $('#'+i).click(function () {
                     //empty the container, which holds the values of the properties
@@ -577,7 +577,7 @@ if(page.name === 'home'){
                     //for each value of a property...
                     $.each(value,function (i) {
                         //...append a button, set the caption to the i-th value of the property
-                        $('#guessItems').append('<a class="button" id="'+value[i]+'">'+ value[i]+'</a>');
+                        $('#guessItems').append('<a class="guessButton" id="'+value[i]+'">'+ value[i]+'</a>');
                         $('#'+value[i]).click(function () {
                             checkGuessItem(value[i],isCorrect);
                         })
@@ -587,7 +587,7 @@ if(page.name === 'home'){
         }).then(function () {
             //append the first property of the guessItems Object by default
             $.each((guessItems[Object.keys(guessItems)[0]]),function (i,value) {
-                $('#guessItems').append('<a class="button" id="'+value+'">'+ value+'</a>');
+                $('#guessItems').append('<a class="guessButton" id="'+value+'">'+ value+'</a>');
                 $('#'+value).click(function () {
                     checkGuessItem(value,isCorrect);
                 })
