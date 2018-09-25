@@ -18,18 +18,16 @@ SwiperFactory.prototype.initializeSwiper = function () {
 ***********************************************************/
 
 
-SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, type, contentArray) {
-	if(nameSpaceIsAvailable()){
-		var keysArray = listAllKeys(contentArray[0]);
+SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray) {
+	if(app.methods.nameSpaceIsAvailable(nameSpace)){
+		var keysArray = listAllKeys(contentArray[0]); //there has to be min. 1 entry. 
 		var counter = 0;
 		var contextId = null;
-		var swiperElement = document.querySelector('#' + nameSpace).swiper;
+		var swiperElement = document.querySelector('#' + swiperWrapperId).swiper;
 		console.log("swiperE")
 		console.log(swiperElement)
 		$('.swiper-wrapper').empty();
 		var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
-		//var swiperCount = contentArray.length;
-			//swiperCount = Math.ceil(swiperCount); //There is no such thing as half a slider
 		
 		for (var i=0; i < swiperCount; i++){
 			

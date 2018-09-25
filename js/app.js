@@ -7,9 +7,21 @@ var app  = new Framework7({
         return {
             pointCount: 144,
             clickedPuzzleTiles: [],
+			//miniOverviewNamespace = null,
 			currentContextIdIndex: null
         }
     },
+	methods: {
+		nameSpaceIsAvailable: function(nameSpace) {
+			if(document.querySelector("#" + nameSpace) != null){
+				console.log("nope")
+				return false;
+			}else{
+				console.log("yau")
+				return true;
+			}
+		}
+	},
   root: '#app', // App root element
   id: 'io.framework7.testapp', // App bundle ID
   name: 'Framework7', // App name
@@ -113,10 +125,10 @@ if(page.name === 'home'){
 			singleAccess.sendEvalData(response[0].id, 5, deviceName); //erg. muss noch gefüllt werden.
 		});
 		
-		/* singleAccess.waitForData("puzzleImages", deviceName, function(response){
+		singleAccess.waitForData("puzzleImages", deviceName, function(response){
 			console.log(name + "erfolgreich zurück pImages");
-			console.log(response[0].url);
-		}); */
+			console.log(response[0]);
+		});
 		
 		
 		
@@ -186,7 +198,7 @@ if(page.name === 'home'){
 			});
 		 }).then(function(contentArray){
 			 
-			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
+			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "pSelectionSwiper", "contentSwiper", contentArray);
 			 
 		 });
 		 
@@ -269,7 +281,7 @@ if(page.name === 'home'){
     if (page.name === 'P2'){
         var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
         singleAccess.initializeSwiper();
-		var mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
+		
 		//TODO aktuellen ContextIndex übergeben
 		waitForContexts(function(contextList){
 			singleAccess.getPrototypeImages(contextList[0], deviceName);
@@ -289,7 +301,7 @@ if(page.name === 'home'){
 			console.log(imageArray);
 			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
 
-			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "imageSwiper", imageArray, prototypeSwiper);
+			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
 
 			singleAccess.setHandler(mySwiper);
 		});
@@ -601,7 +613,7 @@ if(page.name === 'home'){
 			var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
 			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
 				
-			var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue',clickedPuzzleTiles , 6);
+			var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue', clickedPuzzleTiles, 6);
 			console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
 			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				$(window).on('resize', function (page) {
@@ -611,8 +623,13 @@ if(page.name === 'home'){
 				
 				// bis hierhin.
 				
-			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.	
-            singleAccess.buildMiniOverview(imageObject,'#miniOverview', "#miniOverview","miniOverviewGrid","miniOverviewGridPiece",'#miniOverviewGrid',"miniOverviewPuzzletile","miniOverviewPuzzlePiece","");
+			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.
+			//var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010", "miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];	
+			console.log("§§§")
+			console.log(miniOverviewClickedPuzzleTiles)
+			console.log(imageObject)
+			//							   (clickedPuzzleTiles, image, appendToDOMOverview)			
+            //singleAccess.buildMiniOverview(4, 3, miniOverviewClickedPuzzleTiles, imageObject, "#miniOverview");
 		    return puzzlePieceClassName;
 		}).then(function (puzzlePieceClassName) {
             $('.'+ puzzlePieceClassName).click(function (event) {
@@ -655,8 +672,8 @@ if(page.name === 'home'){
             };
         });
         loadImage2.then(function (backgroundImage) {
-            //(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles)
-            singleAccess.buildMiniOverview(backgroundImage,'#puzzleOverview',"#puzzleOverview","miniOverviewGrids","miniOverviewGridPiece",'#miniOverviewGrids',"miniOverviewPuzzletiles","miniOverviewPuzzlePiece",app.data.clickedPuzzleTiles);
+            //(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview)
+            singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
         }).then(function () {
             //for each property in guessItems...
             $.each(guessItems, function (i,value) {

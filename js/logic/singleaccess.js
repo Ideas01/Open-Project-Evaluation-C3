@@ -12,8 +12,8 @@
 		return puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
 	};
 
-    SingleAccess.prototype.buildMiniOverview = function(clickedPuzzleTiles, image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles){
-        puzzleBuilder.buildMiniOverview(clickedPuzzleTiles, image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles);
+    SingleAccess.prototype.buildMiniOverview = function(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview){
+        return puzzleBuilder.buildMiniOverview(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview);
 	};
 
     SingleAccess.prototype.calculateWrapperSize = function (image, elementArray, percentageSize){
@@ -75,8 +75,8 @@
 		 return swiperFactory.initializeSwiper();
      };
 	
-	 SingleAccess.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, type, contentArray) {
-		return swiperFactory.buildSwiper(maxContentPerSwiper, nameSpace, type, contentArray);
+	 SingleAccess.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray) {
+		return swiperFactory.buildSwiper(maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray);
      };
 
 	 SingleAccess.prototype.setHandler = function (swiper) {
