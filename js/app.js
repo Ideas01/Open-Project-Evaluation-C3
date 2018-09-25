@@ -44,12 +44,7 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 					'</div>' +
 					'<div class="page-content">' +
 						'<div class="block">' +
-							'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
-        'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
-        'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
-        'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
-        'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
-        ' <img src="img/tab.png"style="width: 15%;"/></p>' +
+							'<p>Erklärungstext ergänzen..... und richtigen icons einfügen <img src="img/swipe.png"/></p>' +
 							'<a href="#" class="popup-close" >' +
 								'<a class="button popup-close"> Los geht´s! </a>' +
 							'</a>' +
@@ -333,7 +328,7 @@ if(page.name === 'home'){
                 '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
                 'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
                 'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-                'kannst du eine Bewertung durchführen. <img src="img/swipe.png"style="width: 15%;"/></p>'+
+                'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
                 '<a href="#" class="popup-close" >' +
                 '<a class="button popup-close"> Los geht´s! </a>' +
                 '</a>' +
@@ -423,42 +418,6 @@ if(page.name === 'home'){
                         }
                     }
 
-<<<<<<< HEAD
-            $(".help-sliders").click(function () {
-                var popup = app.popup.create({
-                    content:
-                    '<div class="popup" id="popupStart">' +
-                    '<div class="view">' +
-                    '<div class="page popupStartpage ">' +
-                    '<div class="navbar">' +
-                    '<div class="navbar-inner">' +
-                    '<div class="title">HILFE</div>' +
-                    '<div class="right">' +
-                    '<a href="#" class="link popup-close">Close</a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="page-content">' +
-                    '<div class="block">' +
-                    '<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
-                    'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +
-                    'der Slider, für dich persönlich festlegen, wie gut oder schlecht du etwas empfunden hast. Sobald du ' +
-                    'die Bewertung abgeschlossen hast, kannst du diese abschicken und an dem Puzzlespiel teilnehmen.</p>' +
-                    '<a href="#" class="popup-close" >' +
-                    '<a class="button popup-close"> Los geht´s! </a>' +
-                    '</a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>',
-
-
-                    on: {
-                        close: function () {
-                            $(".popup").remove();
-=======
                     //raise the index, so we know at which point to access the data
                     currentIndex += rangeSliderReferences.length;
                 }
@@ -520,7 +479,6 @@ if(page.name === 'home'){
                             close: function () {
                                 $(".popup").remove();
                             }
->>>>>>> zusammenführen-C
                         }
                     });
                     app.popup.open(popup.el, true);
@@ -680,7 +638,7 @@ if(page.name === 'home'){
             })
         }).then(function (backgroundImage) {
              singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
-			 console.log("bis hierher 4")
+			 console.log("bis hierher 0")
         });
         
         function appendCategories(imageCategories,correctCategory) {
@@ -699,7 +657,7 @@ if(page.name === 'home'){
         }
         
         function fillCategories(clickedCategory, correctCategory, otherCategories) {
-			console.log("bis hierher 4")
+			console.log("bis hierher 1")
             if (clickedCategory === correctCategory.category) {
                 $('#guessItems').empty();
                 $.each(correctCategory.answers, function (index, data) {
@@ -720,7 +678,7 @@ if(page.name === 'home'){
                             $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
                             $('#' + data).click(function () {
                                 checkGuessItem(data, correctCategory.correctAnswer);
-								console.log("bis hierher 5")
+								console.log("bis hierher 2")
                             })
                         });
                     }
