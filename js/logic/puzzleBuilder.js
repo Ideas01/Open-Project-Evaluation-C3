@@ -160,6 +160,8 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		resolve(0);
 
 	});
+	
+	PuzzleBuilder.prototype.buildMiniOverview ();
 };
 
 
@@ -248,8 +250,10 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
 		
 	}
+	
+	
 
- PuzzleBuilder.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
+ PuzzleBuilder.prototype.buildMiniOverview = function(clickedPuzzleTiles, image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
    var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
 	var divArray = [div];
 	
@@ -267,8 +271,7 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
         //$(".gridPiece").each(function (n) {
         $("." + classNameOverview).each(function (n) {
             for (var i = 0; i < 4; i++) {
-                PuzzleBuilder.prototype.buildPuzzleTiles(3,appendToDOMTiles + n +i, namespaceTiles + n +i,"blue",classNameTiles,miniOverviewClickedPuzzleTiles);
-                //PuzzleBuilder.prototype.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
+                PuzzleBuilder.prototype.buildPuzzleTiles(3,appendToDOMTiles + n + i, namespaceTiles + n + i,"blue",classNameTiles, clickedPuzzleTiles);
             }
         });
     });

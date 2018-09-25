@@ -12,8 +12,8 @@
 		return puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
 	};
 
-    SingleAccess.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles){
-        puzzleBuilder.buildMiniOverview(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles);
+    SingleAccess.prototype.buildMiniOverview = function(clickedPuzzleTiles, image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles){
+        puzzleBuilder.buildMiniOverview(clickedPuzzleTiles, image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles,clickedPuzzleTiles);
 	};
 
     SingleAccess.prototype.calculateWrapperSize = function (image, elementArray, percentageSize){

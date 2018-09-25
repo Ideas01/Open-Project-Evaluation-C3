@@ -6,7 +6,8 @@ var app  = new Framework7({
     data: function (){
         return {
             pointCount: 144,
-            clickedPuzzleTiles: []
+            clickedPuzzleTiles: [],
+			currentContextIdIndex: null
         }
     },
   root: '#app', // App root element
@@ -146,157 +147,123 @@ if(page.name === 'home'){
 			 clearInterval(waitforC); //clear above interval after 15 seconds
 		},15000);
 	}
-	/****************************** prototype Auswahl start *************/
-	if(page.name === 'auswahl'){
-        $("#startButton").click(function(){
-            var popup = app.popup.create({
-                // The Popup
-                content:
-                '<div class="popup" id="popupStart">' +
-					'<div class="view">' +
-						'<div class="page popupStartpage">' +
-							'<div class="navbar popupNavbar">' +
-								'<div class="navbar-inner">' +
-									'<div class="title">Popup</div>' +
-									'<div class="right">' +
-										'<a href="#" class="link popup-close">Close</a>' +
+	
+		
+/***************************** prototypeSelection********************/
+
+	if(page.name ==='prototypeSelection'){
+		singleAccess.initializeSwiper();
+		
+		//var contextCount =7;
+		var contentArray = [];
+		var counter = 0;
+		var picturesPerChoice = 3;
+		var selectionContent = {};
+		var protoImages = [];
+
+		new Promise(function(resolve){
+			waitForContexts(function(contextList){
+				var contextList = contextList;
+					contextList.forEach(function(context, contextIndex, contextList){
+						
+						var imageURLs = contextList[contextIndex].images;
+						counter = imageURLs.length;
+						selectionContent = {
+							aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
+							bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+						};
+						
+						for(var i=0; i < picturesPerChoice; i++){
+							if(counter > 0){
+								selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
+								counter --;
+							}
+						}
+						
+						contentArray.push(selectionContent);
+						resolve(contentArray);
+					});
+			});
+		 }).then(function(contentArray){
+			 
+			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
+			 
+		 });
+		 
+		 $('.startSelectPrototype').click(function(){
+			 if(currentContextId == null){
+				 let popup = app.popup.create({
+					content:
+					'<div class="popup">' +
+						'<div class="view">' +
+							'<div class="page popupStartpage ">' +
+								'<div class="navbar">' +
+									'<div class="navbar-inner">' +
+										'<div class="title">Kein Prototyp gewählt</div>' +
+										'<div class="right"></div>' +
 									'</div>' +
 								'</div>' +
-							'</div>' +
-							'<div class="page-content">' +
-								'<div class="block">' +
-									'<p>START PROTOTYP RATING</p>' +
-									'<div class="next" text-align="center">' +
-										'<a href="/prototype/" class="popup-close">' +
-										'<img src="img/start.svg" class="next-button">' +
+								'<div class="page-content">' +
+									'<div class="block">' +
+										'<p>Bitte wähle einen Eintrag aus.</p>' +
+										'<a href="#" class="popup-close" >' +
+											'<a class="button popup-close"> OK </a>' +
 										'</a>' +
 									'</div>' +
 								'</div>' +
 							'</div>' +
 						'</div>' +
-					'</div>' +
-                '</div>',
-                on: {
-                    opened: function () {
-                    },
-                    close: function(){
-                        $(".popup").remove();
-                    }
-                }
-            });
-            app.popup.open(popup.el,true);
-        });
-		
-		
-		/* singleAccess.waitForData("prototypeImages", deviceName, function(response){
-			console.log(name + "erfolgreich zurück prototypeImages")
-			console.log(response[0].url);
-			console.log(response[1].url);
-			
-		}); */
-    } /****************************** prototyp auswahl ende **************/
-		
-/***************************** prototypeSelection********************/
-
-  if(page.name ==='prototypeSelection'){
-	singleAccess.initializeSwiper();
-	
-    //var contextCount =7;
-	var contentArray = [];
-	var counter = 0;
-	var picturesPerChoice = 3;
-	var selectionContent = {};
-	var protoImages = [];
-
-	new Promise(function(resolve){
-		waitForContexts(function(contextList){
-			var contextList = contextList;
-			console.log("contextlist")
-			console.log(contextList)
-				contextList.forEach(function(context, contextIndex, contextList){
-					
-					var imageURLs = contextList[contextIndex].images;
-					console.log("imageUrls")
-					console.log(imageURLs)
-					counter = imageURLs.length;
-					
-					
-					selectionContent = {
-						aTitle:    '<h2 class ="prototypChoiceTitle" id="versuchstitel">' + contextList[contextIndex].title + ' </h2>',
-						bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
-					};
-					
-					for(var i=0; i < picturesPerChoice; i++){
-						if(counter > 0){
-							selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
-							counter --;
+					'</div>',
+					on: {
+						opened: function () {
 						}
+					},
+					close: function () {
+						$(".popup").remove();
 					}
-					
-					console.log("selectionContent");
-					console.log(selectionContent)
-					contentArray.push(selectionContent);
-					
-					console.log("contentArray vorher");
-					console.log(contentArray);
-					resolve(contentArray);
 				});
-		});
-	 }).then(function(contentArray){
-	     
-		 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "contentSwiper", contentArray);
+				app.popup.open(popup.el, true);
+			 } else{
+				 singleAccess.updateDeviceContext(contextList[currentContextIdIndex], deviceName);
+			 }
+		 });
 		 
-	 }).then(function () {
-	     $()
-    });
-	  
-	 
-	  
-	
-	var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
-	
-	
-	//Testarray für mehr inhalt
-	/* contentArray = [{
-		title:    '<h2 class ="prototypChoiceTitle" id="versuchstitel"> title1 </h2>',
-		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
-		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
-	},{
-		title:    '<h2 class ="prototypChoiceTitle"> title2 </h2>',
-		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
-		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
-	},{
-		title:    '<h2 class ="prototypChoiceTitle"> title3 </h2>',
-		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" src="'+ +'"/>',
-		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
-	},{
-		title:    '<h2 class ="prototypChoiceTitle"> title 4 </h2>',
-		content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
-		image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
-		image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
-	}]; */
-	
+		
+		
+		/* //Testarray für mehr Inhalt
+		contentArray = [{
+			title:    '<h2 class ="prototypChoiceTitle"> title1 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp1.png "/></div>',
+			image2:   '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp2.png "/></div>',
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title2 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+					image1:	  '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp1.png "/></div>',
+			image2:   '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp2.png "/></div>',
+		} ,{
+			title:    '<h2 class ="prototypChoiceTitle"> title3 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+					image1:	  '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp1.png "/></div>',
+			image2:   '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp2.png "/></div>',
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title 4 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+			image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title 5 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+			image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title 6 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+			image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
+		} ]; */
 
-	 
-
-	$('.swiper-slide').each(function (index,value) {
-		for (var i=0;i < mySwiper.contextPerPage;i++){
-			singleAccess.buildPrototypeChoice(i,value.id);
-		}
-	});
-
-
-
-
-	$("#startButton").click(function(){
-		// hier ausgewählten Eintrag mit updateContext versehen.
-	});
-
-
-    } /***************** prototype Selection End ***********************/
+	} /***************** prototype Selection End ***********************/
 
 	/****************************** P2 Start ***************************/
     if (page.name === 'P2'){
