@@ -9,13 +9,15 @@
 }
 
 #puzzleWrapper{
-	position: absolute;
-	top: 74px;
-	height: 80%;
-	width: 80%;
 	background-size: cover;
 	background-repeat: no-repeat;
 	font-size: 0;
+	position: absolute;
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
 }
 
 #puzzleGridWrapper{

@@ -29,7 +29,8 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
         'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
         'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
         'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
-        'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"/> <img src="img/tab.png"/></p>' +
+        'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
+        ' <img src="img/tab.png"style="width: 15%;"/></p>' +
 							'<a href="#" class="popup-close" >' +
 								'<a class="button popup-close"> Los geht´s! </a>' +
 							'</a>' +
@@ -340,7 +341,7 @@ if(page.name === 'home'){
                 '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
                 'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
                 'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-                'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
+                'kannst du eine Bewertung durchführen. <img src="img/swipe.png"style="width: 15%;"/></p>'+
                 '<a href="#" class="popup-close" >' +
                 '<a class="button popup-close"> Los geht´s! </a>' +
                 '</a>' +
