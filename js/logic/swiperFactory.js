@@ -16,36 +16,20 @@ SwiperFactory.prototype.initializeSwiper = function () {
 *		newContent: "content" //the content to fill the tags with
 *    },{},...]
 ***********************************************************/
-SwiperFactory.prototype.fillSwiper = function(elementsArray, wrapperNameSpace){
-	console.log("funzt bis hier 0")
-	elementsArray.forEach(function(element){
-		console.log("funzt bis hier 1")
-		$('#' + element.id).ready(function(){
-			console.log("funzt bis hier 2")
-			document.getElementById(element.id).innerHTML = element.newContent;
-		});
-		
-	});
-	
-}
 
-SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, type, contentArray) {
-	if(nameSpaceIsAvailable()){
-		var keysArray = listAllKeys(contentArray[0]);
+
+SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray) {
+	if(app.methods.nameSpaceIsAvailable(nameSpace)){
+		var keysArray = listAllKeys(contentArray[0]); //there has to be min. 1 entry. 
 		var counter = 0;
-		var swiperElement = document.querySelector('#' + nameSpace).swiper;
-		
-		console.log("swiperElement")
-		console.log(contentArray)
-		
-		
+		var contextId = null;
+		var swiperElement = document.querySelector('#' + swiperWrapperId).swiper;
+		console.log("swiperE")
+		console.log(swiperElement)
+		$('.swiper-wrapper').empty();
 		var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
-			//swiperCount = Math.round(swiperCount);
-		console.log("swiperCount")
-		console.log(swiperCount);
 		
 		for (var i=0; i < swiperCount; i++){
-			console.log("element gefunden")
 			
 			swiperElement.appendSlide('<div class="swiper-slide" id="'+ nameSpace + i + '"></div>');
 			
@@ -79,26 +63,36 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, 
 				
 				
 				for(var m = 0; m < maxContentPerSwiper; m++){
-						$("#"+ nameSpace + i).append('<div id="'+ nameSpace + m + i + 'Div"></div>');
-						console.log("element " + nameSpace + i + "angehangen.")
-						$("#"+ nameSpace + m + i + 'Div').css({
+						$("#"+ nameSpace + i).append('<div id="'+ nameSpace + m + counter + '"></div>');
+						console.log("element " + nameSpace + m + counter + "angehangen.")
+						$('#' +  nameSpace + m + counter)[0].contextId = counter;
+						
+						$('#' +  nameSpace + m + counter).addClass(nameSpace);
+						
+						$('#' +  nameSpace + m + counter).click(function(event){
+							$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
+							$('.' + nameSpace).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
+							contextId = event.target.contextId;
+							app.data.currentContextIdIndex = event.target.contextId;
+						});
+						
+						$("#"+ nameSpace + m + counter).css({
 							'position': 'relative',
 							'display': 'inline-block',
-							//'background-color': "lime",
 							'margin': '1%',
 							'align-content':'center',
 							'width': contentWidth +'%', 
 							'height': contentHeight + '%',
 							'padding-left': '3%',
-							'padding-top': '3%'							
+							'padding-top': '3%'
 						});	
-						if(m < contentArray.length){
-							
-							console.log("keys")
-							console.log(keysArray)
-							
+						
+						$('.'+ nameSpace).css('cursor','pointer');
+						$("."+ nameSpace).children().css('pointer-events', 'none');
+						
+						if(m < contentArray.length){						
 							keysArray.forEach(function(key, keyIndex, keysArray){
-								$("#"+ nameSpace + m + i + 'Div').append(contentArray[counter][key]);
+								$("#"+ nameSpace + m + counter ).append(contentArray[counter][key]);
 								console.log("keys content")
 								console.log(contentArray[m][key])
 							});
@@ -108,9 +102,6 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, nameSpace, 
 					counter ++;
 				}
 				
-					// $("#"+ nameSpace + i).css('margin', '1%');
-					// $("#"+ nameSpace + i).css('align-content', 'center');
-					// $("#"+ nameSpace + i).css(' height', '90%');
 										
 					swiperArray.push([nameSpace + i]);
 					swiperElement.id = swiperArray;
@@ -221,7 +212,7 @@ function calculateSwiperCount(contextCount, contextPerPage) {
     }
     else if(count > 0){
         //there is one swiper which does not display four contexts
-         return Math.floor(contextCount/contextPerPage +1);
+         return Math.ceil(contextCount/contextPerPage);
     }
     return 0;
-}
+} 
