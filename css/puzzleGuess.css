@@ -19,11 +19,12 @@
 }
 
 #guessOverview{
+    z-index: 7;
     position: absolute;
     top: 70%;
     left: 40%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
 }
 
 #guessItems{
@@ -39,13 +40,8 @@
     height: 36px;
     text-transform: uppercase;
     min-width: 64px;
-    background: #d40055;
-    background: -moz-linear-gradient(top, #d40055, #d40055);
-    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
-    background: -webkit-linear-gradient(top, #d40055, #d40055);
-    background: -ms-linear-gradient(top, #d40055, #d40055);
-    background: -o-linear-gradient(top, #d40055, #d40055);
-    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
+    background: #0a6ebd;
+    /*background: -moz-linear-gradient(top, #d40055, #d40055); */
     padding: 17px 34px;
     margin: 8%;
 }

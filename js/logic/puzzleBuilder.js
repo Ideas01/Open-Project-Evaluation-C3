@@ -293,7 +293,6 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 		$('.' + buildMiniPuzzleNameClass).css({
 			'display': 'inline-block'
 		});
-		console.log("bis hier 2")
         resolve("ready");
     });
 
@@ -302,7 +301,6 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
         $("." + buildMiniPuzzleNameClass).each(function (n) {
 			console.log("noch ein tile")
             for (var i = 0; i < tileCountPerGrid; i++) {
-				console.log("bis hier 3")
                 PuzzleBuilder.prototype.buildPuzzleTiles(tileCountPerGrid, '#' + buildMiniPuzzleNameId  + n + i, buildMiniPuzzlePiecesId + n + i, "yellow", buildMiniPuzzlePiecesClass, clickedPuzzleTiles);
 			}
 			$('.' + buildMiniPuzzlePiecesClass).css({
