@@ -26,7 +26,11 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
 		var buildPuzzlePiecesClass = [namespace + 'puzzlePieceDiv'];
 		var overallGridSizeNew = 4;
+		var tileCountPerGrid = 4;
+		var gridCount = 3;
 		
+		
+		var miniOverviewIdName = PuzzleBuilder.prototype.buildMiniOverview (tileCountPerGrid, gridCount, clickedPuzzlePieces, imageObject, "#miniOverview");
 		
 		new Promise(function(){
 			var overallGridWrapper = '<div id="'+ puzzleGridWrapper.split(wrapperDom.charAt(0))[1] +'"></div>';
@@ -51,7 +55,7 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		let clickedPuzzleTiles = [];
 		
 		let gridReady = new Promise(function (resolve, reject) {
-			buildPuzzleStructure(puzzlePieceCount / 4, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
+			buildPuzzleStructure(gridCount, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
 			resolve(0);
 		});
 		
@@ -63,15 +67,20 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 			});
 			
 			$('.' + buildPuzzleNameClass).each(function (n) {
-				for (var i = 0; i < 3; i++) {
-					PuzzleBuilder.prototype.buildPuzzleTiles(puzzlePieceCount / 3, ['#' + buildPuzzleNameId] + n + i, buildPuzzlePiecesId + n + i, "blue", buildPuzzlePiecesClass, clickedPuzzleTiles);
+				for (var i = 0; i < gridCount; i++) {
+					PuzzleBuilder.prototype.buildPuzzleTiles(tileCountPerGrid, ['#' + buildPuzzleNameId] + n + i, buildPuzzlePiecesId + '|' + n + i, "blue", buildPuzzlePiecesClass, clickedPuzzleTiles);
 				}
 			});
 
 			$('.' + buildPuzzlePiecesClass).click(function (event) {
 				event.target.style.visibility = "hidden";
+				
+				let coordinate = (event.target.id).split('|');
+				$('#'+ miniOverviewIdName + coordinate[1]).css('visibility', 'hidden');
+				app.data.clickedPuzzleTiles.push(coordinate[1]);
 				clickedPuzzleTiles.push(event.target.id);
 			});
+			
 		}).then(function(){
 			$('.' + buildPuzzlePiecesClass).css({
 				"z-index": "6",
@@ -109,13 +118,18 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 				
 				getOldCoordinate.then(function(){
 					coordinate = Array.from(coordinateOld[1]);
+					$("#overallGridMarker").css({
+						'height':'calc(99%/'+ gridCount +')',
+						'width': 'calc(99%/'+ gridCount +')'
+					});
 					var gridMarker = $("#overallGridMarker");
 					var xCoordinate = coordinate[0];
 					var yCoordinate = coordinate[1];
 					
 					gridMarker.toggle();
 					gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
-
+					
+					
 					$('.puzzleGridWrapperDiv').toggle();
 					$('.puzzleWrapperGridDiv:not(#puzzleWrapperGrid' + coordinateOld[1] + ')').toggle();
 				
@@ -160,6 +174,8 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 		resolve(0);
 
 	});
+	//singleAccess.buildMiniOverview(4, 3, miniOverviewClickedPuzzleTiles, imageObject, "#miniOverview");
+	
 };
 
 
@@ -177,7 +193,7 @@ function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight,
 
 //** Build the puzzle **/
 function buildPuzzleStructure (tileCount, appendToDOM, namespace, color, setclassname) {
-
+	console.log("am bauen" + namespace)
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){
@@ -204,6 +220,10 @@ function buildPuzzleStructure (tileCount, appendToDOM, namespace, color, setclas
 	
 
 };
+
+function hidePiece(piece){
+	$(piece).css("display", "none");
+}
 
 PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, namespace, color, setclassname, clickedPuzzleTiles) {
 
@@ -248,30 +268,55 @@ PuzzleBuilder.prototype.buildPuzzleTiles = function (tileCount, appendToDOM, nam
 		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
 		
 	}
-
- PuzzleBuilder.prototype.buildMiniOverview = function(image, div, appendToDOMOverview, namespaceOverview, classNameOverview, appendToDOMTiles, namespaceTiles, classNameTiles){
-   var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010","miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];
-	var divArray = [div];
 	
+	
+
+ PuzzleBuilder.prototype.buildMiniOverview = function(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview){
+	
+	let namespace = appendToDOMOverview.split(appendToDOMOverview.charAt(0));
+		namespace = namespace[1];
+	var buildMiniPuzzleNameId = [namespace + 'Grid'];
+	var buildMiniPuzzleNameClass = [namespace + 'GridDiv'];
+	var buildMiniPuzzlePiecesId = [namespace + 'miniPiece'];
+	var buildMiniPuzzlePiecesClass = [namespace + 'miniPieceDiv'];
+		
+	var divArray = [appendToDOMOverview];
+	
+		
 	PuzzleBuilder.prototype.calculateWrapperSize(image, divArray, '100%');
-    $(div).css("background-image", 'url("'+ image.src + '")');
+    $(appendToDOMOverview).css("background-image", 'url("'+ image.src + '")');
 	
 	
     var gridReady = new Promise(function (resolve, reject) {
        // buildPuzzleStructure(4, '#miniOverview', "miniOverviewGrid","", "miniOverviewGridPiece");
-        buildPuzzleStructure(4, appendToDOMOverview, namespaceOverview,"", classNameOverview);
+        buildPuzzleStructure(gridCount, appendToDOMOverview, buildMiniPuzzleNameId, "", buildMiniPuzzleNameClass);
+		$('.' + buildMiniPuzzleNameClass).css({
+			'display': 'inline-block'
+		});
+		console.log("bis hier 2")
         resolve("ready");
     });
 
     gridReady.then(function (fulfilled) {
         //$(".gridPiece").each(function (n) {
-        $("." + classNameOverview).each(function (n) {
-            for (var i = 0; i < 4; i++) {
-                PuzzleBuilder.prototype.buildPuzzleTiles(3,appendToDOMTiles + n +i, namespaceTiles + n +i,"blue",classNameTiles,miniOverviewClickedPuzzleTiles);
-                //PuzzleBuilder.prototype.buildPuzzleTiles(3, '#miniOverviewGrid' + n + i, "miniOverviewPuzzletile" + n + i, "blue", "miniOverviewPuzzlePiece", miniOverviewClickedPuzzleTiles);
-            }
+        $("." + buildMiniPuzzleNameClass).each(function (n) {
+			console.log("noch ein tile")
+            for (var i = 0; i < tileCountPerGrid; i++) {
+				console.log("bis hier 3")
+                PuzzleBuilder.prototype.buildPuzzleTiles(tileCountPerGrid, '#' + buildMiniPuzzleNameId  + n + i, buildMiniPuzzlePiecesId + n + i, "yellow", buildMiniPuzzlePiecesClass, clickedPuzzleTiles);
+			}
+			$('.' + buildMiniPuzzlePiecesClass).css({
+					'display': 'inline-block'
+			});
         });
-    });
+    }).then(function(){
+		clickedPuzzleTiles.forEach(function(puzzleIdNumber){
+			$('#' + buildMiniPuzzlePiecesId + puzzleIdNumber).css('visibility', 'hidden');
+		});
+	});
+	
+	
+	return buildMiniPuzzlePiecesId;
 };
 
 
@@ -281,6 +326,7 @@ PuzzleBuilder.prototype.calculateWrapperSize = function (image, elementArray, pe
    
 	var landscape = isLandscape();
 	if(elementArray.includes(puzzleGridWrapper)){
+		//do nothing.
 	}else{
 		elementArray.push(puzzleGridWrapper);
 	}
