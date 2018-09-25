@@ -638,6 +638,7 @@ if(page.name === 'home'){
             })
         }).then(function (backgroundImage) {
              singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
+			 console.log("bis hierher 4")
         });
         
         function appendCategories(imageCategories,correctCategory) {
@@ -656,6 +657,7 @@ if(page.name === 'home'){
         }
         
         function fillCategories(clickedCategory, correctCategory, otherCategories) {
+			console.log("bis hierher 4")
             if (clickedCategory === correctCategory.category) {
                 $('#guessItems').empty();
                 $.each(correctCategory.answers, function (index, data) {
@@ -676,6 +678,7 @@ if(page.name === 'home'){
                             $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
                             $('#' + data).click(function () {
                                 checkGuessItem(data, correctCategory.correctAnswer);
+								console.log("bis hierher 5")
                             })
                         });
                     }

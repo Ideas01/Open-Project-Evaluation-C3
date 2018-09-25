@@ -16,7 +16,6 @@ var questionsPerPage = 4;
  * @returns {Array}
  */
 SliderFactory.prototype.determineRangeSliderAmount = function (startIndex, questionCount, rangeSliderObjects) {
-<<<<<<< HEAD
     var indexToStart = startIndex;
     //are there at least as much questions as questions per page?
     if(questionCount === questionsPerPage || questionCount > questionsPerPage) {
@@ -36,28 +35,6 @@ SliderFactory.prototype.determineRangeSliderAmount = function (startIndex, quest
             //initialize the sliders
             initializeRangeSlider(rangeSliderArray,i,rangeSliderObjects,indexToStart);
             //id for mapping the data to a question
-=======
-
-    var indexToStart = startIndex;
-
-    //are there at least as much questions as questions per page?
-    if(questionCount === questionsPerPage || questionCount > questionsPerPage) {
-
-        //remove drawable components of the initialized sliders, otherwise they will be displayed twice!
-        removeRangeBar();
-
-        //array to save the slider references
-        var rangeSliderArray=[];
-
-        for (var i = 0; i < questionsPerPage; i++) {
-            //append the question text and the labels for the sliders
-            $('#sliderText'+i).text(rangeSliderObjects[indexToStart].value);
-            $('#satisfied'+i).text(rangeSliderObjects[indexToStart].label[0]);
-            $('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].label[1]);
-
-            //initialize the sliders
-            initializeRangeSlider(rangeSliderArray,i,rangeSliderObjects,indexToStart);
->>>>>>> zusammenführen-C
             rangeSliderArray[i].questionId = indexToStart;
             indexToStart++;
         }
@@ -75,14 +52,8 @@ SliderFactory.prototype.determineRangeSliderAmount = function (startIndex, quest
             if (i < questionCount) {
                 //append the question text and the labels for the sliders
                 $('#sliderText'+i).text(rangeSliderObjects[indexToStart].value);
-<<<<<<< HEAD
                 $('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].labels[1].label);
                 $('#satisfied'+i).text(rangeSliderObjects[indexToStart].labels[0].label);
-=======
-                $('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].label[1]);
-                $('#satisfied'+i).text(rangeSliderObjects[indexToStart].label[0]);
-
->>>>>>> zusammenführen-C
                 //initialize the sliders
                 initializeRangeSlider(rangeSliderArray,i,rangeSliderObjects,indexToStart);
                 rangeSliderArray[i].questionId = indexToStart;
@@ -112,19 +83,12 @@ SliderFactory.prototype.determineRangeSliderAmount = function (startIndex, quest
  * @param indexToStart index for entering the data for the range-sliders
  */
 function initializeRangeSlider(rangeSliderArray,index,rangeSliderObject,indexToStart){
-<<<<<<< HEAD
 
-=======
->>>>>>> zusammenführen-C
     rangeSliderArray[index]= app.range.create({
         el: '#slider' + index,
         min: 0,
         max: (rangeSliderObject[indexToStart].max - rangeSliderObject[indexToStart].min),
-<<<<<<< HEAD
         step: checkStepSize(rangeSliderObject[indexToStart].max,rangeSliderObject[indexToStart].stepSize),
-=======
-        step :checkStepSize(rangeSliderObject[indexToStart].max,rangeSliderObject[indexToStart].stepSize),
->>>>>>> zusammenführen-C
         on: {
             change: function () {
             }
