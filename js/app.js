@@ -2,6 +2,7 @@
 var $$ = Dom7;
 
 // Framework7 App main instance
+<<<<<<< HEAD
 var app = new Framework7({
     data: function () {
         return {
@@ -15,6 +16,34 @@ var app = new Framework7({
     theme: 'auto', // Automatic theme detection
     // App routes
     routes: routes,
+=======
+var app  = new Framework7({
+    data: function (){
+        return {
+            pointCount: 144,
+            clickedPuzzleTiles: [],
+			//miniOverviewNamespace = null,
+			currentContextIdIndex: null
+        }
+    },
+	methods: {
+		nameSpaceIsAvailable: function(nameSpace) {
+			if(document.querySelector("#" + nameSpace) != null){
+				console.log("nope")
+				return false;
+			}else{
+				console.log("yau")
+				return true;
+			}
+		}
+	},
+  root: '#app', // App root element
+  id: 'io.framework7.testapp', // App bundle ID
+  name: 'Framework7', // App name
+  theme: 'auto', // Automatic theme detection
+  // App routes
+  routes: routes,
+>>>>>>> zusammenführen-C
 });
 
 $$(document).on('page:afterin', '.page[data-name="puzzle"]', function (page) {
@@ -68,6 +97,7 @@ function checkSize() {
 
 app.on('pageInit', function (page) {
 
+<<<<<<< HEAD
 
     const deviceName = "OpenProjectEvalSlider";
     var singleAccess = new SingleAccess();
@@ -270,6 +300,238 @@ app.on('pageInit', function (page) {
         });
 
 
+=======
+app.on('pageInit', function(page){
+	
+	
+	const deviceName = "OpenProjectEvalSlider";
+	var singleAccess = new SingleAccess();
+	var prototypeImagesKey = null;
+	
+	console.log(page.name + " wird ausgeführt");
+
+if(page.name === 'home'){
+		singleAccess.initializeDB(deviceName);
+		
+		var requiredResults = ['id', 'title', 'description', 'images{url}'];
+		
+		singleAccess.getContexts(requiredResults, deviceName);
+				
+		//console.log(contextsKey);
+		
+		waitForContexts(function(contextList){
+			singleAccess.updateDeviceContext(contextList[0], deviceName);
+			
+			singleAccess.getPrototypeImages(contextList[0], deviceName);
+			
+			singleAccess.getQuestions(contextList[0], deviceName);
+			
+			singleAccess.getPuzzleImages(contextList[0], deviceName);
+			
+			
+			
+			console.log("zurück contextlist");
+			console.log(contextList);
+		});
+		
+		
+		singleAccess.waitForData("prototypeImages", deviceName, function(response){
+			console.log(name + "erfolgreich zurück prototypeImages");
+			console.log(response[0].id);
+		});
+
+		singleAccess.waitForData("questions", deviceName, function(response){
+			console.log(name + "erfolgreich zurück questions");
+			console.log(response[0].id);
+			singleAccess.sendEvalData(response[0].id, 5, deviceName); //erg. muss noch gefüllt werden.
+		});
+		
+		singleAccess.waitForData("puzzleImages", deviceName, function(response){
+			console.log(name + "erfolgreich zurück pImages");
+			console.log(response[0]);
+		});
+		
+		
+		
+
+		/* singleAccess.waitForData("questions", deviceName, function(response){
+			console.log(name + "erfolgreich zurück questions");
+			console.log(response[0].type);
+		});  */
+		
+		
+	} /****************************** home end ****************************/
+
+	
+
+	function waitForContexts (callback){
+		var waitforC = setInterval(function(){
+			
+			var contextList = singleAccess.getGlobalContextList();
+			if(contextList[1] != undefined){
+				clearInterval(waitforC);
+				callback(contextList);
+			}else{
+				//console.log("leider kein Context");
+			}
+		},500); //delay is in milliseconds 
+
+		setTimeout(function(){
+			 clearInterval(waitforC); //clear above interval after 15 seconds
+		},15000);
+	}
+	
+		
+/***************************** prototypeSelection********************/
+
+	if(page.name ==='prototypeSelection'){
+		singleAccess.initializeSwiper();
+		
+		//var contextCount =7;
+		var contentArray = [];
+		var counter = 0;
+		var picturesPerChoice = 3;
+		var selectionContent = {};
+		var protoImages = [];
+
+		new Promise(function(resolve){
+			waitForContexts(function(contextList){
+				var contextList = contextList;
+					contextList.forEach(function(context, contextIndex, contextList){
+						
+						var imageURLs = contextList[contextIndex].images;
+						counter = imageURLs.length;
+						selectionContent = {
+							aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
+							bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+						};
+						
+						for(var i=0; i < picturesPerChoice; i++){
+							if(counter > 0){
+								selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
+								counter --;
+							}
+						}
+						
+						contentArray.push(selectionContent);
+						resolve(contentArray);
+					});
+			});
+		 }).then(function(contentArray){
+			 
+			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "pSelectionSwiper", "contentSwiper", contentArray);
+			 
+		 });
+		 
+		 $('.startSelectPrototype').click(function(){
+			 if(currentContextId == null){
+				 let popup = app.popup.create({
+					content:
+					'<div class="popup">' +
+						'<div class="view">' +
+							'<div class="page popupStartpage ">' +
+								'<div class="navbar">' +
+									'<div class="navbar-inner">' +
+										'<div class="title">Kein Prototyp gewählt</div>' +
+										'<div class="right"></div>' +
+									'</div>' +
+								'</div>' +
+								'<div class="page-content">' +
+									'<div class="block">' +
+										'<p>Bitte wähle einen Eintrag aus.</p>' +
+										'<a href="#" class="popup-close" >' +
+											'<a class="button popup-close"> OK </a>' +
+										'</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>',
+					on: {
+						opened: function () {
+						}
+					},
+					close: function () {
+						$(".popup").remove();
+					}
+				});
+				app.popup.open(popup.el, true);
+			 } else{
+				 singleAccess.updateDeviceContext(contextList[currentContextIdIndex], deviceName);
+			 }
+		 });
+		 
+		
+		
+		/* //Testarray für mehr Inhalt
+		contentArray = [{
+			title:    '<h2 class ="prototypChoiceTitle"> title1 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp1.png "/></div>',
+			image2:   '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp2.png "/></div>',
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title2 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+					image1:	  '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp1.png "/></div>',
+			image2:   '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp2.png "/></div>',
+		} ,{
+			title:    '<h2 class ="prototypChoiceTitle"> title3 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+					image1:	  '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp1.png "/></div>',
+			image2:   '<div class="selectionImgWrapper"><img class="prototypeSelectionImg" src=" img/examples/PrototypBsp2.png "/></div>',
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title 4 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+			image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title 5 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+			image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
+		},{
+			title:    '<h2 class ="prototypChoiceTitle"> title 6 </h2>',
+			content:  '<article class= "descriptionPChoice">Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.</article>',
+			image1:	  '<img class="prototypeSelectionImg" src="'+ +'" />',
+			image2:   '<img class="prototypeSelectionImg" src="'+ +'"/>'
+		} ]; */
+
+	} /***************** prototype Selection End ***********************/
+
+	/****************************** P2 Start ***************************/
+    if (page.name === 'P2'){
+        var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+        singleAccess.initializeSwiper();
+		
+		//TODO aktuellen ContextIndex übergeben
+		waitForContexts(function(contextList){
+			singleAccess.getPrototypeImages(contextList[0], deviceName);
+		});
+		
+		new Promise(function(resolve, reject){
+			singleAccess.waitForData("prototypeImages", deviceName, function(prototypeImages){
+				imageArray = [];				
+				prototypeImages.forEach(function(image, imageIndex, prototypeImages){
+					imageArray.push(prototypeImages[imageIndex].url);
+					});
+				resolve(imageArray);
+			});
+		
+		}).then(function(imageArray){
+			console.log("imageArray")
+			console.log(imageArray);
+			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
+
+			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
+
+			singleAccess.setHandler(mySwiper);
+		});
+		
+		
+
+
+		
+>>>>>>> zusammenführen-C
         $(".help").click(function () {
             var popup = app.popup.create({
                 content:
@@ -314,6 +576,7 @@ app.on('pageInit', function (page) {
     if (page.name === 'sliders') {
         $('#sendRatingsButton').hide();
         app.popup.close();
+<<<<<<< HEAD
 
         waitForContexts(function (contextList) {
             singleAccess.updateDeviceContext(contextList[0], deviceName);
@@ -343,8 +606,138 @@ app.on('pageInit', function (page) {
             } catch (e) {
                 if (e instanceof RangeError) {
                     console.log(e.message);
-                }
+=======
+        //$('.range-sliders').css('display','none');
+        //var deviceName = "OpenProjectEvalSlider";
+        /*  waitForContexts(function(contextList){
+              singleAccess.updateDeviceContext(contextList[0], deviceName);
+              singleAccess.getQuestions(contextList[0], deviceName);
+
+              console.log("zurück contextlist");
+              console.log(contextList);
+          }); */
+
+        /*      singleAccess.waitForData("questions", deviceName, function(response){
+                 console.log(name + "erfolgreich zurück questions");
+                 console.log(response);
+             }); */
+
+        var response = [
+            {min:2,
+                max:10,
+                stepSize:2,
+                label:["zufrieden","unzufrieden"],
+                value:"erste Frage"
+            } ,
+            {min:0,
+                max:10,
+                stepSize:10,
+                label:["zufrieden","unzufrieden"],
+                value:"zweite Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"dritte Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"vierte Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:1,
+                label:["zufrieden","unzufrieden"],
+                value:"fünfte Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"sechste Frage"
+            },
+            {min:0,
+                max:10,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"siebte "
+            },
+            {min:4,
+                max:30,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"8 frage"
+            },
+            {min:0,
+                max:20,
+                stepSize:5,
+                label:["zufrieden","unzufrieden"],
+                value:"9. frage"
+            }/*,
+           {min:0,
+               max:40,
+               stepSize:5,
+               label:["zufrieden","unzufrieden"],
+               value:"10. frage"
+           } */
+        ];
+        console.log(response);
+
+
+        //array for saving the values of the sliders
+        var sliderValues = [];
+
+        //index where to start in the questions
+        var currentIndex = 0;
+
+        //to check if there are any questions left
+        var remainingQuestions = response.length;
+
+        //initialize the sliders, starting with the data at startIndex
+        try {
+            var rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
+        } catch (e) {
+            if (e instanceof RangeError) {
+                console.log(e.message);
             }
+        }
+        //raise the index, so we know at which point to access the data
+        currentIndex += rangeSliderReferences.length;
+
+        //when the button is clicked
+        $("#sendRatingsButton").click(function(){
+            //subtract the amount of initialized rangeSliders, so we know how many questions are left
+            remainingQuestions -= rangeSliderReferences.length;
+
+            //if there are questions left..
+            if(remainingQuestions > 0){
+
+                //...save slider values of the existing sliders
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push({
+                        id: rangeSliderReferences[i].questionId,
+                        value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+                    });
+                }
+                //TODO: DELETE AFTER TESTING
+                console.log(sliderValues);
+
+                //initialize the sliders, starting with data at startIndex
+                try {
+                    rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
+                }catch (e) {
+                    if (e instanceof RangeError) {
+                        console.log(e.message);
+                    }
+>>>>>>> zusammenführen-C
+                }
+                //raise the index, so we know at which point to access the data
+                currentIndex += rangeSliderReferences.length;
+            }
+<<<<<<< HEAD
 
             //raise the index, so we know at which point to access the data
             currentIndex += rangeSliderReferences.length;
@@ -375,9 +768,67 @@ app.on('pageInit', function (page) {
                     } catch (e) {
                         if (e instanceof RangeError) {
                             console.log(e.message);
+=======
+            //no more questions to display
+            else {
+                //save slider values of the existing sliders
+                for (var i=0;i< rangeSliderReferences.length; i++){
+                    sliderValues.push({
+                        id: rangeSliderReferences[i].questionId,
+                        value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+                    });
+                }
+                //TODO: DELETE AFTER TESTING
+                console.log(sliderValues);
+
+                //create the popup, which is used to get to the next page
+                var popup = app.popup.create({
+                    // The Popup
+                    content:
+                    '<div class="popup" id="popupStart">' +
+                    '<div class="view">' +
+                    '<div class="page">' +
+                    '<div class="navbar">' +
+                    '<div class="navbar-inner">' +
+                    '<div class="title">Popup</div>' +
+                    '<div class="right">' +
+                    '<a href="#" class="link popup-close">Close</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="page-content">' +
+                    '<div class="block">' +
+                    '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+                    '<div class="sk-circle">' +
+                    '<div class="sk-circle1 sk-child"></div>' +
+                    '<div class="sk-circle2 sk-child"></div>' +
+                    '<div class="sk-circle3 sk-child"></div>' +
+                    '<div class="sk-circle4 sk-child"></div>' +
+                    '<div class="sk-circle5 sk-child"></div>' +
+                    '<div class="sk-circle6 sk-child"></div>' +
+                    '<div class="sk-circle7 sk-child"></div>' +
+                    '<div class="sk-circle8 sk-child"></div>' +
+                    '<div class="sk-circle9 sk-child"></div>' +
+                    '<div class="sk-circle10 sk-child"></div>' +
+                    '<div class="sk-circle11 sk-child"></div>' +
+                    '<div class="sk-circle12 sk-child"></div>' +
+                    '</div>' +
+                    '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                    on: {
+                        opened: function () {
+                        },
+                        close: function(){
+                            $(".popup").remove();
+>>>>>>> zusammenführen-C
                         }
                     }
 
+<<<<<<< HEAD
                     //raise the index, so we know at which point to access the data
                     currentIndex += rangeSliderReferences.length;
                 }
@@ -447,6 +898,8 @@ app.on('pageInit', function (page) {
 
         });
 
+=======
+>>>>>>> zusammenführen-C
         $(".help-sliders").click(function () {
             var popup = app.popup.create({
                 content:
@@ -490,6 +943,7 @@ app.on('pageInit', function (page) {
         });
     }
     /****************************** sliders end ****************************/
+<<<<<<< HEAD
 
 
     /****************************** puzzle start ****************************/
@@ -498,6 +952,82 @@ app.on('pageInit', function (page) {
         var clickedPuzzleTiles = [];
 
         var loadImage = new Promise(function (resolve, reject) {
+=======
+
+
+    /****************************** puzzle start ****************************/
+ 	if(page.name === 'puzzle') {
+        var pointCount = app.data.pointCount;
+ 	    var clickedPuzzleTiles = [];
+
+		var loadImage = new Promise(function (resolve, reject) {
+            var backgroundImage = new Image();
+            backgroundImage.src = 'img/katzie.jpg';
+			//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
+            backgroundImage.crossOrigin = "Anonymous";
+            backgroundImage.onload = function () {
+				const originPictureWidth = backgroundImage.width;
+				const originPictureHeight = backgroundImage.height;
+			    resolve(backgroundImage);
+            };
+            backgroundImage.onerror = function () {
+                reject("could not load the image");
+            };
+        });
+		
+		loadImage.then(function(imageObject){
+			var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
+			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
+				
+			var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue', clickedPuzzleTiles, 6);
+			console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
+			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				$(window).on('resize', function (page) {
+					checkSize();
+				    singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				});
+				
+				// bis hierhin.
+				
+			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.
+			//var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010", "miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];	
+			console.log("§§§")
+			console.log(miniOverviewClickedPuzzleTiles)
+			console.log(imageObject)
+			//							   (clickedPuzzleTiles, image, appendToDOMOverview)			
+            //singleAccess.buildMiniOverview(4, 3, miniOverviewClickedPuzzleTiles, imageObject, "#miniOverview");
+		    return puzzlePieceClassName;
+		}).then(function (puzzlePieceClassName) {
+            $('.'+ puzzlePieceClassName).click(function (event) {
+                event.target.style.visibility = "hidden";
+                var puzzlePieceId = event.target.id.split('|');
+                app.data.clickedPuzzleTiles.push(puzzlePieceId[1]);
+                pointCount -= event.target.pointReduction;
+            })
+        });
+	}
+	
+	/****************************** puzzle end ****************************/
+    if(page.name === 'puzzleGuess'){
+    console.log(app.data.clickedPuzzleTiles);
+
+
+
+        var guessItems = {
+            Tiere : [
+                'Katze','Hund','Maus'
+            ],
+            Autos : [
+                'Audi','BMW','Ford','Mercedes'
+            ],
+            Küche: [
+                'Messer', 'Gabel', 'Kühlschrank', 'Topf', 'Eisfach','Herd'
+            ]
+        };
+        var isCorrect = 'Katze';
+
+        var loadImage2 = new Promise(function (resolve, reject) {
+>>>>>>> zusammenführen-C
             var backgroundImage = new Image();
             backgroundImage.src = 'img/katzie.jpg';
             //'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
@@ -511,6 +1041,7 @@ app.on('pageInit', function (page) {
                 reject("could not load the image");
             };
         });
+<<<<<<< HEAD
 
         loadImage.then(function (imageObject) {
             var wrapperArray = ['#puzzleWrapper', '#croppedImageDiv'];
@@ -522,6 +1053,29 @@ app.on('pageInit', function (page) {
             $(window).on('resize', function (page) {
                 checkSize();
                 singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+=======
+        loadImage2.then(function (backgroundImage) {
+            //(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview)
+            singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
+        }).then(function () {
+            //for each property in guessItems...
+            $.each(guessItems, function (i,value) {
+                //...append a button, set the caption to the guessItems Objects property name...
+                $('#guessOverview').append('<a class="guessButton" id="'+ i +'">'+ i +'</a>');
+                //...and set a click listener for each button
+                $('#'+i).click(function () {
+                    //empty the container, which holds the values of the properties
+                    $('#guessItems').empty();
+                    //for each value of a property...
+                    $.each(value,function (i) {
+                        //...append a button, set the caption to the i-th value of the property
+                        $('#guessItems').append('<a class="guessButton" id="'+value[i]+'">'+ value[i]+'</a>');
+                        $('#'+value[i]).click(function () {
+                            checkGuessItem(value[i],isCorrect);
+                        })
+                    });
+                })
+>>>>>>> zusammenführen-C
             });
 
             // bis hierhin.
@@ -594,6 +1148,7 @@ app.on('pageInit', function (page) {
             singleAccess.buildMiniOverview(backgroundImage, '#puzzleOverview', "#puzzleOverview", "miniOverviewGrids",
                 "miniOverviewGridPiece", '#miniOverviewGrids', "miniOverviewPuzzletiles", "miniOverviewPuzzlePiece", app.data.clickedPuzzleTiles);
         });
+<<<<<<< HEAD
         
         function appendCategories(imageCategories,correctCategory) {
             $.each(imageCategories, function (index, data) {
@@ -670,6 +1225,14 @@ app.on('pageInit', function (page) {
             else {
 
                 app.router.navigate('/failure/');
+=======
+        function checkGuessItem(item,correctItem) {
+            if(item === correctItem){
+				app.router.navigate('/success/');
+            }
+            else{
+				app.router.navigate('/failure/');
+>>>>>>> zusammenführen-C
             }
         }
 
