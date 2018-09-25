@@ -19,12 +19,12 @@
 }
 
 #guessOverview{
-    z-index: 7;
+ /*    z-index: 7; */
     position: absolute;
     top: 70%;
     left: 40%;
     margin-right: -50%;
-transform: translate(-50%, -50%);
+/* transform: translate(-50%, -50%); */
 }
 
 #guessItems{
