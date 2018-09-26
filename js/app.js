@@ -1,13 +1,45 @@
+/*
+ * app.js
+ *
+ * Required .js files
+ *  - framework 7 .js files
+ *  - singleaccess.js
+ * 
+ * This is the main file using the "Framework 7" - framework.
+ * It accesses the single access point.
+ * 
+ */
+ 
+ 
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *  G L O B A L - V A R I A B L E S
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Dom7
-var $$ = Dom7;
+var $$ = Dom7; // instance necessary for Framework 7
 
+
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *  G L O B A L - F U N C T I O N S
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  
+function checkSize(){
+	var element = $("#puzzleWrapper").children().first().children().first();
+	if(element.width() > 32 && element.height() > 32 ){
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "none";
+	}
+	else{
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
+	}
+}
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *  F R A M E W O R K     7
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Framework7 App main instance
 var app  = new Framework7({
     data: function (){
         return {
             pointCount: 144,
             clickedPuzzleTiles: [],
-			//miniOverviewNamespace = null,
 			currentContextIdIndex: null
         }
     },
@@ -21,6 +53,7 @@ var app  = new Framework7({
 				return true;
 			}
 		}
+		
 	},
   root: '#app', // App root element
   id: 'io.framework7.testapp', // App bundle ID
@@ -29,6 +62,14 @@ var app  = new Framework7({
   // App routes
   routes: routes,
 });
+
+
+
+
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *  F R A M E W O R K   7 - E V E N T S
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  
 
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
     var popup = app.popup.create({
@@ -68,15 +109,7 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 });
 
 		
-function checkSize(){
-	var element = $("#puzzleWrapper").children().first().children().first();
-	if(element.width() > 32 && element.height() > 32 ){
-		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "none";
-	}
-	else{
-		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
-	}
-}
+
 
 
 
@@ -89,6 +122,9 @@ app.on('pageInit', function(page){
 	
 	console.log(page.name + " wird ausgeführt");
 
+	
+	
+	
 if(page.name === 'home'){
 		singleAccess.initializeDB(deviceName);
 		
@@ -98,7 +134,12 @@ if(page.name === 'home'){
 				
 		//console.log(contextsKey);
 		
-		waitForContexts(function(contextList){
+		singleAccess.waitForContexts(function(contextList){
+			console.log("Alle Listen");
+			console.log(contextList);
+			console.log("Nur die Liste");
+			console.log(contextList[0]);
+			
 			singleAccess.updateDeviceContext(contextList[0], deviceName);
 			
 			singleAccess.getPrototypeImages(contextList[0], deviceName);
@@ -143,22 +184,7 @@ if(page.name === 'home'){
 
 	
 
-	function waitForContexts (callback){
-		var waitforC = setInterval(function(){
-			
-			var contextList = singleAccess.getGlobalContextList();
-			if(contextList[1] != undefined){
-				clearInterval(waitforC);
-				callback(contextList);
-			}else{
-				//console.log("leider kein Context");
-			}
-		},500); //delay is in milliseconds 
-
-		setTimeout(function(){
-			 clearInterval(waitforC); //clear above interval after 15 seconds
-		},15000);
-	}
+	
 	
 		
 /***************************** prototypeSelection********************/
@@ -174,7 +200,7 @@ if(page.name === 'home'){
 		var protoImages = [];
 
 		new Promise(function(resolve){
-			waitForContexts(function(contextList){
+			singleAccess.waitForContexts(function(contextList){
 				contextList.forEach(function(context, contextIndex, contextList){
 					
 					var imageURLs = contextList[contextIndex].images;
@@ -202,41 +228,7 @@ if(page.name === 'home'){
 		 });
 		 
 		 $('.startSelectPrototype').click(function(){
-			 if(currentContextId == null){
-				 let popup = app.popup.create({
-					content:
-					'<div class="popup">' +
-						'<div class="view">' +
-							'<div class="page popupStartpage ">' +
-								'<div class="navbar">' +
-									'<div class="navbar-inner">' +
-										'<div class="title">Kein Prototyp gewählt</div>' +
-										'<div class="right"></div>' +
-									'</div>' +
-								'</div>' +
-								'<div class="page-content">' +
-									'<div class="block">' +
-										'<p>Bitte wähle einen Eintrag aus.</p>' +
-										'<a href="#" class="popup-close" >' +
-											'<a class="button popup-close"> OK </a>' +
-										'</a>' +
-									'</div>' +
-								'</div>' +
-							'</div>' +
-						'</div>' +
-					'</div>',
-					on: {
-						opened: function () {
-						}
-					},
-					close: function () {
-						$(".popup").remove();
-					}
-				});
-				app.popup.open(popup.el, true);
-			 } else{
-				 singleAccess.updateDeviceContext(contextList[currentContextIdIndex], deviceName);
-			 }
+			 
 		 });
 		 
 		
@@ -282,7 +274,7 @@ if(page.name === 'home'){
         singleAccess.initializeSwiper();
 		
 		//TODO aktuellen ContextIndex übergeben
-		waitForContexts(function(contextList){
+		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPrototypeImages(contextList[0], deviceName);
 		});
 		
@@ -354,7 +346,7 @@ if(page.name === 'home'){
         $('#sendRatingsButton').hide();
         app.popup.close();
 
-        waitForContexts(function (contextList) {
+        singleAccess.waitForContexts(function (contextList) {
             singleAccess.updateDeviceContext(contextList[0], deviceName);
             singleAccess.getQuestions(contextList[0], deviceName);
 
@@ -589,7 +581,7 @@ if(page.name === 'home'){
         console.log(app.data.clickedPuzzleTiles);
         var contextId = 0;
 
-        waitForContexts(function (contextList) {
+        singleAccess.waitForContexts(function (contextList) {
             singleAccess.getPuzzleImages(contextList[0], deviceName);
             console.log("zurück contextlist");
             console.log(contextList);

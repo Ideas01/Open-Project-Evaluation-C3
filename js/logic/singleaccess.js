@@ -2,9 +2,8 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff();
+	const dbZugriff = new DBZugriff('http://192.168.43.174:3000/');
 	const swiperFactory = new SwiperFactory();
-	const choiceFactory = new ChoiceFactory();
 	const success = new Success();
 
 	/*************************************** PUZZLE *********************************/
@@ -55,18 +54,16 @@
 		dbZugriff.sendEvalData(question, answer, deviceName);
 	};
 	
-	
-		
-	SingleAccess.prototype.waitForData = function(dataReference, deviceName, callback){
-		return dbZugriff.waitForData(dataReference, deviceName, callback);
-	};
-	
 	SingleAccess.prototype.getGlobalContextList = function(){
 		return dbZugriff.getGlobalContextList();
 	};
+		
+	SingleAccess.prototype.waitForData = function(dataReference, deviceName, callback){
+		dbZugriff.waitForData(dataReference, deviceName, callback);
+	};
 	
-	SingleAccess.prototype.getGlobalContextData = function(){
-		return dbZugriff.getGlobalContextData();
+	SingleAccess.prototype.waitForContexts = function(callback){
+		dbZugriff.waitForContexts(callback);
 	};
 	
 	
@@ -83,11 +80,6 @@
 		 return swiperFactory.setHandler(swiper);
      };
 	 
-	/************************************** choice Factory ****************************************************************/
-	
-	SingleAccess.prototype.buildPrototypeChoice = function (id,appendToSwiperId) {
-        return choiceFactory.buildPrototypeChoice(id,appendToSwiperId);
-    };
 	
 	
 	/************************************** dianas SuccessSeite ***********************************************************/
