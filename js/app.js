@@ -489,34 +489,32 @@ if(page.name === 'home'){
         $(".help-sliders").click(function () {
             var popup = app.popup.create({
                 content:
-                '<div class="popup" id="popupStart">' +
-                '<div class="view">' +
-                '<div class="page popupStartpage ">' +
-                '<div class="navbar">' +
-                '<div class="navbar-inner">' +
-                '<div class="title">HILFE</div>' +
-                '<div class="right">' +
-                '<a href="#" class="link popup-close">Close</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="page-content">' +
-                '<div class="block">' +
-                '<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
-                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
-                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ' +
-                'amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
-                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
-                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>' +
-                '<a href="#" class="popup-close" >' +
-                '<a class="button popup-close"> Los geht´s! </a>' +
-                '</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>',
+					'<div class="popup" id="popupStart">' +
+						'<div class="view">' +
+							'<div class="page popupStartpage ">' +
+								'<div class="navbar">' +
+									'<div class="navbar-inner">' +
+										'<div class="title">HILFE</div>' +
+										'<div class="right">' +
+											'<a href="#" class="link popup-close">Close</a>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+								'<div class="page-content">' +
+									'<div class="block">' +
+										'<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
+											'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +
+											'der Slider, für dich persönlich festlegen, wie gut oder schlecht du etwas empfunden hast. Sobald du ' +
+											'die Bewertung abgeschlossen hast, kannst du diese abschicken und an dem Puzzlespiel teilnehmen.'+
+										'</p>' +
+										'<a href="#" class="popup-close" >' +
+											'<a class="button popup-close"> Los geht´s! </a>' +
+										'</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+                    '</div>',
 
 
                 on: {
