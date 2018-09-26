@@ -13,12 +13,11 @@ body {
 }
 
 .center-sliding {
-    margin: 0;
     position: absolute;
-    top: 25%;
-    left: 47%;
+    top: 50%;
+    left: 45%;
     margin-right: -50%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
     font-size: 18px;
 }
 
@@ -217,11 +216,13 @@ Modal Content */
 .f7-icons {
     position: relative;
     right: 150%;
+    font-size: 100%;
 }
 
 .right img {
     position: relative;
-    width: 30px;
+    width: 20px;
+    padding-top: 6px;
 }
 
 .description {
@@ -578,3 +579,7 @@ h3 {
     font-family: sans-serif;
     color: grey;
     opacity: 0.5;
+
+
+/***Media Queries***/
+
