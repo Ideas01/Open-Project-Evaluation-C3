@@ -175,26 +175,25 @@ if(page.name === 'home'){
 
 		new Promise(function(resolve){
 			waitForContexts(function(contextList){
-				var contextList = contextList;
-					contextList.forEach(function(context, contextIndex, contextList){
-						
-						var imageURLs = contextList[contextIndex].images;
-						counter = imageURLs.length;
-						selectionContent = {
-							aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
-							bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
-						};
-						
-						for(var i=0; i < picturesPerChoice; i++){
-							if(counter > 0){
-								selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
-								counter --;
-							}
+				contextList.forEach(function(context, contextIndex, contextList){
+					
+					var imageURLs = contextList[contextIndex].images;
+					counter = imageURLs.length;
+					selectionContent = {
+						aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
+						bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+					};
+					
+					for(var i=0; i < picturesPerChoice; i++){
+						if(counter > 0){
+							selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
+							counter --;
 						}
-						
-						contentArray.push(selectionContent);
-						resolve(contentArray);
-					});
+					}
+					
+					contentArray.push(selectionContent);
+					resolve(contentArray);
+				});
 			});
 		 }).then(function(contentArray){
 			 

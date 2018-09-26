@@ -158,10 +158,7 @@ DBZugriff.prototype.updateDeviceContext = function(context, deviceName){
 	var name = "deviceContext";
 	
 	waitForToken(deviceName, function(token){
-		callDatabase(name, token, query , function(response){
-				console.log(name + "erfolgreich zurück")
-				console.log(response);
-		});
+		callDatabase(name, token, query , function(response){});
 	});
 } 
 
@@ -208,9 +205,7 @@ DBZugriff.prototype.getQuestions = function(context, deviceName){
 	
 	waitForToken(deviceName, function(token){
 		callDatabase(dataReferenceName, token, query, function(response){
-			
-			console.log(dataReferenceName + "erfolgreich")
-			
+			//console.log(dataReferenceName + "erfolgreich")
 			var result = response.context.activeSurvey.questions;
 			setglobalContextData(dataReferenceName, undefined);
 			var questions =[];
