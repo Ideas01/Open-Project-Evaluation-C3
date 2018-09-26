@@ -299,13 +299,14 @@ if(page.name === 'home'){
 		}).then(function(imageArray){
 			console.log("imageArray")
 			console.log(imageArray);
-			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
+			//let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
 
-			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
-
-			singleAccess.setHandler(mySwiper);
+			
 		});
 		
+		mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
+
+		singleAccess.setHandler(mySwiper);
 		
 
 
@@ -359,8 +360,6 @@ if(page.name === 'home'){
             singleAccess.updateDeviceContext(contextList[0], deviceName);
             singleAccess.getQuestions(contextList[0], deviceName);
 
-            console.log("zurück contextlist");
-            console.log(contextList);
         });
 
         singleAccess.waitForData("questions", deviceName, function (response) {
