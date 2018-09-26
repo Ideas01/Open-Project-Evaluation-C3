@@ -44,7 +44,12 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 					'</div>' +
 					'<div class="page-content">' +
 						'<div class="block">' +
-							'<p>Erklärungstext ergänzen..... und richtigen icons einfügen <img src="img/swipe.png"/></p>' +
+							'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
+								'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
+								'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
+								'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
+								'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
+								' <img src="img/tab.png"style="width: 15%;"/></p>' +
 							'<a href="#" class="popup-close" >' +
 								'<a class="button popup-close"> Los geht´s! </a>' +
 							'</a>' +
