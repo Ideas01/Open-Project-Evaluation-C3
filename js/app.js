@@ -367,7 +367,7 @@ if(page.name === 'home'){
 
         });
 
-        singleAccess.waitForData("questions", deviceName, function (response) {
+        //singleAccess.waitForData("questions", deviceName, function (response) {
 			console.log("Slider response")
 			console.log(response)
 			var response = [
@@ -558,7 +558,7 @@ if(page.name === 'home'){
                 }
             });
 
-        });
+        //});
 
         $(".help-sliders").click(function () {
             var popup = app.popup.create({
