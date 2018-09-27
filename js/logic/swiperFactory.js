@@ -24,10 +24,9 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapp
 		var counter = 0;
 		var contextId = null;
 		var swiperElement = document.querySelector('#' + swiperWrapperId).swiper;
-		console.log("swiperE")
-		console.log(swiperElement)
 		$('.swiper-wrapper').empty();
 		var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
+		
 		
 		for (var i=0; i < swiperCount; i++){
 			
@@ -69,12 +68,12 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapp
 						
 						$('#' +  nameSpace + m + counter).addClass(nameSpace);
 						
-						$('#' +  nameSpace + m + counter).click(function(event){
+						/* $('#' +  nameSpace + m + counter).click(function(event){
 							$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
 							$('.' + nameSpace).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
-							contextId = event.target.contextId;
-							app.data.currentContextIdIndex = event.target.contextId;
-						});
+							// contextId = event.target.contextId;
+							// app.data.currentContextIdIndex = event.target.contextId;
+						}); */
 						
 						$("#"+ nameSpace + m + counter).css({
 							'position': 'relative',
@@ -96,11 +95,9 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapp
 								console.log("keys content")
 								console.log(contentArray[m][key])
 							});
-						}
-						
-						
-					counter ++;
-				}
+						}		
+						counter ++;
+					}
 				
 										
 					swiperArray.push([nameSpace + i]);

@@ -1,12 +1,12 @@
 routes = [
     {
-        path: '/',
-        url: './index.html',
-    },
-	{
-		path: '/prototypeSelection/',
-		url: './pages/prototypeSelection.html',
+		path: '/',
+		url: './index.html',
 	},
+	{
+        path: '/home/',
+        url: './pages/home.html',
+    },
     {
         path: '/auswahl/',
         url: './pages/prototypeAuswahl.html',

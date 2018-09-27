@@ -126,7 +126,9 @@ class DBZugriff{
 		var name = "deviceContext";
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
-			thisisme.callDatabase(name, token, query , function(response){});
+			thisisme.callDatabase(name, token, query , function(response){
+				console.log("DeviceContext geupdatet")
+			});
 		});
 	} 
 
