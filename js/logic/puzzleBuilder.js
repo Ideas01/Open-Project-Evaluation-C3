@@ -153,7 +153,8 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 						"position": "absolute",
 						"z-index":"7",
 						"top":"0",
-						"left":"102%"
+						"left":"102%",
+						
 					});
 				});
 			});
@@ -170,6 +171,15 @@ PuzzleBuilder.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzleP
 				"-webkit-box-sizing": "border-box",
 				"border": "solid 1px darkgray"
 			});
+			$(puzzleGridWrapper).css({
+				"position": "absolute",
+				"font-size": "0",
+				"top": "-9999px",
+				"bottom": "-9999px",
+				"left": "-9999px",
+				"right": "-9999px",
+				"margin": "auto"
+			})
 		});
 		resolve(0);
 
