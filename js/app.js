@@ -368,6 +368,75 @@ if(page.name === 'home'){
         });
 
         singleAccess.waitForData("questions", deviceName, function (response) {
+			console.log("Slider response")
+			console.log(response)
+			var response = [
+				{
+					min:0,
+					max:10,
+					stepSize:2,
+					labels:[
+					{
+						label: "zufrieden"
+					},{
+						label: "unzufrieden"
+					} 
+					],
+					value: "Frage 0"
+				},
+				{
+					min:0,
+					max:50,
+					stepSize:2,
+					labels:[
+					{
+						label: "gut"
+					},{
+						label: "schlecht"
+					} 
+					],
+					value: "Frage 1"
+				},
+				{
+					min:0,
+					max:20,
+					stepSize:1,
+					labels:[
+					{
+						label: "yo"
+					},{
+						label: "nö"
+					} 
+					],
+					value: "Frage 2"
+				},
+				{
+					min:0,
+					max:10,
+					stepSize:2,
+					labels:[
+					{
+						label: "zufrieden"
+					},{
+						label: "unzufrieden"
+					} 
+					],
+					value: "Frage 3"
+				},
+				{
+					min:0,
+					max:10,
+					stepSize:2,
+					labels:[
+					{
+						label: "zufrieden"
+					},{
+						label: "unzufrieden"
+					} 
+					],
+					value: "Frage 4"
+				}
+			];
 
             console.log(name + "erfolgreich zurück questions");
             console.log(response);
