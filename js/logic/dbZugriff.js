@@ -228,8 +228,6 @@ class DBZugriff{
 	waitForToken(deviceName, callback){
 	    var thisisme = this;
 		var waitforT = setInterval(function(){
-			
-			
 			var tNew = thisisme.TokenList[deviceName].token;
 			
 			if(tNew != undefined){

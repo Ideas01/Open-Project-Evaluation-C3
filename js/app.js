@@ -474,52 +474,25 @@ app.on('pageInit', function(page){
 				})
 			});
 		}); 
-		
-		
-		
-		
-		
-		
-
+	
 	}
 	
-	/****************************** puzzle end ****************************/
+		/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
         console.log(app.data.clickedPuzzleTiles);
         var contextId = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
-            singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex], deviceName);
+            singleAccess.getPuzzleImages(contextList[0], deviceName);
             console.log("zurück contextlist");
             console.log(contextList);
         });
-        new Promise(function (resolve) {
+        new Promise(function (resolve,reject) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
+                console.log(name + "erfolgreich zurück pImages");
+                console.log(response);
+                singleAccess.buildGuessButtons(contextId,response);
 
-                new Promise(function (resolve) {
-                    var switchedAnswers = switchAnswers(response[contextId].wrongAnswers, response[contextId].correctAnswer);
-                    var correctCategory = {
-                        category: response[contextId].category,
-                        answers: switchedAnswers,
-                        correctAnswer: response[contextId].correctAnswer
-                    };
-                    resolve(correctCategory)
-                })
-                    .then(function (correctCategory) {
-                       appendCategories(response,correctCategory);
-                      /* $.each(response, function (index, data) {
-                            if ($('#' + data.category).length === 0) {
-                                $('#guessOverview').append('<a class="guessButton" id="' + data.category + '">' + data.category + '</a>');
-                            }
-                            else {
-                                console.log('ID: ' + data.category + ' already exists!');
-                            }
-                            $('#' + data.category).click(function (event) {
-                                console.log(event.target.id);
-                                fillCategories(event.target.id, correctCategory, response)
-                            });
-                        }); */
-                    });
                 var backgroundImage = new Image();
                 backgroundImage.src = response[contextId].url;
                 backgroundImage.onload = function () {
@@ -530,97 +503,45 @@ app.on('pageInit', function(page){
                 };
             })
         }).then(function (backgroundImage) {
-             singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
+            singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
+            console.log("bis hierher 4")
         });
-        
-        function appendCategories(imageCategories,correctCategory) {
-            $.each(imageCategories, function (index, data) {
-                if ($('#' + data.category).length === 0) {
-                    $('#guessOverview').append('<a class="guessButton" id="' + data.category + '">' + data.category + '</a>');
-                }
-                else {
-                    console.log('ID: ' + data.category + ' already exists!');
-                }
-                $('#' + data.category).click(function (event) {
-                    console.log(event.target.id);
-                    fillCategories(event.target.id, correctCategory, imageCategories)
-                });
-            });
-        }
-        
-        function fillCategories(clickedCategory, correctCategory, otherCategories) {
-			console.log("bis hierher 1")
-            if (clickedCategory === correctCategory.category) {
-                $('#guessItems').empty();
-                $.each(correctCategory.answers, function (index, data) {
-                    $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-                    $('#' + data).click(function () {
-                        checkGuessItem(data, correctCategory.correctAnswer);
-                    });
-                });
-            }
-            else {
-                console.log("the clicked category: " + clickedCategory);
-                $('#guessItems').empty();
-                for (var i = 0; i < otherCategories.length; i++) {
-                    console.log(otherCategories[i].category);
-                    if (otherCategories[i].category === clickedCategory) {
-                        console.log("hier bin ich richtig");
-                        $.each(otherCategories[i].wrongAnswers, function (index, data) {
-                            $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-                            $('#' + data).click(function () {
-                                checkGuessItem(data, correctCategory.correctAnswer);
-								console.log("bis hierher 2")
-                            })
-                        });
-                    }
-                }
-            }
-
-        }
-
-        function switchAnswers(wrongAnswers, correctAnswer) {
-            var switchedAnswers = wrongAnswers;
-            //calculate random index to switch with correct answer
-            let randomIndex = Math.floor(Math.random() * wrongAnswers.length);
-            //append at the end of the array
-            if (randomIndex == wrongAnswers.length) {
-                switchedAnswers.push(correctAnswer);
-            } else {
-                console.log("randomIndex: " + randomIndex);
-
-                //save value at randomIndex to append it later
-                let valueToSwitch = wrongAnswers[randomIndex];
-
-                //switch value at randomIndex with correctAnswer
-                switchedAnswers[randomIndex] = correctAnswer;
-
-                //push swicht wrong answer back into array
-                switchedAnswers.push(valueToSwitch);
-            }
-            return switchedAnswers;
-        }
-
-
-        function checkGuessItem(givenAnswer, correctAnswer) {
-            if (givenAnswer === correctAnswer) {
-                console.log("GIVEN ANSWER IS: " + givenAnswer);
-                app.router.navigate('/success/');
-            }
-            else {
-
-                app.router.navigate('/failure/');
-            }
-        }
-		
-
-
     }
 
     /****************************** puzzleGuess end ****************************/
 
 	if(page.name === 'success'){
 		singleAccess.buildConfetty();
+		var counter = 15;
+		var autoRedirectToHome = setInterval(function(){
+			console.log("counting...")
+			$('.redirectIn').html(counter);
+			counter--;
+		},1000); //delay is in milliseconds 
+
+		setTimeout(function(){
+			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
+			 app.router.navigate('/home/')
+		},16000);
+		
+		
+	}
+	
+	if(page.name === 'failure'){
+		singleAccess.buildConfetty();
+		var counter = 15;
+		var autoRedirectToHome = setInterval(function(){
+			console.log("counting...")
+			$('.redirectIn').html(counter);
+			counter--;
+		},1000); //delay is in milliseconds 
+
+		setTimeout(function(){
+			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
+			 app.router.navigate('/home/')
+		},16000);
+		
+		
 	}
 	
 	
