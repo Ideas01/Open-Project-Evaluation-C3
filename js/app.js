@@ -297,9 +297,12 @@ app.on('pageInit', function(page){
 
     /****************************** sliders start *********************/
     if (page.name === 'sliders') {
+		var questions = {};
+		var sliderValues = [];
+		
+		
         $('#sendRatingsButton').hide();
         app.popup.close();
-
         singleAccess.waitForContexts(function (contextList) {
             singleAccess.updateDeviceContext(contextList[0], deviceName);
             singleAccess.getQuestions(contextList[0], deviceName);
@@ -309,7 +312,8 @@ app.on('pageInit', function(page){
         });
 
         singleAccess.waitForData("questions", deviceName, function (response) {
-            //index where to start in the questions
+			questions = response;
+          //index where to start in the questions
             var currentIndex = 0;
 
             //to check if there are any questions left
@@ -327,25 +331,25 @@ app.on('pageInit', function(page){
 
             //raise the index, so we know at which point to access the data
             currentIndex += rangeSliderReferences.length;
-
-            //when the button is clicked
+            
+			//when the button is clicked
             $("#sendRatingsButton").click(function () {
+
                 //subtract the amount of initialized rangeSliders, so we know how many questions are left
                 remainingQuestions -= rangeSliderReferences.length;
 
                 //if there are questions left..
                 if (remainingQuestions > 0) {
                     //array for saving the values of the sliders
-                    var sliderValues = [];
+
                     //...save slider values of the existing sliders
                     for (var i = 0; i < rangeSliderReferences.length; i++) {
                         sliderValues.push({
                             id: rangeSliderReferences[i].questionId,
                             value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
                         });
+						console.log("slider value" + i)
                     }
-                    //TODO: DELETE AFTER TESTING
-                    console.log(sliderValues);
 
                     //initialize the sliders, starting with data at startIndex
                     try {
@@ -356,49 +360,82 @@ app.on('pageInit', function(page){
                             console.log(e.message);
                         }
                     }
-
                     //raise the index, so we know at which point to access the data
                     currentIndex += rangeSliderReferences.length;
                 }
                 //no more questions to display
-                else {
-                    //array for saving the values of the sliders
-                    var sliderValues = [];
+               else {
+				   waitForResponse();
+					//array for saving the values of the sliders
+					//save slider values of the existing sliders
+					for (var i = 0; i < rangeSliderReferences.length; i++) {
+						console.log(rangeSliderReferences[i]);
+						sliderValues.push({
+							id: rangeSliderReferences[i].questionId,
+							value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+						});
+					}
+					
+					console.log(sliderValues)
                     //save slider values of the existing sliders
-                    for (var i = 0; i < rangeSliderReferences.length; i++) {
-                        sliderValues.push({
-                            id: rangeSliderReferences[i].questionId,
-                            value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
-                        });
+                    for (var i = 0; i < questions.length; i++) {
+                            
+							singleAccess.sendEvalData(questions[sliderValues[i].id].id, sliderValues[i].value, deviceName);
+							console.log("frage" +i+ "gesendet");
+                           // value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
                     }
+
                     //TODO: DELETE AFTER TESTING
                     console.log(sliderValues);
 
-                    //create the popup, which is used to get to the next page
- 					let content = '<div class="block">' +
-									'<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
-									// '<div class="sk-circle">' +
-									// '<div class="sk-circle1 sk-child"></div>' +
-									// '<div class="sk-circle2 sk-child"></div>' +
-									// '<div class="sk-circle3 sk-child"></div>' +
-									// '<div class="sk-circle4 sk-child"></div>' +
-									// '<div class="sk-circle5 sk-child"></div>' +
-									// '<div class="sk-circle6 sk-child"></div>' +
-									// '<div class="sk-circle7 sk-child"></div>' +
-									// '<div class="sk-circle8 sk-child"></div>' +
-									// '<div class="sk-circle9 sk-child"></div>' +
-									// '<div class="sk-circle10 sk-child"></div>' +
-									// '<div class="sk-circle11 sk-child"></div>' +
-									// '<div class="sk-circle12 sk-child"></div>' +
-								'</div>' +
-								'<a href="/puzzle/" class="button popup-close"> Weiter </a>'
-					singleAccess.popUp_show('Popup',content);
                 }
             });
+			function waitForResponse(){
+				$('#danksagungSlider').html('Auswertung wird gesendet.');
+				$('#waitingMarks').show();
+				var waitingforResponse = setInterval(function(){
+					singleAccess.waitForData("evalData", deviceName, function(response){
+						if(response == false){
+						}else{
+							clearInterval(waitingforResponse);
+							danksagungStarten();
+						}
+					});
+				}, 3000);
+				
+				setTimeout(function(){
+					 clearInterval(waitingforResponse);			 //clear above interval after 15 seconds
+					 $('#danksagungSlider').html('Auswertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut');
+					 $('#waitingMarks').hide();
+					 $('#repeatSendEvalData').show();
+					 
+				}, 20000);
+			}
+			
+			function danksagungStarten(){
+				var waiting = setInterval(function(){
+					$('#danksagungSlider').html('Vielen Dank für deine Bewertung! Du wirst nun zu unserem Puzzlespiel weitergeleitet.')
+					$('#waitingMarks').show();
+				},2000); //delay is in milliseconds 
 
+				setTimeout(function(){
+					 clearInterval(waiting);			 //clear above interval after 15 seconds
+					 app.router.navigate('/puzzle/')
+				},4000);
+					
+				
+			}
+			
+			$('#repeatSendEvalData').click(function(){
+				waitForResponse();
+				$('#repeatSendEvalData').hide();
+			});
+			
         });
 
-        $(".help-sliders").click(function () {
+		
+        
+		$(".help-sliders").click(function () {
 			let content = 	'<div class="block">' +
 								'<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
 									'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +

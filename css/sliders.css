@@ -1,3 +1,20 @@
+.waiting{
+	position: relative;
+	display: none;
+	margin-top: -6%;
+}
+
+.danksagung{
+	display: block;
+	text-align: center;
+	margin-top: 13%;
+	font-size: 14pt;
+}
+
+.sendData{
+	display: none;
+}
+
 .sliderDiv {
     display: inline-block;
 }

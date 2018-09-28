@@ -211,8 +211,7 @@ class DBZugriff{
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
 				console.log(response.createAnswer.voteCreated);
-				
-				thisisme.setContextData(dataReferenceName, response);
+				thisisme.setContextData(dataReferenceName, response.createAnswer.voteCreated);
 			});
 		});
 	}
@@ -241,7 +240,7 @@ class DBZugriff{
 		setTimeout(function(){
 			 clearInterval(waitforT); //clear above interval after 15 seconds
 		},15000);
-}	
+	}	
 
 	
 	waitForData(dataReference, deviceName, callback){
