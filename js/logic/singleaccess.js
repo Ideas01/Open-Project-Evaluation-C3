@@ -5,7 +5,7 @@
 	const dbZugriff = new DBZugriff('http://192.168.2.104:3000/');
 	const swiperFactory = new SwiperFactory();
 	const success = new Success();
-	const popup = new PopUp();
+
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
 		return puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
@@ -86,10 +86,3 @@
 	SingleAccess.prototype.buildConfetty = function(){
 		success.buildConfetty();
 	};
-	/************************************** Pop Ups ***********************************************************************/
-	SingleAccess.prototype.popUp_show = function(title, message, caption){
-		popup.show(title, message, caption);	
-	}
-	
-
-	

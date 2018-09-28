@@ -28,6 +28,8 @@ class DBZugriff{
 	}
 
 
+
+
 	setContextData(dataReferenceName, data){
 		this.ContextData[dataReferenceName] = {};
 		this.ContextData[dataReferenceName].data = data;

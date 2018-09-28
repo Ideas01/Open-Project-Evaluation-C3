@@ -1,4 +1,3 @@
-var swiper_popUp = new PopUp();
 function SwiperFactory() {}
 
 
@@ -25,10 +24,9 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapp
 		var counter = 0;
 		var contextId = null;
 		var swiperElement = document.querySelector('#' + swiperWrapperId).swiper;
-		console.log("swiperE")
-		console.log(swiperElement)
 		$('.swiper-wrapper').empty();
 		var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
+		
 		
 		for (var i=0; i < swiperCount; i++){
 			
@@ -70,12 +68,12 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapp
 						
 						$('#' +  nameSpace + m + counter).addClass(nameSpace);
 						
-						$('#' +  nameSpace + m + counter).click(function(event){
+						/* $('#' +  nameSpace + m + counter).click(function(event){
 							$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
 							$('.' + nameSpace).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
-							contextId = event.target.contextId;
-							app.data.currentContextIdIndex = event.target.contextId;
-						});
+							// contextId = event.target.contextId;
+							// app.data.currentContextIdIndex = event.target.contextId;
+						}); */
 						
 						$("#"+ nameSpace + m + counter).css({
 							'position': 'relative',
@@ -97,11 +95,9 @@ SwiperFactory.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapp
 								console.log("keys content")
 								console.log(contentArray[m][key])
 							});
-						}
-						
-						
-					counter ++;
-				}
+						}		
+						counter ++;
+					}
 				
 										
 					swiperArray.push([nameSpace + i]);
@@ -157,15 +153,42 @@ SwiperFactory.prototype.setHandler = function (mySwiper) {
         if (mySwiper.isEnd) {
             mySwiper.on('slideNextTransitionEnd', function () {
                 $(".popup").remove();
-				let content = 	'<div class="block">' +
-									'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-									'<div class="next" text-align="center">' +
-										'<div style="margin: 0 auto;width: 510px;">' +
-										'<a href="#" class="button link popup-close" style="float: left; margin-right: 10px;"> Zurück </a>' +
-										'<a href="/sliders/" class="button"> Weiter </a>' +
-									'</div>' +
-								'</div>'
-                swiper_popUp.show('PopUp',content);
+                var popup = app.popup.create({
+                    content:
+                    '<div class="popup" id="popupStart">' +
+                    '<div class="view">' +
+                    '<div class="page">' +
+                    '<div class="navbar">' +
+                    '<div class="navbar-inner">' +
+                    '<div class="title">Popup</div>' +
+                    '<div class="right">' +
+                    '<a href="#" class="link popup-close">Close</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="page-content">' +
+                    '<div class="block">' +
+                    '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+                    '<div class="next" text-align="center">' +
+                    '<div style="margin: 0 auto;width: 510px;">' +
+                    '<a href="#" class="button link popup-close" style="float: left; margin-right: 10px;"> Zurück </a>' +
+                    '<a href="/sliders/" class="button"> Weiter </a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                    on: {
+                        opened: function () {
+                        }
+                    },
+                    close: function(){
+                        $(".popup").remove();
+                    }
+                });
+                app.popup.open(popup.el, true);
             });
         }
     });

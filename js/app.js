@@ -16,7 +16,7 @@
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Dom7
 var $$ = Dom7; // instance necessary for Framework 7
-var singleAccess = undefined;
+
 
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   *  G L O B A L - F U N C T I O N S
@@ -24,16 +24,13 @@ var singleAccess = undefined;
   
 function checkSize(){
 	var element = $("#puzzleWrapper").children().first().children().first();
-	var wrapper = document.getElementById("puzzleWrapper");
 	if(element.width() > 32 && element.height() > 32 ){
-		wrapper.parentElement.lastChild.style.display = "none";
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "none";
 	}
 	else{
-		wrapper.parentElement.lastChild.style.display = "inline-block";
+		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
 	}
 }
-
-
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   *  F R A M E W O R K     7
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -43,7 +40,7 @@ var app  = new Framework7({
         return {
             pointCount: 144,
             clickedPuzzleTiles: [],
-			currentContextIdIndex: null
+			currentContextIdIndex: null, 
         }
     },
 	methods: {
@@ -74,21 +71,40 @@ var app  = new Framework7({
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
   
 
+
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
-	let content = '<div class="block">' +
-							'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
-								'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
-								'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
-								'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
-								'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
-								' <img src="img/tab.png"style="width: 15%;"/></p>' +
+    var popup = app.popup.create({
+        content:
+        '<div class="popup" id="popupStart">' +
+			'<div class="view">' +
+				'<div class="page popupStartpage ">' +
+					'<div class="navbar">' +
+						'<div class="navbar-inner">' +
+							'<div class="title">Spielanleitung</div>' +
+							'<div class="right"></div>' +
+						'</div>' +
+					'</div>' +
+					'<div class="page-content">' +
+						'<div class="block">' +
+							'<p>Erklärungstext ergänzen..... und richtigen icons einfügen <img src="img/swipe.png"/></p>' +
 							'<a href="#" class="popup-close" >' +
 								'<a class="button popup-close"> Los geht´s! </a>' +
 							'</a>' +
-						'</div>'
-	
-	
-	singleAccess.popUp_show('Spielanleitung',content);
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+        '</div>',
+        on: {
+            opened: function () {
+            }
+        },
+        close: function () {
+            $(".popup").remove();
+        }
+    });
+    app.popup.open(popup.el, true);
+
     checkSize();
 	
 });
@@ -102,121 +118,120 @@ app.on('pageInit', function(page){
 	
 	
 	const deviceName = "OpenProjectEvalSlider";
-	singleAccess = new SingleAccess();
+	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
 	
 	console.log(page.name + " wird ausgeführt");
-
 	
+	/***************************** prototypeSelection********************/
+	function buildSwiperContent(callback){
+		var counter = 0;
+		var picturesPerChoice = 3;
+		var selectionContent = {};
+		
+		singleAccess.waitForContexts(function(contextList){
+			let contentArray = [];
+			contextList.forEach(function(context, contextIndex, contextList){
+			
+				var imageURLs = contextList[contextIndex].images;
+				counter = imageURLs.length;
+				
+				selectionContent = {
+					aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
+					bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
+				};
+				
+				for(var i=0; i < picturesPerChoice; i++){
+					if(counter > 0){
+						selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
+						counter --;
+					}
+				}
+			
+				contentArray.push(selectionContent);
+			});
+		
+		callback(contentArray);
+			
+		});
+	}
 	
-	
-if(page.name === 'home'){
+	if(page.name ==='prototypeSelection'){
+		
 		singleAccess.initializeDB(deviceName);
 		
+		singleAccess.initializeSwiper();
+		
+
 		var requiredResults = ['id', 'title', 'description', 'images{url}'];
 		
 		singleAccess.getContexts(requiredResults, deviceName);
-				
-		//console.log(contextsKey);
 		
-		singleAccess.waitForContexts(function(contextList){
-			console.log("Alle Listen");
-			console.log(contextList);
-			console.log("Nur die Liste");
-			console.log(contextList[0]);
-			
+		
+		
+		buildSwiperContent(function(contentArray){
+			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "pSelectionSwiper", "contentSwiper", contentArray);
+		 
+			 $(mySwiper.slides[0].childNodes).click(function(event){
+					$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
+					$(mySwiper.slides[0].childNodes).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
+					contextId = event.target.contextId;
+					app.data.currentContextIdIndex = event.target.contextId;
+			 });
+
+		 });
+		 
+		  console.log("SAP");
+		 console.log(singleAccess);
+		 singleAccess.waitForContexts(function(contextList){
 			singleAccess.updateDeviceContext(contextList[0], deviceName);
 			
-			singleAccess.getPrototypeImages(contextList[0], deviceName);
-			
-			singleAccess.getQuestions(contextList[0], deviceName);
-			
-			singleAccess.getPuzzleImages(contextList[0], deviceName);
-			
-			
-			
-			console.log("zurück contextlist");
-			console.log(contextList);
-		});
+			singleAccess.waitForData("deviceContext", deviceName, function(response){
+				console.log("geht nur nicht weiter0")
+				//resolve(0);
+			});
+		 });
+		 
+		 $('#startSelectPrototype').click(function(){
+			 console.log("clicked")
+			 var contextGeupdated = new Promise(function(resolve){
+				 if(app.data.currentContextIdIndex != null){
+					 singleAccess.waitForContexts(function(contextList){
+						 //TODO: noch prüfen ob update erfolgreich.
+						singleAccess.updateDeviceContext(contextList[app.data.currentContextIdIndex], deviceName);
+						resolve(0);
+					});
+				 };
+			});	
+			contextGeupdated.then(function(resolve){
+				app.router.navigate('/home/');
+			}); 				
+		 });
+			 
 		
+		 
+		 
 		
-		singleAccess.waitForData("prototypeImages", deviceName, function(response){
+		/* singleAccess.waitForData("prototypeImages", deviceName, function(response){
 			console.log(name + "erfolgreich zurück prototypeImages");
 			console.log(response[0].id);
-		});
+		}); */
 
-		singleAccess.waitForData("questions", deviceName, function(response){
+		/* singleAccess.waitForData("questions", deviceName, function(response){
 			console.log(name + "erfolgreich zurück questions");
 			console.log(response[0].id);
 			singleAccess.sendEvalData(response[0].id, 5, deviceName); //erg. muss noch gefüllt werden.
-		});
+		}); */
 		
-		singleAccess.waitForData("puzzleImages", deviceName, function(response){
+		/* singleAccess.waitForData("puzzleImages", deviceName, function(response){
 			console.log(name + "erfolgreich zurück pImages");
 			console.log(response[0]);
-		});
-		
-		
-		
+		}); */
 
 		/* singleAccess.waitForData("questions", deviceName, function(response){
 			console.log(name + "erfolgreich zurück questions");
 			console.log(response[0].type);
 		});  */
-		
-		
-	} /****************************** home end ****************************/
-
-	
-
-	
-	
-		
-/***************************** prototypeSelection********************/
-
-	if(page.name ==='prototypeSelection'){
-		singleAccess.initializeSwiper();
-		
-		//var contextCount =7;
-		var contentArray = [];
-		var counter = 0;
-		var picturesPerChoice = 3;
-		var selectionContent = {};
-		var protoImages = [];
-
-		new Promise(function(resolve){
-			singleAccess.waitForContexts(function(contextList){
-				contextList.forEach(function(context, contextIndex, contextList){
-					
-					var imageURLs = contextList[contextIndex].images;
-					counter = imageURLs.length;
-					selectionContent = {
-						aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
-						bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
-					};
-					
-					for(var i=0; i < picturesPerChoice; i++){
-						if(counter > 0){
-							selectionContent['c'+ i +'Image' + i] =   '<div class="selectionImgWrapper"> <img class="prototypeSelectionImg" src="' + imageURLs[i].url + '"/></div>';
-							counter --;
-						}
-					}
-					
-					contentArray.push(selectionContent);
-					resolve(contentArray);
-				});
-			});
-		 }).then(function(contentArray){
-			 
-			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "pSelectionSwiper", "contentSwiper", contentArray);
-			 
-		 });
-		 
-		 $('.startSelectPrototype').click(function(){
-			 
-		 });
-		 
-		
 		
 		/* //Testarray für mehr Inhalt
 		contentArray = [{
@@ -252,6 +267,10 @@ if(page.name === 'home'){
 		} ]; */
 
 	} /***************** prototype Selection End ***********************/
+	
+	if(page.name === 'home'){
+		// do nothing.	
+	} /****************************** home end ****************************/
 
 	/****************************** P2 Start ***************************/
     if (page.name === 'P2'){
@@ -287,17 +306,40 @@ if(page.name === 'home'){
 
 		
         $(".help").click(function () {
-			let content = '<div class="block">' +
-								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
-								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
-								'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-								'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
-								'<a href="#" class="popup-close" >' +
-									'<a class="button popup-close"> Los geht´s! </a>' +
-								'</a>' +
-							'</div>'
-			singleAccess.popUp_show('HILFE',content);
-            
+            var popup = app.popup.create({
+                content:
+                '<div class="popup" id="popupStart">' +
+                '<div class="view">' +
+                '<div class="page popupStartpage ">' +
+                '<div class="navbar">' +
+                '<div class="navbar-inner">' +
+                '<div class="title">HILFE</div>' +
+                '<div class="right">' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="page-content">' +
+                '<div class="block">' +
+                '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
+                'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
+                'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+                'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
+                '<a href="#" class="popup-close" >' +
+                '<a class="button popup-close"> Los geht´s! </a>' +
+                '</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>',
+                on: {
+                    close: function(){
+                        $(".popup").remove();
+                    }
+                }
+            });
+            app.popup.open(popup.el,true);
         });
     }
     /****************************** P2 end ****************************/
@@ -389,42 +431,97 @@ if(page.name === 'home'){
                     console.log(sliderValues);
 
                     //create the popup, which is used to get to the next page
-					let content = '<div class="block">' +
-									'<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
-									// '<div class="sk-circle">' +
-									// '<div class="sk-circle1 sk-child"></div>' +
-									// '<div class="sk-circle2 sk-child"></div>' +
-									// '<div class="sk-circle3 sk-child"></div>' +
-									// '<div class="sk-circle4 sk-child"></div>' +
-									// '<div class="sk-circle5 sk-child"></div>' +
-									// '<div class="sk-circle6 sk-child"></div>' +
-									// '<div class="sk-circle7 sk-child"></div>' +
-									// '<div class="sk-circle8 sk-child"></div>' +
-									// '<div class="sk-circle9 sk-child"></div>' +
-									// '<div class="sk-circle10 sk-child"></div>' +
-									// '<div class="sk-circle11 sk-child"></div>' +
-									// '<div class="sk-circle12 sk-child"></div>' +
-								'</div>' +
-								'<a href="/puzzle/" class="button popup-close"> Weiter </a>'
-					singleAccess.popUp_show('Popup',content);
+                    var popup = app.popup.create({
+                        // The Popup
+                        content:
+                        '<div class="popup" id="popupStart">' +
+                        '<div class="view">' +
+                        '<div class="page">' +
+                        '<div class="navbar">' +
+                        '<div class="navbar-inner">' +
+                        '<div class="title">Popup</div>' +
+                        '<div class="right">' +
+                        '<a href="#" class="link popup-close">Close</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="page-content">' +
+                        '<div class="block">' +
+                        '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+                        '<div class="sk-circle">' +
+                        '<div class="sk-circle1 sk-child"></div>' +
+                        '<div class="sk-circle2 sk-child"></div>' +
+                        '<div class="sk-circle3 sk-child"></div>' +
+                        '<div class="sk-circle4 sk-child"></div>' +
+                        '<div class="sk-circle5 sk-child"></div>' +
+                        '<div class="sk-circle6 sk-child"></div>' +
+                        '<div class="sk-circle7 sk-child"></div>' +
+                        '<div class="sk-circle8 sk-child"></div>' +
+                        '<div class="sk-circle9 sk-child"></div>' +
+                        '<div class="sk-circle10 sk-child"></div>' +
+                        '<div class="sk-circle11 sk-child"></div>' +
+                        '<div class="sk-circle12 sk-child"></div>' +
+                        '</div>' +
+                        '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>',
+                        on: {
+                            opened: function () {
+                            },
+                            close: function () {
+                                $(".popup").remove();
+                            }
+                        }
+                    });
+                    app.popup.open(popup.el, true);
                 }
             });
 
         });
 
         $(".help-sliders").click(function () {
-			let content = 	'<div class="block">' +
-								'<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
-									'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +
-									'der Slider, für dich persönlich festlegen, wie gut oder schlecht du etwas empfunden hast. Sobald du ' +
-									'die Bewertung abgeschlossen hast, kannst du diese abschicken und an dem Puzzlespiel teilnehmen.'+
-								'</p>' +
-								'<a href="#" class="popup-close" >' +
-									'<a class="button popup-close"> Los geht´s! </a>' +
-								'</a>' +
-							'</div>' 
-			singleAccess.popUp_show('HILFE',content);	
-            
+            var popup = app.popup.create({
+                content:
+                '<div class="popup" id="popupStart">' +
+                '<div class="view">' +
+                '<div class="page popupStartpage ">' +
+                '<div class="navbar">' +
+                '<div class="navbar-inner">' +
+                '<div class="title">HILFE</div>' +
+                '<div class="right">' +
+                '<a href="#" class="link popup-close">Close</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="page-content">' +
+                '<div class="block">' +
+                '<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
+                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
+                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ' +
+                'amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
+                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
+                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>' +
+                '<a href="#" class="popup-close" >' +
+                '<a class="button popup-close"> Los geht´s! </a>' +
+                '</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>',
+
+
+                on: {
+                    close: function () {
+                        $(".popup").remove();
+                    }
+                }
+            });
+            app.popup.open(popup.el, true);
         });
     }
     /****************************** sliders end ****************************/
@@ -463,15 +560,6 @@ if(page.name === 'home'){
 				    singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				});
 				
-				// bis hierhin.
-				
-			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.
-			//var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010", "miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];	
-			console.log("§§§")
-			console.log(miniOverviewClickedPuzzleTiles)
-			console.log(imageObject)
-			//							   (clickedPuzzleTiles, image, appendToDOMOverview)			
-            //singleAccess.buildMiniOverview(4, 3, miniOverviewClickedPuzzleTiles, imageObject, "#miniOverview");
 		    return puzzlePieceClassName;
 		}).then(function (puzzlePieceClassName) {
             $('.'+ puzzlePieceClassName).click(function (event) {
@@ -495,14 +583,9 @@ if(page.name === 'home'){
         });
         new Promise(function (resolve) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
-                console.log(name + "erfolgreich zurück pImages");
-                console.log(response);
 
                 new Promise(function (resolve) {
-                    console.log(response[contextId].wrongAnswers);
                     var switchedAnswers = switchAnswers(response[contextId].wrongAnswers, response[contextId].correctAnswer);
-
-
                     var correctCategory = {
                         category: response[contextId].category,
                         answers: switchedAnswers,
@@ -536,7 +619,6 @@ if(page.name === 'home'){
             })
         }).then(function (backgroundImage) {
              singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
-			 console.log("bis hierher 0")
         });
         
         function appendCategories(imageCategories,correctCategory) {
@@ -631,7 +713,7 @@ if(page.name === 'home'){
 });
 
 	// Init/Create views
-	var homeView = app.views.create('#view-home', {
+	var homeView = app.views.create('#view-prototypeSelection', {
 	  url: '/'
 	});
 
@@ -640,8 +722,6 @@ if(page.name === 'home'){
         $('#saveSettings').click(function(){
 
         	if (window.localStorage) {
-
-
                     var person = {
 
                         Name: 'Hans Peter',
