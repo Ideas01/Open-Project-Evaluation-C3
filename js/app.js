@@ -204,7 +204,6 @@ app.on('pageInit', function(page){
 				 };
 			});	
 			contextGeupdated.then(function(resolve){
-				console.log("geht nur nicht weiter1")
 				app.router.navigate('/home/');
 			}); 				
 		 });
@@ -561,12 +560,6 @@ app.on('pageInit', function(page){
 				    singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
 				});
 				
-				// bis hierhin.
-				
-			//TODO noch den buildMiniOverview() so verändern, dass nur das parent()Element gegeben sein muss.
-			//var miniOverviewClickedPuzzleTiles = ["miniOverviewPuzzletile0010", "miniOverviewPuzzletile1121", "miniOverviewPuzzletile3322", "miniOverviewPuzzletile0020", "miniOverviewPuzzletile2320"];	
-			//							   (clickedPuzzleTiles, image, appendToDOMOverview)			
-            //singleAccess.buildMiniOverview(4, 3, miniOverviewClickedPuzzleTiles, imageObject, "#miniOverview");
 		    return puzzlePieceClassName;
 		}).then(function (puzzlePieceClassName) {
             $('.'+ puzzlePieceClassName).click(function (event) {
@@ -590,14 +583,9 @@ app.on('pageInit', function(page){
         });
         new Promise(function (resolve) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
-                console.log(name + "erfolgreich zurück pImages");
-                console.log(response);
 
                 new Promise(function (resolve) {
-                    console.log(response[contextId].wrongAnswers);
                     var switchedAnswers = switchAnswers(response[contextId].wrongAnswers, response[contextId].correctAnswer);
-
-
                     var correctCategory = {
                         category: response[contextId].category,
                         answers: switchedAnswers,
@@ -631,7 +619,6 @@ app.on('pageInit', function(page){
             })
         }).then(function (backgroundImage) {
              singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
-			 console.log("bis hierher 0")
         });
         
         function appendCategories(imageCategories,correctCategory) {
@@ -735,8 +722,6 @@ app.on('pageInit', function(page){
         $('#saveSettings').click(function(){
 
         	if (window.localStorage) {
-
-
                     var person = {
 
                         Name: 'Hans Peter',
