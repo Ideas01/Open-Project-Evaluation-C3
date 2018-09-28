@@ -41,6 +41,7 @@ var app  = new Framework7({
             pointCount: 144,
             clickedPuzzleTiles: [],
 			currentContextIdIndex: null, 
+			currentPuzzleImageId: null,
         }
     },
 	methods: {
@@ -92,9 +93,7 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 });
 
 		
-
-
-
+	
 
 app.on('pageInit', function(page){
 	
@@ -105,7 +104,6 @@ app.on('pageInit', function(page){
 	
 	console.log(page.name + " wird ausgeführt");
 	
-	/***************************** prototypeSelection********************/
 	function buildSwiperContent(callback){
 		var counter = 0;
 		var picturesPerChoice = 3;
@@ -138,6 +136,8 @@ app.on('pageInit', function(page){
 		});
 	}
 	
+	/***************************** prototypeSelection********************/
+	
 	if(page.name ==='prototypeSelection'){
 		
 		singleAccess.initializeDB(deviceName);
@@ -148,34 +148,26 @@ app.on('pageInit', function(page){
 		var requiredResults = ['id', 'title', 'description', 'images{url}'];
 		
 		singleAccess.getContexts(requiredResults, deviceName);
-		
-		
-		
+
 		buildSwiperContent(function(contentArray){
 			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "pSelectionSwiper", "contentSwiper", contentArray);
-		 
+			 
 			 $(mySwiper.slides[0].childNodes).click(function(event){
 					$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
 					$(mySwiper.slides[0].childNodes).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
 					contextId = event.target.contextId;
 					app.data.currentContextIdIndex = event.target.contextId;
 			 });
-
 		 });
 		 
-		  console.log("SAP");
-		 console.log(singleAccess);
 		 singleAccess.waitForContexts(function(contextList){
 			singleAccess.updateDeviceContext(contextList[0], deviceName);
 			
-			singleAccess.waitForData("deviceContext", deviceName, function(response){
-				console.log("geht nur nicht weiter0")
-				//resolve(0);
-			});
+			/* singleAccess.waitForData("deviceContext", deviceName, function(response){
+			}); */
 		 });
 		 
 		 $('#startSelectPrototype').click(function(){
-			 console.log("clicked")
 			 var contextGeupdated = new Promise(function(resolve){
 				 if(app.data.currentContextIdIndex != null){
 					 singleAccess.waitForContexts(function(contextList){
@@ -317,11 +309,6 @@ app.on('pageInit', function(page){
         });
 
         singleAccess.waitForData("questions", deviceName, function (response) {
-
-            console.log(name + "erfolgreich zurück questions");
-            console.log(response);
-
-
             //index where to start in the questions
             var currentIndex = 0;
 
@@ -331,7 +318,6 @@ app.on('pageInit', function(page){
             //initialize the sliders, starting with the data at startIndex
             try {
                 var rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
-                console.log(rangeSliderReferences);
                 $('#sendRatingsButton').show();
             } catch (e) {
                 if (e instanceof RangeError) {
@@ -434,52 +420,76 @@ app.on('pageInit', function(page){
  	if(page.name === 'puzzle') {
         var pointCount = app.data.pointCount;
  	    var clickedPuzzleTiles = [];
-
-		var loadImage = new Promise(function (resolve, reject) {
-            var backgroundImage = new Image();
-            backgroundImage.src = 'img/katzie.jpg';
-			//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
-            backgroundImage.crossOrigin = "Anonymous";
-            backgroundImage.onload = function () {
-				const originPictureWidth = backgroundImage.width;
-				const originPictureHeight = backgroundImage.height;
-			    resolve(backgroundImage);
-            };
-            backgroundImage.onerror = function () {
-                reject("could not load the image");
-            };
-        });
+		var imageSrc = null;
 		
-		loadImage.then(function(imageObject){
-			var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
-			$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
+		singleAccess.waitForContexts(function(contextList){
+			singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex]);
+		});
+		
+		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
+			console.log(name + "erfolgreich zurück pImages in puzzle");
+			console.log(puzzleImagesArray);
+			
+			// imageSrc = puzzleImagesArray[Math.floor(Math.random() * Math.floor(puzzleImagesArray.length))]
+			// console.log(imageSrc)
+
+			var loadImage = new Promise(function (resolve, reject) {
+				var backgroundImage = new Image();
+				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
 				
-			var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue', clickedPuzzleTiles, 6);
-			console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
-			singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
-				$(window).on('resize', function (page) {
-					checkSize();
-				    singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
-				});
+			backgroundImage.src = puzzleImagesArray[randomImageId].url;
+				app.data.currentPuzzleImageId = randomImageId;
 				
-		    return puzzlePieceClassName;
-		}).then(function (puzzlePieceClassName) {
-            $('.'+ puzzlePieceClassName).click(function (event) {
-                event.target.style.visibility = "hidden";
-                var puzzlePieceId = event.target.id.split('|');
-                app.data.clickedPuzzleTiles.push(puzzlePieceId[1]);
-                pointCount -= event.target.pointReduction;
-            })
-        });
+				//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
+				backgroundImage.crossOrigin = "Anonymous";
+				backgroundImage.onload = function () {
+					const originPictureWidth = backgroundImage.width;
+					const originPictureHeight = backgroundImage.height;
+					resolve(backgroundImage);
+				};
+				backgroundImage.onerror = function () {
+					reject("could not load the image");
+				};
+			});
+			
+			loadImage.then(function(imageObject){
+				var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
+				$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
+					
+				var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue', clickedPuzzleTiles, 6);
+				console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
+				singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+					$(window).on('resize', function (page) {
+						checkSize();
+						singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+					});
+					
+				return puzzlePieceClassName;
+			}).then(function (puzzlePieceClassName) {
+				$('.'+ puzzlePieceClassName).click(function (event) {
+					event.target.style.visibility = "hidden";
+					var puzzlePieceId = event.target.id.split('|');
+					app.data.clickedPuzzleTiles.push(puzzlePieceId[1]);
+					pointCount -= event.target.pointReduction;
+				})
+			});
+		}); 
+		
+		
+		
+		
+		
+		
+
 	}
 	
 	/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
         console.log(app.data.clickedPuzzleTiles);
-        var contextId = 0;
+        var contextId = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
-            singleAccess.getPuzzleImages(contextList[0], deviceName);
+            singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex], deviceName);
             console.log("zurück contextlist");
             console.log(contextList);
         });
@@ -602,6 +612,8 @@ app.on('pageInit', function(page){
                 app.router.navigate('/failure/');
             }
         }
+		
+
 
     }
 
