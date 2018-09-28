@@ -73,37 +73,19 @@ var app  = new Framework7({
 
 
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
-    var popup = app.popup.create({
-        content:
-        '<div class="popup" id="popupStart">' +
-			'<div class="view">' +
-				'<div class="page popupStartpage ">' +
-					'<div class="navbar">' +
-						'<div class="navbar-inner">' +
-							'<div class="title">Spielanleitung</div>' +
-							'<div class="right"></div>' +
-						'</div>' +
-					'</div>' +
-					'<div class="page-content">' +
-						'<div class="block">' +
-							'<p>Erklärungstext ergänzen..... und richtigen icons einfügen <img src="img/swipe.png"/></p>' +
-							'<a href="#" class="popup-close" >' +
-								'<a class="button popup-close"> Los geht´s! </a>' +
-							'</a>' +
-						'</div>' +
-					'</div>' +
-				'</div>' +
-			'</div>' +
-        '</div>',
-        on: {
-            opened: function () {
-            }
-        },
-        close: function () {
-            $(".popup").remove();
-        }
-    });
-    app.popup.open(popup.el, true);
+	var singleAccess = new SingleAccess();
+	let content = 	'<div class="block">' +
+						'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
+							'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
+							'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
+							'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
+							'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
+							' <img src="img/tab.png"style="width: 15%;"/></p>' +
+						'<a href="#" class="popup-close" >' +
+							'<a class="button popup-close"> Los geht´s! </a>' +
+						'</a>' +
+					'</div>'	
+	singleAccess.popUp_show('Spielanleitung',content);
 
     checkSize();
 	
@@ -306,40 +288,16 @@ app.on('pageInit', function(page){
 
 		
         $(".help").click(function () {
-            var popup = app.popup.create({
-                content:
-                '<div class="popup" id="popupStart">' +
-                '<div class="view">' +
-                '<div class="page popupStartpage ">' +
-                '<div class="navbar">' +
-                '<div class="navbar-inner">' +
-                '<div class="title">HILFE</div>' +
-                '<div class="right">' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="page-content">' +
-                '<div class="block">' +
-                '<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
-                'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
-                'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-                'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
-                '<a href="#" class="popup-close" >' +
-                '<a class="button popup-close"> Los geht´s! </a>' +
-                '</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>',
-                on: {
-                    close: function(){
-                        $(".popup").remove();
-                    }
-                }
-            });
-            app.popup.open(popup.el,true);
+			let content = '<div class="block">' +
+								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
+								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
+								'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+								'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
+								'<a href="#" class="popup-close" >' +
+									'<a class="button popup-close"> Los geht´s! </a>' +
+								'</a>' +
+							'</div>'
+			singleAccess.popUp_show('HILFE',content);
         });
     }
     /****************************** P2 end ****************************/
@@ -431,97 +389,41 @@ app.on('pageInit', function(page){
                     console.log(sliderValues);
 
                     //create the popup, which is used to get to the next page
-                    var popup = app.popup.create({
-                        // The Popup
-                        content:
-                        '<div class="popup" id="popupStart">' +
-                        '<div class="view">' +
-                        '<div class="page">' +
-                        '<div class="navbar">' +
-                        '<div class="navbar-inner">' +
-                        '<div class="title">Popup</div>' +
-                        '<div class="right">' +
-                        '<a href="#" class="link popup-close">Close</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="page-content">' +
-                        '<div class="block">' +
-                        '<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
-                        '<div class="sk-circle">' +
-                        '<div class="sk-circle1 sk-child"></div>' +
-                        '<div class="sk-circle2 sk-child"></div>' +
-                        '<div class="sk-circle3 sk-child"></div>' +
-                        '<div class="sk-circle4 sk-child"></div>' +
-                        '<div class="sk-circle5 sk-child"></div>' +
-                        '<div class="sk-circle6 sk-child"></div>' +
-                        '<div class="sk-circle7 sk-child"></div>' +
-                        '<div class="sk-circle8 sk-child"></div>' +
-                        '<div class="sk-circle9 sk-child"></div>' +
-                        '<div class="sk-circle10 sk-child"></div>' +
-                        '<div class="sk-circle11 sk-child"></div>' +
-                        '<div class="sk-circle12 sk-child"></div>' +
-                        '</div>' +
-                        '<a href="/puzzle/" class="button popup-close"> Weiter </a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>',
-                        on: {
-                            opened: function () {
-                            },
-                            close: function () {
-                                $(".popup").remove();
-                            }
-                        }
-                    });
-                    app.popup.open(popup.el, true);
+ 					let content = '<div class="block">' +
+									'<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
+									// '<div class="sk-circle">' +
+									// '<div class="sk-circle1 sk-child"></div>' +
+									// '<div class="sk-circle2 sk-child"></div>' +
+									// '<div class="sk-circle3 sk-child"></div>' +
+									// '<div class="sk-circle4 sk-child"></div>' +
+									// '<div class="sk-circle5 sk-child"></div>' +
+									// '<div class="sk-circle6 sk-child"></div>' +
+									// '<div class="sk-circle7 sk-child"></div>' +
+									// '<div class="sk-circle8 sk-child"></div>' +
+									// '<div class="sk-circle9 sk-child"></div>' +
+									// '<div class="sk-circle10 sk-child"></div>' +
+									// '<div class="sk-circle11 sk-child"></div>' +
+									// '<div class="sk-circle12 sk-child"></div>' +
+								'</div>' +
+								'<a href="/puzzle/" class="button popup-close"> Weiter </a>'
+					singleAccess.popUp_show('Popup',content);
                 }
             });
 
         });
 
         $(".help-sliders").click(function () {
-            var popup = app.popup.create({
-                content:
-                '<div class="popup" id="popupStart">' +
-                '<div class="view">' +
-                '<div class="page popupStartpage ">' +
-                '<div class="navbar">' +
-                '<div class="navbar-inner">' +
-                '<div class="title">HILFE</div>' +
-                '<div class="right">' +
-                '<a href="#" class="link popup-close">Close</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="page-content">' +
-                '<div class="block">' +
-                '<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
-                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
-                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ' +
-                'amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ' +
-                'ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo ' +
-                'dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>' +
-                '<a href="#" class="popup-close" >' +
-                '<a class="button popup-close"> Los geht´s! </a>' +
-                '</a>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>',
-
-
-                on: {
-                    close: function () {
-                        $(".popup").remove();
-                    }
-                }
-            });
-            app.popup.open(popup.el, true);
+			let content = 	'<div class="block">' +
+								'<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
+									'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +
+									'der Slider, für dich persönlich festlegen, wie gut oder schlecht du etwas empfunden hast. Sobald du ' +
+									'die Bewertung abgeschlossen hast, kannst du diese abschicken und an dem Puzzlespiel teilnehmen.'+
+								'</p>' +
+								'<a href="#" class="popup-close" >' +
+									'<a class="button popup-close"> Los geht´s! </a>' +
+								'</a>' +
+							'</div>' 
+			singleAccess.popUp_show('HILFE',content);	
         });
     }
     /****************************** sliders end ****************************/
