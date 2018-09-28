@@ -2,7 +2,7 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://192.168.43.174:3000/');
+	const dbZugriff = new DBZugriff('http://192.168.2.104:3000/');
 	const swiperFactory = new SwiperFactory();
 	const success = new Success();
 
