@@ -34,11 +34,6 @@ class DBZugriff{
 	}
 
 
-
-
-
-
-
 	initializeDB(deviceName){
 		var query = '{"query":"mutation {createDevice(data: {name: \\"' + deviceName + '\\"}) {device {id name context {id} owners {id}} token}}"}';
 		
