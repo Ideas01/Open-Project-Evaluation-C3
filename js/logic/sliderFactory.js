@@ -43,8 +43,8 @@ class SliderFactory
 			for (var i = 0; i < this.questionsPerPage; i++) {
 				//append the question text and the labels for the sliders
 				$('#sliderText'+i).text(rangeSliderObjects[indexToStart].value);
-				$('#satisfied'+i).text(rangeSliderObjects[indexToStart].labels[0].label);
-				$('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].labels[1].label);
+				$('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].labels[0].label);
+				$('#satisfied'+i).text(rangeSliderObjects[indexToStart].labels[1].label);
 
 				//initialize the sliders
 				initializeRangeSlider(rangeSliderArray,i,rangeSliderObjects,indexToStart);
@@ -66,16 +66,16 @@ class SliderFactory
 				if (i < questionCount) {
 					//append the question text and the labels for the sliders
 					$('#sliderText'+i).text(rangeSliderObjects[indexToStart].value);
-					$('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].labels[1].label);
-					$('#satisfied'+i).text(rangeSliderObjects[indexToStart].labels[0].label);
+					$('#satisfied'+i).text(rangeSliderObjects[indexToStart].labels[1].label);
+					$('#unsatisfied'+i).text(rangeSliderObjects[indexToStart].labels[0].label);
 					//initialize the sliders
 					initializeRangeSlider(rangeSliderArray,i,rangeSliderObjects,indexToStart);
 					rangeSliderArray[i].questionId = indexToStart;
 				}
 				//all questions are displayed at a slider, so hide the rest
 				else{
-					$('#unsatisfied'+i).toggle();
 					$('#satisfied'+i).toggle();
+					$('#unsatisfied'+i).toggle();
 					$('#sliderText'+i).toggle();
 					$('#slider'+i).toggle();
 
