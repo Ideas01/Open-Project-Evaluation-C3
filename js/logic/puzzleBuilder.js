@@ -153,6 +153,7 @@ class PuzzleBuilder{
 						"z-index":"7",
 						"top":"0",
 						"left":"102%"
+						
 					});
 				});
 			});
@@ -160,6 +161,14 @@ class PuzzleBuilder{
 			resolve(0);
 		});
 		gridReady.then(function(){
+			$(puzzle.puzzleGridWrapper).css({
+				"top": "-9999px",
+				"bottom": "-9999px",
+				"left": "-9999px",
+				"right": "-9999px",
+				"margin": "auto"
+			});
+			
 			$('.' + buildPuzzleNameClass).css({
 				"z-index": "5",
 				"position": "relative",

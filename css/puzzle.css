@@ -16,6 +16,12 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	font-size: 0;
+	
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
 }
 
 #puzzleGridWrapper{
@@ -31,6 +37,18 @@
 	z-index: 1;
 }
 
+/***  Buttons ***/
+.startGuess{
+    background: #d40055;
+    padding: 17px 34px;
+    color: #ffffff;
+    font-size: 16px;
+    position: absolute;
+    top: 95%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+}
+/*** Buttons end ***/
 /********** mini Overview start **********/
 #miniOverview{
 	position: absolute;
