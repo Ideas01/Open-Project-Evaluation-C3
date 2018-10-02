@@ -76,7 +76,7 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 							'<a class="button popup-close"> Los geht´s! </a>' +
 						'</a>' +
 					'</div>'	
-	singleAccess.util_PopUp('Spielanleitung', content);
+	singleAccess.util_PopUp('Spielanleitung',content);
 
     singleAccess.checkGrid(puzzle.puzzleWrapper);
 	
@@ -262,7 +262,7 @@ app.on('pageInit', function(page){
 			console.log("imageArray")
 			console.log(imageArray);
 			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
-            //imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+            imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
 			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
 
 			singleAccess.setHandler(mySwiper);
