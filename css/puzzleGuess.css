@@ -40,22 +40,12 @@
     height: 36px;
     text-transform: uppercase;
     min-width: 64px;
-    background: #d40055;
+    background: #0a6ebd;
+    /*background: -moz-linear-gradient(top, #d40055, #d40055); */
     padding: 17px 34px;
     margin: 8%;
 }
 
 .md a{
     color: #ffffff;
-}
-
-.startGuess{
-    background: #d40055;
-    padding: 17px 34px;
-    color: #ffffff;
-    font-size: 16px;
-    position: absolute;
-    top: 95%;
-    left: 51%;
-    transform: translate(-50%, -50%);
 }
