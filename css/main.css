@@ -1,3 +1,72 @@
+#view-prototypeSelection, #home-page{
+	overflow-y: auto;
+}
+
+.page-content{
+	overflow: auto;
+}
+
+.ios a{
+	color: #fff;
+}
+
+/* Buttons */
+.md .button{
+    background: #d40055;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
+    background: -webkit-linear-gradient(top, #d40055, #d40055);
+    background: -moz-linear-gradient(top, #d40055, #d40055);
+    background: -ms-linear-gradient(top, #d40055, #d40055);
+    background: -o-linear-gradient(top, #d40055, #d40055);
+    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
+    padding: 17px 34px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
+    -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
+    box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: helvetica, serif;
+    text-decoration: none;
+    vertical-align: middle;
+    margin: 0.3%;
+    line-height: 36px;
+    height: 36px;
+    text-transform: uppercase;
+    min-width: 64px;
+    padding: 0 8px;
+    width:250px;
+    margin: 0 auto;
+	border: none;
+}
+
+.button:active {
+    text-shadow: #1d1f21 0 1px 0;
+    border: 0px solid #fcfeff;
+    background: #d40055;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#3e779d));
+    background: -webkit-linear-gradient(top, #d40055, #d40055);
+    background: -moz-linear-gradient(top, #d40055, #d40055);
+    background: -ms-linear-gradient(top, #d40055, #d40055);
+    background: -o-linear-gradient(top, #d40055, #d40055);
+    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
+    color: #fff;
+}
+
+.ios .button{
+	border: solid 2px #d40055;
+	color: #d40055;
+	background-color: inherit;
+}
+
+.bottom-button {
+    position: absolute;
+    bottom: 0;
+}
+
+
 .page {
     background-color: #f9f9f9;
 }
@@ -7,18 +76,19 @@ body {
 
 }
 
-.page .navbar {
+.page .navbar, .ios .navbar{
     background-color: #d40055;
+	color: #fff;
 
 }
 
 .center-sliding {
     margin: 0;
     position: absolute;
-    top: 25%;
-    left: 47%;
+    top: 50%;
+    left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
     font-size: 18px;
 }
 
@@ -246,9 +316,6 @@ Modal Content */
     padding-left: 50px;
 }
 
-.description-text {
-    overflow-y: scroll;
-}
 
 .description-text p {
     border-left: 8px solid #ffb380;

@@ -40,12 +40,12 @@
 /***  Buttons ***/
 .startGuess{
     background: #d40055;
-    padding: 17px 34px;
+   /*  padding: 17px 34px; */
     color: #ffffff;
     font-size: 16px;
     position: absolute;
     top: 95%;
-    left: 51%;
+    left: calc(50% - 125px);
     transform: translate(-50%, -50%);
 }
 /*** Buttons end ***/

@@ -341,12 +341,29 @@ class PuzzleBuilder{
 	*/
 	checkGrid(wrapperDom){
 		var wrapper = $(wrapperDom).ready();
-		var element = $(wrapperDom).children().first().children().first();
-		if(element.width() > 32 && element.height() > 32 ){
-			wrapper.parent().children().last().css('display','none');
-		}
-		else{
-			wrapper.parent().children().last().css('display','inline-block');
+		//var element = $(wrapperDom).children().first().children().first();
+		var waitForE = setInterval(function(){
+			let element = $(wrapperDom).children().first().children().first();
+			if(element.width() > 0){
+				clearInterval(waitForE);
+				checkWidth(element);
+			}
+		});
+		
+		setTimeout(function(){
+			 clearInterval(waitForE);			 //clear above interval after 15 seconds
+			 //toDo exception.
+		},16000);
+		
+		function checkWidth(element){	
+			if(element.width() > 32 && element.height() > 32 ){
+				console.log("groeßer als 32")
+				wrapper.parent().children().last().css('display','none');
+			}
+			else{
+				console.log("kleiner als 32" + element.width())
+				wrapper.parent().children().last().css('display','inline-block');
+			}
 		}
 		
 	}

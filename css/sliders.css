@@ -1,3 +1,7 @@
+.sendRatings{
+	margin-top: 3%;
+}
+
 .waiting{
 	position: relative;
 	display: none;
@@ -7,7 +11,7 @@
 .danksagung{
 	display: block;
 	text-align: center;
-	margin-top: 13%;
+	margin-top: 4%;
 	font-size: 14pt;
 }
 
@@ -224,87 +228,57 @@
 
 /* popupStart end */
 
-/* Buttons */
-.md .button {
-    background: #d40055;
-    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
-    background: -webkit-linear-gradient(top, #d40055, #d40055);
-    background: -moz-linear-gradient(top, #d40055, #d40055);
-    background: -ms-linear-gradient(top, #d40055, #d40055);
-    background: -o-linear-gradient(top, #d40055, #d40055);
-    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
-    padding: 17px 34px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
-    -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
-    box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
-    color: #ffffff;
-    font-size: 16px;
-    font-family: helvetica, serif;
-    text-decoration: none;
-    vertical-align: middle;
-    margin: 0.3%;
-    line-height: 36px;
-    height: 36px;
-    text-transform: uppercase;
-    min-width: 64px;
-    padding: 0 8px;
-    width:250px;
-    margin: 0 auto;
-}
-
-.button:active {
-    text-shadow: #1d1f21 0 1px 0;
-    border: 0px solid #fcfeff;
-    background: #d40055;
-    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#3e779d));
-    background: -webkit-linear-gradient(top, #d40055, #d40055);
-    background: -moz-linear-gradient(top, #d40055, #d40055);
-    background: -ms-linear-gradient(top, #d40055, #d40055);
-    background: -o-linear-gradient(top, #d40055, #d40055);
-    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
-    color: #fff;
-}
-
-.bottom-button {
-    position: absolute;
-    bottom: 0;
+.sendRatingsWrapper{
+	display: block;
+    position: relative;
+    margin-top: 8%;
 }
 
 /* Range Sliders */
 
+.sliderWrapper {
+    position: relative;
+    padding-bottom: 2%;
+}
 
 .md .range-slider {
-    height: 20px;
-    position: relative;
-    width: 80%;
-    left: 10%;
+	position: relative;
+	display: inline-block;
+	width: 75%;
+	min-width: 330px;
+	height: 20px;
+	left: 7%;
 }
 
 .sliderText{
-    margin-left: 10%;
-    padding-top: 5%;
+	margin-left: 15%;
+    padding-bottom: 2%;
     font-size: 16px;
+    padding-top: 3%;
+
 }
 
 .satisfied{
-    position: absolute;
-    left: 92%;
+    position: relative;
+	float: right;
 }
 
 .unsatisfied{
-    position: relative;
-    left: 4%;
-    top: -19px;
+	position: relative;
+	left: 4%;
+	float: left;
 }
 
-.md .range-bar {
-    background: #d40055;
-    height: 5px;
-    margin-top: -1px;
+.md .range-bar, .ios .range-bar{
+/*      */
+    height: 2px;
+ /*    margin-top: -1px; */
 }
+
+.ios .range-bar-active{
+	background: #d40055;
+}
+
 .md .range-knob-wrap {
     height: 25px;
     width: 25px;

@@ -77,7 +77,8 @@ class SliderFactory
 					$('#satisfied'+i).toggle();
 					$('#unsatisfied'+i).toggle();
 					$('#sliderText'+i).toggle();
-					$('#slider'+i).toggle();
+					console.log("slider " +i+ " ausgblendet")
+					$('#slider'+i).css({"display":"none","height": "0"});
 
 				}
 				indexToStart++;

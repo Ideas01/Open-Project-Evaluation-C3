@@ -40,11 +40,6 @@ var app  = new Framework7({
 			currentPuzzleImageId: null
         }
     },
-	methods: {
-		
-		
-		
-	},
   root: '#app', // App root element
   id: 'io.framework7.testapp', // App bundle ID
   name: 'Framework7', // App name
@@ -65,6 +60,7 @@ var app  = new Framework7({
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 
 	var singleAccess = new SingleAccess();
+	singleAccess.checkGrid(puzzle.puzzleWrapper);
 	let content = 	'<div class="block">' +
 						'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
 							'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
@@ -78,7 +74,7 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 					'</div>'	
 	singleAccess.util_PopUp('Spielanleitung', content);
 
-    singleAccess.checkGrid(puzzle.puzzleWrapper);
+   
 	
 });
 
@@ -246,7 +242,7 @@ app.on('pageInit', function(page){
 		
 		//TODO aktuellen ContextIndex übergeben
 		singleAccess.waitForContexts(function(contextList){
-			singleAccess.getPrototypeImages(contextList[0], deviceName);
+			singleAccess.getPrototypeImages(contextList[app.data.currentContextIdIndex], deviceName);
 		});
 		
 		new Promise(function(resolve, reject){
@@ -297,11 +293,7 @@ app.on('pageInit', function(page){
         $('#sendRatingsButton').hide();
         app.popup.close();
         singleAccess.waitForContexts(function (contextList) {
-            singleAccess.updateDeviceContext(contextList[0], deviceName);
-            singleAccess.getQuestions(contextList[0], deviceName);
-
-            console.log("zurück contextlist");
-            console.log(contextList);
+            singleAccess.getQuestions(contextList[app.data.currentContextIdIndex], deviceName);
         });
 
         singleAccess.waitForData("questions", deviceName, function (response) {
@@ -495,6 +487,7 @@ app.on('pageInit', function(page){
 				var puzzlePieceClassName = singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
 				console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+					
 					$(window).on('resize', function (page) {
 						singleAccess.checkGrid(puzzle.puzzleWrapper);
 						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
@@ -508,18 +501,13 @@ app.on('pageInit', function(page){
 	
 		/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
-        //console.log(app.data.clickedPuzzleTiles);
         var contextId = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
             singleAccess.getPuzzleImages(contextList[0], deviceName);
-            console.log("zurück contextlist");
-            console.log(contextList);
         });
         new Promise(function (resolve,reject) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
-                console.log(name + "erfolgreich zurück pImages");
-                console.log(response);
                 singleAccess.buildGuessButtons(contextId,response);
 
                 var backgroundImage = new Image();
@@ -532,10 +520,7 @@ app.on('pageInit', function(page){
                 };
             })
         }).then(function (backgroundImage) {
-				console.log("Baue für Letzte Seite");
-				console.log(puzzle)
 			    singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
-            console.log("bis hierher 4")
         });
     }
 
@@ -574,12 +559,8 @@ app.on('pageInit', function(page){
 		setTimeout(function(){
 			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
 			 app.router.navigate('/home/')
-		},16000);
-		
-		
+		},16000);	
 	}
-	
-	
 });
 
 	// Init/Create views
