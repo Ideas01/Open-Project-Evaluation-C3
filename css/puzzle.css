@@ -1,4 +1,12 @@
 
+.croppedImageDiv{
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
+}
+
 #croppedImageDiv{
 	z-index: 4;
 	position: absolute;
@@ -6,7 +14,17 @@
 	top: 74px;
 	height: 80%;
 	width: 80%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-size: 0;
+	
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
 }
+
 
 #puzzleWrapper{
 	position: absolute;
@@ -16,14 +34,15 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	font-size: 0;
-}
-
-#puzzleGridWrapper{
-	position: absolute;
-	top: 74px;
-	height: 80%;
-	width: 80%;
+	background-size: cover;
+	background-repeat: no-repeat;
 	font-size: 0;
+	
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
 }
 
 
@@ -33,14 +52,15 @@
 
 /********** mini Overview start **********/
 #miniOverview{
-	position: absolute;
 	background-size: cover;
-	top: 25%;
-	left: 87%;
-	width: 87px;
-	height: 75px;
-	background-color: red;
-	font-size: 0;
+    top: 13%;
+    left: 10%;
+    width: 25%;
+    height: 10%;
+    background-color: red;
+    font-size: 0;
+    position: absolute;
+
 }
 
 .miniOverviewGridPiece, .miniOverviewPuzzlePiece{
