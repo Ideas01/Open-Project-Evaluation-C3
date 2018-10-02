@@ -4,6 +4,7 @@
  * Required .js files
  *  - framework 7 .js files
  *  - singleaccess.js
+ *  - puzzle.js
  * 
  * This is the main file using the "Framework 7" - framework.
  * It accesses the single access point.
@@ -17,20 +18,14 @@
 // Dom7
 var $$ = Dom7; // instance necessary for Framework 7
 
-
+//var puzzle_wrapper = '#puzzleWrapper'; // accessname for the puzzle wrapper 
+var puzzle;
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   *  G L O B A L - F U N C T I O N S
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
   
-function checkSize(){
-	var element = $("#puzzleWrapper").children().first().children().first();
-	if(element.width() > 32 && element.height() > 32 ){
-		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "none";
-	}
-	else{
-		document.getElementById("puzzleWrapper").parentElement.lastChild.style.display = "inline-block";
-	}
-}
+// NONE
+  
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   *  F R A M E W O R K     7
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -38,22 +33,16 @@ function checkSize(){
 var app  = new Framework7({
     data: function (){
         return {
-            pointCount: 144,
-            clickedPuzzleTiles: [],
+           /*  pointCount: 144,
+            pointReduction: 1,
+            clickedPuzzleTiles: [], */
 			currentContextIdIndex: null, 
-			currentPuzzleImageId: null,
+			currentPuzzleImageId: null
         }
     },
 	methods: {
-		nameSpaceIsAvailable: function(nameSpace) {
-			if(document.querySelector("#" + nameSpace) != null){
-				console.log("nope")
-				return false;
-			}else{
-				console.log("yau")
-				return true;
-			}
-		}
+		
+		
 		
 	},
   root: '#app', // App root element
@@ -74,6 +63,7 @@ var app  = new Framework7({
 
 
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
+
 	var singleAccess = new SingleAccess();
 	let content = 	'<div class="block">' +
 						'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
@@ -86,9 +76,9 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 							'<a class="button popup-close"> Los geht´s! </a>' +
 						'</a>' +
 					'</div>'	
-	singleAccess.popUp_show('Spielanleitung',content);
+	singleAccess.util_PopUp('Spielanleitung',content);
 
-    checkSize();
+    singleAccess.checkGrid(puzzle.puzzleWrapper);
 	
 });
 
@@ -101,6 +91,7 @@ app.on('pageInit', function(page){
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
+	
 	
 	console.log(page.name + " wird ausgeführt");
 	
@@ -139,6 +130,8 @@ app.on('pageInit', function(page){
 	/***************************** prototypeSelection********************/
 	
 	if(page.name ==='prototypeSelection'){
+		
+		
 		
 		singleAccess.initializeDB(deviceName);
 		
@@ -269,7 +262,7 @@ app.on('pageInit', function(page){
 			console.log("imageArray")
 			console.log(imageArray);
 			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
-
+            imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
 			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
 
 			singleAccess.setHandler(mySwiper);
@@ -289,7 +282,7 @@ app.on('pageInit', function(page){
 									'<a class="button popup-close"> Los geht´s! </a>' +
 								'</a>' +
 							'</div>'
-			singleAccess.popUp_show('HILFE',content);
+			singleAccess.util_PopUp('HILFE',content);
         });
     }
     /****************************** P2 end ****************************/
@@ -297,9 +290,12 @@ app.on('pageInit', function(page){
 
     /****************************** sliders start *********************/
     if (page.name === 'sliders') {
+		var questions = {};
+		var sliderValues = [];
+		
+		
         $('#sendRatingsButton').hide();
         app.popup.close();
-
         singleAccess.waitForContexts(function (contextList) {
             singleAccess.updateDeviceContext(contextList[0], deviceName);
             singleAccess.getQuestions(contextList[0], deviceName);
@@ -309,7 +305,8 @@ app.on('pageInit', function(page){
         });
 
         singleAccess.waitForData("questions", deviceName, function (response) {
-            //index where to start in the questions
+			questions = response;
+          //index where to start in the questions
             var currentIndex = 0;
 
             //to check if there are any questions left
@@ -327,25 +324,25 @@ app.on('pageInit', function(page){
 
             //raise the index, so we know at which point to access the data
             currentIndex += rangeSliderReferences.length;
-
-            //when the button is clicked
+            
+			//when the button is clicked
             $("#sendRatingsButton").click(function () {
+
                 //subtract the amount of initialized rangeSliders, so we know how many questions are left
                 remainingQuestions -= rangeSliderReferences.length;
 
                 //if there are questions left..
                 if (remainingQuestions > 0) {
                     //array for saving the values of the sliders
-                    var sliderValues = [];
+
                     //...save slider values of the existing sliders
                     for (var i = 0; i < rangeSliderReferences.length; i++) {
                         sliderValues.push({
                             id: rangeSliderReferences[i].questionId,
                             value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
                         });
+						console.log("slider value" + i)
                     }
-                    //TODO: DELETE AFTER TESTING
-                    console.log(sliderValues);
 
                     //initialize the sliders, starting with data at startIndex
                     try {
@@ -356,49 +353,82 @@ app.on('pageInit', function(page){
                             console.log(e.message);
                         }
                     }
-
                     //raise the index, so we know at which point to access the data
                     currentIndex += rangeSliderReferences.length;
                 }
                 //no more questions to display
-                else {
-                    //array for saving the values of the sliders
-                    var sliderValues = [];
+               else {
+				   waitForResponse();
+					//array for saving the values of the sliders
+					//save slider values of the existing sliders
+					for (var i = 0; i < rangeSliderReferences.length; i++) {
+						console.log(rangeSliderReferences[i]);
+						sliderValues.push({
+							id: rangeSliderReferences[i].questionId,
+							value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+						});
+					}
+					
+					console.log(sliderValues)
                     //save slider values of the existing sliders
-                    for (var i = 0; i < rangeSliderReferences.length; i++) {
-                        sliderValues.push({
-                            id: rangeSliderReferences[i].questionId,
-                            value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
-                        });
+                    for (var i = 0; i < questions.length; i++) {
+                            
+							singleAccess.sendEvalData(questions[sliderValues[i].id].id, sliderValues[i].value, deviceName);
+							console.log("frage" +i+ "gesendet");
+                           // value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
                     }
+
                     //TODO: DELETE AFTER TESTING
                     console.log(sliderValues);
 
-                    //create the popup, which is used to get to the next page
- 					let content = '<div class="block">' +
-									'<p>Danke für deine persönliche Bewertung! Du wirst nun zu dem Puzzlespiel weitergeleitet. </p>' +
-									// '<div class="sk-circle">' +
-									// '<div class="sk-circle1 sk-child"></div>' +
-									// '<div class="sk-circle2 sk-child"></div>' +
-									// '<div class="sk-circle3 sk-child"></div>' +
-									// '<div class="sk-circle4 sk-child"></div>' +
-									// '<div class="sk-circle5 sk-child"></div>' +
-									// '<div class="sk-circle6 sk-child"></div>' +
-									// '<div class="sk-circle7 sk-child"></div>' +
-									// '<div class="sk-circle8 sk-child"></div>' +
-									// '<div class="sk-circle9 sk-child"></div>' +
-									// '<div class="sk-circle10 sk-child"></div>' +
-									// '<div class="sk-circle11 sk-child"></div>' +
-									// '<div class="sk-circle12 sk-child"></div>' +
-								'</div>' +
-								'<a href="/puzzle/" class="button popup-close"> Weiter </a>'
-					singleAccess.popUp_show('Popup',content);
                 }
             });
+			function waitForResponse(){
+				$('#danksagungSlider').html('Auswertung wird gesendet.');
+				$('#waitingMarks').show();
+				var waitingforResponse = setInterval(function(){
+					singleAccess.waitForData("evalData", deviceName, function(response){
+						if(response == false){
+						}else{
+							clearInterval(waitingforResponse);
+							danksagungStarten();
+						}
+					});
+				}, 3000);
+				
+				setTimeout(function(){
+					 clearInterval(waitingforResponse);			 //clear above interval after 15 seconds
+					 $('#danksagungSlider').html('Auswertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut');
+					 $('#waitingMarks').hide();
+					 $('#repeatSendEvalData').show();
+					 
+				}, 20000);
+			}
+			
+			function danksagungStarten(){
+				var waiting = setInterval(function(){
+					$('#danksagungSlider').html('Vielen Dank für deine Bewertung! Du wirst nun zu unserem Puzzlespiel weitergeleitet.')
+					$('#waitingMarks').show();
+				},2000); //delay is in milliseconds 
 
+				setTimeout(function(){
+					 clearInterval(waiting);			 //clear above interval after 15 seconds
+					 app.router.navigate('/puzzle/')
+				},4000);
+					
+				
+			}
+			
+			$('#repeatSendEvalData').click(function(){
+				waitForResponse();
+				$('#repeatSendEvalData').hide();
+			});
+			
         });
 
-        $(".help-sliders").click(function () {
+		
+        
+		$(".help-sliders").click(function () {
 			let content = 	'<div class="block">' +
 								'<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
 									'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +
@@ -409,7 +439,7 @@ app.on('pageInit', function(page){
 									'<a class="button popup-close"> Los geht´s! </a>' +
 								'</a>' +
 							'</div>' 
-			singleAccess.popUp_show('HILFE',content);	
+			singleAccess.util_PopUp('HILFE',content);	
         });
     }
     /****************************** sliders end ****************************/
@@ -418,9 +448,9 @@ app.on('pageInit', function(page){
 
     /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
-        var pointCount = app.data.pointCount;
- 	    var clickedPuzzleTiles = [];
-		var imageSrc = null;
+		if(puzzle == undefined)
+			puzzle = new Puzzle(); // new puzzle 
+        var imageSrc = null;
 		
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex]);
@@ -445,6 +475,7 @@ app.on('pageInit', function(page){
 				backgroundImage.onload = function () {
 					const originPictureWidth = backgroundImage.width;
 					const originPictureHeight = backgroundImage.height;
+					console.log("trying resolve");
 					resolve(backgroundImage);
 				};
 				backgroundImage.onerror = function () {
@@ -453,33 +484,31 @@ app.on('pageInit', function(page){
 			});
 			
 			loadImage.then(function(imageObject){
-				var wrapperArray = ['#puzzleWrapper','#croppedImageDiv'];
-				$('#puzzleWrapper').css("background-image", 'url("' + imageObject.src + '")');
-					
-				var puzzlePieceClassName = singleAccess.buildPuzzle(imageObject, '#puzzleWrapper', 12, 'blue', clickedPuzzleTiles, 6);
+				console.log("image loaded :D");
+				console.log(imageObject);
+				puzzle.imageObject = imageObject;
+				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
+				console.log("wrapper Array gebaut:");
+				console.log(wrapperArray);
+				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
+				console.log("Baue Puzzle");
+				var puzzlePieceClassName = singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
 				console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
-				singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
 					$(window).on('resize', function (page) {
-						checkSize();
-						singleAccess.calculateWrapperSize(imageObject, wrapperArray, 80);
+						singleAccess.checkGrid(puzzle.puzzleWrapper);
+						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
 					});
 					
 				return puzzlePieceClassName;
-			}).then(function (puzzlePieceClassName) {
-				$('.'+ puzzlePieceClassName).click(function (event) {
-					event.target.style.visibility = "hidden";
-					var puzzlePieceId = event.target.id.split('|');
-					app.data.clickedPuzzleTiles.push(puzzlePieceId[1]);
-					pointCount -= event.target.pointReduction;
-				})
-			});
+			})
 		}); 
 	
 	}
 	
 		/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
-        console.log(app.data.clickedPuzzleTiles);
+        //console.log(app.data.clickedPuzzleTiles);
         var contextId = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
@@ -503,7 +532,9 @@ app.on('pageInit', function(page){
                 };
             })
         }).then(function (backgroundImage) {
-            singleAccess.buildMiniOverview(4, 3, app.data.clickedPuzzleTiles, backgroundImage, '#puzzleOverview');
+				console.log("Baue für Letzte Seite");
+				console.log(puzzle)
+			    singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
             console.log("bis hierher 4")
         });
     }
@@ -511,6 +542,9 @@ app.on('pageInit', function(page){
     /****************************** puzzleGuess end ****************************/
 
 	if(page.name === 'success'){
+		
+        $('#pointDivSuccess').text("DU HAST: " + puzzle.GetPoints(1) + " PUNKTE!");
+		puzzle = new Puzzle(); // (resetting the puzzle  - after returning the points)
 		singleAccess.buildConfetty();
 		var counter = 15;
 		var autoRedirectToHome = setInterval(function(){
@@ -528,6 +562,7 @@ app.on('pageInit', function(page){
 	}
 	
 	if(page.name === 'failure'){
+		puzzle = new Puzzle(); // new puzzle 
 		singleAccess.buildConfetty();
 		var counter = 15;
 		var autoRedirectToHome = setInterval(function(){

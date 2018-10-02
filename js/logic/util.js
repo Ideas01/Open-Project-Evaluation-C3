@@ -1,10 +1,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * popop.js 
+ * util.js 
  * 
- * Containing a function for fast and easy creating and showing popups with Framework 7
+ * collection of utility functions for the .js logic
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
- class PopUp
+ class Util
  {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * C O N S T R U C T O R   &   A T T R I B U T E S
@@ -12,11 +12,23 @@
  
 	constructor(){}
  
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * F U N C T I O N S
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
  
-	 show(title,content){
+	/**
+	popUp()
+	creates and shows a PopUp.
+	
+	parameters:
+	- title: (string) title-caption for the popUp
+	- content: (string) content with html code.
+	
+	returns:
+	
+ 
+	*/
+	 popUp(title,content){
 		 let popup = app.popup.create({
 			content:
 			'<div class="popup">' +
@@ -46,6 +58,41 @@
 			 
 	 }
 	 
+	 /**
+	 nameSpaceIsAvailable()
+	 checks if a namespace is available
+	 
+	 parameters:
+	 - nameSpace: (string) identifier of the namespace
+	 
+	 returns:
+	 - (bool): true when nameSpace is available.
+	 */
+	 nameSpaceIsAvailable(nameSpace){
+		if(document.querySelector("#" + nameSpace) != null){
+			return false;
+		}else{
+			return true;
+		}
+	 }
+	 
+	/**
+	listAllKeys()
+	analysis an js-objects and returns an array with all kexs.
+	
+	paramters:
+	obj - (JS-Object) object that shall be analysed
+	*/
+	listAllKeys(obj) {
+		var objectToInspect;     
+		var result = [];
+		
+		for(objectToInspect = obj; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+		  result = result.concat(Object.keys(objectToInspect));  
+		}
+		
+		return result; 
+	}
 	 
 	 
  }

@@ -2,24 +2,28 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://192.168.43.174:3000/');
+	const dbZugriff = new DBZugriff('http://172.20.10.5:3000/');
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
 	const success = new Success();
-	const popup = new PopUp();
+	const util = new Util();
 	/*************************************** PUZZLE *********************************/
-	SingleAccess.prototype.buildPuzzle = function (imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize) {
-		return puzzleBuilder.buildPuzzle(imageObject, wrapperDom, puzzlePieceCount, color, clickedPuzzlePieces, overallGridSize);
+	SingleAccess.prototype.buildPuzzle = function (wrapperDom, puzzle) {
+		return puzzleBuilder.buildPuzzle(wrapperDom, puzzle);
 	};
 
-    SingleAccess.prototype.buildMiniOverview = function(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview){
-        return puzzleBuilder.buildMiniOverview(tileCountPerGrid, gridCount, clickedPuzzleTiles, image, appendToDOMOverview);
+    SingleAccess.prototype.buildMiniOverview = function(appendToDOMOverview, puzzle){
+        return puzzleBuilder.buildMiniOverview(appendToDOMOverview, puzzle);
 	};
 
-    SingleAccess.prototype.calculateWrapperSize = function (image, elementArray, percentageSize){
-    	puzzleBuilder.calculateWrapperSize(image, elementArray, percentageSize);
+    SingleAccess.prototype.calculateWrapperSize = function (puzzle, elementArray, percentageSize){
+    	puzzleBuilder.calculateWrapperSize(puzzle, elementArray, percentageSize);
 	};
 
+	SingleAccess.prototype.checkGrid = function (wrapperDom){
+    	puzzleBuilder.checkGrid(wrapperDom);
+	};
+	
     /*************************************** SLIDERS ******************************************************************/
 	SingleAccess.prototype.determineRangeSliderAmount = function (startIndex, questionCount, rangeSliderObjects){
 		return sliderFactory.determineRangeSliderAmount(startIndex, questionCount, rangeSliderObjects);
@@ -93,9 +97,9 @@
 	SingleAccess.prototype.buildConfetty = function(){
 		success.buildConfetty();
 	};
-	/************************************** Pop Ups ***********************************************************************/
-	SingleAccess.prototype.popUp_show = function(title, message, caption){
-		popup.show(title, message, caption);	
+	/************************************** Utility ***********************************************************************/
+	SingleAccess.prototype.util_PopUp = function(title, message, caption){
+		util.popUp(title, message, caption);	
 	}
 	
 
