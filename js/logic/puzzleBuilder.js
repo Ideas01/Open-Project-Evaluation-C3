@@ -95,9 +95,7 @@ class PuzzleBuilder{
 	{
 		new Promise(function(resolve){
 			let namespace = puzzle.puzzleGridWrapper.substring(1);
-			
-			
-			
+
 			var buildPuzzleNameId = [namespace + '|'];
 			var buildPuzzleNameClass = [namespace + 'Div'];
 			
@@ -436,7 +434,14 @@ function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight,
 	var context = canvasA.getContext('2d');
 	//		      (Bildobjekt,   X Koordinate, Y Koordinate, Breite, Höhe , startin CanvasX, startin CanvasY, canvasbreite, canvashöhe)
 	context.drawImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, 0, 0, imgWidth, imgHeight);
-	$('#croppedImageDiv').css('background-image', 'url("'+ canvasA.toDataURL() + '")');
+	$('#croppedImageDiv').css({
+		'background-image': 'url("'+ canvasA.toDataURL() + '")',
+		"top": "-9999px",
+		"bottom": "-9999px",
+		"left": "-9999px",
+		"right": "-9999px",
+		"margin": "auto"
+	});
  }
 	/*tileCountWidth has been set to 12.
 	It has been generated with the following formular:
@@ -447,7 +452,11 @@ function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight,
 	function calculateTileSize(tileCount, setclassname){
 		//TODO: zwischen ID und class unterscheiden
 		var percentageTileSize = 1/tileCount * 100;
-		$('.' + setclassname).css({"width" : percentageTileSize +'%', "height" : percentageTileSize +'%'});
+		$('.' + setclassname).css({
+			"width" : percentageTileSize +'%', 
+			"height" : percentageTileSize +'%',
+			
+		});
 		
 	}
 
