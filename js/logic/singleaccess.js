@@ -5,6 +5,7 @@
 	const dbZugriff = new DBZugriff('http://192.168.2.104:3000/');
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
+	const success = new Success();
 	const util = new Util();
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (wrapperDom, puzzle) {
@@ -91,6 +92,11 @@
      };
 	 
 	
+	
+	/************************************** dianas SuccessSeite ***********************************************************/
+	SingleAccess.prototype.buildConfetty = function(){
+		success.buildConfetty();
+	};
 	/************************************** Utility ***********************************************************************/
 	SingleAccess.prototype.util_PopUp = function(title, message, caption){
 		util.popUp(title, message, caption);	
