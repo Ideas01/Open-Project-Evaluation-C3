@@ -13,7 +13,7 @@ class PuzzleBuilder{
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	constructor()
 	{
-		
+		this.util = new Util();
 	} 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * P R I V A T E - F U N C T I O N S
@@ -126,11 +126,9 @@ class PuzzleBuilder{
 					gridMarker.toggle();
 					gridMarker.css({"left": gridMarker.width() * parseInt(xCoordinate, 10), "top": gridMarker.height() * parseInt(yCoordinate, 10) });
 					
-					console.log("werdet unsichtbar!");
 					$('.puzzleGridWrapperDiv').hide();
 					$('.puzzleWrapperGridDiv:not(#puzzleWrapperGrid' + coordinateOld[1] + ')').toggle();
 				
-					console.log("und mach crop image");
 					cropImage(puzzle.imageObject, puzzle.imageObject.width * xCoordinate/3, puzzle.imageObject.height * yCoordinate/3,  puzzle.imageObject.width/3, puzzle.imageObject.height/3,  puzzle.imageObject.width, puzzle.imageObject.height);
 					
 					$('#puzzleWrapperGrid' + coordinateOld[1]).width('100%');
@@ -195,9 +193,6 @@ class PuzzleBuilder{
 	*/
 	buildPuzzle(wrapperDom, puzzle) {		
 		
-
-		
-	
 		var thisisme = this;
 		new Promise(function(){
 			var overallGridWrapper = '<div id="'+ puzzle.puzzleGridWrapper.substring(1) +'"></div>';
@@ -207,21 +202,12 @@ class PuzzleBuilder{
 			//singleAccess.calculateWrapperSize(puzzle.imageObject, wrapperArray, 80);
 			thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
 		});
-		
-		
-		
-		
-		
+
 		this.priv_buildSmallPieces(wrapperDom, puzzle);
-		
-		
-		
+
 		
 		this.priv_buildOverallGrid(puzzle);
 
-		
-	
-	
 };
 
 
@@ -265,8 +251,6 @@ class PuzzleBuilder{
 			}
 		}
 		
-
-
 		var tile = calculateTileSize(puzzle.tileCountPerGrid, setclassname);
 
 	};
@@ -380,7 +364,7 @@ class PuzzleBuilder{
 	*/
 	calculateWrapperSize(puzzle, elementArray, percentageSize) {
     var puzzleGridWrapper = puzzle.puzzleGridWrapper;
-	var landscape = isLandscape();
+	var landscape = this.util.isLandscape();
 	if(elementArray.includes(puzzleGridWrapper)){
 		//do nothing.
 	}else{
@@ -433,15 +417,7 @@ function restorePuzzle(croppedID){
     $(croppedID).css('background-image', 'none');
 }
 
-function isLandscape(){
-		if ($(window).width() >= $(window).height()){
-			console.log("yup");
-			 return true;
-		}else{
-			console.log("nö");
-			return false; 
-		}
-	}
+
 
 function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight, imgWidth, imgHeight) {
    var canvasA = document.createElement('canvas');

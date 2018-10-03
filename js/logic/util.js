@@ -93,6 +93,17 @@
 		
 		return result; 
 	}
+	
+	
+	isLandscape(){
+		if ($(window).width() >= $(window).height()){
+			console.log("yup");
+			 return true;
+		}else{
+			console.log("nö");
+			return false; 
+		}
+	}
 	 
 	 
  }

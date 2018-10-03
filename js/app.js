@@ -96,15 +96,20 @@ app.on('pageInit', function(page){
 		var picturesPerChoice = 3;
 		var selectionContent = {};
 		
+
 		singleAccess.waitForContexts(function(contextList){
-			let contentArray = [];
+			var XcontentArray = [];
+			console.log("##neues contentarray");
+			console.log(XcontentArray);
+			console.log("##mit einer länge von");
+			console.log(XcontentArray.length);
 			contextList.forEach(function(context, contextIndex, contextList){
 			
 				var imageURLs = contextList[contextIndex].images;
 				counter = imageURLs.length;
 				
 				selectionContent = {
-					aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + ' </h2>',
+					aTitle:    '<h2 class ="prototypChoiceTitle">' + contextList[contextIndex].title + '</h2>',
 					bContent:  '<article class= "descriptionPChoice">' + contextList[contextIndex].description + '</article>',
 				};
 				
@@ -115,10 +120,10 @@ app.on('pageInit', function(page){
 					}
 				}
 			
-				contentArray.push(selectionContent);
+				XcontentArray.push(selectionContent);
 			});
-		
-		callback(contentArray);
+			console.log(">>Das ergebnis ist jetzt " + XcontentArray.length);
+			callback(XcontentArray);
 			
 		});
 	}
@@ -139,22 +144,12 @@ app.on('pageInit', function(page){
 		singleAccess.getContexts(requiredResults, deviceName);
 
 		buildSwiperContent(function(contentArray){
+			console.log(">> das contentArray");
+			console.log(contentArray.length);
 			 var mySwiper = singleAccess.buildSwiper(4, "prototypeSelectionSwiper", "pSelectionSwiper", "contentSwiper", contentArray);
 			 
-			 $(mySwiper.slides[0].childNodes).click(function(event){
-					$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
-					$(mySwiper.slides[0].childNodes).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
-					contextId = event.target.contextId;
-					app.data.currentContextIdIndex = event.target.contextId;
-			 });
 		 });
 		 
-		 singleAccess.waitForContexts(function(contextList){
-			singleAccess.updateDeviceContext(contextList[0], deviceName);
-			
-			/* singleAccess.waitForData("deviceContext", deviceName, function(response){
-			}); */
-		 });
 		 
 		 $('#startSelectPrototype').click(function(){
 			 var contextGeupdated = new Promise(function(resolve){
@@ -173,28 +168,7 @@ app.on('pageInit', function(page){
 			 
 		
 		 
-		 
-		
-		/* singleAccess.waitForData("prototypeImages", deviceName, function(response){
-			console.log(name + "erfolgreich zurück prototypeImages");
-			console.log(response[0].id);
-		}); */
-
-		/* singleAccess.waitForData("questions", deviceName, function(response){
-			console.log(name + "erfolgreich zurück questions");
-			console.log(response[0].id);
-			singleAccess.sendEvalData(response[0].id, 5, deviceName); //erg. muss noch gefüllt werden.
-		}); */
-		
-		/* singleAccess.waitForData("puzzleImages", deviceName, function(response){
-			console.log(name + "erfolgreich zurück pImages");
-			console.log(response[0]);
-		}); */
-
-		/* singleAccess.waitForData("questions", deviceName, function(response){
-			console.log(name + "erfolgreich zurück questions");
-			console.log(response[0].type);
-		});  */
+	
 		
 		/* //Testarray für mehr Inhalt
 		contentArray = [{
@@ -504,7 +478,7 @@ app.on('pageInit', function(page){
         var contextId = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
-            singleAccess.getPuzzleImages(contextList[0], deviceName);
+            singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex], deviceName);
         });
         new Promise(function (resolve,reject) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {

@@ -54,10 +54,10 @@ class SwiperFactory
 			var contextId = null;
 			var swiperElement = document.querySelector('#' + swiperWrapperId).swiper;
 			console.log("swiperE")
-			console.log(swiperElement)
+			console.log(contentArray)
 			$('.swiper-wrapper').empty();
 			var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
-			
+			console.log("jetzt sind es: " + contentArray.length)
 			for (var i=0; i < swiperCount; i++){
 				
 				swiperElement.appendSlide('<div class="swiper-slide" id="'+ nameSpace + i + '"></div>');
@@ -92,22 +92,28 @@ class SwiperFactory
 					
 					
 					for(var m = 0; m < maxContentPerSwiper; m++){
+						if(counter < contentArray.length){
 							$("#"+ nameSpace + i).append('<div id="'+ nameSpace + m + counter + '"></div>');
 							console.log("element " + nameSpace + m + counter + "angehangen.")
+							
 							$('#' +  nameSpace + m + counter)[0].contextId = counter;
 							
 							$('#' +  nameSpace + m + counter).addClass(nameSpace);
 							
+							$('.'+ nameSpace).css('cursor','pointer');
+							//$("."+ nameSpace).children().css('pointer-events', 'none');
+							
 							$('#' +  nameSpace + m + counter).click(function(event){
-								$('#'+ event.target.id).css({'border': 'solid 1px blue', 'width': '44%'});
-								$('.' + nameSpace).not('#'+ event.target.id).css({'border': 'none', 'width': '44%'});
+								var target = event.target.id.toString();
+								$('#'+ target).css({'border': 'solid 1px #ffb380', 'width': '44%'});
+							$('.' + nameSpace).not('#'+ target).css({'border': 'none', 'width': '44%'});
 								contextId = event.target.contextId;
 								app.data.currentContextIdIndex = event.target.contextId;
 							});
 							
 							$("#"+ nameSpace + m + counter).css({
 								'position': 'relative',
-								'display': 'inline-block',
+								'display': 'flex',
 								'margin': '1%',
 								'align-content':'center',
 								'width': contentWidth +'%', 
@@ -122,21 +128,21 @@ class SwiperFactory
 							if(m < contentArray.length){						
 								keysArray.forEach(function(key, keyIndex, keysArray){
 									$("#"+ nameSpace + m + counter ).append(contentArray[counter][key]);
-									console.log("keys content")
-									console.log(contentArray[m][key])
+									$('#'+ nameSpace + m + counter).children().css('pointer-events', 'none');
 								});
 							}
 							
-							
+						
 						counter ++;
+						}
 					}
-					
 											
 						swiperArray.push([nameSpace + i]);
 						swiperElement.id = swiperArray;
 						break;
 					default:
 					console.log("element nicht mehr gefunden")
+					
 				}
 			}
 		

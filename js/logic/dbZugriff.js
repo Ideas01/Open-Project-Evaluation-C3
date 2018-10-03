@@ -36,11 +36,11 @@ class DBZugriff{
 
 	initializeDB(deviceName){
 		var query = '{"query":"mutation {createDevice(data: {name: \\"' + deviceName + '\\"}) {device {id name context {id} owners {id}} token}}"}';
-		
+		var thisisme = this
 		if(deviceName in this.TokenList){
-			this.waitForToken(deviceName, function(token){
-				console.log("bereits gefunden: " + this.TokenList[deviceName].token);
-				console.log("bereits gefundene Id: " + this.TokenList[deviceName].id);
+			thisisme.waitForToken(deviceName, function(token){
+				console.log("bereits gefunden: " + thisisme.TokenList[deviceName].token);
+				console.log("bereits gefundene Id: " + thisisme.TokenList[deviceName].id);
 			});
 		}else{
 			console.log("initializingDB....")
@@ -87,16 +87,18 @@ class DBZugriff{
 		query += '}}}"}'; //query build end
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){	
+			thisisme.ContextList.length = 0;
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				var contexts = response.contexts;
-				
+				console.log("neuer Geiler Scheiß");
 				contexts.forEach(function(contextElement, contextIndex, contexts){
 					var survey = contextElement.activeSurvey;
 					var surveyKeys = listAllKeys(survey);
 					var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
 					
 					thisisme.ContextList.push(finalSurvey);
-					console.log(thisisme.ContextList[0])				
+					
+					console.log(thisisme.ContextList.length)				
 				});
 			});	
 		});
@@ -169,7 +171,8 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){
 			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				//console.log(dataReferenceName + "erfolgreich")
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response);
 				var result = response.context.activeSurvey.questions;
 				thisisme.setContextData(dataReferenceName, undefined);
 				var questions =[];
@@ -273,6 +276,7 @@ class DBZugriff{
 				console.log("Muhahahaha Daten");
 				console.log(contextList);
 				console.log("Muhahahaha Daten Ende");
+
 				callback(contextList);
 			}else{
 				console.log("leider kein Context");
@@ -288,9 +292,9 @@ class DBZugriff{
 	
 		console.log("initializingDB... for: " + dataReference)
 		
-		var contextData= this.ContextData;
-		contextData[dataReference] = {};
-		contextData[dataReference].data = null;
+		//var contextData= this.ContextData;
+		this.ContextData[dataReference] = {};
+		this.ContextData[dataReference].data = null;
 		
 		console.log("datenbankzugriff gestartet");
 		
