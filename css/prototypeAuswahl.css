@@ -40,7 +40,7 @@
 }
 
 .prototypeChoiceWrapper {
-    position: relative;
+    position: absolute;
     display: inline-block;
     width: 47%;
     height: 30%;

@@ -13,6 +13,10 @@ body{
 .ios a{
 	color: #fff;
 }
+/** Description Text Home.html **/
+.descriptionTextP {
+    margin-bottom: 40%;
+}
 
 /* Buttons */
 .md .button{
@@ -307,15 +311,9 @@ Modal Content */
     position: relative;
 }
 
-.description:nth-of-type(1) .description-text {
-    max-height:180px;
-}
-.description:nth-of-type(2) .description-text {
-    max-height:280px;
-}
 
 .description p {
-    padding-left: 50px;
+    padding-left: 5%;
 }
 
 
