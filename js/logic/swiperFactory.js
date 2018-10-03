@@ -171,7 +171,8 @@ SwiperFactory.prototype.setHandler = function (mySwiper) {
                     '</div>' +
                     '<div class="page-content">' +
                     '<div class="block">' +
-                    '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+                    '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut, wenn du jetzt auf Weiter klickst,\' +\n' +
+                    '\t\t\t\t\t\'kannst du dir den Prototypen nicht mehr anschauen und gelangst direkt zur Bewertung. </p>' +
                     '<div class="next" text-align="center">' +
                     '<div style="margin: 0 auto;width: 510px;">' +
                     '<a href="#" class="button link popup-close" style="float: left; margin-right: 10px;"> Zurück </a>' +
