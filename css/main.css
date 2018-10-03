@@ -643,7 +643,22 @@ h3 {
     margin-top: 30vh;
     width: 100%;
     text-align: center;
-    font-size: 333%;
+    font-size: 2.5em;
     font-family: sans-serif;
     color: grey;
     opacity: 0.5;
+    top: 25%;
+}
+
+.redirectText{
+    position: absolute;
+    margin-top: 30vh;
+    width: 100%;
+    text-align: center;
+    font-size: 1.0em;
+    font-family: sans-serif;
+    color: grey;
+    top: 33%;
+}
+
+
