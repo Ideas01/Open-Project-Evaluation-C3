@@ -77,7 +77,7 @@ class PuzzleBuilder{
 				"box-sizing": "border-box",
 				"-moz-box-sizing": "border-box",
 				"-webkit-box-sizing": "border-box",
-				"border": "solid 1px #0000db"
+				"border": "solid 1px" + puzzle.bordercolor
 			});
 		});
 	}
@@ -134,7 +134,7 @@ class PuzzleBuilder{
 					$('#puzzleWrapperGrid' + coordinateOld[1]).width('100%');
 					$('#puzzleWrapperGrid' + coordinateOld[1]).height('100%');
 
-					$('#puzzleWrapper').append('<a id="backButton"><i class="f7-icons">close</i></a>');
+					$('#puzzleWrapper').append('<a id="backButton"><i class="close-zoom f7-icons">close</i></a>');
 					$('#backButton').click(function() {
 						gridMarker.toggle();
 						
@@ -172,7 +172,7 @@ class PuzzleBuilder{
 				"box-sizing": "border-box",
 				"-moz-box-sizing": "border-box",
 				"-webkit-box-sizing": "border-box",
-				"border": "solid 1px darkgray"
+				"border": "solid 1px" + puzzle.overallGridColor
 			});
 		});
 		resolve(0);

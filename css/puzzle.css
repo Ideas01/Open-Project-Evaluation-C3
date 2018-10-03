@@ -1,3 +1,6 @@
+.close-zoom{
+	color: #d40055;
+}
 
 #croppedImageDiv{
 	z-index: 4;

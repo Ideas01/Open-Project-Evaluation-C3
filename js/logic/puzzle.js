@@ -3,8 +3,10 @@ class Puzzle
 	constructor()
 	{
 		this.imageObject = undefined;
-		this.color = "blue"; // default color
-		this.overviewColor = "yellow";
+		this.color = "#ffb38f"; // default color
+		this.overviewColor = "#ffb38f";
+		this.bordercolor = "#ff9748";
+		this.overallGridColor = "#d40055";
 		this.overallGridSize = 4;
 		this.tileCountPerGrid = 4;
 		this.gridCount = 3;
@@ -12,7 +14,6 @@ class Puzzle
 		this.clickedPuzzleTiles = [];
 		this.puzzleGridWrapper = "#puzzleGridWrapper";
 		this.puzzleWrapper = '#puzzleWrapper';
-		console.log("Funkelnagelneues Puzzle");
 		//this.pointCount = 144;
 	}
 	
