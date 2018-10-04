@@ -40,6 +40,21 @@
 	z-index: 1;
 }
 
+#pointsWrapper{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.points{
+    position: relative;
+    width: 10%;
+    text-align: center;
+    font-size: calc(11pt + 0.6vw);
+    font-family: sans-serif;
+    color: grey;
+    opacity: 0.5;
+}
 /***  Buttons ***/
 
 .startGuess{

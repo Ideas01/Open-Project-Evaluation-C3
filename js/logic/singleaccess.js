@@ -41,8 +41,8 @@
 		return dbZugriff.initializeDB(deviceName);
 	};
 	
-	SingleAccess.prototype.getContexts = function(requiredResults, deviceName){
-		return dbZugriff.getContexts(requiredResults, deviceName)
+	SingleAccess.prototype.getContexts = function(deviceName){
+		return dbZugriff.getContexts(deviceName)
 	}; 
 	
 	SingleAccess.prototype.updateDeviceContext = function(context, deviceName){
@@ -91,8 +91,13 @@
 		 return swiperFactory.setHandler(swiper);
      };
 	 
+	 SingleAccess.prototype.getCurrentContextIdIndex =function(){
+		 return swiperFactory.getCurrentContextIdIndex();
+	 };
 	
-	
+	SingleAccess.prototype.resetCurrentContextId = function(){
+		swiperFactory.resetCurrentContextId();
+	};
 	/************************************** dianas SuccessSeite ***********************************************************/
 	SingleAccess.prototype.buildConfetty = function(){
 		success.buildConfetty();

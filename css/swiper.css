@@ -24,9 +24,13 @@
 }
 
 .twoButtons{
+	position: absolute;
 	display: flex;
 	flex-wrap: wrap;
 	width: 90%;
+	margin: 0;
+	top: 25%;
+	left: 5%;
 }
 
 

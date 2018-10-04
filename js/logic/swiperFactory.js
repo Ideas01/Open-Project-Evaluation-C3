@@ -14,6 +14,9 @@ class SwiperFactory
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	constructor(){
 		this.util = new Util();
+		this.currentContextIdIndex = -1;
+		console.log("Konstruktor aufgerufen");
+		console.log(this.currentContextIdIndex);
 	}
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -24,8 +27,15 @@ class SwiperFactory
 			spaceBetween: 100
 		});
 	};
-
-
+	
+	getCurrentContextIdIndex(){
+		return this.currentContextIdIndex;
+	};
+	
+	resetCurrentContextId(){
+		this.currentContextIdIndex = -1;
+	}
+	
 	/**
 	*   buildSwiper()
 	*	build a new swiper out of components.
@@ -48,6 +58,7 @@ class SwiperFactory
 
 
 	buildSwiper(maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray) {
+		var thisisme = this;
 		if(this.util.nameSpaceIsAvailable(nameSpace)){
 			var keysArray = this.util.listAllKeys(contentArray[0]); //there has to be min. 1 entry. 
 			var counter = 0;
@@ -103,14 +114,14 @@ class SwiperFactory
 							$('#' +  nameSpace + m + counter).addClass(nameSpace);
 							
 							$('.'+ nameSpace).css('cursor','pointer');
-							//$("."+ nameSpace).children().css('pointer-events', 'none');
+							
 							
 							$('#' +  nameSpace + m + counter).click(function(event){
 								var target = event.target.id.toString();
 								$('#'+ target).css({'border': 'solid 1px #ffb380', 'width': '44%'});
 							$('.' + nameSpace).not('#'+ target).css({'border': 'none', 'width': '44%'});
 								contextId = event.target.contextId;
-								app.data.currentContextIdIndex = event.target.contextId;
+								thisisme.currentContextIdIndex = event.target.contextId;
 							});
 							
 							$("#"+ nameSpace + m + counter).css({
@@ -186,7 +197,7 @@ class SwiperFactory
 						let content = 	'<div class="block">' +
 											'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
 											'<div class="next" text-align="center">' +
-												'<div class="center twoButtons">' +
+												'<div class="twoButtons">' +
 												'<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
 												'<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
 											'</div>' +

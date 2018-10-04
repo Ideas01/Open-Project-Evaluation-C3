@@ -77,14 +77,10 @@ class DBZugriff{
 
 
 	
-	getContexts(requiredResults, deviceName){
+	getContexts(deviceName){
 		var dataReferenceName = 'contexts';
 		//build query
-		var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{';
-		requiredResults.forEach(function(el){
-			query += el + ' ';
-		});
-		query += '}}}"}'; //query build end
+		var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{id title description images{url}}}}"}'; //query build end
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){	
 			thisisme.ContextList.length = 0;

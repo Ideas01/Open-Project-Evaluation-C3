@@ -38,6 +38,7 @@ class PuzzleBuilder{
 		var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
 		var buildPuzzlePiecesClass = [namespace + 'puzzlePieceDiv'];
 		var miniOverviewIdName = this.buildMiniOverview ("#miniOverview",puzzle);
+		var pointCount = Math.pow(puzzle.tileCountPerGrid * puzzle.gridCount, 2);
 	
 		let gridReady = new Promise(function (resolve, reject) {
 			//buildPuzzleStructure(tileCount, appendToDOM, namespace, color, setclassname)
@@ -65,6 +66,8 @@ class PuzzleBuilder{
 				
 				let coordinate = (event.target.id).split('|');
 				$('#'+ miniOverviewIdName + coordinate[1]).css('visibility', 'hidden');
+				pointCount -= 1;
+				$(puzzle.puzzlePointCounter).text(pointCount);
 				puzzle.clickedPuzzleTiles.push(coordinate[1]);
 				console.log(puzzle.GetPoints(1));
 			});

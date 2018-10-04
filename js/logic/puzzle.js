@@ -14,6 +14,7 @@ class Puzzle
 		this.clickedPuzzleTiles = [];
 		this.puzzleGridWrapper = "#puzzleGridWrapper";
 		this.puzzleWrapper = '#puzzleWrapper';
+		this.puzzlePointCounter = '#points'
 		//this.pointCount = 144;
 	}
 	
