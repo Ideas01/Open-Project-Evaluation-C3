@@ -33,6 +33,10 @@
     transform: rotate(270deg);
 }
 
+.sendRatings {
+    font-size: calc(8pt + 0.3vw);
+}
+
 /* Circle Animation in popup */
 .sk-circle {
     margin: 100px auto;
