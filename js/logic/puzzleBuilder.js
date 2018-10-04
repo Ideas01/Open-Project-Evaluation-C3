@@ -197,7 +197,7 @@ class PuzzleBuilder{
 	buildPuzzle(wrapperDom, puzzle) {		
 		var chk = new Checker("buildPuzzle");
 		chk.isProperString(wrapperDom, "wrapperDom");
-		chk.isValidClass(puzzle,"puzzle",'puzzle');
+		chk.isValidClass(puzzle,"puzzle",'Puzzle');
 		
 		var thisisme = this;
 		new Promise(function(){
@@ -234,7 +234,7 @@ class PuzzleBuilder{
 		chk.isProperString(appendToDOM, "appendToDOM");
 		chk.isProperString(namespace, "namespace");
 		chk.isProperString(setclassname, "setclassname");
-		chk.isValidClass(puzzle,"puzzle",'puzzle');
+		chk.isValidClass(puzzle,"puzzle",'Puzzle');
 		chk.isProperString(color, "color");
 		//create the div elements
 		for (var k = 0; k < puzzle.tileCountPerGrid; k++){
@@ -280,7 +280,7 @@ class PuzzleBuilder{
 	buildMiniOverview(appendToDOMOverview, puzzle){
 		var chk = new Checker("buildMiniOverview");
 		chk.isProperString(appendToDOMOverview, "appendToDOMOverview");
-		chk.isValidClass(puzzle,"puzzle",'puzzle');
+		chk.isValidClass(puzzle,"puzzle",'Puzzle');
 		
 		let namespace = appendToDOMOverview.substring(1);
 		var buildMiniPuzzleNameId = [namespace + 'Grid'];
@@ -375,14 +375,14 @@ class PuzzleBuilder{
 	parameters:
 	- puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)
 	- elementArray: (string[]) array with all puzzle-wrappers
-	- percentageSize: relative size of the puzzle
+	- percentageSize: (string) relative size of the puzzle
 	*/
 	calculateWrapperSize(puzzle, elementArray, percentageSize) {
 		var chk = new Checker("calculateWrapperSize");
-		chk.isValidClass(puzzle,"puzzle",'puzzle');		
+		chk.isValidClass(puzzle,"puzzle",'Puzzle');		
 		chk.isValid(elementArray,"elementArray");
 		chk.checkNonEmptyArray(elementArray,"elementArray");
-		chk.isValidType(percentageSize,"percentageSize",'number');
+		chk.isProperString(percentageSize,"percentageSize");
 		
 		var puzzleGridWrapper = puzzle.puzzleGridWrapper;
 		var landscape = this.util.isLandscape();

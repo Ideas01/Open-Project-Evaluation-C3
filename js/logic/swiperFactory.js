@@ -81,7 +81,7 @@ class SwiperFactory
 		chk.isProperString(type,"type");
 		chk.isValid(contentArray,"contentArray");
 		chk.checkNonEmptyArray(contentArray,"contentArray");
-		
+		console.log("Prüfung i.o")
 		var thisisme = this;
 		if(this.util.nameSpaceIsAvailable(nameSpace)){
 			var keysArray = this.util.listAllKeys(contentArray[0]); //there has to be min. 1 entry. 
@@ -209,6 +209,7 @@ class SwiperFactory
 	*/
 
 	setHandler(mySwiper) {
+		console.log("<<<<<<<<<<<<<<<<<<<<<<<<");
 		var chk = new Checker("setHandler");
 		chk.isValid(mySwiper,"mySwiper");
 		var thisisme = this;

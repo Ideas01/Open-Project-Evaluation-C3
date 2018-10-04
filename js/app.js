@@ -286,14 +286,16 @@ app.on('pageInit', function(page){
     if (page.name === 'sliders') {
 		var questions = {};
 		var sliderValues = [];
-		
+		console.log("step0");
 		
         $('#sendRatingsButton').hide();
         app.popup.close();
         singleAccess.waitForContexts(function (contextList) {
+			console.log("zzzzzzzzzzzzzzzzzzzzzz");
             singleAccess.getQuestions(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
+			console.log("wwwwwwwwwwwwwwwwwwwwwww");
         });
-
+	console.log("step1");
         singleAccess.waitForData("questions", deviceName, function (response) {
 			questions = response;
           //index where to start in the questions
@@ -301,8 +303,9 @@ app.on('pageInit', function(page){
 
             //to check if there are any questions left
             var remainingQuestions = response.length;
+			console.log("mach was blödes :D");
 			singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
-			
+			console.log("mach was tolles :D");
             //initialize the sliders, starting with the data at startIndex
             try {
                 var rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
@@ -393,6 +396,7 @@ app.on('pageInit', function(page){
 							'</div>' 
 			singleAccess.util_PopUp('HILFE',content);	
         });
+		console.log("stepend");
     }
     /****************************** sliders end ****************************/
 

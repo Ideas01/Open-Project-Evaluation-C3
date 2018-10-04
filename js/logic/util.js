@@ -88,8 +88,8 @@
 	obj - (JS-Object) object that shall be analysed
 	*/
 	listAllKeys(obj) {
-		var chk = new Checker("popUp");
-		chk.isProperType(obj,"obj",'object');
+		var chk = new Checker("listAllKeys");
+		chk.isValid(obj,"obj");
 		
 		var objectToInspect;     
 		var result = [];

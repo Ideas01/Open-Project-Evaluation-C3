@@ -2,10 +2,9 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://192.168.43.174:3000/');
+	const dbZugriff = new DBZugriff('http://localhost:3000/');
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
-	const success = new Success();
 	const util = new Util();
 	/*************************************** PUZZLE *********************************/
 	SingleAccess.prototype.buildPuzzle = function (wrapperDom, puzzle) {
@@ -101,10 +100,7 @@
 	SingleAccess.prototype.resetCurrentContextId = function(){
 		swiperFactory.resetCurrentContextId();
 	};
-	/************************************** dianas SuccessSeite ***********************************************************/
-	SingleAccess.prototype.buildConfetty = function(){
-		success.buildConfetty();
-	};
+
 	/************************************** Utility ***********************************************************************/
 	SingleAccess.prototype.util_PopUp = function(title, message, caption){
 		util.popUp(title, message, caption);	

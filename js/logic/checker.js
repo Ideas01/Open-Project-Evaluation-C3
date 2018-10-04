@@ -31,8 +31,7 @@
 	/**
 	HideOnConsole()
 	
-	By default this object shows exceptions in logs regardless of beeing handled.
-	This function supresses console logs of this object.
+	This function surpresses console logs of this object.
 	
 	*/
 	HideOnConsole()
@@ -158,7 +157,7 @@
 	
 	
 	*/
-	checkNonEmptyArray(){
+	checkNonEmptyArray(variable,variable_name){
 		if(variable.length==0){
 			var msg = [this.ExceptionHeader()+"'"+variable_name+"' must not be empty!"];
 			this.ThrowException(msg);
@@ -264,6 +263,8 @@
 	
 	*/
 	checkType(variable, variable_name, typeString){
+		console.log("check " + variable_name);
+		console.log(variable);
 		var type = typeof(variable);
 		if(!(type===typeString)){
 				var msg = [this.ExceptionHeader()+"'"+variable_name+"' must be from type '" + typeString + "' but was '" + type+"' !"];

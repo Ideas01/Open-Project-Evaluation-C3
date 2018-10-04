@@ -145,7 +145,7 @@ class DBZugriff{
 	*/
 	updateDeviceContext(context, deviceName){
 		var chk = new Checker("updateDeviceContext");
-		chk.isProperString(context,"context");
+		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
 		
 		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
@@ -171,7 +171,7 @@ class DBZugriff{
 	*/
 	getPrototypeImages(context, deviceName){
 		var chk = new Checker("getPrototypeImages");
-		chk.isProperString(context,"context");
+		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
 		
 		var dataReferenceName = "prototypeImages";
@@ -205,9 +205,9 @@ class DBZugriff{
 	*/
 	getQuestions(context, deviceName){
 		var chk = new Checker("getQuestions");
-		chk.isProperString(context,"context");
+		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
-	
+		console.log("ich suche ja schon");
 	
 		var dataReferenceName = "questions";
 		var thisisme = this;
@@ -224,7 +224,7 @@ class DBZugriff{
 							  'max ' +
 							  'min ' +
 							  'stepSize'+ 
-							'}}}}}' +
+							'}}}}}"}';
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
@@ -262,9 +262,9 @@ class DBZugriff{
 	*/
 	getPuzzleImages(context, deviceName){
 		//query is not existent this time;
-		var chk = new Checker("getPuzzleImages");
-		chk.isProperString(context,"context");
-		chk.isProperString(deviceName,"deviceName");
+		//var chk = new Checker("getPuzzleImages");
+		//chk.isValid(context,"context");
+		//chk.isProperString(deviceName,"deviceName");
 		
 		var dataReferenceName = "puzzleImages";
 		
@@ -346,10 +346,11 @@ class DBZugriff{
 	- callback: 
 	*/
 	waitForData(dataReference, deviceName, callback){
+		console.log("uiuiuiuiuiuiuiuiuiuiuiuiuiuiui");
 		var chk = new Checker("waitForData");
 		chk.isProperString(dataReference,"dataReference");
 		chk.isProperString(deviceName,"deviceName");
-		
+		console.log("xixixixixixixixixixixixixixixixi");
 		var thisisme = this;
 		var waitforD = setInterval(function(){
 			var responseNew = thisisme.ContextData[dataReference];
@@ -361,6 +362,7 @@ class DBZugriff{
 				callback(responseNew.data);
 			}else{
 				//do nothing.
+				console.log("waiting for data...");
 			}
 		},500); //delay is in milliseconds 
 
