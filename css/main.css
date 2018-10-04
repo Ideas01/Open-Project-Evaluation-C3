@@ -450,6 +450,29 @@ h3 {
     color: grey;
     opacity: 0.5;
 }
+
+.successWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 40%;
+    left: 25%;
+    width: 50%;
+}
+
+.large{
+	font-size: calc(14pt + 0.4vw);
+	font-weight: bold;
+}
+
+.graveImg {
+    width: 30%;
+    margin-left: 35%;
+}
+
+.imageWrapper{
+	width: 100%;
+}
 body {
     margin: 0;
     padding: 0;
@@ -636,7 +659,7 @@ body {
         margin-left: 80%; } }
 
 
-/***Sucess Side End****/
+/***Success Side End****/
 
 /****Failure Side****/
 h3 {
@@ -651,16 +674,16 @@ h3 {
     top: 25%;
 }
 
-.redirectText{
-    position: absolute;
-    margin-top: 30vh;
+.redirectText {
+    position: relative;
+    margin-top: 5%;
     width: 100%;
     text-align: center;
     font-size: 1.0em;
     font-family: sans-serif;
     color: grey;
-    top: 33%;
 }
+
 
 
 @media all and (max-width: 380px){

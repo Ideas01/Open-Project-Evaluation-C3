@@ -29,10 +29,13 @@
 		return sliderFactory.determineRangeSliderAmount(startIndex, questionCount, rangeSliderObjects);
 	};
 
-    /************************************** puzzleGuessBuilder **************************************************/
+	SingleAccess.prototype.setButtonCaption = function(remainingQuestions,buttonID){
+		return sliderFactory.setButtonCaption(remainingQuestions,buttonID);
+	}
+     /************************************** puzzleGuessBuilder **************************************************/
 
-    SingleAccess.prototype.buildGuessButtons = function(contextId, puzzleImageData){
-        puzzleGuessBuilder.buildGuessButtons(contextId, puzzleImageData);
+    SingleAccess.prototype.buildCategories = function(puzzleImageID, puzzleImageData){
+        puzzleGuessBuilder.buildCategories(puzzleImageID, puzzleImageData);
     };
 
     /*************************************** DB Zugriff ***************************************************************/

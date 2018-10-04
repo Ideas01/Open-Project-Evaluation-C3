@@ -301,7 +301,8 @@ app.on('pageInit', function(page){
 
             //to check if there are any questions left
             var remainingQuestions = response.length;
-
+			singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
+			
             //initialize the sliders, starting with the data at startIndex
             try {
                 var rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
@@ -320,7 +321,8 @@ app.on('pageInit', function(page){
 
                 //subtract the amount of initialized rangeSliders, so we know how many questions are left
                 remainingQuestions -= rangeSliderReferences.length;
-
+				singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
+				
                 //if there are questions left..
                 if (remainingQuestions > 0) {
                     //array for saving the values of the sliders
@@ -347,6 +349,8 @@ app.on('pageInit', function(page){
                 }
                 //no more questions to display
                else {
+				   singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
+				
 				   waitForResponse();
 					//array for saving the values of the sliders
 					//save slider values of the existing sliders
@@ -457,18 +461,17 @@ app.on('pageInit', function(page){
 	
 		/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
-        var contextId = app.data.currentPuzzleImageId;
-		var wrapperArray = ['#puzzleOverview'];
+        var puzzleImageID = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
-            singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
+            singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex], deviceName);
         });
         new Promise(function (resolve,reject) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
-                singleAccess.buildGuessButtons(contextId,response);
+                singleAccess.buildCategories(puzzleImageID,response);
 
                 var backgroundImage = new Image();
-                backgroundImage.src = response[contextId].url;
+                backgroundImage.src = response[puzzleImageID].url;
                 backgroundImage.onload = function () {
                     resolve(backgroundImage);
                 };
@@ -477,13 +480,8 @@ app.on('pageInit', function(page){
                 };
             })
         }).then(function (backgroundImage) {
-			    singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
+            singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
         });
-		
-
-		$(window).on('resize', function (page) {
-			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
-		});
     }
 
     /****************************** puzzleGuess end ****************************/

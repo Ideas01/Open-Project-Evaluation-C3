@@ -44,11 +44,12 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	width: 10%;
 }
 
 .points{
     position: relative;
-    width: 10%;
+    width: 100%;
     text-align: center;
     font-size: calc(11pt + 0.6vw);
     font-family: sans-serif;

@@ -15,6 +15,8 @@ class SliderFactory
 	constructor()
 	{
 		this.questionsPerPage = 4; //the amount of displayed range sliders per page
+		this.buttonTextContinue = 'Weiter';
+		this.buttonTextSendEval = 'Umfrage absenden';
 	} 
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -86,6 +88,23 @@ class SliderFactory
 		}
 		return rangeSliderArray;
 	};
+	
+	/**
+   *
+   * set the Button caption, which depends on the remaining questions
+   *
+     * @param remainingQuestions remaining questions to display
+     * @param buttonID the ID of the button to set
+     */
+
+	setButtonCaption(remainingQuestions, buttonID){
+		if(remainingQuestions <= this.questionsPerPage){
+			$('#' + buttonID).text(this.buttonTextSendEval);
+		}
+		else{
+			$('#' + buttonID).text(this.buttonTextContinue);
+		}
+	}
 }
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * END CLASS DEFINITION
