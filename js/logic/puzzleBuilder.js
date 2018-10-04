@@ -195,6 +195,9 @@ class PuzzleBuilder{
 	- puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)
 	*/
 	buildPuzzle(wrapperDom, puzzle) {		
+		var chk = new Checker("buildPuzzle");
+		chk.isProperString(wrapperDom, "wrapperDom");
+		chk.isValidClass(puzzle,"puzzle",'puzzle');
 		
 		var thisisme = this;
 		new Promise(function(){
@@ -227,7 +230,12 @@ class PuzzleBuilder{
 	- color: (string) color identifier. You can select one of the colors contained in puzzle.
 	*/
 	buildPuzzleTiles(appendToDOM, namespace, setclassname, puzzle, color) {
-		console.log("--> Baue Tiles " +appendToDOM + " mit " + puzzle.tileCountPerGrid + " elementen");
+		var chk = new Checker("buildPuzzleTiles");
+		chk.isProperString(appendToDOM, "appendToDOM");
+		chk.isProperString(namespace, "namespace");
+		chk.isProperString(setclassname, "setclassname");
+		chk.isValidClass(puzzle,"puzzle",'puzzle');
+		chk.isProperString(color, "color");
 		//create the div elements
 		for (var k = 0; k < puzzle.tileCountPerGrid; k++){
 	//		console.log("--> k = " + k);
@@ -270,7 +278,10 @@ class PuzzleBuilder{
 	- puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)
 	*/
 	buildMiniOverview(appendToDOMOverview, puzzle){
-	
+		var chk = new Checker("buildMiniOverview");
+		chk.isProperString(appendToDOMOverview, "appendToDOMOverview");
+		chk.isValidClass(puzzle,"puzzle",'puzzle');
+		
 		let namespace = appendToDOMOverview.substring(1);
 		var buildMiniPuzzleNameId = [namespace + 'Grid'];
 		var buildMiniPuzzleNameClass = [namespace + 'GridDiv'];
@@ -294,25 +305,24 @@ class PuzzleBuilder{
 				'display': 'inline-block'
 			});
 			resolve("ready");
-    });
-	var thisisme = this;
-    gridReady.then(function (fulfilled) {
-			//$(".gridPiece").each(function (n) {
-			$("." + buildMiniPuzzleNameClass).each(function (n) {
-				
-				for (var i = 0; i < puzzle.tileCountPerGrid; i++) {
-					thisisme.buildPuzzleTiles('#' + buildMiniPuzzleNameId  + n + i, buildMiniPuzzlePiecesId + n + i,  buildMiniPuzzlePiecesClass, puzzle, puzzle.overviewColor);
-				}
-				$('.' + buildMiniPuzzlePiecesClass).css({
-						'display': 'inline-block'
+		});
+		var thisisme = this;
+		gridReady.then(function (fulfilled) {
+				//$(".gridPiece").each(function (n) {
+				$("." + buildMiniPuzzleNameClass).each(function (n) {
+					
+					for (var i = 0; i < puzzle.tileCountPerGrid; i++) {
+						thisisme.buildPuzzleTiles('#' + buildMiniPuzzleNameId  + n + i, buildMiniPuzzlePiecesId + n + i,  buildMiniPuzzlePiecesClass, puzzle, puzzle.overviewColor);
+					}
+					$('.' + buildMiniPuzzlePiecesClass).css({
+							'display': 'inline-block'
+					});
 				});
-			});
 		}).then(function(){
 			puzzle.clickedPuzzleTiles.forEach(function(puzzleIdNumber){
 				$('#' + buildMiniPuzzlePiecesId + puzzleIdNumber).css('visibility', 'hidden');
 			});
 		});
-		
 		
 		return buildMiniPuzzlePiecesId;
 	};
@@ -326,6 +336,9 @@ class PuzzleBuilder{
 	- wrapperDom: (string) - identifier for the wrapper-div in the DOM with the puzzle.
 	*/
 	checkGrid(wrapperDom){
+		var chk = new Checker("checkGrid");
+		chk.isProperString(wrapperDom, "wrapperDom");
+ 
 		var wrapper = $(wrapperDom).ready();
 		//var element = $(wrapperDom).children().first().children().first();
 		var waitForE = setInterval(function(){
@@ -365,36 +378,42 @@ class PuzzleBuilder{
 	- percentageSize: relative size of the puzzle
 	*/
 	calculateWrapperSize(puzzle, elementArray, percentageSize) {
-    var puzzleGridWrapper = puzzle.puzzleGridWrapper;
-	var landscape = this.util.isLandscape();
-	if(elementArray.includes(puzzleGridWrapper)){
-		//do nothing.
-	}else{
-		elementArray.push(puzzleGridWrapper);
-	}
-	elementArray.forEach(function(element){
-		if(landscape == true){
-			var imgFormat = puzzle.imageObject.width / puzzle.imageObject.height;
-			
-			new Promise(function(resolve){
-				$(element).css("height", percentageSize + '%');
-				resolve();
-			}).then(function(){
-				var elemHeight = $(element).ready().height();
-				$(element).css("width", elemHeight * imgFormat + "px");
-			});
+		var chk = new Checker("calculateWrapperSize");
+		chk.isValidClass(puzzle,"puzzle",'puzzle');		
+		chk.isValid(elementArray,"elementArray");
+		chk.checkNonEmptyArray(elementArray,"elementArray");
+		chk.isValidType(percentageSize,"percentageSize",'number');
+		
+		var puzzleGridWrapper = puzzle.puzzleGridWrapper;
+		var landscape = this.util.isLandscape();
+		if(elementArray.includes(puzzleGridWrapper)){
+			//do nothing.
 		}else{
-			var imgFormat = puzzle.imageObject.height / puzzle.imageObject.width;
-			
-			new Promise(function(resolve){
-				$(element).css("width", percentageSize + '%');
-				resolve();
-			}).then(function(){
-				var elemWidth = $(element).ready().width();
-				$(element).css("height", elemWidth * imgFormat + "px"); 
-			});
+			elementArray.push(puzzleGridWrapper);
 		}
-	});
+		elementArray.forEach(function(element){
+			if(landscape == true){
+				var imgFormat = puzzle.imageObject.width / puzzle.imageObject.height;
+				
+				new Promise(function(resolve){
+					$(element).css("height", percentageSize + '%');
+					resolve();
+				}).then(function(){
+					var elemHeight = $(element).ready().height();
+					$(element).css("width", elemHeight * imgFormat + "px");
+				});
+			}else{
+				var imgFormat = puzzle.imageObject.height / puzzle.imageObject.width;
+				
+				new Promise(function(resolve){
+					$(element).css("width", percentageSize + '%');
+					resolve();
+				}).then(function(){
+					var elemWidth = $(element).ready().width();
+					$(element).css("height", elemWidth * imgFormat + "px"); 
+				});
+			}
+		});
 	};
  }
  

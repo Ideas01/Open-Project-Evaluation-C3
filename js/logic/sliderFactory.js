@@ -32,6 +32,12 @@ class SliderFactory
 	 * @returns {Array}
 	 */
 	determineRangeSliderAmount(startIndex, questionCount, rangeSliderObjects) {
+		var chk = new Checker("determineRangeSliderAmount");
+		chk.isValidType(startIndex,"startIndex",'number');	
+		chk.isValidType(questionCount,"questionCount",'number');
+		chk.isValid(rangeSliderObjects,"rangeSliderObjects");
+		chk.checkNonEmptyArray(rangeSliderObjects,"rangeSliderObjects");
+		
 		var indexToStart = startIndex;
 		//are there at least as much questions as questions per page?
 		if(questionCount === this.questionsPerPage || questionCount > this.questionsPerPage) {
@@ -98,6 +104,10 @@ class SliderFactory
      */
 
 	setButtonCaption(remainingQuestions, buttonID){
+		var chk = new Checker("setButtonCaption");
+		chk.isValidType(remainingQuestions,"remainingQuestions",'number');	
+		chk.isProperString(buttonID,"buttonID");
+		
 		if(remainingQuestions <= this.questionsPerPage){
 			$('#' + buttonID).text(this.buttonTextSendEval);
 		}

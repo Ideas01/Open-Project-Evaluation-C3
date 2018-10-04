@@ -29,7 +29,11 @@
  
 	*/
 	 popUp(title,content){
-		 let popup = app.popup.create({
+		var chk = new Checker("popUp");
+		chk.isProperString(title,"title");
+		chk.isProperString(content,"content");
+		
+		let popup = app.popup.create({
 			content:
 			'<div class="popup">' +
 				'<div class="view">' +
@@ -84,6 +88,9 @@
 	obj - (JS-Object) object that shall be analysed
 	*/
 	listAllKeys(obj) {
+		var chk = new Checker("popUp");
+		chk.isProperType(obj,"obj",'object');
+		
 		var objectToInspect;     
 		var result = [];
 		
@@ -94,7 +101,13 @@
 		return result; 
 	}
 	
+	/**
+	isLandscape()
 	
+	
+	returns:
+	(bool) app is in landscape mode
+	*/
 	isLandscape(){
 		if ($(window).width() >= $(window).height()){
 			console.log("yup");

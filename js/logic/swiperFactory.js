@@ -15,23 +15,39 @@ class SwiperFactory
 	constructor(){
 		this.util = new Util();
 		this.currentContextIdIndex = -1;
-		console.log("Konstruktor aufgerufen");
-		console.log(this.currentContextIdIndex);
 	}
 	
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * F U N C T I O N S
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */	
+	/**
+	*   initializeSwiper()
+	*	creates a new slider
+	*
+	*
+	***********************************************************/
 	initializeSwiper(){
 		new Swiper('.swiper-container', {
 			spaceBetween: 100
 		});
 	};
 	
+	/**
+	*   getCurrentContextIdIndex()
+	*	returns (number) 
+	*
+	*
+	***********************************************************/
 	getCurrentContextIdIndex(){
 		return this.currentContextIdIndex;
 	};
 	
+	/**
+	*   initializeSwiper()
+	*	resets the current ContextID
+	*
+	*
+	***********************************************************/
 	resetCurrentContextId(){
 		this.currentContextIdIndex = -1;
 	}
@@ -58,6 +74,14 @@ class SwiperFactory
 
 
 	buildSwiper(maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray) {
+		var chk = new Checker("buildSwiper");
+		chk.isValidType(maxContentPerSwiper,"maxContentPerSwiper",'number');
+		chk.isProperString(swiperWrapperId,"swiperWrapperId");
+		chk.isProperString(nameSpace,"nameSpace");
+		chk.isProperString(type,"type");
+		chk.isValid(contentArray,"contentArray");
+		chk.checkNonEmptyArray(contentArray,"contentArray");
+		
 		var thisisme = this;
 		if(this.util.nameSpaceIsAvailable(nameSpace)){
 			var keysArray = this.util.listAllKeys(contentArray[0]); //there has to be min. 1 entry. 
@@ -185,6 +209,8 @@ class SwiperFactory
 	*/
 
 	setHandler(mySwiper) {
+		var chk = new Checker("setHandler");
+		chk.isValid(mySwiper,"mySwiper");
 		var thisisme = this;
 		mySwiper.on('slidePrevTransitionStart', function () {
 			mySwiper.off('slideNextTransitionEnd');

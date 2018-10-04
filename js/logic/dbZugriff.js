@@ -33,8 +33,19 @@ class DBZugriff{
 		this.ContextData[dataReferenceName].data = data;
 	}
 
-
+	/**
+	initializeDB()
+	
+	setups the connection to the backend and gets the token.
+	
+	parameters:
+	- deviceName: (string) 
+	
+	*/
 	initializeDB(deviceName){
+		var chk = new Checker("initializeDB");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var query = '{"query":"mutation {createDevice(data: {name: \\"' + deviceName + '\\"}) {device {id name context {id} owners {id}} token}}"}';
 		var thisisme = this
 		if(deviceName in this.TokenList){
@@ -76,8 +87,22 @@ class DBZugriff{
 	}
 
 
+	/**
+	getContexts()
 	
+	gets the context for a device
+	
+	parameters:
+	- deviceName: (string) 
+	
+	return:
+	- (string): dataReferenceName
+	
+	*/
 	getContexts(deviceName){
+		var chk = new Checker("getContexts");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var dataReferenceName = 'contexts';
 		//build query
 		var query = '{"query": "query {contexts(types: REGULATOR){id activeSurvey{id title description images{url}}}}"}'; //query build end
@@ -86,15 +111,13 @@ class DBZugriff{
 			thisisme.ContextList.length = 0;
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				var contexts = response.contexts;
-				console.log("neuer Geiler Scheiß");
 				contexts.forEach(function(contextElement, contextIndex, contexts){
 					var survey = contextElement.activeSurvey;
 					var surveyKeys = listAllKeys(survey);
 					var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
 					
 					thisisme.ContextList.push(finalSurvey);
-					
-					console.log(thisisme.ContextList.length)				
+							
 				});
 			});	
 		});
@@ -109,8 +132,21 @@ class DBZugriff{
 
 
 
-
+	/**
+	updateDeviceContext()
+	
+	updates the context for a device
+	
+	parameters:
+	- context: (string)
+	- deviceName: (string) 
+	
+	
+	*/
 	updateDeviceContext(context, deviceName){
+		var chk = new Checker("updateDeviceContext");
+		chk.isProperString(context,"context");
+		chk.isProperString(deviceName,"deviceName");
 		
 		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
 						'\\") {device {context {activeSurvey {title}} id name}}}"}';
@@ -122,9 +158,22 @@ class DBZugriff{
 			});
 		});
 	} 
-
+	
+	/**
+	getPrototypeImages()
+	
+	gets the images 
+	
+	parameters:
+	- context: (string)
+	- deviceName: (string) 
+	
+	*/
 	getPrototypeImages(context, deviceName){
-		console.log("images gestartet...")
+		var chk = new Checker("getPrototypeImages");
+		chk.isProperString(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var dataReferenceName = "prototypeImages";
 		
 		var query = '{"query": "query {context(contextID: \\"' + context.contextId + 
@@ -144,8 +193,22 @@ class DBZugriff{
 		return dataReferenceName;
 	}
 
+	/**
+	getQuestions()
+	
+	gets the questions from the backend 
+	
+	parameters:
+	- context: (string)
+	- deviceName: (string)  
+	
+	*/
 	getQuestions(context, deviceName){
-		console.log("questions Anfrage gestartet...");
+		var chk = new Checker("getQuestions");
+		chk.isProperString(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+	
+	
 		var dataReferenceName = "questions";
 		var thisisme = this;
 		var query = '{"query": "query {context(contextID: \\"' + context.contextId + '\\"){' +
@@ -162,10 +225,7 @@ class DBZugriff{
 							  'min ' +
 							  'stepSize'+ 
 							'}}}}}' +
-						'"}'	
-		
 		this.waitForToken(deviceName, function(token){
-			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
 				console.log(response);
@@ -189,9 +249,22 @@ class DBZugriff{
 		return dataReferenceName;
 	}
 
-// puzzleImages are saved local at this point. Because there isn´t a Settingspage to set them dynamically.
+	// puzzleImages are saved local at this point. Because there isn´t a Settingspage to set them dynamically.
+	/**
+	getPuzzleImages()
+	
+	gets the images for puzzles
+	
+	parameters:
+	- context: (string)
+	- deviceName: (string)  
+	
+	*/
 	getPuzzleImages(context, deviceName){
 		//query is not existent this time;
+		var chk = new Checker("getPuzzleImages");
+		chk.isProperString(context,"context");
+		chk.isProperString(deviceName,"deviceName");
 		
 		var dataReferenceName = "puzzleImages";
 		
@@ -202,7 +275,23 @@ class DBZugriff{
 	}
 
 
+	/**
+	sendEvalData()
+	
+	sends the evaluated data to the backend
+	
+	parameters:
+	- questionID: (string)
+	- answer: (string)
+	- deviceName: (string)  
+	
+	*/
 	sendEvalData(questionID, answer, deviceName){
+		var chk = new Checker("sendEvalData");
+		chk.isValid(questionID,"questionID");
+		chk.isValid(answer,"answer");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var query = '{"query": "mutation {createAnswer(data:{questionID: \\"' + questionID + '\\" rating:' + answer + '}){voteCreated answer{question}}}" }'
 		var dataReferenceName = "evalData"
 		var thisisme = this;
@@ -215,15 +304,19 @@ class DBZugriff{
 		});
 	}
 
-/*
-//TODO: noch schreiben.
-	 *sendEvalData()
-	 
-	 *noch prüfungsfunction bauen, die checkt, ob dataReferenceName schon vergeben.
-	**/
+	/**
+	waitForToken()
 	
+	continues when there is a token for a device
 	
+	parameters:
+	- deviceName: (string)  
+	- callback: (token) 
+	*/
 	waitForToken(deviceName, callback){
+		var chk = new Checker("waitForToken");
+		chk.isProperString(deviceName,"deviceName");
+		
 	    var thisisme = this;
 		var waitforT = setInterval(function(){
 			var tNew = thisisme.TokenList[deviceName].token;
@@ -242,7 +335,21 @@ class DBZugriff{
 	}	
 
 	
+	/**
+	waitForData()
+	
+	continues when there data from the backend
+	
+	parameters:
+	- dataReference: (string) - reference on the data this function is waiting for
+	- deviceName: (string)  
+	- callback: 
+	*/
 	waitForData(dataReference, deviceName, callback){
+		var chk = new Checker("waitForData");
+		chk.isProperString(dataReference,"dataReference");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
 		var waitforD = setInterval(function(){
 			var responseNew = thisisme.ContextData[dataReference];
@@ -263,6 +370,14 @@ class DBZugriff{
 
 	}
 
+	/**
+	waitForContexts()
+	
+	continues when there are contexts
+	
+	parameters:
+	- callback: (token) Token from backend
+	*/
 	waitForContexts(callback){
 		var thisisme = this;
 		var waitforC = setInterval(function(){
@@ -284,15 +399,27 @@ class DBZugriff{
 		},15000);
 	}
 
-	callDatabase(dataReference, Token, query, callback){
+	/**
+	callDatabase()
 	
-		console.log("initializingDB... for: " + dataReference)
+	continues when there are contexts
+	
+	parameters:
+	- dataReference: (string) - reference on the data this function is waiting for
+	- Token: (string) 
+	- query: (string)
+	- callback: 
+	*/
+	callDatabase(dataReference, Token, query, callback){
+		var chk = new Checker("waitForData");
+		chk.isValid(Token,"Token");
+		chk.isProperString(dataReference,"dataReference");
+		chk.isProperString(query,"deviceName");
 		
-		//var contextData= this.ContextData;
 		this.ContextData[dataReference] = {};
 		this.ContextData[dataReference].data = null;
 		
-		console.log("datenbankzugriff gestartet");
+		
 		
 		
 		$.ajax({
@@ -308,8 +435,7 @@ class DBZugriff{
 			  
 			  let responseData = r.data;
 			  callback(responseData); 
-			  //contextData[dataReference].data = responseData;
-			  console.log("success bei callDatabase")
+			
 			},
 			  error: function (response) {
 				  console.log(response)
