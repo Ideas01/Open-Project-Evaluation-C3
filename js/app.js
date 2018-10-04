@@ -443,7 +443,8 @@ app.on('pageInit', function(page){
 	
 		/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
-        var puzzleImageID = app.data.currentPuzzleImageId;
+        var wrapperArray = ['#puzzleOverview'];
+		var puzzleImageID = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
             singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex], deviceName);
@@ -464,6 +465,10 @@ app.on('pageInit', function(page){
         }).then(function (backgroundImage) {
             singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
         });
+		
+		$(window).on('resize', function (page) {
+			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+		});
     }
 
     /****************************** puzzleGuess end ****************************/
