@@ -30,7 +30,6 @@ class PuzzleBuilder{
 	*/
 	priv_buildSmallPieces(wrapperDom, puzzle)
 	{
-		console.log("buildSmallPieces");
 		var thisisme = this;
 		let namespace = wrapperDom.substring(1);
 		var buildPuzzleNameId = [namespace + 'Grid'];
@@ -43,7 +42,6 @@ class PuzzleBuilder{
 		let gridReady = new Promise(function (resolve, reject) {
 			//buildPuzzleStructure(tileCount, appendToDOM, namespace, color, setclassname)
 			buildPuzzleStructure(puzzle.gridCount, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
-			console.log("alles ok");
 			resolve(0);
 		});
 		
@@ -56,8 +54,7 @@ class PuzzleBuilder{
 			
 			$('.' + buildPuzzleNameClass).each(function (n) {
 				for (var i = 0; i < puzzle.gridCount; i++) {
-					console.log("Tiles...");
-					thisisme.buildPuzzleTiles('#' + buildPuzzleNameId + n + i, buildPuzzlePiecesId + '|' + n + i, buildPuzzlePiecesClass, puzzle, puzzle.color);
+					thisisme.buildPuzzleTiles('#' + buildPuzzleNameId + n + i, buildPuzzlePiecesId + '|' + n + i, buildPuzzlePiecesClass.toString(), puzzle, puzzle.color);
 				}
 			});
 
@@ -69,7 +66,6 @@ class PuzzleBuilder{
 				pointCount -= 1;
 				$(puzzle.puzzlePointCounter).text(pointCount);
 				puzzle.clickedPuzzleTiles.push(coordinate[1]);
-				console.log(puzzle.GetPoints(1));
 			});
 			
 		}).then(function(){
@@ -103,7 +99,6 @@ class PuzzleBuilder{
 			var buildPuzzleNameClass = [namespace + 'Div'];
 			
 			let gridReady = new Promise(function (resolve, reject) {
-				console.log("Baue Structure");
 				buildPuzzleStructure(3, puzzle.puzzleGridWrapper, buildPuzzleNameId, "none", buildPuzzleNameClass);
 				
 				$('.' + buildPuzzleNameClass).click(function (event) {
@@ -238,9 +233,7 @@ class PuzzleBuilder{
 		chk.isProperString(color, "color");
 		//create the div elements
 		for (var k = 0; k < puzzle.tileCountPerGrid; k++){
-	//		console.log("--> k = " + k);
 			for(var l = 0; l < puzzle.tileCountPerGrid; l++){
-	//			console.log("--> l = " + l);
 				//TODO: noch prüfung einbauen, dass keine doppelten id´s entstehen.
 				var newDiv = document.createElement("div");
 				newDiv.id = namespace + l + k;
@@ -290,16 +283,11 @@ class PuzzleBuilder{
 			
 		var divArray = [appendToDOMOverview];
 		
-		console.log("starte wrapper size");
 		this.calculateWrapperSize(puzzle, divArray, '100%');
-		console.log("beende wrapper size");
 		$(appendToDOMOverview).css("background-image", 'url("'+ puzzle.imageObject.src + '")');
 		
 		
 		var gridReady = new Promise(function (resolve, reject) {
-		   
-		   
-		   console.log(puzzle);
 		   buildPuzzleStructure(puzzle.gridCount, appendToDOMOverview, buildMiniPuzzleNameId, "none", buildMiniPuzzleNameClass);
 			$('.' + buildMiniPuzzleNameClass).css({
 				'display': 'inline-block'
@@ -312,7 +300,7 @@ class PuzzleBuilder{
 				$("." + buildMiniPuzzleNameClass).each(function (n) {
 					
 					for (var i = 0; i < puzzle.tileCountPerGrid; i++) {
-						thisisme.buildPuzzleTiles('#' + buildMiniPuzzleNameId  + n + i, buildMiniPuzzlePiecesId + n + i,  buildMiniPuzzlePiecesClass, puzzle, puzzle.overviewColor);
+						thisisme.buildPuzzleTiles('#' + buildMiniPuzzleNameId  + n + i, buildMiniPuzzlePiecesId + n + i,  buildMiniPuzzlePiecesClass.toString(), puzzle, puzzle.overviewColor);
 					}
 					$('.' + buildMiniPuzzlePiecesClass).css({
 							'display': 'inline-block'
@@ -430,7 +418,6 @@ function hidePiece(piece){
  
 function hideDiv(element){
 	element.style.visibility = "hidden";
-	console.log(element.id);
 }
 
 //set croppedImageDiv background to none
@@ -477,8 +464,6 @@ function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight,
 //** Build the puzzle **/
                                
 function buildPuzzleStructure(tileCount, appendToDOM, namespace, color, setclassname) {
-	console.log("am bauen " + tileCount)
-	console.log("--> " + appendToDOM);
 	//create the div elements
     for (var k = 0; k < tileCount; k++){
        for(var l = 0; l < tileCount; l++){

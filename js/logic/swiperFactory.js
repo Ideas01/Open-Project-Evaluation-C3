@@ -81,18 +81,16 @@ class SwiperFactory
 		chk.isProperString(type,"type");
 		chk.isValid(contentArray,"contentArray");
 		chk.checkNonEmptyArray(contentArray,"contentArray");
-		console.log("Prüfung i.o")
+
 		var thisisme = this;
 		if(this.util.nameSpaceIsAvailable(nameSpace)){
 			var keysArray = this.util.listAllKeys(contentArray[0]); //there has to be min. 1 entry. 
 			var counter = 0;
 			var contextId = null;
 			var swiperElement = document.querySelector('#' + swiperWrapperId).swiper;
-			console.log("swiperE")
-			console.log(contentArray)
+
 			$('.swiper-wrapper').empty();
 			var swiperCount = calculateSwiperCount(contentArray.length, maxContentPerSwiper);
-			console.log("jetzt sind es: " + contentArray.length)
 			for (var i=0; i < swiperCount; i++){
 				
 				swiperElement.appendSlide('<div class="swiper-slide" id="'+ nameSpace + i + '"></div>');
@@ -114,10 +112,8 @@ class SwiperFactory
 						var contentHeight = 95;
 						if(contentArray.length == 1) {}/*use default values.*/
 						if(maxContentPerSwiper > 3 && contentArray.length > 3){
-							 console.log("mehr als 3")
 							 contentWidth = contentWidth / (Math.round(maxContentPerSwiper/2)) - 5;
 							 contentHeight = contentHeight/2 - 5;
-							 console.log(contentHeight)
 						} else if(maxContentPerSwiper == 3 || contentArray.length == 3){
 							 contentWidth = 45;
 							 contentHeight = contentHeight/ 2;
@@ -131,7 +127,6 @@ class SwiperFactory
 					for(var m = 0; m < maxContentPerSwiper; m++){
 						if(counter < contentArray.length){
 							$("#"+ nameSpace + i).append('<div id="'+ nameSpace + m + counter + '"></div>');
-							console.log("element " + nameSpace + m + counter + "angehangen.")
 							
 							$('#' +  nameSpace + m + counter)[0].contextId = counter;
 							
@@ -209,7 +204,6 @@ class SwiperFactory
 	*/
 
 	setHandler(mySwiper) {
-		console.log("<<<<<<<<<<<<<<<<<<<<<<<<");
 		var chk = new Checker("setHandler");
 		chk.isValid(mySwiper,"mySwiper");
 		var thisisme = this;

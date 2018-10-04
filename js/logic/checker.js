@@ -263,8 +263,6 @@
 	
 	*/
 	checkType(variable, variable_name, typeString){
-		console.log("check " + variable_name);
-		console.log(variable);
 		var type = typeof(variable);
 		if(!(type===typeString)){
 				var msg = [this.ExceptionHeader()+"'"+variable_name+"' must be from type '" + typeString + "' but was '" + type+"' !"];

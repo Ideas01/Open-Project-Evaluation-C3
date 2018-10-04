@@ -83,7 +83,7 @@ app.on('pageInit', function(page){
 	var prototypeImagesKey = null;
 	
 	
-	console.log(page.name + " wird ausgeführt");
+	//console.log(page.name + " wird ausgeführt");
 	
 	function buildSwiperContent(callback){
 		var counter = 0;
@@ -170,7 +170,6 @@ app.on('pageInit', function(page){
 		 
 		 $('#startSelectPrototype').click(function(){
 			 var contextGeupdated = new Promise(function(resolve){
-				 console.log(singleAccess.getCurrentContextIdIndex());
 				 if(singleAccess.getCurrentContextIdIndex() >= 0){
 					 singleAccess.waitForContexts(function(contextList){
 						 //TODO: noch prüfen ob update erfolgreich.
@@ -257,8 +256,6 @@ app.on('pageInit', function(page){
 			});
 		
 		}).then(function(imageArray){
-			console.log("imageArray")
-			console.log(imageArray);
 			let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
             //imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
 			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
@@ -286,16 +283,12 @@ app.on('pageInit', function(page){
     if (page.name === 'sliders') {
 		var questions = {};
 		var sliderValues = [];
-		console.log("step0");
 		
         $('#sendRatingsButton').hide();
         app.popup.close();
         singleAccess.waitForContexts(function (contextList) {
-			console.log("zzzzzzzzzzzzzzzzzzzzzz");
             singleAccess.getQuestions(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
-			console.log("wwwwwwwwwwwwwwwwwwwwwww");
         });
-	console.log("step1");
         singleAccess.waitForData("questions", deviceName, function (response) {
 			questions = response;
           //index where to start in the questions
@@ -303,9 +296,7 @@ app.on('pageInit', function(page){
 
             //to check if there are any questions left
             var remainingQuestions = response.length;
-			console.log("mach was blödes :D");
 			singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
-			console.log("mach was tolles :D");
             //initialize the sliders, starting with the data at startIndex
             try {
                 var rangeSliderReferences = singleAccess.determineRangeSliderAmount(currentIndex, remainingQuestions, response);
@@ -396,7 +387,6 @@ app.on('pageInit', function(page){
 							'</div>' 
 			singleAccess.util_PopUp('HILFE',content);	
         });
-		console.log("stepend");
     }
     /****************************** sliders end ****************************/
 
@@ -413,11 +403,6 @@ app.on('pageInit', function(page){
 		});
 		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
-			console.log(name + "erfolgreich zurück pImages in puzzle");
-			console.log(puzzleImagesArray);
-			
-			// imageSrc = puzzleImagesArray[Math.floor(Math.random() * Math.floor(puzzleImagesArray.length))]
-			// console.log(imageSrc)
 
 			var loadImage = new Promise(function (resolve, reject) {
 				var backgroundImage = new Image();
@@ -431,7 +416,6 @@ app.on('pageInit', function(page){
 				backgroundImage.onload = function () {
 					const originPictureWidth = backgroundImage.width;
 					const originPictureHeight = backgroundImage.height;
-					console.log("trying resolve");
 					resolve(backgroundImage);
 				};
 				backgroundImage.onerror = function () {
@@ -440,16 +424,10 @@ app.on('pageInit', function(page){
 			});
 			
 			loadImage.then(function(imageObject){
-				console.log("image loaded :D");
-				console.log(imageObject);
 				puzzle.imageObject = imageObject;
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-				console.log("wrapper Array gebaut:");
-				console.log(wrapperArray);
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
-				console.log("Baue Puzzle");
 				var puzzlePieceClassName = singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
-				console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
 					
 				$(window).on('resize', function (page) {
@@ -491,13 +469,10 @@ app.on('pageInit', function(page){
     /****************************** puzzleGuess end ****************************/
 
 	if(page.name === 'success'){
-		
         $('#pointDivSuccess').text("DU HAST: " + puzzle.GetPoints(1) + " PUNKTE!");
 		puzzle = new Puzzle(); // (resetting the puzzle  - after returning the points)
-		singleAccess.buildConfetty();
 		var counter = 15;
 		var autoRedirectToHome = setInterval(function(){
-			console.log("counting...")
 			$('.redirectIn').html(counter);
 			counter--;
 		},1000); //delay is in milliseconds 
@@ -512,10 +487,8 @@ app.on('pageInit', function(page){
 	
 	if(page.name === 'failure'){
 		puzzle = new Puzzle(); // new puzzle 
-		singleAccess.buildConfetty();
 		var counter = 15;
 		var autoRedirectToHome = setInterval(function(){
-			console.log("counting...")
 			$('.redirectIn').html(counter);
 			counter--;
 		},1000); //delay is in milliseconds 

@@ -60,7 +60,6 @@ class DBZugriff{
 			this.TokenList[deviceName].id = null;
 			this.TokenList[deviceName].token = null;
 			var obj = this;
-			console.log("datenbankzugriff gestartet");
 			$.ajax({
 				url: this.serverAdresse,
 				headers: {
@@ -76,8 +75,6 @@ class DBZugriff{
 				  entry.id = response.device.id;
 				  obj.TokenList[deviceName] = entry;
 				  console.log("db initialized")
-				  console.log(obj.TokenList[deviceName].id)
-				   console.log(obj.TokenList[deviceName].token)
 				},
 				 error: function (r) {
 				}
@@ -207,7 +204,6 @@ class DBZugriff{
 		var chk = new Checker("getQuestions");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
-		console.log("ich suche ja schon");
 	
 		var dataReferenceName = "questions";
 		var thisisme = this;
@@ -262,13 +258,14 @@ class DBZugriff{
 	*/
 	getPuzzleImages(context, deviceName){
 		//query is not existent this time;
+		//
 		//var chk = new Checker("getPuzzleImages");
 		//chk.isValid(context,"context");
 		//chk.isProperString(deviceName,"deviceName");
 		
 		var dataReferenceName = "puzzleImages";
 		
-		var puzzlePicutureObj = pictureURLs.data;
+		var puzzlePicutureObj = pictureURLs.data; // aus img\puzzlePictures\puzzlePictures.js
 		
 		this.setContextData(dataReferenceName, puzzlePicutureObj)
 		
@@ -346,11 +343,9 @@ class DBZugriff{
 	- callback: 
 	*/
 	waitForData(dataReference, deviceName, callback){
-		console.log("uiuiuiuiuiuiuiuiuiuiuiuiuiuiui");
 		var chk = new Checker("waitForData");
 		chk.isProperString(dataReference,"dataReference");
 		chk.isProperString(deviceName,"deviceName");
-		console.log("xixixixixixixixixixixixixixixixi");
 		var thisisme = this;
 		var waitforD = setInterval(function(){
 			var responseNew = thisisme.ContextData[dataReference];
@@ -386,10 +381,6 @@ class DBZugriff{
 			var contextList = thisisme.getGlobalContextList();
 			if(contextList[1] != undefined){
 				clearInterval(waitforC);
-				console.log("Muhahahaha Daten");
-				console.log(contextList);
-				console.log("Muhahahaha Daten Ende");
-
 				callback(contextList);
 			}else{
 				console.log("leider kein Context");
@@ -485,10 +476,8 @@ function listAllKeys(obj) {
 
 function nameSpaceIsAvailable(nameSpace){
 	if(document.querySelector("#" + nameSpace) != null){
-		console.log("nope")
 		return false;
 	}else{
-		console.log("yau")
 		return true;
 	}
 }
