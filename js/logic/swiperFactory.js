@@ -191,7 +191,7 @@ class SwiperFactory
 												'<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
 											'</div>' +
 										'</div>'
-						thisisme.util.popUp('PopUp',content);
+						thisisme.util.popUp('Dankeschön',content);
 					});
 				}
 			});
