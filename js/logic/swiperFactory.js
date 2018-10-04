@@ -186,9 +186,9 @@ class SwiperFactory
 						let content = 	'<div class="block">' +
 											'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
 											'<div class="next" text-align="center">' +
-												'<div class="twoButtons">' +
-												'<a href="#" class="button link popup-close left-Btn"> Zurück </a>' +
-												'<a href="/sliders/" class="button right-Btn"> Weiter </a>' +
+												'<div class="center twoButtons">' +
+												'<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
+												'<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
 											'</div>' +
 										'</div>'
 						thisisme.util.popUp('PopUp',content);

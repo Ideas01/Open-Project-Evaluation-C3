@@ -20,17 +20,18 @@
 .swiper-slide{
 	display: flex;
 	flex-wrap: wrap;
+	width: 60%;
 }
 
 .twoButtons{
 	display: flex;
+	flex-wrap: wrap;
+	width: 90%;
 }
 
-.twoButtons > a{
-	margin: 2%;
-}
 
-.left-Btn, .right-Btn{
-	margin: 2%;
+#left-Btn, #right-Btn{
+	margin: 5%;
+	width: 40%;
 	min-width: 180px;
 } 

@@ -45,7 +45,7 @@ body{
     text-transform: uppercase;
     min-width: 45px;
     padding: 0 8px;
-    /* width:250px; */
+	width: 30%;
     margin: 0 auto;
 	border: none;
 }
