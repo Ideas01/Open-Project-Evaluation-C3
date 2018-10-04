@@ -370,7 +370,7 @@ class PuzzleBuilder{
 		chk.isValidClass(puzzle,"puzzle",'Puzzle');		
 		chk.isValid(elementArray,"elementArray");
 		chk.checkNonEmptyArray(elementArray,"elementArray");
-		chk.isProperString(percentageSize,"percentageSize");
+		chk.isValid(percentageSize,"percentageSize");
 		
 		var puzzleGridWrapper = puzzle.puzzleGridWrapper;
 		var landscape = this.util.isLandscape();
