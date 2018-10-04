@@ -52,7 +52,6 @@ function appendCategories(imageCategories,correctCategory) {
  */
 function setClickHandler(correctCategory,imageCategories) {
     $('#guessOverview').children().click(function (event) {
-        console.log(event.target.id);
         buildCategories(event.target.id, correctCategory, imageCategories)
     })
 
@@ -117,7 +116,6 @@ function switchAnswers(wrongAnswers, correctAnswer) {
     if (randomIndex == wrongAnswers.length) {
         switchedAnswers.push(correctAnswer);
     } else {
-        console.log("randomIndex: " + randomIndex);
 
         //save value at randomIndex to append it later
         let valueToSwitch = wrongAnswers[randomIndex];
@@ -142,11 +140,9 @@ function switchAnswers(wrongAnswers, correctAnswer) {
 
 function checkGuessItem(givenAnswer, correctAnswer) {
     if (givenAnswer === correctAnswer) {
-        console.log("GIVEN ANSWER IS: " + givenAnswer);
         app.router.navigate('/success/');
     }
     else {
-        console.log("GIVEN ANSWER IS: " + givenAnswer);
         app.router.navigate('/failure/');
     }
 }
