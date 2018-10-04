@@ -1,21 +1,35 @@
 function PuzzleGuessBuilder() {}
 
-PuzzleGuessBuilder.prototype.buildGuessButtons = function (contextId, puzzleImageData) {
+
+/**
+ *
+ *  Uses puzzleImageData to build the categories
+ *
+ * @param puzzleImageID ID of the correct PuzzleImage
+ * @param puzzleImageData data of all the available puzzle images
+ */
+PuzzleGuessBuilder.prototype.buildCategories = function (puzzleImageID, puzzleImageData) {
     new Promise(function (resolve) {
-        var switchedAnswers = switchAnswers(puzzleImageData[contextId].wrongAnswers, puzzleImageData[contextId].correctAnswer);
+        var switchedAnswers = switchAnswers(puzzleImageData[puzzleImageID].wrongAnswers, puzzleImageData[puzzleImageID].correctAnswer);
 
         var correctCategory = {
-            category: puzzleImageData[contextId].category,
+            category: puzzleImageData[puzzleImageID].category,
             answers: switchedAnswers,
-            correctAnswer: puzzleImageData[contextId].correctAnswer
+            correctAnswer: puzzleImageData[puzzleImageID].correctAnswer
         };
         resolve(correctCategory);
     }).then(function (correctCategory) {
         appendCategories(puzzleImageData, correctCategory);
     });
-
-
 };
+
+/**
+ *
+ * Appends the categories to the container guessOverview and calls function setClickHandler
+ *
+ * @param imageCategories categories to append to guessOverview
+ * @param correctCategory category which contains the correct answer. Is needed for the clickHandler
+ */
 
 function appendCategories(imageCategories,correctCategory) {
     $.each(imageCategories, function (index, data) {
@@ -25,14 +39,35 @@ function appendCategories(imageCategories,correctCategory) {
         else {
             console.log('ID: ' + data.category + ' already exists!');
         }
-        $('#' + data.category).click(function (event) {
-            console.log(event.target.id);
-            fillCategories(event.target.id, correctCategory, imageCategories)
-        });
     });
+    setClickHandler(correctCategory,imageCategories);
 }
 
-function fillCategories(clickedCategory, correctCategory, otherCategories) {
+/**
+ *
+ * sets a click handler on every appended category. This click handler calls function buildCategories
+ *
+ * @param correctCategory category which cointains the correct answer.
+ * @param imageCategories
+ */
+function setClickHandler(correctCategory,imageCategories) {
+    $('#guessOverview').children().click(function (event) {
+        console.log(event.target.id);
+        buildCategories(event.target.id, correctCategory, imageCategories)
+    })
+
+}
+
+/**
+ *
+ * fills the clicked category with items and and appends a click handler which calls function checkGuessItems
+ *
+ * @param clickedCategory id of the clicked category
+ * @param correctCategory the category which contains the correct answer
+ * @param otherCategories other categories with wrong answers
+ */
+
+function buildCategories(clickedCategory, correctCategory, otherCategories) {
     if (clickedCategory === correctCategory.category) {
         $('#guessItems').empty();
         $.each(correctCategory.answers, function (index, data) {
@@ -43,23 +78,36 @@ function fillCategories(clickedCategory, correctCategory, otherCategories) {
         });
     }
     else {
-        console.log("the clicked category: " + clickedCategory);
         $('#guessItems').empty();
         for (var i = 0; i < otherCategories.length; i++) {
-            console.log(otherCategories[i].category);
             if (otherCategories[i].category === clickedCategory) {
-                console.log("hier bin ich richtig");
                 $.each(otherCategories[i].wrongAnswers, function (index, data) {
-                    $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-                    $('#' + data).click(function () {
-                        checkGuessItem(data, correctCategory.correctAnswer);
-                    })
+                    if($('#' + data).length ==0) {
+                        $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
+                        $('#' + data).click(function () {
+                            checkGuessItem(data, correctCategory.correctAnswer);
+                        })
+                    }
+                    else{
+                        console.log('Die ID ' + data + ' ist schon vergeben');
+                    }
                 });
+
             }
         }
     }
 
 }
+
+/**
+ *
+ * switches one wrong answer with the correct answer of an puzzle image.
+ * The switched wrong answer is appended to the rest of the answers
+ *
+ * @param wrongAnswers Array containing the wrong answers
+ * @param correctAnswer the correct answer of the category
+ * @returns {Array} Array containing the wrong answers and the correct answer
+ */
 
 function switchAnswers(wrongAnswers, correctAnswer) {
     var switchedAnswers = wrongAnswers;
@@ -82,6 +130,15 @@ function switchAnswers(wrongAnswers, correctAnswer) {
     }
     return switchedAnswers;
 }
+
+/**
+ *
+ * checks if the user clicked the correct item and navigates
+ * to the correct page for a correct or wrong answer
+ *
+ * @param givenAnswer the item the user selected
+ * @param correctAnswer the correct answer of the category
+ */
 
 function checkGuessItem(givenAnswer, correctAnswer) {
     if (givenAnswer === correctAnswer) {
