@@ -111,6 +111,11 @@ body {
     transform: translate(-50%, -50%);
 }
 
+
+.description {
+    font-size: calc(11pt + 0.2vw);
+}
+
 .next {
     top: 500%;
     position: absolute;
