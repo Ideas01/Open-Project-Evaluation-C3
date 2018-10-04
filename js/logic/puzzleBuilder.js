@@ -354,7 +354,7 @@ class PuzzleBuilder{
 	/**
 	calculateWrapperSize()
 	
-	does all the math for displaying the puzzle apropirate.
+	does all the math for displaying the puzzle appropriate.
 	
 	parameters:
 	- puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)

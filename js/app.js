@@ -444,10 +444,10 @@ app.on('pageInit', function(page){
 				console.log("PUZZLEPIECECLASSNAME: " + puzzlePieceClassName);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
 					
-					$(window).on('resize', function (page) {
-						singleAccess.checkGrid(puzzle.puzzleWrapper);
-						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
-					});
+				$(window).on('resize', function (page) {
+					singleAccess.checkGrid(puzzle.puzzleWrapper);
+					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+				});
 					
 				return puzzlePieceClassName;
 			})
@@ -458,6 +458,7 @@ app.on('pageInit', function(page){
 		/****************************** puzzle end ****************************/
     if (page.name === 'puzzleGuess') {
         var contextId = app.data.currentPuzzleImageId;
+		var wrapperArray = ['#puzzleOverview'];
 
         singleAccess.waitForContexts(function (contextList) {
             singleAccess.getPuzzleImages(contextList[app.data.currentContextIdIndex], deviceName);
@@ -478,6 +479,11 @@ app.on('pageInit', function(page){
         }).then(function (backgroundImage) {
 			    singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
         });
+		
+
+		$(window).on('resize', function (page) {
+			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+		});
     }
 
     /****************************** puzzleGuess end ****************************/
