@@ -261,6 +261,7 @@
 .satisfied{
     position: relative;
 	float: right;
+	margin-right: 2%;
 }
 
 .unsatisfied{
@@ -292,4 +293,25 @@
 .md .range-slider-min:not(.range-slider-dual) .range-knob {
     background: #fff !important;
     border: 2px solid #d40055;
+}
+
+
+
+@media all and (max-width: 2000px) {
+	.sendRatingsWrapper{
+		margin-top: 5%;
+	}
+	
+	.sliderText{
+		padding-top: 1%;
+	}
+}
+
+@media all and (max-width: 600px) {
+	.sendRatingsWrapper{
+		margin-top: 8%;
+	}
+	.sliderText{
+		padding-top: 3%;
+	}
 }

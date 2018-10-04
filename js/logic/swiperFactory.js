@@ -67,10 +67,12 @@ class SwiperFactory
 						//do sth.
 						$("#" + nameSpace + i).css({
 							'background-image': 'url("' + contentArray[i] +'")',
-							'background-size': "contain",
-							'background-repeat' : "no-repeat",
+							'background-size': 'contain',
+							'background-repeat' : 'no-repeat',
+							'background-position': 'center' 
 						});
 						break;
+						
 					case "CONTENTSWIPER": 
 						let swiperArray =[];
 						var contentWidth = 100;
@@ -116,13 +118,13 @@ class SwiperFactory
 								'display': 'flex',
 								'margin': '1%',
 								'align-content':'center',
-								'width': contentWidth +'%', 
+								'width': contentWidth + '%', 
 								'height': contentHeight + '%',
 								'padding-left': '3%',
 								'padding-top': '3%'
 							});	
 							
-							$('.'+ nameSpace).css('cursor','pointer');
+							$('.'+ nameSpace).css('cursor', 'pointer');
 							$("."+ nameSpace).children().css('pointer-events', 'none');
 							
 							if(m < contentArray.length){						
@@ -179,15 +181,14 @@ class SwiperFactory
 
 		  mySwiper.on('touchEnd', function () {
 				if (mySwiper.isEnd) {
-					console.log("jetzt müste es eigentlich weiter gehen...");
 					mySwiper.on('slideNextTransitionEnd', function () {
 						$(".popup").remove();
 						let content = 	'<div class="block">' +
 											'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
 											'<div class="next" text-align="center">' +
-												'<div style="margin: 0 auto;width: 510px;">' +
-												'<a href="#" class="button link popup-close" style="float: left; margin-right: 10px;"> Zurück </a>' +
-												'<a href="/sliders/" class="button"> Weiter </a>' +
+												'<div class="twoButtons">' +
+												'<a href="#" class="button link popup-close left-Btn"> Zurück </a>' +
+												'<a href="/sliders/" class="button right-Btn"> Weiter </a>' +
 											'</div>' +
 										'</div>'
 						thisisme.util.popUp('PopUp',content);

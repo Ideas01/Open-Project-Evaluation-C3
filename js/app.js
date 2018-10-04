@@ -73,8 +73,6 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 						'</a>' +
 					'</div>'	
 	singleAccess.util_PopUp('Spielanleitung', content);
-
-   
 	
 });
 
@@ -99,10 +97,6 @@ app.on('pageInit', function(page){
 
 		singleAccess.waitForContexts(function(contextList){
 			var XcontentArray = [];
-			console.log("##neues contentarray");
-			console.log(XcontentArray);
-			console.log("##mit einer länge von");
-			console.log(XcontentArray.length);
 			contextList.forEach(function(context, contextIndex, contextList){
 			
 				var imageURLs = contextList[contextIndex].images;
@@ -126,6 +120,40 @@ app.on('pageInit', function(page){
 			callback(XcontentArray);
 			
 		});
+	}
+	
+	function danksagungStarten(){
+		var waiting = setInterval(function(){
+			$('#danksagungSlider').html('Vielen Dank für deine Bewertung! Du wirst nun zu unserem Puzzlespiel weitergeleitet.')
+			$('#waitingMarks').show();
+		},2000); //delay is in milliseconds 
+
+		setTimeout(function(){
+			 clearInterval(waiting);			 //clear above interval after 15 seconds
+			 app.router.navigate('/puzzle/')
+		},4000);
+	}
+	
+	function waitForResponse(){
+		$('#danksagungSlider').html('Auswertung wird gesendet.');
+		$('#waitingMarks').show();
+		var waitingforResponse = setInterval(function(){
+			singleAccess.waitForData("evalData", deviceName, function(response){
+				if(response == false){
+				}else{
+					clearInterval(waitingforResponse);
+					danksagungStarten();
+				}
+			});
+		}, 3000);
+		
+		setTimeout(function(){
+			 clearInterval(waitingforResponse);			 //clear above interval after 15 seconds
+			 $('#danksagungSlider').html('Auswertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut');
+			 $('#waitingMarks').hide();
+			 $('#repeatSendEvalData').show();
+			 
+		}, 20000);
 	}
 	
 	/***************************** prototypeSelection********************/
@@ -210,7 +238,7 @@ app.on('pageInit', function(page){
 	} /****************************** home end ****************************/
 
 	/****************************** P2 Start ***************************/
-    if (page.name === 'P2'){
+    if (page.name === 'prototype'){
         var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
         singleAccess.initializeSwiper();
 		
@@ -237,10 +265,6 @@ app.on('pageInit', function(page){
 
 			singleAccess.setHandler(mySwiper);
 		});
-		
-		
-
-
 		
         $(".help").click(function () {
 			let content = '<div class="block">' +
@@ -307,7 +331,6 @@ app.on('pageInit', function(page){
                             id: rangeSliderReferences[i].questionId,
                             value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
                         });
-						console.log("slider value" + i)
                     }
 
                     //initialize the sliders, starting with data at startIndex
@@ -328,62 +351,21 @@ app.on('pageInit', function(page){
 					//array for saving the values of the sliders
 					//save slider values of the existing sliders
 					for (var i = 0; i < rangeSliderReferences.length; i++) {
-						console.log(rangeSliderReferences[i]);
 						sliderValues.push({
 							id: rangeSliderReferences[i].questionId,
 							value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
 						});
 					}
 					
-					console.log(sliderValues)
                     //save slider values of the existing sliders
-                    for (var i = 0; i < questions.length; i++) {
-                            
-							singleAccess.sendEvalData(questions[sliderValues[i].id].id, sliderValues[i].value, deviceName);
-							console.log("frage" +i+ "gesendet");
-                           // value: rangeSliderReferences[i].value + rangeSliderReferences[i].min
+                    for (var i = 0; i < questions.length; i++) {    
+						singleAccess.sendEvalData(questions[sliderValues[i].id].id, sliderValues[i].value, deviceName);
                     }
-
-                    //TODO: DELETE AFTER TESTING
-                    console.log(sliderValues);
 
                 }
             });
-			function waitForResponse(){
-				$('#danksagungSlider').html('Auswertung wird gesendet.');
-				$('#waitingMarks').show();
-				var waitingforResponse = setInterval(function(){
-					singleAccess.waitForData("evalData", deviceName, function(response){
-						if(response == false){
-						}else{
-							clearInterval(waitingforResponse);
-							danksagungStarten();
-						}
-					});
-				}, 3000);
-				
-				setTimeout(function(){
-					 clearInterval(waitingforResponse);			 //clear above interval after 15 seconds
-					 $('#danksagungSlider').html('Auswertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut');
-					 $('#waitingMarks').hide();
-					 $('#repeatSendEvalData').show();
-					 
-				}, 20000);
-			}
 			
-			function danksagungStarten(){
-				var waiting = setInterval(function(){
-					$('#danksagungSlider').html('Vielen Dank für deine Bewertung! Du wirst nun zu unserem Puzzlespiel weitergeleitet.')
-					$('#waitingMarks').show();
-				},2000); //delay is in milliseconds 
-
-				setTimeout(function(){
-					 clearInterval(waiting);			 //clear above interval after 15 seconds
-					 app.router.navigate('/puzzle/')
-				},4000);
-					
-				
-			}
+			
 			
 			$('#repeatSendEvalData').click(function(){
 				waitForResponse();
@@ -537,39 +519,11 @@ app.on('pageInit', function(page){
 	}
 });
 
-	// Init/Create views
+	// Init/Create first view
 	var homeView = app.views.create('#view-prototypeSelection', {
 	  url: '/'
 	});
 
-/* 	if(page.name === "settingsTest"){
-        var key = 'person2';
-        $('#saveSettings').click(function(){
-
-        	if (window.localStorage) {
-                    var person = {
-
-                        Name: 'Hans Peter',
-
-                        Age: 24,
-
-                        Gender: 'Male',
-
-                        Nationality: 'Nigerian'
-                    };
-                    localStorage.setItem(key, JSON.stringify(person));
-
-
-                } else {
-        			console.log("im localstorage ging was schief")
-                }
-        });
-        $('#loadSettings').click(function() {
-            alert(localStorage.getItem(key));
-            console.log(JSON.parse(localStorage.getItem(key)));
-        });
-
-	}   */ /******* settings end *******/
 
 
 

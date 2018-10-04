@@ -21,3 +21,16 @@
 	display: flex;
 	flex-wrap: wrap;
 }
+
+.twoButtons{
+	display: flex;
+}
+
+.twoButtons > a{
+	margin: 2%;
+}
+
+.left-Btn, .right-Btn{
+	margin: 2%;
+	min-width: 180px;
+} 

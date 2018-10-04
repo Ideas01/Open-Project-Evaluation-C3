@@ -53,15 +53,15 @@
 }
 /*** Buttons end ***/
 /********** mini Overview start **********/
-#miniOverview{
-	position: absolute;
-	background-size: cover;
-	top: 25%;
-	left: 87%;
-	width: 87px;
-	height: 75px;
-	background-color: red;
-	font-size: 0;
+#miniOverview {
+    position: absolute;
+    background-size: cover;
+    margin: 5% 2%;
+    left: 5%;
+    width: 110px;
+    height: 110px;
+    background-color: red;
+    font-size: 0;
 }
 
 .miniOverviewGridPiece, .miniOverviewPuzzlePiece{

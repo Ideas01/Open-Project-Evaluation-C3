@@ -13,7 +13,7 @@ routes = [
     },
     {
         path: '/prototype/',
-        url: './pages/prototype2.html',
+        url: './pages/prototype.html',
     },
     {
         path: '/sliders/',

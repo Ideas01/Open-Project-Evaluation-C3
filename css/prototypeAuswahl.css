@@ -2,7 +2,7 @@
     position: absolute;
 	margin-top: -2%;
     padding: 4%;
-    width: 100%;
+   /*  width: 100%; */
     height: 20%;
     top: 0;
     line-height: 1.0;
@@ -22,13 +22,13 @@
 
 
 
-.startBtn img {
+/* .startBtn img {
 	left: 40%;
     width: 20%;
     position: fixed;
     bottom: 0;
 
-}
+} */
 
 .choicePageContent{
 	position: absolute;

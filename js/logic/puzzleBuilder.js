@@ -199,7 +199,6 @@ class PuzzleBuilder{
 			$(wrapperDom).parent().append(overallGridWrapper);
 		}).then(function(){
 			let wrapperArray = [];
-			//singleAccess.calculateWrapperSize(puzzle.imageObject, wrapperArray, 80);
 			thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
 		});
 
@@ -341,11 +340,11 @@ class PuzzleBuilder{
 		
 		function checkWidth(element){	
 			if(element.width() > 32 && element.height() > 32 ){
-				console.log("groeßer als 32")
 				wrapper.parent().children().last().css('display','none');
+				$('#miniOverview').css({'display': 'none'});
 			}
 			else{
-				console.log("kleiner als 32" + element.width())
+				$('#miniOverview').css({'display': 'block'});
 				wrapper.parent().children().last().css('display','inline-block');
 			}
 		}
