@@ -177,7 +177,8 @@ app.on('pageInit', function(page){
 						resolve(0);
 					});
 				 } else{
-					let content = '<div class="block">' +
+					app.router.navigate('/home/');
+					l/* et content = '<div class="block">' +
 									'<p>'+
 									'Bitte wähle einen Prototypen aus, der evaluiert werden soll.' +
 									'</p>'+
@@ -185,8 +186,10 @@ app.on('pageInit', function(page){
 										'<a class="button popup-close"> OK </a>' +
 									'</a>' +
 								'</div>'
-				 singleAccess.util_PopUp('BITTE AUSWÄHLEN',content);
+				 sing leAccess.util_PopUp('BITTE AUSWÄHLEN',content);*/
+				 
 				 };
+				 
 			});	
 			contextGeupdated.then(function(resolve){
 				app.router.navigate('/home/');
