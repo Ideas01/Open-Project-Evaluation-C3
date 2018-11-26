@@ -438,7 +438,23 @@ app.on('pageInit', function(page){
 				return puzzlePieceClassName;
 			})
 		}); 
-	
+		
+		$("#helpPuzzle").click(function () {
+			let content = 	'<div class="block">' +
+								'<p> Vielen Dank für deine Teilnahme an dieser Umfrage. <br/>'+
+								'Als kleines Dankeschön kannst du auf dieser Seite ein Puzzlespiel lösen. <br/>'+
+								'Die Regeln sind ganz einfach: <br/><br/>'+
+								'Ziel des Spiels ist es das Bild unter den Teilen zu erraten. <br/>'+
+								'Für jedes aufgedekte Teil werden dir von den Punkten links oben Punkte abgezogen.'+ 
+								'Also versuche möglichst wenig Teile aufzudecken um das Puzzle zu lösen.<br/><br/>' +
+								'Viel Erfolg und viel Spaß dabei <br/><br/>'+
+								'</p>' +
+								'<a href="#" class="popup-close" >' +
+									'<a class="button popup-close"> Los geht´s! </a>' +
+								'</a>' +
+							'</div>' 
+			singleAccess.util_PopUp('HILFE',content);	
+        });
 	}
 	
 		/****************************** puzzle end ****************************/
@@ -469,6 +485,23 @@ app.on('pageInit', function(page){
 		$(window).on('resize', function (page) {
 			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
 		});
+		
+		$("#helpPuzzleGuess").click(function () {
+			let content = 	'<div class="block">' +
+								'<p> Auf dieser Seite kannst du erraten was unter dem zuvor verdeckten Bild zu sehen ist. <br/>'+
+								'Hierzu wähle einfach im oberen Bereich zunächst die Kategorie aus zu der der Bildinhalt passt '+
+								'und wähle darunter die Lösung, die du für richtig hällst. <br/><br/>'+
+								'Noch ein Tipp: <br/>'+
+								'Falls du in der gewählten Kategorie nicht den gewünschten Begriff finden kannst geh '+
+								'besser noch einmal eine Seite zurück und decke mehr Teile auf. <br/>'+ 
+								'Viel Erfolg! <br/><br/>'+
+								'</p>' +
+								'<a href="#" class="popup-close" >' +
+									'<a class="button popup-close"> Los geht´s! </a>' +
+								'</a>' +
+							'</div>' 
+			singleAccess.util_PopUp('HILFE',content);	
+        });
     }
 
     /****************************** puzzleGuess end ****************************/
