@@ -249,7 +249,7 @@ app.on('pageInit', function(page){
 			singleAccess.getPrototypeImages(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
 		});
 		
-		new Promise(function(resolve, reject){
+/* 		new Promise(function(resolve, reject){
 			singleAccess.waitForData("prototypeImages", deviceName, function(prototypeImages){
 				imageArray = [];				
 				prototypeImages.forEach(function(image, imageIndex, prototypeImages){
@@ -264,7 +264,15 @@ app.on('pageInit', function(page){
 			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
 
 			singleAccess.setHandler(mySwiper);
-		});
+		}); */
+		
+		// just for testing purposes
+		let prototypeSwiper = document.querySelector('#prototypeSwiper').swiper;
+		imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
+		mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
+		singleAccess.setHandler(mySwiper);
+		
+		/******************************************/
 		
         $(".help").click(function () {
 			let content = '<div class="block">' +
