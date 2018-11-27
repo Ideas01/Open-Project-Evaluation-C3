@@ -220,7 +220,7 @@ class SwiperFactory
 											'<div class="next" text-align="center">' +
 												'<div class="twoButtons">' +
 												'<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
-												'<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
+												'<a href="/puzzle/" class="button" id="right-Btn"> Weiter </a>' +
 											'</div>' +
 										'</div>'
 						thisisme.util.popUp('Dankeschön',content);

@@ -275,14 +275,14 @@ app.on('pageInit', function(page){
 		/******************************************/
 		
         $(".help").click(function () {
-			let content = '<div class="block">' +
-								'<p class="description">Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
-								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
-								'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-								'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
-								'<a href="#" class="popup-close" >' +
-									'<a class="button popup-close"> Los geht´s! </a>' +
-								'</a>' +
+			let content =   '<div class="block">' +
+							'<p class="description">Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
+							'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
+							'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+							'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
+							'<a href="#" class="popup-close" >' +
+								'<a class="button popup-close"> Los geht´s! </a>' +
+							'</a>' +
 							'</div>'
 			singleAccess.util_PopUp('HILFE',content);
         });
