@@ -21,7 +21,9 @@
 }
 
 
-
+.pSelectionSwiper{
+	margin-top: 4% !important;
+}
 /* .startBtn img {
 	left: 40%;
     width: 20%;
@@ -47,5 +49,11 @@
     background-color: lime;
     margin: 1%;
 
+}
+
+#prototypeSelectionSwiper img {
+	height: 100px;
+	width: auto;
+	left: 10%;
 }
 
