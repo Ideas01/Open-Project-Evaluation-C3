@@ -265,7 +265,7 @@ app.on('pageInit', function(page){
 		
         $(".help").click(function () {
 			let content = '<div class="block">' +
-								'<p class="description">Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
+								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
 								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
 								'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
 								'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
@@ -428,11 +428,11 @@ app.on('pageInit', function(page){
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
 				var puzzlePieceClassName = singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
-				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 60);
 					
 				$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
-					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 60);
 				});
 					
 				return puzzlePieceClassName;
@@ -483,7 +483,7 @@ app.on('pageInit', function(page){
         });
 		
 		$(window).on('resize', function (page) {
-			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 80);
+			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 60);
 		});
 		
 		$("#helpPuzzleGuess").click(function () {

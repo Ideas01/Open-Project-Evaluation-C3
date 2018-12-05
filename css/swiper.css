@@ -39,3 +39,27 @@
 	width: 40%;
 	min-width: 180px;
 } 
+
+.arrow{
+	position: absolute;
+	z-index: 5;
+	height: 100%;
+	width: 10%;
+	background-color: #fff;
+	opacity: 0.6;
+}
+
+.arrowRight{
+	right: 0;
+}
+
+.arrowLeft{
+	left: 0;
+}
+
+.arrowImg {
+	position: relative;
+	width: 40%;
+	top: 43%;
+	left: 29%;
+}
