@@ -109,16 +109,16 @@ class SwiperFactory
 					case "CONTENTSWIPER": 
 						let swiperArray =[];
 						var contentWidth = 100;
-						var contentHeight = 95;
-						if(contentArray.length == 1) {}/*use default values.*/
+						var contentHeight = 100;
+						if(contentArray.length == 1) {} //use default values.
 						if(maxContentPerSwiper > 3 && contentArray.length > 3){
 							 contentWidth = contentWidth / (Math.round(maxContentPerSwiper/2)) - 5;
 							 contentHeight = contentHeight/2 - 5;
 						} else if(maxContentPerSwiper == 3 || contentArray.length == 3){
-							 contentWidth = 45;
+							 contentWidth = 40;
 							 contentHeight = contentHeight/ 2;
 						} else if(maxContentPerSwiper == 2 || contentArray.length == 2){
-							 contentWidth = 45;
+							 contentWidth = 40;
 						}
 						
 					$("#" + nameSpace + i).css("height", "70%");
@@ -127,40 +127,41 @@ class SwiperFactory
 					for(var m = 0; m < maxContentPerSwiper; m++){
 						if(counter < contentArray.length){
 							$("#"+ nameSpace + i).append('<div id="'+ nameSpace + m + counter + '"></div>');
+							//TODO: noch divs appenden für wrapper.
 							
 							$('#' +  nameSpace + m + counter)[0].contextId = counter;
 							
 							$('#' +  nameSpace + m + counter).addClass(nameSpace);
 							
-							$('.'+ nameSpace).css('cursor','pointer');
+							$('.' + nameSpace).css('cursor','pointer');
 							
 							
 							$('#' +  nameSpace + m + counter).click(function(event){
 								var target = event.target.id.toString();
-								$('#'+ target).css({'border': 'solid 1px #ffb380', 'width': '44%'});
-							$('.' + nameSpace).not('#'+ target).css({'border': 'none', 'width': '44%'});
+								$('#'+ target).css({'border': 'solid 1px #ffb380', 'width': '40%'});
+							$('.' + nameSpace).not('#'+ target).css({'border': 'none', 'width': '40%'});
 								contextId = event.target.contextId;
 								thisisme.currentContextIdIndex = event.target.contextId;
 							});
 							
-							$("#"+ nameSpace + m + counter).css({
+							$("#" + nameSpace + m + counter).css({
 								'position': 'relative',
 								'display': 'flex',
 								'margin': '1%',
 								'align-content':'center',
-								'width': contentWidth + '%', 
+								'width': contentWidth + '%',
 								'height': contentHeight + '%',
-								'padding-left': '3%',
-								'padding-top': '3%'
+								'padding': '3%',
 							});	
 							
-							$('.'+ nameSpace).css('cursor', 'pointer');
-							$("."+ nameSpace).children().css('pointer-events', 'none');
+							
+							$('.' + nameSpace).css('cursor', 'pointer');
+							$("." + nameSpace).children().css('pointer-events', 'none');
 							
 							if(m < contentArray.length){						
 								keysArray.forEach(function(key, keyIndex, keysArray){
-									$("#"+ nameSpace + m + counter ).append(contentArray[counter][key]);
-									$('#'+ nameSpace + m + counter).children().css('pointer-events', 'none');
+									$("#" + nameSpace + m + counter ).append(contentArray[counter][key]);
+									$('#' + nameSpace + m + counter).children().css('pointer-events', 'none');
 								});
 							}
 							
