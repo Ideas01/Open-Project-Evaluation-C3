@@ -44,7 +44,8 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	width: 10%;
+	width: 100%;
+	margin: 5% 0 ;
 }
 
 .points{
@@ -56,27 +57,34 @@
     color: grey;
     opacity: 0.5;
 }
+.defaultWrapper{
+	display:flex;
+	flex-direction: row;
+}
+
+.wholePzzleWrapper {
+    position: relative;
+    height: 60%;
+    margin: 0 auto;
+}
+
 /***  Buttons ***/
 
 .startGuess{
-    background: #d40055;
-   /*  padding: 17px 34px; */
-    color: #ffffff;
-    font-size: 16px;
-    position: absolute;
-    bottom: 5%;
-    left: 35%;
-    transform: translate(-50%, -50%);
+	font-size: 16px;
+	position: relative;
+	margin-top: 5% !important;
 }
+
 /*** Buttons end ***/
 /********** mini Overview start **********/
 #miniOverview {
-    position: absolute;
+    position: relative;
     background-size: cover;
-    margin: 5% 2%;
-    left: 5%;
-    width: 110px;
-    height: 110px;
+	margin: 6% 8%;
+	float: right;
+    width: 220px;
+    height: 220px;
     background-color: red;
     font-size: 0;
 }

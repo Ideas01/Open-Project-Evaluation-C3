@@ -21,12 +21,6 @@ body{
 /* Buttons */
 .md .button{
     background: #d40055;
-    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#d40055));
-    background: -webkit-linear-gradient(top, #d40055, #d40055);
-    background: -moz-linear-gradient(top, #d40055, #d40055);
-    background: -ms-linear-gradient(top, #d40055, #d40055);
-    background: -o-linear-gradient(top, #d40055, #d40055);
-    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
     padding: 17px 34px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -46,8 +40,9 @@ body{
     min-width: 45px;
     padding: 0 8px;
 	width: 30%;
-    margin: 0 auto;
 	border: none;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .button:active {

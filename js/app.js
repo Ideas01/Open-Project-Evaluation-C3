@@ -428,11 +428,11 @@ app.on('pageInit', function(page){
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
 				var puzzlePieceClassName = singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
-				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 60);
+				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 					
 				$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
-					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 60);
+					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 				});
 					
 				return puzzlePieceClassName;
