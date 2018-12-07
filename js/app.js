@@ -72,8 +72,14 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 	
 });
 
-		
+$$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
 	
+	setTimeout(function(){
+		$(".arrow").addClass("fadeInOut");
+	}, 1500);
+		
+});
+	 
 
 app.on('pageInit', function(page){
 	
@@ -262,6 +268,7 @@ app.on('pageInit', function(page){
 
 			singleAccess.setHandler(mySwiper);
 		});
+		$(".arrow").removeClass("fadeInOut");
 		
         $(".help").click(function () {
 			let content = '<div class="block">' +

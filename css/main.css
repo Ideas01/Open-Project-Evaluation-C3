@@ -43,6 +43,7 @@ body{
 	border: none;
 	margin-right: auto;
 	margin-left: auto;
+	min-width: 190px;
 }
 
 .button:active {

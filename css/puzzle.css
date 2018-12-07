@@ -1,7 +1,7 @@
 .close-zoom{
 	color: #d40055;
 }
-
+/* TODO: das darf hier eig. nicht drin sein. */
 #croppedImageDiv{
 	z-index: 4;
 	position: absolute;
@@ -9,6 +9,7 @@
 	top: 74px;
 	height: 80%;
 	width: 80%;
+	pointer-events: none;
 }
 
 #puzzleWrapper{
@@ -41,11 +42,11 @@
 }
 
 #pointsWrapper{
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	margin: 5% 0 ;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 8% auto;
 }
 
 .points{
@@ -57,9 +58,12 @@
     color: grey;
     opacity: 0.5;
 }
+
 .defaultWrapper{
 	display:flex;
 	flex-direction: row;
+	padding: 0 15%;
+	max-height: 162px;
 }
 
 .wholePzzleWrapper {
@@ -83,8 +87,8 @@
     background-size: cover;
 	margin: 6% 8%;
 	float: right;
-    width: 220px;
-    height: 220px;
+    width: 120px;
+    height: 120px;
     background-color: red;
     font-size: 0;
 }

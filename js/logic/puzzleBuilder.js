@@ -146,7 +146,7 @@ class PuzzleBuilder{
 						"position": "absolute",
 						"z-index":"7",
 						"top":"0",
-						"left":"102%"
+						"right":"2%"
 						
 					});
 				});
@@ -442,7 +442,8 @@ function cropImage(imageObject, sourceStartX, sourceStartY, cutWidth, cutHeight,
 		"bottom": "-9999px",
 		"left": "-9999px",
 		"right": "-9999px",
-		"margin": "auto"
+		"margin": "auto",
+		"pointer-events": "none"
 	});
  }
 	/*tileCountWidth has been set to 12.
