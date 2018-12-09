@@ -53,6 +53,7 @@ var app  = new Framework7({
   
 
 
+
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 
 	var singleAccess = new SingleAccess();
@@ -69,7 +70,6 @@ $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 						'</a>' +
 					'</div>'	
 	singleAccess.util_PopUp('Spielanleitung', content);
-	
 });
 
 $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
@@ -79,10 +79,10 @@ $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
 	}, 1500);
 		
 });
+
 	 
 
 app.on('pageInit', function(page){
-	
 	
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
@@ -138,9 +138,12 @@ app.on('pageInit', function(page){
 	function waitForResponse(){
 		$('#danksagungSlider').html('Auswertung wird gesendet.');
 		$('#waitingMarks').show();
+		$(".page-content").animate({ scrollTop: $(".page-content").height() }, 1000);
+		
 		var waitingforResponse = setInterval(function(){
 			singleAccess.waitForData("evalData", deviceName, function(response){
 				if(response == false){
+					 
 				}else{
 					clearInterval(waitingforResponse);
 					danksagungStarten();
@@ -319,7 +322,6 @@ app.on('pageInit', function(page){
             
 			//when the button is clicked
             $("#sendRatingsButton").click(function () {
-
                 //subtract the amount of initialized rangeSliders, so we know how many questions are left
                 remainingQuestions -= rangeSliderReferences.length;
 				singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
@@ -378,6 +380,8 @@ app.on('pageInit', function(page){
 			});
 			
         });
+		
+		
 
 		
         
