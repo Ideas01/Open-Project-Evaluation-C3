@@ -57,18 +57,20 @@ var app  = new Framework7({
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 
 	var singleAccess = new SingleAccess();
-	singleAccess.checkGrid(puzzle.puzzleWrapper);
+	singleAccess.checkGrid(puzzle.puzzleWrapper);	
 	let content = 	'<div class="block">' +
-						'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
-							'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
-							'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
-							'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
-							'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
-							' <img src="img/tab.png"style="width: 15%;"/></p>' +
-						'<a href="#" class="popup-close" >' +
-							'<a class="button popup-close"> Los geht´s! </a>' +
-						'</a>' +
-					'</div>'	
+					'<p> Vielen Dank für deine Teilnahme an dieser Umfrage. <br/>'+
+					'Als kleines Dankeschön kannst du auf dieser Seite ein Puzzlespiel lösen. <br/>'+
+					'Die Regeln sind ganz einfach: <br/><br/>'+
+					'Ziel des Spiels ist es das Bild unter den Teilen zu erraten. <br/>'+
+					'Für jedes aufgedekte Teil werden dir von den Punkten links oben Punkte abgezogen.'+ 
+					'Also versuche möglichst wenig Teile aufzudecken um das Puzzle zu lösen.<br/><br/>' +
+					'Viel Erfolg und viel Spaß dabei <br/><br/>'+
+					'</p>' +
+					'<a href="#" class="popup-close" >' +
+						'<a class="button popup-close"> Los geht´s! </a>' +
+					'</a>' +
+				'</div>' 
 	singleAccess.util_PopUp('Spielanleitung', content);
 });
 

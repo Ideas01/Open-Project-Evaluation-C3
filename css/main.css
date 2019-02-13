@@ -18,6 +18,10 @@ body{
     margin-bottom: 40%;
 }
 
+.md .navbar .title {
+    margin: 0 auto;
+}
+
 /* Buttons */
 .md .button{
     background: #d40055;
