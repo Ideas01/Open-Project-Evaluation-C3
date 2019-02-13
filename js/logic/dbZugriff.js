@@ -293,11 +293,12 @@ class DBZugriff{
 		var dataReferenceName = "evalData"
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
-			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
-				console.log(response.createAnswer.voteCreated);
+			setTimeout(function(){																	// Nur für Testzwecke drin.
+				thisisme.setContextData(dataReferenceName, true);
+			}, 2000);
+			/* thisisme.callDatabase(dataReferenceName, token, query, function(response){ 			// Nur für Testzwecke rausgenommen.
 				thisisme.setContextData(dataReferenceName, response.createAnswer.voteCreated);
-			});
+			}); */
 		});
 	}
 
@@ -335,7 +336,7 @@ class DBZugriff{
 	/**
 	waitForData()
 	
-	continues when there data from the backend
+	continues when there´s data from the backend
 	
 	parameters:
 	- dataReference: (string) - reference on the data this function is waiting for
