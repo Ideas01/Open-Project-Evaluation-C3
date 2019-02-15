@@ -81,9 +81,15 @@ class DBZugriff{
 				
 			});
 		}
+		
 	}
 
-
+	buildSubscription(){
+		
+		
+	}
+	
+	
 	/**
 	getContexts()
 	
@@ -114,7 +120,21 @@ class DBZugriff{
 					var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
 					
 					thisisme.ContextList.push(finalSurvey);
-							
+				
+					
+					
+
+					
+					/* connection.onopen = function () {
+					 
+					  
+					  connection.send('{"query":"subscription {contextUpdate(contextID:' + contexts[0].id  +'){event changedAttributes stateKey context {id}}}"}');
+					  //connection.send('Ping'); // Send the message 'Ping' to the server
+					};
+					 */
+					/* connection.onmessage = function (event) {
+					  console.log(event.data);
+					} */
 				});
 			});	
 		});
@@ -137,9 +157,8 @@ class DBZugriff{
 	parameters:
 	- context: (string)
 	- deviceName: (string) 
-	
-	
 	*/
+	
 	updateDeviceContext(context, deviceName){
 		var chk = new Checker("updateDeviceContext");
 		chk.isValid(context,"context");
@@ -147,14 +166,117 @@ class DBZugriff{
 		
 		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
 						'\\") {device {context {activeSurvey {title}} id name}}}"}';
+		
+		console.log("deviceId")
+		console.log(this.TokenList[deviceName].id);
+		
 		var name = "deviceContext";
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(name, token, query , function(response){
-				console.log("DeviceContext geupdatet")
+			console.log("DeviceContext geupdatet");
+			
+			console.log(token);				
+			
+			thisisme.subscribeToContext(token, context.contextId);
+				
+				
 			});
 		});
-	} 
+	}
+	
+	subscribeToContext(token, contextId){
+		
+		var address = (this.serverAdresse).substring(7);
+		var webSocket = new WebSocket('ws:' + address, 'graphql-subscriptions');
+		
+		webSocket.onopen = (event) => {
+		  var message = {
+			  type: 'init',
+			  payload: {"Authorization": "Bearer " + token}
+		  }
+			console.log("conection opened.")
+			webSocket.send(JSON.stringify(message))
+		  
+		  console.log(contextId);
+		  
+		  
+		  const message2 = {
+		  id: '1',
+		  type: 'subscription_start',
+		  query: 'subscription sContext {contextUpdate(contextID: "'+ contextId +'") {stateKey changedAttributes context {id  states {key value}}}}'
+		}
+		webSocket.send(JSON.stringify(message2))
+		}
+		
+		
+		
+		webSocket.onmessage = function (event){
+			//console.log(event.data);
+			const data = JSON.parse(event.data)
+			
+			
+			switch (data.type) {
+				case 'init_success': {
+				  console.log('init_success, the handshake is complete')
+				  break
+				}
+				case 'init_fail': {
+				  throw {
+					message: 'init_fail returned from WebSocket server',
+					data
+				  }
+				}
+				case 'subscription_data': {
+				  console.log('subscription data has been received', data)
+				  break
+				}
+				case 'subscription_success': {
+				  console.log('subscription_success')
+				  break
+				}
+				case 'subscription_fail': {
+				  throw {
+					message: 'subscription_fail returned from WebSocket server',
+					data
+				  }
+				}
+			  }
+		}
+			
+	}
+	
+	createState(token, stateKey, stateValue, contextId){
+		var sKey = stateKey;
+		var sValue = stateValue;
+		var dataReferenceName = "States";
+		var query = '{"query": "mutation{' +
+					  'createState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + contextId + '\\") {' +
+						'state {' +
+						  'key value' +
+						'}' +
+					  '}' +
+					'}"}';
+		
+		this.callDatabase(dataReferenceName, token, query, function(response){
+			console.log(dataReferenceName + "erfolgreich")
+			console.log(response);			
+		});	
+	}
+	
+	deleteState(token, key, contextId){
+		var sKey = key;
+		var dataReferenceName = "deleted";
+		var query = '{"query": "mutation{' +
+			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + contextId + '\\") {' +
+				'success' +
+			  '}' + 
+			'}"}';
+		this.callDatabase(dataReferenceName, token, query, function(response){
+			console.log(dataReferenceName + "erfolgreich")
+			console.log(response);			
+		});	
+	}
 	
 	/**
 	getPrototypeImages()
@@ -222,6 +344,12 @@ class DBZugriff{
 							  'stepSize'+ 
 							'}}}}}"}';
 		this.waitForToken(deviceName, function(token){
+			
+			// NUR ZU TESTZWECKEN
+			/* thisisme.createState(token, "kakao", "Bohne", context.contextId); */
+					
+			
+			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
 				console.log(response);
@@ -237,7 +365,9 @@ class DBZugriff{
 				});
 						
 				thisisme.setContextData(dataReferenceName, questions);	
-
+				
+				// NUR ZU TESTZWECKEN
+				/* thisisme.deleteState(token, "kakao", context.contextId); */
 				
 			});
 		});
@@ -293,12 +423,11 @@ class DBZugriff{
 		var dataReferenceName = "evalData"
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
-			setTimeout(function(){																	// Nur für Testzwecke drin.
-				thisisme.setContextData(dataReferenceName, true);
-			}, 2000);
-			/* thisisme.callDatabase(dataReferenceName, token, query, function(response){ 			// Nur für Testzwecke rausgenommen.
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response.createAnswer.voteCreated);
 				thisisme.setContextData(dataReferenceName, response.createAnswer.voteCreated);
-			}); */
+			});
 		});
 	}
 
@@ -336,7 +465,7 @@ class DBZugriff{
 	/**
 	waitForData()
 	
-	continues when there´s data from the backend
+	continues when there data from the backend
 	
 	parameters:
 	- dataReference: (string) - reference on the data this function is waiting for
