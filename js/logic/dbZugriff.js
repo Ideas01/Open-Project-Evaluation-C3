@@ -278,6 +278,24 @@ class DBZugriff{
 		});	
 	}
 	
+	updateState(token, stateKey, stateValue, contextId){
+		var sKey = stateKey;
+		var sValue = stateValue;
+		var dataReferenceName = "States";
+		var query = '{"query": "mutation{' +
+					  'updateState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + contextId + '\\") {' +
+						'state {' +
+						  'key value' +
+						'}' +
+					  '}' +
+					'}"}';
+		
+		this.callDatabase(dataReferenceName, token, query, function(response){
+			console.log(dataReferenceName + "erfolgreich")
+			console.log(response);			
+		});	
+	}
+	
 	/**
 	getPrototypeImages()
 	
@@ -289,6 +307,10 @@ class DBZugriff{
 	
 	*/
 	getPrototypeImages(context, deviceName){
+		
+
+		
+		
 		var chk = new Checker("getPrototypeImages");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
@@ -299,6 +321,12 @@ class DBZugriff{
 		'\\"){id activeSurvey{images{id name url}}}}"}';
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
+			
+			
+		// NUR ZU TESTZWECKEN
+		/* thisisme.createState(token, "kakao", "Bohne", context.contextId); */
+		
+		
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 						
 				console.log(dataReferenceName + "erfolgreich")
@@ -345,10 +373,8 @@ class DBZugriff{
 							'}}}}}"}';
 		this.waitForToken(deviceName, function(token){
 			
-			// NUR ZU TESTZWECKEN
-			/* thisisme.createState(token, "kakao", "Bohne", context.contextId); */
-					
-			
+			// NUR ZU TESTZWECKEN		
+			/* thisisme.updateState(token, "kakao", "Böhne", context.contextId);  */
 			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
@@ -367,7 +393,7 @@ class DBZugriff{
 				thisisme.setContextData(dataReferenceName, questions);	
 				
 				// NUR ZU TESTZWECKEN
-				/* thisisme.deleteState(token, "kakao", context.contextId); */
+				/* thisisme.deleteState(token, "kakao", context.contextId);  */
 				
 			});
 		});
