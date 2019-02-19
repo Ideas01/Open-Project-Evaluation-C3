@@ -1,0 +1,51 @@
+.prototypChoiceTitle {
+    position: absolute;
+	margin-top: -2%;
+    padding: 4%;
+   /*  width: 100%; */
+    height: 20%;
+    top: 0;
+    line-height: 1.0;
+	font-size: calc(11pt + 0.25vw)
+}
+
+.descriptionPChoice{
+	font-size: calc(10pt + 0.25vw);
+	position: absolute;
+	display: block;
+	top: 25%;
+	padding: 1% 4% 0 4%;
+	word-wrap: normal; 
+	height: 20%;
+	/*overflow: hidden;*/
+}
+
+
+
+/* .startBtn img {
+	left: 40%;
+    width: 20%;
+    position: fixed;
+    bottom: 0;
+
+} */
+
+.choicePageContent{
+	position: absolute;
+	margin: 3% 10%;
+	display: table-cell;
+	align-content: center;
+	width: 80%;
+	height: 90%;
+}
+
+.prototypeChoiceWrapper {
+    position: relative;
+    display: inline-block;
+    width: 47%;
+    height: 30%;
+    background-color: lime;
+    margin: 1%;
+
+}
+

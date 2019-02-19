@@ -1,0 +1,84 @@
+/**animations**/
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 0.6;}
+}
+
+
+.swiper-container{
+	height: 100%;
+}
+
+.selectionImgWrapper{
+	position: relative;
+	top: 55%;
+	width: 30%;
+	display: inline-block;
+	margin-right: 5%;
+}
+
+.prototypeSelectionImg{
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	margin-right: 2%;
+	
+}
+
+.swiper-slide{
+	display: flex;
+	flex-wrap: wrap;
+	width: 60%;
+}
+
+.twoButtons{
+	position: absolute;
+	display: flex;
+	flex-wrap: wrap;
+	width: 90%;
+	margin: 0;
+	top: 25%;
+	left: 5%;
+}
+
+
+#left-Btn, #right-Btn{
+	margin: 5%;
+	width: 40%;
+	min-width: 180px;
+} 
+
+.arrow{
+	position: absolute;
+	z-index: 5;
+	height: 100%;
+	width: 10%;
+	background-color: #fff;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.fadeInOut{
+	animation-name: fadeIn;
+	animation-duration: 1s;
+	animation-iteration-count: 2;
+	animation-direction: alternate;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+.arrowRight{
+	right: 0;
+}
+
+.arrowLeft{
+	left: 0;
+}
+
+.arrowImg {
+	position: relative;
+	width: 40%;
+	top: 43%;
+	left: 29%;
+}

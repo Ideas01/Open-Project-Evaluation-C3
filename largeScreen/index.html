@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<head xmlns="http://www.w3.org/1999/html">
+    <meta charset="utf-8"/>
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"> -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <!--  <meta name="theme-color" content="#2196f3"> -->
+</head>
+<title>My App</title>
+
+<link rel="stylesheet" href="framework7/css/framework7.min.css"/>
+<link rel="stylesheet" href="framework7/css/framework7.ios.min.css"/>
+<link rel="stylesheet" href="css/framework7-icons.css"/>
+<link rel="stylesheet" href="css/swiper.css"/>
+<link rel="stylesheet" href="css/puzzle.css"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/404.css"/>
+<link rel="stylesheet" href="css/prototypeAuswahl.css"/>
+
+<body>
+	<div id="app">
+
+		<!-- Views container -->
+		<div class="views ios-edges">
+
+			<!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
+			<div id="view-prototypeSelection" class="view view-main">
+				<!-- Page, data-name contains page name which can be used in page callbacks -->
+				<div class="page" data-name="prototypeSelection">
+					<div class="navbar">
+						<div class="navbar-inner sliding">
+							<div class="left">
+								<img src="img/Logo.svg" style="position: relative; left: 10px;" width="65" height="65"/>
+							</div>
+							<div class="center-sliding">Prototypen Auswahlbereich</div>
+						</div>
+						
+					</div>
+					<div class="page-content">
+						<!-- Slider container -->
+						<div class="swiper-container" id="prototypeSelectionSwiper">
+							<!-- Slides wrapper -->
+							<div class="swiper-wrapper"  id="prototypeSelectionSwiperWrapper">
+								<!-- Slides -->
+							</div>
+							<!-- Pagination -->
+							<div class="swiper-pagination"></div>
+						</div>
+						<a href="#" class="startBtn" id="startSelectPrototype"><img src="img/next.svg"/></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- Cordova -->
+    <!--
+    <script src="cordova.js"></script>
+    -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Framework7 library -->
+    <script src="framework7/js/framework7.min.js"></script>
+    <!-- Framework7 library -->
+	
+	<!-- Factorys -->
+	<script type="text/javascript" src="js/logic/checker.js"></script>
+	<script type="text/javascript" src="js/logic/puzzle.js"></script>
+	<script type="text/javascript" src="js/logic/util.js"></script>
+    <script type="text/javascript" src="js/logic/puzzleBuilder.js"></script>
+    <script type="text/javascript" src="js/logic/swiperFactory.js"></script>
+    <script type="text/javascript" src="js/logic/dbZugriff.js"></script>
+	
+    <script src="js/logic/singleaccess.js"></script>
+
+
+	
+
+    <!-- App routes -->
+    <script src="./js/routes.js"></script>
+
+
+    <!-- Javascript puzzleData -->
+	<script type="text/javascript" src="img/puzzlePictures/pictureReferences.js"></script> 
+	
+    <script src="./js/app.js"></script>
+</body>
+</html>

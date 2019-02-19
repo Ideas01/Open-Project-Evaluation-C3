@@ -1,0 +1,712 @@
+body{
+	font-size: calc(6pt + 0.7vw)
+}
+
+#view-prototypeSelection, #home-page{
+	overflow-y: auto;
+}
+
+.page-content{
+	overflow: auto;
+}
+
+.ios a{
+	color: #fff;
+}
+/** Description Text Home.html **/
+.descriptionTextP {
+    margin-bottom: 40%;
+}
+
+/* Buttons */
+.md .button{
+    background: #d40055;
+    padding: 17px 34px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
+    -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
+    box-shadow: rgba(255, 255, 255, 0.4) 0 0px 0, inset rgba(255, 255, 255, 0.4) 0 0px 0;
+    color: #ffffff;
+   /*  font-size: 16px; */
+    font-family: helvetica, serif;
+    text-decoration: none;
+    vertical-align: middle;
+    margin: 0.3%;
+    line-height: 36px;
+   /*  height: 36px; */
+    text-transform: uppercase;
+    min-width: 45px;
+    padding: 0 8px;
+	width: 30%;
+	border: none;
+	margin-right: auto;
+	margin-left: auto;
+	min-width: 190px;
+}
+
+.button:active {
+    text-shadow: #1d1f21 0 1px 0;
+    border: 0px solid #fcfeff;
+    background: #d40055;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d40055), to(#3e779d));
+    background: -webkit-linear-gradient(top, #d40055, #d40055);
+    background: -moz-linear-gradient(top, #d40055, #d40055);
+    background: -ms-linear-gradient(top, #d40055, #d40055);
+    background: -o-linear-gradient(top, #d40055, #d40055);
+    background-image: -ms-linear-gradient(top, #d40055 0%, #d40055 100%);
+    color: #fff;
+}
+
+.ios .button{
+	border: solid 2px #d40055;
+	color: #d40055;
+	background-color: inherit;
+}
+
+.bottom-button {
+    position: absolute;
+    bottom: 0;
+}
+
+.changePrototypeBtn {
+    width: 100% !important;
+}
+.page {
+    background-color: #f9f9f9;
+}
+
+body {
+    margin: 0px !important;
+
+}
+
+.page .navbar, .ios .navbar{
+    background-color: #d40055;
+	color: #fff;
+
+}
+
+.center-sliding {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+	font-size: calc(12pt + 0.23vw);
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 25%;
+    left: 47%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.description {
+    font-size: calc(11pt + 0.2vw);
+}
+
+.next {
+    top: 500%;
+    position: absolute;
+    width: 100%;
+    left: 0;
+}
+
+.next a img {
+	position: absolute;
+    width: 17%;
+	left: 41%;
+}
+
+.description1 {
+    position: relative;
+    background-color: #fdfdfd;
+    height: 17%;
+    width: 100%;
+
+}
+
+.description1 p {
+    line-height: 2.0 !important;
+    text-indent: 19%;
+    height: 15px;
+
+}
+
+.description1 span {
+    position: absolute;
+    width: 66%;
+    left: 17%;
+    height: 62%;
+    border-left: 8px solid #ffb380;
+    padding-left: 2%;
+
+}
+
+.description2 span {
+    position: absolute;
+    width: 66%;
+    left: 17%;
+    height: 55%;
+    border-left: 8px solid #ffb380;
+    padding-left: 2%;
+
+}
+
+.description2 {
+    position: relative;
+    background-color: #fdfdfd;
+    height: 32%;
+    width: 100%;
+
+}
+
+.description2 p {
+    line-height: 2.0 !important;
+    text-indent: 19%;
+    height: 15px;
+
+}
+
+.startBtn {
+    position: absolute;
+    z-index: 5;
+	left: calc(50% - 140px);
+    bottom: 0px;
+}
+
+.submitBtn {
+    position: absolute;
+    left: calc(50% - 140px);
+    bottom: 0px;
+}
+
+.startBtn img {
+    width: 65%;
+}
+
+submitBtn img {
+    width: 65%;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+/ / Hidden by default position: fixed;
+/ / Stay in place z-index: 1;
+/ / Sit on top left: 0;
+    top: 0;
+    width: 100%;
+/ / Full width height: 100 %;
+/ / Full height overflow: auto;
+/ / Enable scroll if needed background-color: rgb(0, 0, 0);
+/ / Fallback color
+    /* background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+* /
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* .close:hover, */
+.close:focus {
+    lor: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 2px 16px;
+    background-color: #d40055;
+    color: white;
+
+}
+
+/* Modal Body */
+.modal-body {
+    dding: 2px 16px;
+    display: block;
+    text-align: center;
+}
+
+/*
+Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/*********** popupStart start **************/
+
+#popupStart {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin-left: 0 !important;
+}
+
+.block p {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.page .popupNavbar {
+    opacity: 0;
+}
+
+.page .popupStartpage {
+    background-color: transparent !important;
+}
+
+#popupStart:not(.next-button), .popup .page {
+
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/*********** popupStart end **************/
+
+/* .f7-icons {
+    position: relative;
+    right: 150%;
+} */
+
+.right img {
+    position: relative;
+    width: 30px;
+}
+
+.description {
+    width: 100%;
+    background-color: #fdfdfd;
+}
+
+.description-content {
+    width: 60%;
+    left: 20%;
+    position: relative;
+}
+
+
+.description p {
+    padding-left: 5%;
+}
+
+
+.description-text p {
+    border-left: 8px solid #ffb380;
+}
+
+.navbar .right {
+    position: absolute;
+    right: 0px;
+    margin-right: 15px;
+}
+
+.container {
+    width: 100%;
+    position: relative;
+    background-color: #FDFDFD;
+}
+
+/* The switch - the box around the slider */
+.switchi {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switchi input {display:none;}
+
+/* The slider */
+.toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    height:45px!important;
+    width:85px!important;
+}
+
+.toggle:before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .toggle {
+    background-color: #d40055;
+}
+
+input:focus + .toggle {
+    box-shadow: 0 0 1px #d40055;
+}
+
+input:checked + .toggle:before {
+    -webkit-transform: translateX(38px);
+    -ms-transform: translateX(38px);
+    transform: translateX(38px);
+}
+
+/* Rounded sliders */
+.toggle.round {
+    border-radius: 34px;
+    text-align: center;
+    padding-top: 11px;
+    color: white;
+    font-size: 17px;
+    font-weight:bold;
+}
+
+.toggle.round:before {
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.togglebuttons {
+    width: 80%;
+    position:relative;
+    left:10%;
+    top: 100px;
+}
+
+.togglebuttons p {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.togglebuttons .toggleoption:first-child {
+    position:relative;
+    left: 20%;
+}
+
+.togglebuttons .toggleoption:last-child {
+    position:relative;
+    left:30%;
+}
+
+.togglebuttons .toggleoption:last-child .togglebutton {
+    position: relative;
+    left: 10%;
+}
+
+.togglebuttons .toggleoption:first-child .togglebutton {
+    position: relative;
+    left: 20%;
+}
+
+.togglebuttons .toggleoption:first-child p:first-child {
+    margin-top:0;
+}
+
+/****Success Side****/
+h3 {
+    position: absolute;
+    margin-top: 30vh;
+    width: 100%;
+    text-align: center;
+    font-size: 333%;
+    font-family: sans-serif;
+    color: grey;
+    opacity: 0.5;
+}
+
+.successWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 40%;
+    left: 25%;
+    width: 50%;
+}
+
+.large{
+	font-size: calc(14pt + 0.4vw);
+	font-weight: bold;
+}
+
+.graveImg {
+    width: 30%;
+    margin-left: 35%;
+}
+
+.imageWrapper{
+	width: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; }
+/**http://jsfiddle.net/7m3bL/587/ source**/
+.pyro > .before, .pyro > .after {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    box-shadow: -120px -218.66667px blue, 248px -16.66667px #00ff84, 190px 16.33333px #002bff, -113px -308.66667px #ff009d, -109px -287.66667px #ffb300, -50px -313.66667px #ff006e, 226px -31.66667px #ff4000, 180px -351.66667px #ff00d0, -12px -338.66667px #00f6ff, 220px -388.66667px #99ff00, -69px -27.66667px #ff0400, -111px -339.66667px #6200ff, 155px -237.66667px #00ddff, -152px -380.66667px #00ffd0, -50px -37.66667px #00ffdd, -95px -175.66667px #a6ff00, -88px 10.33333px #0d00ff, 112px -309.66667px #005eff, 69px -415.66667px #ff00a6, 168px -100.66667px #ff004c, -244px 24.33333px #ff6600, 97px -325.66667px #ff0066, -211px -182.66667px #00ffa2, 236px -126.66667px #b700ff, 140px -196.66667px #9000ff, 125px -175.66667px #00bbff, 118px -381.66667px #ff002f, 144px -111.66667px #ffae00, 36px -78.66667px #f600ff, -63px -196.66667px #c800ff, -218px -227.66667px #d4ff00, -134px -377.66667px #ea00ff, -36px -412.66667px #ff00d4, 209px -106.66667px #00fff2, 91px -278.66667px #000dff, -22px -191.66667px #9dff00, 139px -392.66667px #a6ff00, 56px -2.66667px #0099ff, -156px -276.66667px #ea00ff, -163px -233.66667px #00fffb, -238px -346.66667px #00ff73, 62px -363.66667px #0088ff, 244px -170.66667px #0062ff, 224px -142.66667px #b300ff, 141px -208.66667px #9000ff, 211px -285.66667px #ff6600, 181px -128.66667px #1e00ff, 90px -123.66667px #c800ff, 189px 70.33333px #00ffc8, -18px -383.66667px #00ff33, 100px -6.66667px #ff008c;
+    -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+    -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+    -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+    -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+    animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards; }
+
+.pyro > .after {
+    -moz-animation-delay: 1.25s, 1.25s, 1.25s;
+    -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
+    -o-animation-delay: 1.25s, 1.25s, 1.25s;
+    -ms-animation-delay: 1.25s, 1.25s, 1.25s;
+    animation-delay: 1.25s, 1.25s, 1.25s;
+    -moz-animation-duration: 1.25s, 1.25s, 6.25s;
+    -webkit-animation-duration: 1.25s, 1.25s, 6.25s;
+    -o-animation-duration: 1.25s, 1.25s, 6.25s;
+    -ms-animation-duration: 1.25s, 1.25s, 6.25s;
+    animation-duration: 1.25s, 1.25s, 6.25s; }
+
+@-webkit-keyframes bang {
+    from {
+        box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white; } }
+@-moz-keyframes bang {
+    from {
+        box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white; } }
+@-o-keyframes bang {
+    from {
+        box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white; } }
+@-ms-keyframes bang {
+    from {
+        box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white; } }
+@keyframes bang {
+    from {
+        box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white; } }
+@-webkit-keyframes gravity {
+    to {
+        transform: translateY(200px);
+        -moz-transform: translateY(200px);
+        -webkit-transform: translateY(200px);
+        -o-transform: translateY(200px);
+        -ms-transform: translateY(200px);
+        opacity: 0; } }
+@-moz-keyframes gravity {
+    to {
+        transform: translateY(200px);
+        -moz-transform: translateY(200px);
+        -webkit-transform: translateY(200px);
+        -o-transform: translateY(200px);
+        -ms-transform: translateY(200px);
+        opacity: 0; } }
+@-o-keyframes gravity {
+    to {
+        transform: translateY(200px);
+        -moz-transform: translateY(200px);
+        -webkit-transform: translateY(200px);
+        -o-transform: translateY(200px);
+        -ms-transform: translateY(200px);
+        opacity: 0; } }
+@-ms-keyframes gravity {
+    to {
+        transform: translateY(200px);
+        -moz-transform: translateY(200px);
+        -webkit-transform: translateY(200px);
+        -o-transform: translateY(200px);
+        -ms-transform: translateY(200px);
+        opacity: 0; } }
+@keyframes gravity {
+    to {
+        transform: translateY(200px);
+        -moz-transform: translateY(200px);
+        -webkit-transform: translateY(200px);
+        -o-transform: translateY(200px);
+        -ms-transform: translateY(200px);
+        opacity: 0; } }
+@-webkit-keyframes position {
+    0%, 19.9% {
+        margin-top: 10%;
+        margin-left: 40%; }
+
+    20%, 39.9% {
+        margin-top: 40%;
+        margin-left: 30%; }
+
+    40%, 59.9% {
+        margin-top: 20%;
+        margin-left: 70%; }
+
+    60%, 79.9% {
+        margin-top: 30%;
+        margin-left: 20%; }
+
+    80%, 99.9% {
+        margin-top: 30%;
+        margin-left: 80%; } }
+@-moz-keyframes position {
+    0%, 19.9% {
+        margin-top: 10%;
+        margin-left: 40%; }
+
+    20%, 39.9% {
+        margin-top: 40%;
+        margin-left: 30%; }
+
+    40%, 59.9% {
+        margin-top: 20%;
+        margin-left: 70%; }
+
+    60%, 79.9% {
+        margin-top: 30%;
+        margin-left: 20%; }
+
+    80%, 99.9% {
+        margin-top: 30%;
+        margin-left: 80%; } }
+@-o-keyframes position {
+    0%, 19.9% {
+        margin-top: 10%;
+        margin-left: 40%; }
+
+    20%, 39.9% {
+        margin-top: 40%;
+        margin-left: 30%; }
+
+    40%, 59.9% {
+        margin-top: 20%;
+        margin-left: 70%; }
+
+    60%, 79.9% {
+        margin-top: 30%;
+        margin-left: 20%; }
+
+    80%, 99.9% {
+        margin-top: 30%;
+        margin-left: 80%; } }
+@-ms-keyframes position {
+    0%, 19.9% {
+        margin-top: 10%;
+        margin-left: 40%; }
+
+    20%, 39.9% {
+        margin-top: 40%;
+        margin-left: 30%; }
+
+    40%, 59.9% {
+        margin-top: 20%;
+        margin-left: 70%; }
+
+    60%, 79.9% {
+        margin-top: 30%;
+        margin-left: 20%; }
+
+    80%, 99.9% {
+        margin-top: 30%;
+        margin-left: 80%; } }
+@keyframes position {
+    0%, 19.9% {
+        margin-top: 10%;
+        margin-left: 40%; }
+
+    20%, 39.9% {
+        margin-top: 40%;
+        margin-left: 30%; }
+
+    40%, 59.9% {
+        margin-top: 20%;
+        margin-left: 70%; }
+
+    60%, 79.9% {
+        margin-top: 30%;
+        margin-left: 20%; }
+
+    80%, 99.9% {
+        margin-top: 30%;
+        margin-left: 80%; } }
+
+
+/***Success Side End****/
+
+/****Failure Side****/
+h3 {
+    position: absolute;
+    margin-top: 30vh;
+    width: 100%;
+    text-align: center;
+    font-size: 2.5em;
+    font-family: sans-serif;
+    color: grey;
+    opacity: 0.5;
+    top: 25%;
+}
+
+.redirectText {
+    position: relative;
+    margin-top: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: 1.0em;
+    font-family: sans-serif;
+    color: grey;
+}
+
+
+
+@media all and (max-width: 380px){
+	.startBtn img {
+		left: 30%;
+		width: 30%;
+		position: fixed;
+		bottom: 0;
+	}
+	
+	.description-text > p{
+		margin-bottom: 30%;
+	}
+
+}
+
+@media all and (min-width: 381px){
+	.startBtn img {
+
+		left: 40%;
+		width: 20%;
+		position: fixed;
+		bottom: 0;
+	}
+}

@@ -1,0 +1,111 @@
+.close-zoom{
+	color: #d40055;
+}
+/* TODO: das darf hier eig. nicht drin sein. */
+#croppedImageDiv{
+	z-index: 4;
+	position: absolute;
+	background-size: cover;
+	top: 74px;
+	height: 80%;
+	width: 80%;
+	pointer-events: none;
+}
+
+#puzzleWrapper{
+	position: absolute;
+	top: 74px;
+	height: 80%;
+	width: 80%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-size: 0;
+
+	top: -9999px;
+	bottom: -9999px;
+	left: -9999px;
+	right: -9999px;
+	margin: auto;
+}
+
+#puzzleGridWrapper{
+	position: absolute;
+	top: 74px;
+	height: 80%;
+	width: 80%;
+	font-size: 0;
+}
+
+
+#puzzleImage{
+	z-index: 1;
+}
+
+#pointsWrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 8% auto;
+}
+
+.points{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: calc(11pt + 0.6vw);
+    font-family: sans-serif;
+    color: grey;
+    opacity: 0.5;
+}
+
+.defaultWrapper{
+	display:flex;
+	flex-direction: row;
+	padding: 0 15%;
+	max-height: 162px;
+}
+
+.wholePzzleWrapper {
+    position: relative;
+    height: 60%;
+    margin: 0 auto;
+}
+
+/***  Buttons ***/
+
+.startGuess{
+	font-size: 16px;
+	position: relative;
+	margin-top: 5% !important;
+}
+
+/*** Buttons end ***/
+/********** mini Overview start **********/
+#miniOverview {
+    position: relative;
+    background-size: cover;
+	margin: 6% 8%;
+	float: right;
+    width: 120px;
+    height: 120px;
+    background-color: red;
+    font-size: 0;
+}
+
+.miniOverviewGridPiece, .miniOverviewPuzzlePiece{
+	z-index: 4;
+    position: relative;
+    display: inline-block;
+}
+
+#overallGridMarker{
+	z-index: 5;
+	display: none;
+	position:absolute;
+	border: solid 1px red;
+	width: calc(99%/4);
+	height: calc(99%/4);
+}
+	
+/********** mini Overview end **********/
