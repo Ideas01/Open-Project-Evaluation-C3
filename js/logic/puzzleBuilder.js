@@ -259,7 +259,41 @@ class PuzzleBuilder{
 
 	};
 
+	/**
+	 *
+	 * hides PuzzlePieces with a given ID over a certain amount of time
+	 *
+     * @param puzzlePieceIdArray: Array of strings, which contain the puzzlePiece ids
+     */
 
+    hidePuzzlePieces(puzzlePieceIdArray)
+    {
+    	if (typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0)
+		{
+            let i = 0;
+            let iterations = puzzlePieceIdArray.length;
+
+			let hidePieces = new Promise(function (resolve)
+			{
+                let hideInterval = setInterval(function ()
+				{
+                    document.getElementById(puzzlePieceIdArray[i]).style.visibility = "hidden";
+                    i++;
+                    if(i === iterations)
+                    {
+                        clearInterval(hideInterval);
+                        resolve(0)
+                    }
+                }, puzzle.timeOut);
+            });
+            return hidePieces;
+        }
+		else
+			{
+    		console.log("Error: Check if the passed array is defined and not empty");
+			}
+    }
+	
 	
 	
 	/**
