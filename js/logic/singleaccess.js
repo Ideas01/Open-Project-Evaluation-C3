@@ -79,20 +79,20 @@
 		dbZugriff.waitForContexts(callback);
 	};
 	
-		SingleAccess.prototype.subscribeToContext = function (devicename, contextId){
-		return dbZugriff.subscribeToContext(devicename, contextId);
+	SingleAccess.prototype.subscribeToContext = function (devicename, context, callback){
+		dbZugriff.subscribeToContext(devicename, context, callback);
 	};
 	
-	SingleAccess.prototype.createState = function (deviceName, stateKey, stateValue, contextId){
-		return dbZugriff.createState(deviceName, stateKey, stateValue, contextId);
+	SingleAccess.prototype.createState = function (deviceName, stateKey, stateValue, context){
+		return dbZugriff.createState(deviceName, stateKey, stateValue, context);
 	};
 	
-	SingleAccess.prototype.deleteState = function (deviceName, key, contextId){
-		return dbZugriff.deleteState(deviceName, key, contextId);
+	SingleAccess.prototype.deleteState = function (deviceName, key, context){
+		return dbZugriff.deleteState(deviceName, key, context);
 	};
 	
-	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, contextId){
-		return dbZugriff.updateState(deviceName, stateKey, stateValue, contextId);
+	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, context){
+		return dbZugriff.updateState(deviceName, stateKey, stateValue, context);
 	};
 	
 	

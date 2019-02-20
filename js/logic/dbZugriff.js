@@ -142,7 +142,7 @@ class DBZugriff{
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
 		
-		var query = '{"query": "mutation {updateDevice(data: {context: \\"'+ context.contextId +'\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
+		var query = '{"query": "mutation {updateDevice(data: {context: \\"' + context.contextId + '\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
 						'\\") {device {context {activeSurvey {title}} id name}}}"}';
 		
 		console.log("deviceId")
@@ -154,86 +154,53 @@ class DBZugriff{
 			thisisme.callDatabase(name, token, query , function(response){
 			console.log("DeviceContext geupdatet");
 			
-			console.log(token);				
-			
-			thisisme.subscribeToContext("OpenProjectEvalSlider", context.contextId);
-				
+			console.log(token);							
 				
 			});
 		});
 	}
 	
-	subscribeToContext(deviceName, contextId){
+	subscribeToContext(deviceName, context, callback){
 		
 		var address = (this.serverAdresse).substring(7);
 		
 		this.waitForToken(deviceName, function(token){
 		var webSocket = new WebSocket('ws:' + address, 'graphql-subscriptions');
 		
-			webSocket.onopen = (event) => {
-			  var message = {
-				  type: 'init',
-				  payload: {"Authorization": "Bearer " + token}
-			  }
+		webSocket.onopen = (event) => {
+			var message = {
+				type: 'init',
+				payload: {"Authorization": "Bearer " + token}
+			}
 				console.log("conection opened.")
 				webSocket.send(JSON.stringify(message))
 			  
-			  console.log(contextId);
+			  console.log(context.contextId);
 			  
 			  
 			  const message0 = {
 			  id: '1',
 			  type: 'subscription_start',
-			  query: 'subscription sContext {contextUpdate(contextID: "'+ contextId +'") {stateKey changedAttributes context {id  states {key value}}}}'
+			  query: 'subscription sContext {contextUpdate(contextID: "' + context.contextId + '") {stateKey changedAttributes context {id  states {key value}}}}'
 			}
 			webSocket.send(JSON.stringify(message0))
-			}
-		
-		
-		
-		
-		webSocket.onmessage = function (event){
-			//console.log(event.data);
-			const data = JSON.parse(event.data)
-			
-			
-			switch (data.type) {
-				case 'init_success': {
-				  console.log('init_success, the handshake is complete')
-				  break
-				}
-				case 'init_fail': {
-				  throw {
-					message: 'init_fail returned from WebSocket server',
-					data
-				  }
-				}
-				case 'subscription_data': {
-				  console.log('subscription data has been received', data)
-				  break
-				}
-				case 'subscription_success': {
-				  console.log('subscription_success')
-				  break
-				}
-				case 'subscription_fail': {
-				  throw {
-					message: 'subscription_fail returned from WebSocket server',
-					data
-				  }
-				}
-			  }
 		}
+		
+		if(webSocket != undefined){
+			callback(webSocket);
+		}	
+
 		});
 			
 	}
 	
-	createState(deviceName, stateKey, stateValue, contextId){
+	createState(deviceName, stateKey, stateValue, context){
+		var thisisme = this
 		var sKey = stateKey;
 		var sValue = stateValue;
 		var dataReferenceName = "States";
 		var query = '{"query": "mutation{' +
-					  'createState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + contextId + '\\") {' +
+					  'createState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 						'state {' +
 						  'key value' +
 						'}' +
@@ -241,18 +208,18 @@ class DBZugriff{
 					'}"}';
 					
 		this.waitForToken(deviceName, function(token){
-			this.callDatabase(dataReferenceName, token, query, function(response){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
 				console.log(response);			
 			});
 		});	
 	}
 	
-	deleteState(key, contextId){
+	deleteState(key, context){
 		var sKey = key;
 		var dataReferenceName = "deleted";
 		var query = '{"query": "mutation{' +
-			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + contextId + '\\") {' +
+			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 				'success' +
 			  '}' + 
 			'}"}';
@@ -262,12 +229,12 @@ class DBZugriff{
 		});	
 	}
 	
-	updateState(stateKey, stateValue, contextId){
+	updateState(stateKey, stateValue, context){
 		var sKey = stateKey;
 		var sValue = stateValue;
 		var dataReferenceName = "States";
 		var query = '{"query": "mutation{' +
-					  'updateState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + contextId + '\\") {' +
+					  'updateState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 						'state {' +
 						  'key value' +
 						'}' +

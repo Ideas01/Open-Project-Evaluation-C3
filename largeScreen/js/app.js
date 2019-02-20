@@ -68,8 +68,6 @@ $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
 });
 
 app.on('pageInit', function(page){
-	
-	
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
@@ -143,6 +141,46 @@ app.on('pageInit', function(page){
 				 };
 			});	
 			contextGeupdated.then(function(resolve){
+				singleAccess.waitForContexts(function(contextList){
+					singleAccess.subscribeToContext(deviceName, contextList[singleAccess.getCurrentContextIdIndex()], function(webSocket){
+					
+						webSocket.onmessage = function (event){
+							//console.log(event.data);
+							const data = JSON.parse(event.data)
+
+							switch (data.type) {
+								case 'init_success': {
+								  console.log('init_success, the handshake is complete')
+								  break
+								}
+								case 'init_fail': {
+								  throw {
+									message: 'init_fail returned from WebSocket server',
+									data
+								  }
+								}
+								case 'subscription_data': {
+								  console.log('subscription data has been received', data)
+								  //TODO: call hidepuzzlepieces
+								  break
+								}
+								case 'subscription_success': {
+								  console.log('subscription_success')
+								  break
+								}
+								case 'subscription_fail': {
+								  throw {
+									message: 'subscription_fail returned from WebSocket server',
+									data
+								  }
+								}
+							  }
+							}
+						});
+					});
+					
+					
+				
 				app.router.navigate('/puzzle/');
 			});
 		 });
@@ -155,10 +193,6 @@ app.on('pageInit', function(page){
     /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
 
-		
-		//TODO: SUBSCRIPTION
-		
-		
 		
  		//TODO:LÖSCHEN WENN ARRAY VON SUBSCRIPTIONS UMGESETZT WURDEN
  		var testArray = ["puzzleWrapperpuzzlePiece|0000", "puzzleWrapperpuzzlePiece|0010", "puzzleWrapperpuzzlePiece|2200"
