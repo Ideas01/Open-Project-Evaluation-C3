@@ -8,7 +8,7 @@
 	SingleAccess.prototype.buildPuzzle = function (wrapperDom, puzzle) {
 		return puzzleBuilder.buildPuzzle(wrapperDom, puzzle);
 	};
-
+	 
 	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray)
 	{
 		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
@@ -34,7 +34,6 @@
 	SingleAccess.prototype.updateDeviceContext = function(context, deviceName){
 		dbZugriff.updateDeviceContext(context, deviceName);
 	};
-	
 
 	SingleAccess.prototype.getPuzzleImages = function(context, deviceName){
 		return dbZugriff.getPuzzleImages(context, deviceName);
@@ -52,11 +51,30 @@
 		dbZugriff.waitForContexts(callback);
 	};
 	
+	SingleAccess.prototype.subscribeToContext = function (token, contextId){
+		return dbZugriff.subscribeToContext(token,contextId);
+	};
+	
+	SingleAccess.prototype.subscribeToContext = function (token, contextId){
+		return dbZugriff.subscribeToContext(token,contextId);
+	};
+	
+	SingleAccess.prototype.createState = function (token, stateKey, stateValue, contextId){
+		return dbZugriff.createState(token, stateKey, stateValue, contextId);
+	};
+	
+	SingleAccess.prototype.deleteState = function (token, key, contextId){
+		return dbZugriff.deleteState(token, key, contextId);
+	};
+	
+	SingleAccess.prototype.updateState = function (token, stateKey, stateValue, contextId){
+		return dbZugriff.updateState(token, stateKey, stateValue, contextId);
+	};
 	
     /*************************************** SwiperFactory ***************************************************************/
-	 SingleAccess.prototype.initializeSwiper = function () {
-		 return swiperFactory.initializeSwiper();
-     };
+	SingleAccess.prototype.initializeSwiper = function () {
+		return swiperFactory.initializeSwiper();
+   };
 	
 	 SingleAccess.prototype.buildSwiper = function (maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray) {
 		return swiperFactory.buildSwiper(maxContentPerSwiper, swiperWrapperId, nameSpace, type, contentArray);
