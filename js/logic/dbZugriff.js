@@ -120,34 +120,12 @@ class DBZugriff{
 					var finalSurvey = new FinalSurvey(contexts[contextIndex].id , contextIndex, surveyKeys, survey);
 					
 					thisisme.ContextList.push(finalSurvey);
-				
-					
-					
-
-					
-					/* connection.onopen = function () {
-					 
-					  
-					  connection.send('{"query":"subscription {contextUpdate(contextID:' + contexts[0].id  +'){event changedAttributes stateKey context {id}}}"}');
-					  //connection.send('Ping'); // Send the message 'Ping' to the server
-					};
-					 */
-					/* connection.onmessage = function (event) {
-					  console.log(event.data);
-					} */
 				});
 			});	
 		});
 		
 		return dataReferenceName;
 	}
-
-
-
-
-
-
-
 
 	/**
 	updateDeviceContext()
@@ -201,12 +179,12 @@ class DBZugriff{
 		  console.log(contextId);
 		  
 		  
-		  const message2 = {
+		  const message0 = {
 		  id: '1',
 		  type: 'subscription_start',
 		  query: 'subscription sContext {contextUpdate(contextID: "'+ contextId +'") {stateKey changedAttributes context {id  states {key value}}}}'
 		}
-		webSocket.send(JSON.stringify(message2))
+		webSocket.send(JSON.stringify(message0))
 		}
 		
 		
