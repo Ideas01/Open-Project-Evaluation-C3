@@ -249,7 +249,7 @@ class DBZugriff{
 	/**
 	getPuzzleImages()
 	
-	gets the images for puzzles
+	gets all images for puzzles
 	
 	parameters:
 	- context: (string)

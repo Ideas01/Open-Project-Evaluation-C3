@@ -144,7 +144,7 @@ app.on('pageInit', function(page){
 			});	
 			contextGeupdated.then(function(resolve){
 				app.router.navigate('/puzzle/');
-			}); 				
+			});
 		 });
 	} /***************** prototype Selection End ***********************/
 	
@@ -155,17 +155,24 @@ app.on('pageInit', function(page){
     /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
 
+		
+		//TODO: SUBSCRIPTION
+		
+		
+		
  		//TODO:LÖSCHEN WENN ARRAY VON SUBSCRIPTIONS UMGESETZT WURDEN
  		var testArray = ["puzzleWrapperpuzzlePiece|0000", "puzzleWrapperpuzzlePiece|0010", "puzzleWrapperpuzzlePiece|2200"
 		,"puzzleWrapperpuzzlePiece|2233"];
 
-		if(puzzle == undefined)
+		if(puzzle == undefined) // if theres no puzzle yet create a new one
 			puzzle = new Puzzle(); // new puzzle 
         var imageSrc = null;
 		
 		singleAccess.waitForContexts(function(contextList){
-			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
+			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]); //fetch new Image from dbZugriff
 		});
+		
+		
 		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
 
@@ -174,7 +181,7 @@ app.on('pageInit', function(page){
 				//TODO: DURCH IMAGE-ID VON SUBSCRIPTION ERSETZEN
 				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
 				
-			backgroundImage.src = puzzleImagesArray[randomImageId].url;
+				backgroundImage.src = puzzleImagesArray[randomImageId].url;
 				app.data.currentPuzzleImageId = randomImageId;
 				
 				//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
@@ -195,19 +202,24 @@ app.on('pageInit', function(page){
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
 				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
-                $(window).on('resize', function (page) {
+            	$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
 					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 				});
 			}).then(function ()
 				{
-				   let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
+					
+					//TODO: NOCH TRIGGERN, WENN NEUER HIGHSCORE ENTSTEHT.
+					//TODO: TRIGGERN, IN IDLE TIME WENN ARRAY DURCH.
+					//WENN KEIN HIGHSCORE VORHANDEN DEFAULT HIGHSCORE ANZEIGEN.
+					
+					let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
 				   hidePiecesFinished.then(function (result) {
 				       if(result === 0)
 				       {
-                           app.router.navigate('/highscore/');
-                       }
-                    })
+                   	app.router.navigate('/highscore/');
+                   }
+                })
 				});
 		});
 	}
