@@ -195,8 +195,7 @@ app.on('pageInit', function(page){
 				 };
 			});	
 			contextGeupdated.then(function(resolve){
-				singleAccess.
-				subscribeToContext(token, contextId)
+				//singleAccess.subscribeToContext(devicename, )
 				app.router.navigate('/home/');
 			}); 				
 		 });

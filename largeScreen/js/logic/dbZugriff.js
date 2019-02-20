@@ -156,36 +156,39 @@ class DBZugriff{
 			
 			console.log(token);				
 			
-			thisisme.subscribeToContext(token, context.contextId);
+			thisisme.subscribeToContext("OpenProjectEvalSlider", context.contextId);
 				
 				
 			});
 		});
 	}
 	
-	subscribeToContext(token, contextId){
+	subscribeToContext(deviceName, contextId){
 		
 		var address = (this.serverAdresse).substring(7);
+		
+		this.waitForToken(deviceName, function(token){
 		var webSocket = new WebSocket('ws:' + address, 'graphql-subscriptions');
 		
-		webSocket.onopen = (event) => {
-		  var message = {
-			  type: 'init',
-			  payload: {"Authorization": "Bearer " + token}
-		  }
-			console.log("conection opened.")
-			webSocket.send(JSON.stringify(message))
-		  
-		  console.log(contextId);
-		  
-		  
-		  const message0 = {
-		  id: '1',
-		  type: 'subscription_start',
-		  query: 'subscription sContext {contextUpdate(contextID: "'+ contextId +'") {stateKey changedAttributes context {id  states {key value}}}}'
-		}
-		webSocket.send(JSON.stringify(message0))
-		}
+			webSocket.onopen = (event) => {
+			  var message = {
+				  type: 'init',
+				  payload: {"Authorization": "Bearer " + token}
+			  }
+				console.log("conection opened.")
+				webSocket.send(JSON.stringify(message))
+			  
+			  console.log(contextId);
+			  
+			  
+			  const message0 = {
+			  id: '1',
+			  type: 'subscription_start',
+			  query: 'subscription sContext {contextUpdate(contextID: "'+ contextId +'") {stateKey changedAttributes context {id  states {key value}}}}'
+			}
+			webSocket.send(JSON.stringify(message0))
+			}
+		
 		
 		
 		
@@ -221,10 +224,11 @@ class DBZugriff{
 				}
 			  }
 		}
+		});
 			
 	}
 	
-	createState(token, stateKey, stateValue, contextId){
+	createState(deviceName, stateKey, stateValue, contextId){
 		var sKey = stateKey;
 		var sValue = stateValue;
 		var dataReferenceName = "States";
@@ -235,14 +239,16 @@ class DBZugriff{
 						'}' +
 					  '}' +
 					'}"}';
-		
-		this.callDatabase(dataReferenceName, token, query, function(response){
-			console.log(dataReferenceName + "erfolgreich")
-			console.log(response);			
+					
+		this.waitForToken(deviceName, function(token){
+			this.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response);			
+			});
 		});	
 	}
 	
-	deleteState(token, key, contextId){
+	deleteState(key, contextId){
 		var sKey = key;
 		var dataReferenceName = "deleted";
 		var query = '{"query": "mutation{' +
@@ -256,7 +262,7 @@ class DBZugriff{
 		});	
 	}
 	
-	updateState(token, stateKey, stateValue, contextId){
+	updateState(stateKey, stateValue, contextId){
 		var sKey = stateKey;
 		var sValue = stateValue;
 		var dataReferenceName = "States";
@@ -285,10 +291,6 @@ class DBZugriff{
 	
 	*/
 	getPrototypeImages(context, deviceName){
-		
-
-		
-		
 		var chk = new Checker("getPrototypeImages");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");

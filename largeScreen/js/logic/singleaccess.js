@@ -51,24 +51,24 @@
 		dbZugriff.waitForContexts(callback);
 	};
 	
-	SingleAccess.prototype.subscribeToContext = function (token, contextId){
-		return dbZugriff.subscribeToContext(token,contextId);
+	SingleAccess.prototype.getPrototypeImages = function (context, deviceName){
+		return dbZugriff.getPrototypeImages(context, deviceName);
+	};
+		
+	SingleAccess.prototype.subscribeToContext = function (devicename, contextId){
+		return dbZugriff.subscribeToContext(devicename, contextId);
 	};
 	
-	SingleAccess.prototype.subscribeToContext = function (token, contextId){
-		return dbZugriff.subscribeToContext(token,contextId);
+	SingleAccess.prototype.createState = function (deviceName, stateKey, stateValue, contextId){
+		return dbZugriff.createState(deviceName, stateKey, stateValue, contextId);
 	};
 	
-	SingleAccess.prototype.createState = function (token, stateKey, stateValue, contextId){
-		return dbZugriff.createState(token, stateKey, stateValue, contextId);
+	SingleAccess.prototype.deleteState = function (deviceName, key, contextId){
+		return dbZugriff.deleteState(deviceName, key, contextId);
 	};
 	
-	SingleAccess.prototype.deleteState = function (token, key, contextId){
-		return dbZugriff.deleteState(token, key, contextId);
-	};
-	
-	SingleAccess.prototype.updateState = function (token, stateKey, stateValue, contextId){
-		return dbZugriff.updateState(token, stateKey, stateValue, contextId);
+	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, contextId){
+		return dbZugriff.updateState(deviceName, stateKey, stateValue, contextId);
 	};
 	
     /*************************************** SwiperFactory ***************************************************************/
