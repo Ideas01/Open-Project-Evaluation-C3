@@ -2,7 +2,7 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://192.168.43.174:3000');
+	const dbZugriff = new DBZugriff('http://localhost:3000');
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
 	const util = new Util();
@@ -30,7 +30,7 @@
 
 	SingleAccess.prototype.setButtonCaption = function(remainingQuestions,buttonID){
 		return sliderFactory.setButtonCaption(remainingQuestions,buttonID);
-	}
+	};
      /************************************** puzzleGuessBuilder **************************************************/
 
     SingleAccess.prototype.buildCategories = function(puzzleImageID, puzzleImageData){
@@ -116,6 +116,11 @@
 	SingleAccess.prototype.resetCurrentContextId = function(){
 		swiperFactory.resetCurrentContextId();
 	};
+
+	SingleAccess.prototype.setClickHandler = function(swiper, leftArrowId, rightArrowId)
+	{
+		swiperFactory.setClickHandler(swiper, leftArrowId, rightArrowId);
+    };
 
 	/************************************** Utility ***********************************************************************/
 	SingleAccess.prototype.util_PopUp = function(title, message, caption){

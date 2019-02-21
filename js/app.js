@@ -268,9 +268,13 @@ app.on('pageInit', function(page){
 			mySwiper = singleAccess.buildSwiper(1, "prototypeSwiper", "prototypeSwiperInner", "imageSwiper", imageArray);
 
 			singleAccess.setHandler(mySwiper);
+
+			$(document).ready(function () {
+				singleAccess.setClickHandler(mySwiper,"#leftArrow", "#rightArrow");
+            });
 		});
 		$(".arrow").removeClass("fadeInOut");
-		
+
         $(".help").click(function () {
 			let content = '<div class="block">' +
 								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +

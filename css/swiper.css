@@ -56,13 +56,14 @@
 	width: 10%;
 	background-color: #fff;
 	opacity: 0;
-	pointer-events: none;
+	pointer-events: auto;
+	cursor: pointer;
 }
 
 .fadeInOut{
 	animation-name: fadeIn;
 	animation-duration: 1s;
-	animation-iteration-count: 2;
+	animation-iteration-count: 1;
 	animation-direction: alternate;
 	animation-timing-function: ease-out;
 	animation-fill-mode: forwards;
