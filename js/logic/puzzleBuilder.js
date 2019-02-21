@@ -59,8 +59,7 @@ class PuzzleBuilder{
 			});
 
 			$('.' + buildPuzzlePiecesClass).click(function (event) {
-				event.target.style.visibility = "hidden";
-				
+						
 				let coordinate = (event.target.id).split('|');
 				$('#'+ miniOverviewIdName + coordinate[1]).css('visibility', 'hidden');
 				pointCount -= 1;
@@ -205,10 +204,8 @@ class PuzzleBuilder{
 		});
 
 		this.priv_buildSmallPieces(wrapperDom, puzzle);
-
-		
 		this.priv_buildOverallGrid(puzzle);
-
+		
 };
 
 

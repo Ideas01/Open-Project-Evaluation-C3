@@ -161,8 +161,6 @@ app.on('pageInit', function(page){
 	
 	if(page.name ==='prototypeSelection'){
 		
-		
-		
 		singleAccess.initializeDB(deviceName);
 		singleAccess.resetCurrentContextId();
 		singleAccess.initializeSwiper();
@@ -195,7 +193,6 @@ app.on('pageInit', function(page){
 				 };
 			});	
 			contextGeupdated.then(function(resolve){
-				//singleAccess.subscribeToContext(devicename, )
 				app.router.navigate('/home/');
 			}); 				
 		 });
@@ -436,20 +433,40 @@ app.on('pageInit', function(page){
 			});
 			
 			loadImage.then(function(imageObject){
+				console.log("bis hier");
 				puzzle.imageObject = imageObject;
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
-				var puzzlePieceClassName = singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
+				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 					
 				$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
 					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 				});
+//				return puzzlePieceClassName;
+			}).then(function(){
+					var puzzlePieceClassName = $(puzzle.puzzleWrapper).find("div").last().attr("class");
+					var puzzlePieceID = $(puzzle.puzzleWrapper).find("div").last().attr("id");
+					console.log("puzzlePieceClassName");
+					console.log(puzzlePieceClassName);	
 					
-				return puzzlePieceClassName;
-			})
+					$('.' + puzzlePieceClassName).click(function (event) {
+					event.target.style.visibility = "hidden";
+					
+					console.log("puzzlepieceId");
+					console.log(puzzlePieceID);
+					
+					singleAccess.waitForContexts(function(contextList){
+						singleAccess.createState(deviceName, "puzzle", puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()]);
+					});
+					
+				});
+			});
 		}); 
+		
+
+		
 		
 		$("#helpPuzzle").click(function () {
 			let content = 	'<div class="block">' +
