@@ -9,8 +9,11 @@
 		return puzzleBuilder.buildPuzzle(wrapperDom, puzzle);
 	};
 	 
-	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray)
-	{
+	SingleAccess.prototype.hidePuzzlePiecesActivePuzzle = function (puzzlePieceIdArray){
+		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
+	};
+	
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
 		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
 	};
 
@@ -21,6 +24,7 @@
 	SingleAccess.prototype.checkGrid = function (wrapperDom){
     	puzzleBuilder.checkGrid(wrapperDom);
 	};
+	
     /*************************************** DB Zugriff ***************************************************************/
 	
 	SingleAccess.prototype.initializeDB = function(deviceName){

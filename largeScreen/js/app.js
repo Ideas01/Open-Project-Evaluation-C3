@@ -161,7 +161,14 @@ app.on('pageInit', function(page){
 								}
 								case 'subscription_data': {
 								  console.log('subscription data has been received', data)
-								  //TODO: call hidepuzzlepieces
+									singleAccess.hidePuzzlePiecesActivePuzzle(data);
+									let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
+									hidePiecesFinished.then(function (result) {
+										if(result === 0){
+											app.router.navigate('/highscore/');
+									    }
+									});
+									
 								  break
 								}
 								case 'subscription_success': {
@@ -247,7 +254,7 @@ app.on('pageInit', function(page){
 					//TODO: TRIGGERN, IN IDLE TIME WENN ARRAY DURCH.
 					//WENN KEIN HIGHSCORE VORHANDEN DEFAULT HIGHSCORE ANZEIGEN.
 					
-					let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
+				// let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
 				   hidePiecesFinished.then(function (result) {
 				       if(result === 0)
 				       {

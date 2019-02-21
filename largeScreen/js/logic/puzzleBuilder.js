@@ -257,6 +257,24 @@ class PuzzleBuilder{
 
 	};
 
+	hidePuzzlePiecesActivePuzzle(puzzlePieceArray) {
+		var puzzlePieceIdArray = JSON.parse(puzzlePieceArray);
+		console.log(puzzlePieceIdArray);
+		if (typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0){
+			let hidePiecesActivePuzzle = new Promise(function (resolve){
+				puzzlePieceIdArray.forEach(function(element){
+					document.getElementById(element).style.visibility = "hidden";
+				});
+				resolve(0);
+			});
+			return hidePiecesActivePuzzle;
+			
+		} else{
+			console.log("Error: The passed array is not defined or empty");
+		}
+		
+	};
+	
     /**
 	 *
 	 * hides PuzzlePieces with a given ID over a certain amount of time
@@ -288,7 +306,7 @@ class PuzzleBuilder{
         }
 		else
 			{
-    		console.log("Error: Check if the passed array is defined and not empty");
+    		console.log("Error: The passed array is not defined or empty");
 			}
     }
 	
