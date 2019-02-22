@@ -193,13 +193,14 @@ class DBZugriff{
 			
 	}
 	
-	createState(deviceName, stateKey, stateValue, context){
-		var thisisme = this
+	createState(deviceName, stateKey, stateValue, context, callback){
+		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;
-		var dataReferenceName = "States";
+		var versuch = sValue.split("|");
+		var dataReferenceName = "createState";
 		var query = '{"query": "mutation{' +
-					  'createState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+					  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
 						'state {' +
 						  'key value' +
 						'}' +
@@ -209,46 +210,80 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				if(response.data != null){
-					console.log("bananeneis")
 					console.log(response.data)
 					console.log(dataReferenceName + "erfolgreich");
+					callback(response);
 				}else{
-					console.log("something went wrong. " + response.errors[0].message);
-				}			
+					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+					callback(response);
+				}	
+			});
+		});	
+	};
+	
+	getState(deviceName, stateKey, context){
+		var thisisme = this;
+		var sKey = stateKey;
+		var dataReferenceName = "getState";
+		var query = '{"query": "query{' +
+						  'state(contextID: \\"' + context.contextId + '\\", key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\") {' +
+						    'key ' +
+						    'value' +
+						  '}' +
+						'}"}'
+					
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				if(response.data != null){
+					console.log(dataReferenceName + "erfolgreich");
+					thisisme.setContextData(dataReferenceName, response.data.state);	
+					return response;
+				}else{
+					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+					return response;
+				}
+					
+			});
+		});	
+	};
+	
+	
+	
+	deleteState(deviceName, key, context){
+		var thisisme = this;
+		var sKey = key;
+		var dataReferenceName = "deleteState";
+		var query = '{"query": "mutation{' +
+			  'deleteState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+				'success' +
+			  '}' + 
+			'}"}';
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response.data);			
 			});
 		});	
 	}
 	
-	deleteState(key, context){
-		var sKey = key;
-		var dataReferenceName = "deleted";
-		var query = '{"query": "mutation{' +
-			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
-				'success' +
-			  '}' + 
-			'}"}';
-		this.callDatabase(dataReferenceName, token, query, function(response){
-			console.log(dataReferenceName + "erfolgreich")
-			console.log(response.data);			
-		});	
-	}
-	
-	updateState(stateKey, stateValue, context){
+	updateState(deviceName, stateKey, stateValue, context){
+		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;
 		var dataReferenceName = "States";
 		var query = '{"query": "mutation{' +
-					  'updateState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+					  'updateState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 						'state {' +
 						  'key value' +
 						'}' +
 					  '}' +
 					'}"}';
-		
-		this.callDatabase(dataReferenceName, token, query, function(response){
-			console.log(dataReferenceName + "erfolgreich")
-			console.log(response.data);			
-		});	
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response.data);			
+			});	
+		});
 	}
 	
 	/**
@@ -335,9 +370,6 @@ class DBZugriff{
 				});
 						
 				thisisme.setContextData(dataReferenceName, questions);	
-				
-				// NUR ZU TESTZWECKEN
-				/* thisisme.deleteState(token, "kakao", context.contextId);  */
 				
 			});
 		});
@@ -525,7 +557,7 @@ class DBZugriff{
 			dataType: 'json',
 			data: query,
 			success: function(response){
-
+				
 			  callback(response); 
 			
 			},
