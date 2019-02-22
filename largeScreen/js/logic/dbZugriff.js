@@ -113,7 +113,7 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){	
 			thisisme.ContextList.length = 0;
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				var contexts = response.contexts;
+				var contexts = response.data.contexts;
 				contexts.forEach(function(contextElement, contextIndex, contexts){
 					var survey = contextElement.activeSurvey;
 					var surveyKeys = listAllKeys(survey);
@@ -142,7 +142,7 @@ class DBZugriff{
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
 		
-		var query = '{"query": "mutation {updateDevice(data: {context: \\"' + context.contextId +'\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
+		var query = '{"query": "mutation {updateDevice(data: {context: \\"' + context.contextId + '\\"}, deviceID: \\"' + this.TokenList[deviceName].id +
 						'\\") {device {context {activeSurvey {title}} id name}}}"}';
 		
 		console.log("deviceId")
@@ -153,8 +153,8 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(name, token, query , function(response){
 			console.log("DeviceContext geupdatet");
-			
-			console.log(token);				
+			console.log(token);							
+				
 			});
 		});
 	}
@@ -193,65 +193,96 @@ class DBZugriff{
 			
 	}
 	
-	createState(deviceName, stateKey, stateValue, context){
-		var thisisme = this
+	createState(deviceName, stateKey, stateValue, context, callback){
+		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;
-		var dataReferenceName = "States";
+		var dataReferenceName = "createState";
 		var query = '{"query": "mutation{' +
-					  'createState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
-						'state {' +
-						  'key value' +
-						'}' +
-					  '}' +
-					'}"}';
-					
-					
+						  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
+							'state {' +
+							  'key value' +
+							'}' +
+						  '}' +
+						'}"}';
 					
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				if(response.data != null){
 					console.log(response.data)
 					console.log(dataReferenceName + "erfolgreich");
-					return response.data;
+					callback(response);
 				}else{
-					console.log("something went wrong. The Server responded with: " + response.errors[0].message);
-					return -1;
-				}			
+					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+					callback(response);
+				}	
 			});
 		});	
-	}
+	};
 	
-	deleteState(key, context){
+	getState(deviceName, stateKey, context){
+		var thisisme = this;
+		var sKey = stateKey;
+		var dataReferenceName = "getState";
+		var query = '{"query": "query{' +
+						  'state(contextID: \\"' + context.contextId + '\\", key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\") {' +
+						    'key ' +
+						    'value' +
+						  '}' +
+						'}"}'
+					
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				if(response.data != null){
+					console.log(dataReferenceName + "erfolgreich");
+					thisisme.setContextData(dataReferenceName, response.data.state);	
+					return response;
+				}else{
+					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+					return response;
+				}
+					
+			});
+		});	
+	};
+	
+	
+	
+	deleteState(deviceName, key, context){
+		var thisisme = this;
 		var sKey = key;
-		var dataReferenceName = "deleted";
+		var dataReferenceName = "deleteState";
 		var query = '{"query": "mutation{' +
 			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 				'success' +
 			  '}' + 
 			'}"}';
-		this.callDatabase(dataReferenceName, token, query, function(response){
-			console.log(dataReferenceName + "erfolgreich")
-			console.log(response);			
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response.data);			
+			});
 		});	
 	}
 	
-	updateState(stateKey, stateValue, context){
+	updateState(deviceName, stateKey, stateValue, context){
+		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;
 		var dataReferenceName = "States";
 		var query = '{"query": "mutation{' +
-					  'updateState(data: {key: \\"' + sKey + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+					  'updateState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 						'state {' +
 						  'key value' +
 						'}' +
 					  '}' +
 					'}"}';
-		
-		this.callDatabase(dataReferenceName, token, query, function(response){
-			console.log(dataReferenceName + "erfolgreich")
-			console.log(response);			
-		});	
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich")
+				console.log(response.data);			
+			});	
+		});
 	}
 	
 	/**
@@ -275,13 +306,13 @@ class DBZugriff{
 		'\\"){id activeSurvey{images{id name url}}}}"}';
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
-			
+		
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 						
 				console.log(dataReferenceName + "erfolgreich")
-				console.log(response);
+				console.log(response.data);
 				
-				var images = response.context.activeSurvey.images;
+				var images = response.data.context.activeSurvey.images;
 				thisisme.setContextData(dataReferenceName, images);			
 			});
 		});
@@ -322,13 +353,11 @@ class DBZugriff{
 							'}}}}}"}';
 		this.waitForToken(deviceName, function(token){
 			
-			// NUR ZU TESTZWECKEN		
-			/* thisisme.updateState(token, "kakao", "Böhne", context.contextId);  */
 			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
 				console.log(response);
-				var result = response.context.activeSurvey.questions;
+				var result = response.data.context.activeSurvey.questions;
 				thisisme.setContextData(dataReferenceName, undefined);
 				var questions =[];
 				result.forEach(function(element){
@@ -340,9 +369,6 @@ class DBZugriff{
 				});
 						
 				thisisme.setContextData(dataReferenceName, questions);	
-				
-				// NUR ZU TESTZWECKEN
-				/* thisisme.deleteState(token, "kakao", context.contextId);  */
 				
 			});
 		});
@@ -400,8 +426,8 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
-				console.log(response.createAnswer.voteCreated);
-				thisisme.setContextData(dataReferenceName, response.createAnswer.voteCreated);
+				console.log(response.data.createAnswer.voteCreated);
+				thisisme.setContextData(dataReferenceName, response.data.createAnswer.voteCreated);
 			});
 		});
 	}
@@ -529,14 +555,13 @@ class DBZugriff{
 			method: 'POST',
 			dataType: 'json',
 			data: query,
-			success: function(r){
-			  
-			  let responseData = r.data;
-			  callback(responseData); 
+			success: function(response){
+				
+			  callback(response); 
 			
 			},
-			  error: function (response) {
-				  console.log("Something went wrong. Serverresponse: " + response)
+			  error: function (responseError) {
+				   console.log("Something went wrong while calling the Server. Serverresponse: " + responseError)
 			}
 		
 	  });

@@ -161,7 +161,23 @@ app.on('pageInit', function(page){
 								}
 								case 'subscription_data': {
 								  console.log('subscription data has been received', data)
-									singleAccess.hidePuzzlePiecesActivePuzzle(data.payload.data.contextUpdate.context.states[0].value);
+									var puzzlePieceIdArray = data.payload.data.contextUpdate.context.states[0].value.split(",");
+									console.log("imageid", puzzlePieceIdArray);
+									var checkNumber = new RegExp("^[0-9]*$");
+									
+									if(checkNumber.test(puzzlePieceIdArray[0]) == true){
+										let key = data.payload.data.contextUpdate.context.states[0].key;
+										console.log("found Number: ", puzzlePieceIdArray[0] );
+										setImage(parseInt(puzzlePieceIdArray, 10));
+										singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+									}else if(checkNumber.test(puzzlePieceIdArray[0])  == false){
+										console.log("found no Number: ", puzzlePieceIdArray[0] );
+										singleAccess.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
+									}else{
+										//TODO: THROW EXCEPTION
+									}
+									
+									
 									
 									/* let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
 									hidePiecesFinished.then(function (result) {
@@ -214,17 +230,19 @@ app.on('pageInit', function(page){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]); //fetch new Image from dbZugriff
 		});
 		
-		
-		
+	}
+	
+	
+	function setImage(imageID){
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
 
 			var loadImage = new Promise(function (resolve, reject) {
 				var backgroundImage = new Image();
 				//TODO: DURCH IMAGE-ID VON SUBSCRIPTION ERSETZEN
-				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
+				//let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
 				
-				backgroundImage.src = puzzleImagesArray[randomImageId].url;
-				app.data.currentPuzzleImageId = randomImageId;
+				backgroundImage.src = puzzleImagesArray[imageID].url;
+				app.data.currentPuzzleImageId = imageID;
 				
 				//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
 				backgroundImage.crossOrigin = "Anonymous";
@@ -248,8 +266,7 @@ app.on('pageInit', function(page){
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
 					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 				});
-			}).then(function ()
-				{
+			 }).then(function (){
 					
 					//TODO: NOCH TRIGGERN, WENN NEUER HIGHSCORE ENTSTEHT.
 					//TODO: TRIGGERN, IN IDLE TIME WENN ARRAY DURCH.
@@ -259,12 +276,12 @@ app.on('pageInit', function(page){
 				   hidePiecesFinished.then(function (result) {
 				       if(result === 0)
 				       {
-                   	app.router.navigate('/highscore/');
-                   }
-                })
+							app.router.navigate('/highscore/');
+					   }
+					})
 				});
 		});
-	}
+	};
 	
 		/****************************** puzzle end ****************************/
 

@@ -33,7 +33,8 @@ var puzzle;
 var app  = new Framework7({
     data: function (){
         return {
-			currentPuzzleImageId: null
+			currentPuzzleImageId: null,
+			stateCreated: false
         }
     },
   root: '#app', // App root element
@@ -83,11 +84,9 @@ $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
 
 app.on('pageInit', function(page){
 	
-	
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
-	var stateCreated =  false;
 	
 	//console.log(page.name + " wird ausgeführt");
 	
@@ -177,6 +176,7 @@ app.on('pageInit', function(page){
 				 if(singleAccess.getCurrentContextIdIndex() >= 0){
 					 singleAccess.waitForContexts(function(contextList){
 						 //TODO: noch prüfen ob update erfolgreich.
+						singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
 						singleAccess.updateDeviceContext(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
 						resolve(0);
 					});
@@ -197,7 +197,22 @@ app.on('pageInit', function(page){
 			}); 				
 		 });
 			 
-		
+		singleAccess.waitForContexts(function(contextList){
+			singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
+				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
+				app.data.currentPuzzleImageId = randomImageId;
+				let key = "imageId";
+				singleAccess.createState(deviceName, key, randomImageId, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
+					console.log("createdState", createdState);
+					console.log("state: ", app.data.stateCreated);
+						if (createdState.data == null){
+							//TODO: THROW EXCEPTION
+						}
+					});
+			});
+		});
+	
+
 		 
 	
 		
@@ -414,71 +429,73 @@ app.on('pageInit', function(page){
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
 
 			var loadImage = new Promise(function (resolve, reject) {
-				var backgroundImage = new Image();
-				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
-				
-			backgroundImage.src = puzzleImagesArray[randomImageId].url;
-				app.data.currentPuzzleImageId = randomImageId;
-				
-				//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
-				backgroundImage.crossOrigin = "Anonymous";
-				backgroundImage.onload = function () {
-					const originPictureWidth = backgroundImage.width;
-					const originPictureHeight = backgroundImage.height;
-					resolve(backgroundImage);
-				};
-				backgroundImage.onerror = function () {
-					reject("could not load the image");
-				};
-			});
-			
-			loadImage.then(function(imageObject){
-				console.log("bis hier");
-				puzzle.imageObject = imageObject;
-				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
-				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
-				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
-					
-				$(window).on('resize', function (page) {
-					singleAccess.checkGrid(puzzle.puzzleWrapper);
-					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
-				});
-			}).then(function(){
-					var puzzlePieceClassName = $(puzzle.puzzleWrapper).find("div").last().attr("class");
-					
-					console.log("puzzlePieceClassName");
-					console.log(puzzlePieceClassName);	
-					
-					$('.' + puzzlePieceClassName).click(function (event) {
-					var puzzlePieceID = event.target.id;
-					console.log("puzzlePieceID", puzzlePieceID);
-						event.target.style.visibility = "hidden";
-						
-						console.log("puzzlepieceId");
-						console.log(puzzlePieceID);
-						
-						var key = "puzzle";
-						singleAccess.waitForContexts(function(contextList){
-							if(stateCreated == false){
-								singleAccess.createState(deviceName, key, puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
-								stateCreated = true;
-									if (createdState.data == null){
-										//TODO: THROW EXCEPTION
-									}
-								});
-							} else{
-								var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-								singleAccess.waitForData("getState", deviceName, function(stateValue){
-									console.log("stateValue")
-									console.log(stateValue);
-									var updatedStateValue = stateValue.value + ',' + puzzlePieceID;
-									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
-								});
-							}
-							
+			var backgroundImage = new Image();
+			backgroundImage.src = puzzleImagesArray[app.data.currentPuzzleImageId].url;
 
+			
+			//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
+			backgroundImage.crossOrigin = "Anonymous";
+			backgroundImage.onload = function () {
+				const originPictureWidth = backgroundImage.width;
+				const originPictureHeight = backgroundImage.height;
+				resolve(backgroundImage);
+			};
+			backgroundImage.onerror = function () {
+				reject("could not load the image");
+			};
+		});
+		
+		loadImage.then(function(imageObject){
+			console.log("bis hier");
+			puzzle.imageObject = imageObject;
+			var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
+			$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
+			singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
+			singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
+				
+			$(window).on('resize', function (page) {
+				singleAccess.checkGrid(puzzle.puzzleWrapper);
+				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
+			});
+		}).then(function(){
+				var puzzlePieceClassName = $(puzzle.puzzleWrapper).find("div").last().attr("class");
+				
+				console.log("puzzlePieceClassName");
+				console.log(puzzlePieceClassName);	
+				
+				$('.' + puzzlePieceClassName).click(function (event) {
+				var puzzlePieceID = event.target.id;
+				console.log("puzzlePieceID", puzzlePieceID);
+					event.target.style.visibility = "hidden";
+					
+					console.log("puzzlepieceId");
+					console.log(puzzlePieceID);
+					
+					var key = "puzzle";
+					singleAccess.waitForContexts(function(contextList){
+					console.log("state2", app.data.stateCreated)
+						singleAccess.createState(deviceName, key, puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
+							console.log("createdState", createdState);
+							app.data.stateCreated = true;
+							console.log("state: ", app.data.stateCreated);
+								if (createdState.data == null){
+									//TODO: THROW EXCEPTION
+								}
 						});
+						if(app.data.stateCreated == false){
+							console.log("state does not exist yet.")
+						} else{
+							var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+							singleAccess.waitForData("getState", deviceName, function(stateValue){
+								console.log("stateValue")
+								console.log(stateValue);
+								var updatedStateValue = stateValue.value + ',' + puzzlePieceID;
+								singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
+							});
+						}
+						
+
+					});
 					
 				});
 			});

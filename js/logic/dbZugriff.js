@@ -197,15 +197,14 @@ class DBZugriff{
 		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;
-		var versuch = sValue.split("|");
 		var dataReferenceName = "createState";
 		var query = '{"query": "mutation{' +
-					  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
-						'state {' +
-						  'key value' +
-						'}' +
-					  '}' +
-					'}"}';
+						  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
+							'state {' +
+							  'key value' +
+							'}' +
+						  '}' +
+						'}"}';
 					
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
@@ -254,7 +253,7 @@ class DBZugriff{
 		var sKey = key;
 		var dataReferenceName = "deleteState";
 		var query = '{"query": "mutation{' +
-			  'deleteState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 				'success' +
 			  '}' + 
 			'}"}';
