@@ -155,10 +155,6 @@ class DBZugriff{
 			console.log("DeviceContext geupdatet");
 			
 			console.log(token);				
-			
-			//thisisme.subscribeToContext("OpenProjectEvalSlider", context.contextId);
-				
-				
 			});
 		});
 	}
@@ -212,8 +208,13 @@ class DBZugriff{
 					
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
-				console.log(response);			
+				if(response.data != null){
+					console.log("bananeneis")
+					console.log(response.data)
+					console.log(dataReferenceName + "erfolgreich");
+				}else{
+					console.log("something went wrong. " + response.errors[0].message);
+				}			
 			});
 		});	
 	}
@@ -272,11 +273,6 @@ class DBZugriff{
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
 			
-			
-		// NUR ZU TESTZWECKEN
-		/* thisisme.createState(token, "kakao", "Bohne", context.contextId); */
-		
-		
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 						
 				console.log(dataReferenceName + "erfolgreich")
@@ -537,7 +533,7 @@ class DBZugriff{
 			
 			},
 			  error: function (response) {
-				  console.log(response)
+				  console.log("Something went wrong. Serverresponse: " + response)
 			}
 		
 	  });

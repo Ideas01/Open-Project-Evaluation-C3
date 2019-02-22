@@ -113,7 +113,7 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){	
 			thisisme.ContextList.length = 0;
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				var contexts = response.contexts;
+				var contexts = response.data.contexts;
 				contexts.forEach(function(contextElement, contextIndex, contexts){
 					var survey = contextElement.activeSurvey;
 					var surveyKeys = listAllKeys(survey);
@@ -153,7 +153,6 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(name, token, query , function(response){
 			console.log("DeviceContext geupdatet");
-			
 			console.log(token);							
 				
 			});
@@ -209,8 +208,13 @@ class DBZugriff{
 					
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
-				console.log(response);			
+				if(response.data != null){
+					console.log("bananeneis")
+					console.log(response.data)
+					console.log(dataReferenceName + "erfolgreich");
+				}else{
+					console.log("something went wrong. " + response.errors[0].message);
+				}			
 			});
 		});	
 	}
@@ -225,7 +229,7 @@ class DBZugriff{
 			'}"}';
 		this.callDatabase(dataReferenceName, token, query, function(response){
 			console.log(dataReferenceName + "erfolgreich")
-			console.log(response);			
+			console.log(response.data);			
 		});	
 	}
 	
@@ -243,7 +247,7 @@ class DBZugriff{
 		
 		this.callDatabase(dataReferenceName, token, query, function(response){
 			console.log(dataReferenceName + "erfolgreich")
-			console.log(response);			
+			console.log(response.data);			
 		});	
 	}
 	
@@ -268,18 +272,13 @@ class DBZugriff{
 		'\\"){id activeSurvey{images{id name url}}}}"}';
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
-			
-			
-		// NUR ZU TESTZWECKEN
-		/* thisisme.createState(token, "kakao", "Bohne", context.contextId); */
-		
 		
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 						
 				console.log(dataReferenceName + "erfolgreich")
-				console.log(response);
+				console.log(response.data);
 				
-				var images = response.context.activeSurvey.images;
+				var images = response.data.context.activeSurvey.images;
 				thisisme.setContextData(dataReferenceName, images);			
 			});
 		});
@@ -320,13 +319,11 @@ class DBZugriff{
 							'}}}}}"}';
 		this.waitForToken(deviceName, function(token){
 			
-			// NUR ZU TESTZWECKEN		
-			/* thisisme.updateState(token, "kakao", "Böhne", context.contextId);  */
 			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
 				console.log(response);
-				var result = response.context.activeSurvey.questions;
+				var result = response.data.context.activeSurvey.questions;
 				thisisme.setContextData(dataReferenceName, undefined);
 				var questions =[];
 				result.forEach(function(element){
@@ -398,8 +395,8 @@ class DBZugriff{
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich")
-				console.log(response.createAnswer.voteCreated);
-				thisisme.setContextData(dataReferenceName, response.createAnswer.voteCreated);
+				console.log(response.data.createAnswer.voteCreated);
+				thisisme.setContextData(dataReferenceName, response.data.createAnswer.voteCreated);
 			});
 		});
 	}
@@ -527,14 +524,13 @@ class DBZugriff{
 			method: 'POST',
 			dataType: 'json',
 			data: query,
-			success: function(r){
-			  
-			  let responseData = r.data;
-			  callback(responseData); 
+			success: function(response){
+
+			  callback(response); 
 			
 			},
-			  error: function (response) {
-				  console.log(response)
+			  error: function (responseError) {
+				   console.log("Something went wrong while calling the Server. Serverresponse: " + responseError)
 			}
 		
 	  });
