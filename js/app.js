@@ -87,7 +87,7 @@ app.on('pageInit', function(page){
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
-	
+	var stateCreated =  false;
 	
 	//console.log(page.name + " wird ausgeführt");
 	
@@ -444,22 +444,41 @@ app.on('pageInit', function(page){
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
 					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 				});
-//				return puzzlePieceClassName;
 			}).then(function(){
 					var puzzlePieceClassName = $(puzzle.puzzleWrapper).find("div").last().attr("class");
-					var puzzlePieceID = $(puzzle.puzzleWrapper).find("div").last().attr("id");
+					
 					console.log("puzzlePieceClassName");
 					console.log(puzzlePieceClassName);	
 					
 					$('.' + puzzlePieceClassName).click(function (event) {
-					event.target.style.visibility = "hidden";
-					
-					console.log("puzzlepieceId");
-					console.log(puzzlePieceID);
-					
-					singleAccess.waitForContexts(function(contextList){
-						singleAccess.createState(deviceName, "puzzle", puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()]);
-					});
+					var puzzlePieceID = event.target.id;
+					console.log("puzzlePieceID", puzzlePieceID);
+						event.target.style.visibility = "hidden";
+						
+						console.log("puzzlepieceId");
+						console.log(puzzlePieceID);
+						
+						var key = "puzzle";
+						singleAccess.waitForContexts(function(contextList){
+							if(stateCreated == false){
+								singleAccess.createState(deviceName, key, puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
+								stateCreated = true;
+									if (createdState.data == null){
+										//TODO: THROW EXCEPTION
+									}
+								});
+							} else{
+								var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+								singleAccess.waitForData("getState", deviceName, function(stateValue){
+									console.log("stateValue")
+									console.log(stateValue);
+									var updatedStateValue = stateValue.value + ',' + puzzlePieceID;
+									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
+								});
+							}
+							
+
+						});
 					
 				});
 			});

@@ -257,9 +257,10 @@ class PuzzleBuilder{
 
 	};
 
-	hidePuzzlePiecesActivePuzzle(puzzlePieceArray) {
-		var puzzlePieceIdArray = JSON.parse(puzzlePieceArray);
-		console.log(puzzlePieceIdArray);
+	hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray) {
+		console.log("puzzlePieceIdArray: ", puzzlePieceIdArray);
+		var puzzlePieceIdArray = puzzlePieceIdArray.split(",");
+		
 		if (typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0){
 			let hidePiecesActivePuzzle = new Promise(function (resolve){
 				puzzlePieceIdArray.forEach(function(element){

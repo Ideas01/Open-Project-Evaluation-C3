@@ -161,13 +161,14 @@ app.on('pageInit', function(page){
 								}
 								case 'subscription_data': {
 								  console.log('subscription data has been received', data)
-									singleAccess.hidePuzzlePiecesActivePuzzle(data);
-									let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
+									singleAccess.hidePuzzlePiecesActivePuzzle(data.payload.data.contextUpdate.context.states[0].value);
+									
+									/* let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
 									hidePiecesFinished.then(function (result) {
 										if(result === 0){
 											app.router.navigate('/highscore/');
 									    }
-									});
+									}); */
 									
 								  break
 								}
@@ -202,8 +203,8 @@ app.on('pageInit', function(page){
 
 		
  		//TODO:LÖSCHEN WENN ARRAY VON SUBSCRIPTIONS UMGESETZT WURDEN
- 		var testArray = ["puzzleWrapperpuzzlePiece|0000", "puzzleWrapperpuzzlePiece|0010", "puzzleWrapperpuzzlePiece|2200"
-		,"puzzleWrapperpuzzlePiece|2233"];
+ 		var testArray = ['puzzleWrapperpuzzlePiece|0000', 'puzzleWrapperpuzzlePiece|0010', 'puzzleWrapperpuzzlePiece|2200'
+		,'puzzleWrapperpuzzlePiece|2233'];
 
 		if(puzzle == undefined) // if theres no puzzle yet create a new one
 			puzzle = new Puzzle(); // new puzzle 
@@ -254,7 +255,7 @@ app.on('pageInit', function(page){
 					//TODO: TRIGGERN, IN IDLE TIME WENN ARRAY DURCH.
 					//WENN KEIN HIGHSCORE VORHANDEN DEFAULT HIGHSCORE ANZEIGEN.
 					
-				// let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
+				//let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
 				   hidePiecesFinished.then(function (result) {
 				       if(result === 0)
 				       {

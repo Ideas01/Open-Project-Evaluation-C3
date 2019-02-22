@@ -83,9 +83,13 @@
 		dbZugriff.subscribeToContext(devicename, context, callback);
 	};
 	
-	SingleAccess.prototype.createState = function (deviceName, stateKey, stateValue, context){
-		return dbZugriff.createState(deviceName, stateKey, stateValue, context);
+	SingleAccess.prototype.createState = function (deviceName, stateKey, stateValue, context, callback){
+		dbZugriff.createState(deviceName, stateKey, stateValue, context, callback);
 	};
+	
+	SingleAccess.prototype.getState = function (deviceName, stateKey, context){
+		return dbZugriff.getState(deviceName, stateKey, context);
+	}
 	
 	SingleAccess.prototype.deleteState = function (deviceName, key, context){
 		return dbZugriff.deleteState(deviceName, key, context);

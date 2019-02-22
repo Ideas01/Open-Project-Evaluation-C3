@@ -206,14 +206,17 @@ class DBZugriff{
 					  '}' +
 					'}"}';
 					
+					
+					
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				if(response.data != null){
-					console.log("bananeneis")
 					console.log(response.data)
 					console.log(dataReferenceName + "erfolgreich");
+					return response.data;
 				}else{
-					console.log("something went wrong. " + response.errors[0].message);
+					console.log("something went wrong. The Server responded with: " + response.errors[0].message);
+					return -1;
 				}			
 			});
 		});	
