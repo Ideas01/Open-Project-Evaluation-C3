@@ -355,20 +355,36 @@ class DBZugriff{
 			
 			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
+				console.log(dataReferenceName + "erfolgreich");
 				console.log(response);
-				var result = response.data.context.activeSurvey.questions;
-				thisisme.setContextData(dataReferenceName, undefined);
-				var questions =[];
-				result.forEach(function(element){
-					if(element.type == "REGULATOR"){
-						questions.push(element);
-					}else{
-						//do nothing.
+				let waitForResponse = setInterval(function () {
+                    var result = response.data.context.activeSurvey.questions;
+
+                    if (result != undefined) {
+                    	console.log("Habe Questions!");
+                    	clearInterval(waitForResponse);
+                        thisisme.setContextData(dataReferenceName, undefined);
+                        var questions =[];
+                        result.forEach(function(element){
+                            if(element.type === "REGULATOR"){
+                                questions.push(element);
+                            }else{
+                                console.log("Kein Element vom Typ REGULATOR gefunden")
+                            }
+                            thisisme.setContextData(dataReferenceName, questions);
+                        });
 					}
-				});
+					else
+						{
+							console.log("Konnte keine Questions von DB empfangen!")
+						}
+                },500);
+
+                setTimeout(function(){
+                    clearInterval(waitForResponse); //clear above interval after 15 seconds
+                },15000)
 						
-				thisisme.setContextData(dataReferenceName, questions);	
+
 				
 			});
 		});
@@ -425,7 +441,7 @@ class DBZugriff{
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
+				console.log(dataReferenceName + "erfolgreich");
 				console.log(response.data.createAnswer.voteCreated);
 				thisisme.setContextData(dataReferenceName, response.data.createAnswer.voteCreated);
 			});
