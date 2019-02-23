@@ -260,7 +260,7 @@ app.on('pageInit', function(page){
 				puzzle.imageObject = imageObject;
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
-				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
+				singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
             	$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
