@@ -28,7 +28,7 @@ class PuzzleBuilder{
 	- wrapperDom: (string) - identifier for the wrapper-div in the DOM.
 	- puzzle: (puzzle) puzzle which shall be created (containing all the settings - see puzzle.js)
 	*/
-	priv_buildSmallPieces(wrapperDom, puzzle)
+	priv_buildSmallPieces(wrapperDom, puzzle, callback)
     {
         var thisisme = this;
         let namespace = wrapperDom.substring(1);
@@ -57,18 +57,6 @@ class PuzzleBuilder{
                     thisisme.buildPuzzleTiles('#' + buildPuzzleNameId + n + i, buildPuzzlePiecesId + '|' + n + i, buildPuzzlePiecesClass.toString(), puzzle, puzzle.color);
                 }
             });
-			//TODO: LÖSCHEN WENN NICHT MEHR BENÖTIGT
-
-            /*$('.' + buildPuzzlePiecesClass).click(function (event) {
-
-                event.target.style.visibility = "hidden";
-                let coordinate = (event.target.id).split('|');
-                $('#'+ miniOverviewIdName + coordinate[1]).css('visibility', 'hidden');
-                pointCount -= 1;
-                $(puzzle.puzzlePointCounter).text(pointCount);
-                puzzle.clickedPuzzleTiles.push(coordinate[1]);
-            });
-            */
 
         }).then(function(){
             $('.' + buildPuzzlePiecesClass).css({
@@ -80,6 +68,7 @@ class PuzzleBuilder{
                 "-webkit-box-sizing": "border-box",
                 "border": "solid 1px" + puzzle.bordercolor
             });
+			callback(true);
         });
 	}
 	
@@ -206,7 +195,9 @@ class PuzzleBuilder{
 			thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
 		});
 
-		this.priv_buildSmallPieces(wrapperDom, puzzle);
+		this.priv_buildSmallPieces(wrapperDom, puzzle, function(){
+			
+		});
 
 		
 		this.priv_buildOverallGrid(puzzle);
@@ -224,22 +215,31 @@ class PuzzleBuilder{
      - puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)
      */
 
-	buildPuzzleWithoutOverallGrid(wrapperDom, puzzle)
-	{
-        var chk = new Checker("buildPuzzle");
+	buildPuzzleWithoutOverallGrid(wrapperDom, puzzle, callback) {
+		var thisisme = this;
+		var chk = new Checker("buildPuzzle");
         chk.isProperString(wrapperDom, "wrapperDom");
         chk.isValidClass(puzzle,"puzzle",'Puzzle');
-
-        var thisisme = this;
+		
+       
         new Promise(function(){
-            var overallGridWrapper = '<div id="'+ puzzle.puzzleGridWrapper.substring(1) +'"></div>';
+            var overallGridWrapper = '<div id="' + puzzle.puzzleGridWrapper.substring(1) +'"></div>';
             $(wrapperDom).parent().append(overallGridWrapper);
+			
+			if($('#' + puzzle.puzzleGridWrapper.substring(1))){
+				resolve(0);
+			}
+			
         }).then(function(){
             let wrapperArray = [];
             thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
         });
-
-        this.priv_buildSmallPieces(wrapperDom, puzzle);
+		
+		this.priv_buildSmallPieces(wrapperDom, puzzle, function(created){
+			if(created){
+				callback(true);
+			}
+		});
 	}
 
 	/**
@@ -293,7 +293,13 @@ class PuzzleBuilder{
 		if (Array.isArray(puzzlePieceIdArray) && typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0){
 			let hidePiecesActivePuzzle = new Promise(function (resolve){
 				puzzlePieceIdArray.forEach(function(element){
-					document.getElementById(element).style.visibility = "hidden";
+					console.log("element", element)
+					if(document.getElementById(element) == null){
+						console.log("konnte element: " + element + " nicht finden.");
+					}else{
+						document.getElementById(element).style.visibility = "hidden";
+					}
+					
 				});
 				resolve(0);
 			});

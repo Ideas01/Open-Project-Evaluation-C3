@@ -26,8 +26,8 @@
     	puzzleBuilder.checkGrid(wrapperDom);
 	};
 
-	SingleAccess.prototype.buildPuzzleWithoutOverallGrid = function(wrapperDom, puzzle){
-		puzzleBuilder.buildPuzzleWithoutOverallGrid(wrapperDom,puzzle);
+	SingleAccess.prototype.buildPuzzleWithoutOverallGrid = function(wrapperDom, puzzle, callback){
+		puzzleBuilder.buildPuzzleWithoutOverallGrid(wrapperDom,puzzle, callback);
 	};
 
     /************************************** puzzleGuessBuilder **************************************************/

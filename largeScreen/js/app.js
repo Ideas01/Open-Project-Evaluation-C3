@@ -176,7 +176,9 @@ app.on('pageInit', function(page){
 										//TODO: NOCH PRÜFEN OB BILD SCHON DA. LÄDT GRAD ZU OFT
 										setImage(parseInt(json.imageId, 10), function(loaded){
 											if(loaded){
-												let hidePiecesFinished = singleAccess.hidePuzzlePieces(json.puzzleIds);
+												console.log("bis hier 6");
+												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIds);
+												console.log("bis hier 7");
 											}
 										});
 										//singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
@@ -237,22 +239,26 @@ app.on('pageInit', function(page){
 	
 	function setImage(imageID, callback){
 		
-		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
-
+			console.log("bis hier -2");
 		
 			if(app.data.imageLoaded){
-				console.log("Theres already an Image.")
+				console.log("Theres already an Image.");
+				$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
+				callback(true);
 			}else{
+				console.log("bis hier -1");
 				loadImage = new Promise(function (resolve, reject) {
+					console.log("bis hier 0");
 					var backgroundImage = new Image();
 					
 					backgroundImage.src = puzzleImagesArray[imageID].url;
 					app.data.currentPuzzleImageId = imageID;
-					
-					singleAccess.buildCategory(puzzleImagesArray, "Essen");
+					console.log("bis hier 1")
+					//singleAccess.buildCategory(puzzleImagesArray, "Essen");
 					//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
 					backgroundImage.crossOrigin = "Anonymous";
+					console.log("bis hier 3")
 					backgroundImage.onload = function () {
 						const originPictureWidth = backgroundImage.width;
 						const originPictureHeight = backgroundImage.height;
@@ -264,23 +270,25 @@ app.on('pageInit', function(page){
 				});
 				
 				loadImage.then(function(imageObject){
+					console.log("bis hier 4");
 					puzzle.imageObject = imageObject;
 					var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 					
 					//TODO: nooooo dont build another puzzle if image already exists.
-					singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle);
-					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
-					$(window).on('resize', function (page) {
-						singleAccess.checkGrid(puzzle.puzzleWrapper);
+					singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle, function(){
 						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
+						$(window).on('resize', function (page) {
+							singleAccess.checkGrid(puzzle.puzzleWrapper);
+							singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
+						});
+						console.log("bis hier 4");
+						app.data.imageLoaded = true;
+						$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
+						callback(true);
 					});
-					app.data.imageLoaded = true;
-					callback(true);
 				 });
 				}
 			
-				$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
-				console.log(puzzle.imageObject);
 
 		});
 	};
