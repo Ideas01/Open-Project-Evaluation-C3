@@ -473,7 +473,7 @@ app.on('pageInit', function(page){
 					
 					var key = "puzzle";
 					singleAccess.waitForContexts(function(contextList){
-					console.log("state2", app.data.stateCreated)
+					console.log("state2", app.data.stateCreated);
 						singleAccess.createState(deviceName, key, puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
 							console.log("createdState", createdState);
 							app.data.stateCreated = true;

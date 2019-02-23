@@ -209,7 +209,7 @@ class PuzzleBuilder{
 		this.priv_buildSmallPieces(wrapperDom, puzzle);
 
 		
-		this.priv_buildOverallGrid(puzzle);
+		//this.priv_buildOverallGrid(puzzle);
 
 };
 	/**
