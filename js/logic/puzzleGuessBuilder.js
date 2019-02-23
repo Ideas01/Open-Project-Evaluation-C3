@@ -9,21 +9,12 @@ function PuzzleGuessBuilder() {}
  * @param puzzleImageData data of all the available puzzle images
  */
 PuzzleGuessBuilder.prototype.buildCategories = function (puzzleImageID, puzzleImageData) {
-    new Promise(function (resolve) {
-        var switchedAnswers = switchAnswers(puzzleImageData[puzzleImageID].wrongAnswers, puzzleImageData[puzzleImageID].correctAnswer);
+    
 
-        var correctCategory = {
-            category: puzzleImageData[puzzleImageID].category,
-            answers: switchedAnswers,
-            correctAnswer: puzzleImageData[puzzleImageID].correctAnswer
-        };
-        resolve(correctCategory);
-    }).then(function (correctCategory) {
-        appendCategories(puzzleImageData, function(){
-			setClickHandler(correctCategory, puzzleImageData);
-		});
+	appendCategories(puzzleImageData, function(){
+		setClickHandler(puzzleImageID, puzzleImageData);
+	});
 		
-    });
 };
 
 /**
@@ -60,11 +51,11 @@ function appendCategories(imageCategories, callback) {
  * sets a click handler on every appended category. This click handler calls function buildCategories
  *
  * @param correctCategory category which contains the correct answer.
- * @param otherCategories category which contains the wrong answers.
+ * @param puzzleImageData the complete object with all available categories
  */
-function setClickHandler(correctCategory, otherCategories) {
+function setClickHandler(puzzleImageID, puzzleImageData) {
     $('#guessOverview').children().click(function (event) {
-        buildCategories('#guessItems', event.target.id, correctCategory, otherCategories)
+        buildCategories('#guessItems', event.target.id, puzzleImageID, puzzleImageData)
     })
 
 }
@@ -75,38 +66,52 @@ function setClickHandler(correctCategory, otherCategories) {
  *
  * @param clickedCategory name of the clicked category
  * @param correctCategory the category which contains the correct answer
- * @param otherCategories the complete object with all available categories
+ * @param puzzleImageData the complete object with all available categories
  */
 
-function buildCategories(DOMelement, clickedCategory, correctCategory, otherCategories) {
-    if (clickedCategory === correctCategory.category) {
-        $(DOMelement).empty();
-        $.each(correctCategory.answers, function (index, data) {
-            $(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-            $('#' + data).click(function () {
-                checkGuessItem(data, correctCategory.correctAnswer);
-            });
-        });
-    }
-    else {
-        $(DOMelement).empty();
-        for (var i = 0; i < otherCategories.length; i++) {
-            if (otherCategories[i].category === clickedCategory) {
-                $.each(otherCategories[i].wrongAnswers, function (index, data) {
-                    if($('#' + data).length ==0) {
-                        $(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-                        $('#' + data).click(function () {
-                            checkGuessItem(data, correctCategory.correctAnswer);
-                        })
-                    }
-                    else{
-                        console.log('Die ID ' + data + ' ist schon vergeben');
-                    }
-                });
+function buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData) {
+	
+	function versuch(callback){
+		var switchedAnswers = switchAnswers(puzzleImageData[puzzleImageID].wrongAnswers, puzzleImageData[puzzleImageID].correctAnswer);
+		var correctCategory = {
+			category: puzzleImageData[puzzleImageID].category,
+			answers: switchedAnswers,
+			correctAnswer: puzzleImageData[puzzleImageID].correctAnswer
+		};
+		callback(correctCategory);
+	}
+	
+	versuch(function(correctCategory){
+		/* if (clickedCategory === correctCategory.category) {
+			$('#guessItems').empty();
+			$.each(correctCategory.answers, function (index, data) {
+				$(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
+				$('#' + data).click(function () {
+					checkGuessItem(data, correctCategory.correctAnswer);
+				});
+			});
+		}*/
+		
+			$(DOMelement).empty();
+			for (var i = 0; i < puzzleImageData.length; i++) {
+				if (puzzleImageData[i].category === clickedCategory) {
+					$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
+						if($('#' + data).length == 0) {
+							$(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
+							
+							$('#' + data).click(function () {
+								checkGuessItem(data, correctCategory.correctAnswer);
+							})
+						}
+						else{
+							console.log('Die ID ' + data + ' ist schon vergeben');
+						}
+					});
 
-            }
-        }
-    }
+				}
+			}
+	});
+
 
 }
 
