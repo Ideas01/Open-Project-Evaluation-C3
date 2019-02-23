@@ -23,22 +23,6 @@ class PuzzleGuessBuilder{
 
 	/**
 	 *
-	 *  Uses puzzleImageData to build the categories
-	 *
-	 * @param puzzleImageID ID of the correct PuzzleImage
-	 * @param puzzleImageData data of all the available puzzle images
-	 */
-	buildCategories(puzzleImageID, puzzleImageData) {
-	    
-
-	//		appendCategories('#guessOverview', puzzleImageData, function(){
-	//		setClickHandler(puzzleImageID, puzzleImageData);
-	//	});
-			
-	};
-
-	/**
-	 *
 	 * Appends the categories to the container guessOverview and calls function setClickHandler
 	 *
 	 * @param imageCategories categories to append to guessOverview
@@ -66,19 +50,6 @@ class PuzzleGuessBuilder{
 		callback(Promise.all(promises));
 	};
 
-	/**
-	 *
-	 * sets a click handler on every appended category. This click handler calls function buildCategories
-	 *
-	 * @param correctCategory category which contains the correct answer.
-	 * @param puzzleImageData the complete object with all available categories
-	 */
-	//function setClickHandler(puzzleImageID, puzzleImageData) {
-	//    $('#guessOverview').children().click(function (event) {
-	//    	buildCategories('#guessItems', event.target.id, puzzleImageID, puzzleImageData)
-	//    })
-	//
-	//}
 
 	/**
 	 *
@@ -160,7 +131,7 @@ class PuzzleGuessBuilder{
 	        //switch value at randomIndex with correctAnswer
 	        switchedAnswers[randomIndex] = correctAnswer;
 
-	        //push swicht wrong answer back into array
+	        //push switcht wrong answer back into array
 	        switchedAnswers.push(valueToSwitch);
 	    }
 	    return switchedAnswers;

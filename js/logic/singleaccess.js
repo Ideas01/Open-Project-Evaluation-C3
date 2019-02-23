@@ -32,10 +32,6 @@
 		return sliderFactory.setButtonCaption(remainingQuestions,buttonID);
 	};
      /************************************** puzzleGuessBuilder **************************************************/
-
-    SingleAccess.prototype.buildCategories = function(puzzleImageID, puzzleImageData){
-        puzzleGuessBuilder.buildCategories(puzzleImageID, puzzleImageData);
-    };
     
     SingleAccess.prototype.appendCategories = function(DOMelement, imageCategories, callback) {
         puzzleGuessBuilder.appendCategories(DOMelement, imageCategories, callback) ;
