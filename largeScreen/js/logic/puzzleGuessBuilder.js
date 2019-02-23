@@ -139,7 +139,7 @@ function switchAnswers(wrongAnswers, correctAnswer) {
         //switch value at randomIndex with correctAnswer
         switchedAnswers[randomIndex] = correctAnswer;
 
-        //push swicht wrong answer back into array
+        //push switch wrong answer back into array
         switchedAnswers.push(valueToSwitch);
     }
     return switchedAnswers;

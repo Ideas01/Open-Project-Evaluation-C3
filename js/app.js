@@ -475,8 +475,8 @@ app.on('pageInit', function(page){
 						} else{
 							var stateValue = singleAccess.getState(deviceName, app.data.puzzlekey, contextList[singleAccess.getCurrentContextIdIndex()]);
 							singleAccess.waitForData("getState", deviceName, function(stateValue){
-//								console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 2));
-//								console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 3));
+								console.log("stateValue0", (stateValue.value).substring(0, stateValue.value.length - 2));
+								console.log("firstElement0", (stateValue.value).charAt(stateValue.value.length - 3));
 								if((stateValue.value).charAt(stateValue.value.length - 3) == "["){
 									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + "'" + puzzlePieceID +"']}";
 								} else{ //if it´s the last element
@@ -516,7 +516,7 @@ app.on('pageInit', function(page){
 	
 	/*************************** puzzleGuess start ************************/
     if (page.name === 'puzzleGuess') {
-        var wrapperArray = ['#puzzleOverview'];
+    	var wrapperArray = ['#puzzleOverview'];
 		var puzzleImageID = app.data.currentPuzzleImageId;
 
         singleAccess.waitForContexts(function (contextList) {
@@ -524,7 +524,37 @@ app.on('pageInit', function(page){
         });
         new Promise(function (resolve,reject) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
-                singleAccess.buildCategories(puzzleImageID,response);
+                
+               singleAccess.appendCategories('#guessOverview', response, function(){
+						 $('#guessOverview').children().click(function (event) {
+						 console.log("###################################################   triggering event");
+						 
+						 	var key = app.data.puzzlekey;
+							var keyString = "userGuessCategory";
+				    		var updatedStateValue;
+				    		var chosenCategory = event.target.id;
+				    		singleAccess.waitForContexts(function(contextList){
+								if(app.data.stateCreated == false){
+									console.log("state does not exist yet.")
+								} else{
+									var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+									singleAccess.waitForData("getState", deviceName, function(stateValue){
+											console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 1));
+											console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 2));
+										if((stateValue.value).charAt(stateValue.value.length - 2) == "]"){
+											updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 1) + "','" + keyString +  "':'" + chosenCategory + "']}";
+										}
+										singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
+									});
+								}
+					     });
+					    	singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response)
+					    })
+
+					});
+                
+                
+                //singleAccess.buildCategories(puzzleImageID,response);
 
                 var backgroundImage = new Image();
                 backgroundImage.src = response[puzzleImageID].url;
@@ -560,12 +590,13 @@ app.on('pageInit', function(page){
 			singleAccess.util_PopUp('HILFE',content);	
         });
         
-        $(".guessButton").click(function(event){
-        		var key = app.data.puzzlekey;
+		    $('#guessOverview').children().click(function (event) {
+		    	
+		    	var key = app.data.puzzlekey;
 				var keyString = "userGuessCategory";
-        		var updatedStateValue;
-        		var chosenCategory = event.target.id;
-        		singleAccess.waitForContexts(function(contextList){
+		 		var updatedStateValue;
+		 		var chosenCategory = event.target.id;
+		 		singleAccess.waitForContexts(function(contextList){
 					if(app.data.stateCreated == false){
 						console.log("state does not exist yet.")
 					} else{
@@ -579,8 +610,8 @@ app.on('pageInit', function(page){
 							singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
 						});
 					}
-        });
-      });
+		     });
+		    })
     }
 
     /****************************** puzzleGuess end ****************************/

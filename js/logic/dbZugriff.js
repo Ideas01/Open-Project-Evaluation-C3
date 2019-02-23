@@ -210,7 +210,7 @@ class DBZugriff{
 		function queryFilled(callback){
 			query = '{"query": "mutation{' +
 						  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", ' +  // unique key through deviceID
-						  'value: \\"' +  stateValue +  "', 'puzzleIds': []}" + '\\"}, ' +
+						  'value: \\"' +  stateValue + '\\"}, ' +
 						  'contextID: \\"' + context.contextId + '\\") {' +  
 							'state {' +
 							  'key value' +
