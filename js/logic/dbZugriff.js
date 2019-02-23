@@ -202,15 +202,19 @@ class DBZugriff{
 		chk.isProperString(deviceName,"deviceName");
 		
 		var thisisme = this;
+		var keyString;
 		var dataReferenceName = "createState";
 		var sKey = stateKey;
+		var sValue = stateValue;
 		var query;
 		var checkNumber = new RegExp("^[0-9]*$");
 		
 		function queryFilled(callback){
+			if(checkNumber.test(stateValue) == true){
+			keyString = "imageId";
 			query = '{"query": "mutation{' +
 						  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", ' +  // unique key through deviceID
-						  'value: \\"' +  stateValue + '\\"}, ' +
+						  'value: \\"' + "{'" + keyString + "':'" + stateValue +  "', 'puzzleIds': []}" + '\\"}, ' +
 						  'contextID: \\"' + context.contextId + '\\") {' +  
 							'state {' +
 							  'key value' +
@@ -218,7 +222,10 @@ class DBZugriff{
 						  '}' +
 						'}"}';
 			callback(query);
-			
+			} else {
+				console.log("Invalid Argument. The given stateValue is not a number.")
+				//TODO: THROW EXCEPTION
+			}
 		}						
 		
 		queryFilled(function(query){
@@ -297,9 +304,11 @@ class DBZugriff{
 		chk.isProperString(deviceName,"deviceName");		
 		
 		var thisisme = this;
+		var sKey = stateKey;
+		var sValue = stateValue;
 		var dataReferenceName = "States";
 		var query = '{"query": "mutation{' +
-					  'updateState(data: {key: \\"' + stateKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+					  'updateState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 						'state {' +
 						  'key value' +
 						'}' +

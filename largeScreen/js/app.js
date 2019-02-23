@@ -34,7 +34,7 @@ var app  = new Framework7({
     data: function (){
         return {
 			currentPuzzleImageId: null,
-			imageLoaded: false
+			loadImage: false
         }
     },
   root: '#app', // App root element
@@ -57,8 +57,8 @@ var app  = new Framework7({
 $$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
 
 	var singleAccess = new SingleAccess();
-		singleAccess.checkGrid(puzzle.puzzleWrapper);
-	});
+	singleAccess.checkGrid(puzzle.puzzleWrapper);
+});
 
 $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
 	
@@ -167,7 +167,7 @@ app.on('pageInit', function(page){
 									console.log("json", json);
 									
 									var puzzlePieceIdArray = data.payload.data.contextUpdate.context.states[0].value.split(",");
-									console.log("imageid", json);
+									console.log("imageid", puzzlePieceIdArray);
 									var checkNumber = new RegExp("^[0-9]*$");
 									
 									if(checkNumber.test(json.imageId) == true){
@@ -224,9 +224,11 @@ app.on('pageInit', function(page){
 
     /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
-		if(puzzle == undefined) // if theres no puzzle yet create a new one
-			puzzle = new Puzzle(); // new puzzle 
-        var imageSrc = null;
+
+		
+ 		//TODO:LÖSCHEN WENN ARRAY VON SUBSCRIPTIONS UMGESETZT WURDEN
+ 		var testArray = ['puzzleWrapperpuzzlePiece|0000', 'puzzleWrapperpuzzlePiece|0010', 'puzzleWrapperpuzzlePiece|2200'
+		,'puzzleWrapperpuzzlePiece|2233'];
 
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]); //fetch new Image from dbZugriff
@@ -236,12 +238,14 @@ app.on('pageInit', function(page){
 	
 	
 	function setImage(imageID, callback){
-		
+		if(puzzle == undefined) // if theres no puzzle yet create a new one
+			puzzle = new Puzzle(); // new puzzle 
+        var imageSrc = null;
 		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
 
 		
-			if(app.data.imageLoaded){
+			if(app.data.loadImage){
 				console.log("Theres already an Image.")
 			}else{
 				loadImage = new Promise(function (resolve, reject) {
@@ -264,22 +268,23 @@ app.on('pageInit', function(page){
 				});
 				
 				loadImage.then(function(imageObject){
-					puzzle.imageObject = imageObject;
-					var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-					
-					//TODO: nooooo dont build another puzzle if image already exists.
-					singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle);
+				puzzle.imageObject = imageObject;
+				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
+				
+				//TODO: nooooo dont build another puzzle if image already exists.
+				singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle);
+				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
+            	$(window).on('resize', function (page) {
+					singleAccess.checkGrid(puzzle.puzzleWrapper);
 					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
-					$(window).on('resize', function (page) {
-						singleAccess.checkGrid(puzzle.puzzleWrapper);
-						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
-					});
-					app.data.imageLoaded = true;
-					callback(true);
-				 });
-				}
+				});
+				app.data.loadImage = true;
+				callback(true);
+			 });
+			}
 			
-
+			$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
+			console.log(puzzle.imageObject);
 
 		});
 	};
