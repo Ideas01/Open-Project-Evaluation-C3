@@ -470,6 +470,7 @@ app.on('pageInit', function(page){
 					event.target.style.visibility = "hidden";
 					
 					singleAccess.waitForContexts(function(contextList){
+<<<<<<< HEAD
 					console.log("state2", app.data.stateCreated);
 						singleAccess.createState(deviceName, key, puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
 							console.log("createdState", createdState);
@@ -479,6 +480,8 @@ app.on('pageInit', function(page){
 									//TODO: THROW EXCEPTION
 								}
 						});
+=======
+>>>>>>> subscriptions_json_Object
 						if(app.data.stateCreated == false){
 							console.log("state does not exist yet.")
 						} else{
