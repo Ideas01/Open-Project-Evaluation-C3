@@ -32,11 +32,14 @@
 		return sliderFactory.setButtonCaption(remainingQuestions,buttonID);
 	};
      /************************************** puzzleGuessBuilder **************************************************/
-
-    SingleAccess.prototype.buildCategories = function(puzzleImageID, puzzleImageData){
-        puzzleGuessBuilder.buildCategories(puzzleImageID, puzzleImageData);
+    
+    SingleAccess.prototype.appendCategories = function(DOMelement, imageCategories, callback) {
+        puzzleGuessBuilder.appendCategories(DOMelement, imageCategories, callback) ;
     };
-
+	
+	 SingleAccess.prototype.buildCategories = function(DOMelement, clickedCategory, puzzleImageID, puzzleImageData) {
+        puzzleGuessBuilder.buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData);
+    };
     /*************************************** DB Zugriff ***************************************************************/
 	
 	SingleAccess.prototype.initializeDB = function(deviceName){
