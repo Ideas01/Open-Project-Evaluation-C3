@@ -270,7 +270,7 @@ app.on('pageInit', function(page){
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 				
 				//TODO: nooooo dont build another puzzle if image already exists.
-				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
+				singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
             	$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
