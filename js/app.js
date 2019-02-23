@@ -514,7 +514,9 @@ app.on('pageInit', function(page){
         });
 	}
 	
-		/****************************** puzzle end ****************************/
+	/****************************** puzzle end ****************************/
+	
+	/*************************** puzzleGuess start ************************/
     if (page.name === 'puzzleGuess') {
         var wrapperArray = ['#puzzleOverview'];
 		var puzzleImageID = app.data.currentPuzzleImageId;
