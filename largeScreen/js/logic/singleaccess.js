@@ -24,6 +24,11 @@
 	SingleAccess.prototype.checkGrid = function (wrapperDom){
     	puzzleBuilder.checkGrid(wrapperDom);
 	};
+
+	SingleAccess.prototype.buildPuzzleWithoutOverallGrid = function(wrapperDom, puzzle)
+	{
+		puzzleBuilder.buildPuzzleWithoutOverallGrid(wrapperDom,puzzle);
+	};
 	
     /*************************************** DB Zugriff ***************************************************************/
 	

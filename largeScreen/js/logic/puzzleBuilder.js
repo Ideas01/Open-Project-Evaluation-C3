@@ -212,6 +212,36 @@ class PuzzleBuilder{
 		this.priv_buildOverallGrid(puzzle);
 
 };
+
+
+    /**
+     buildPuzzleWithoutOverallGrid()
+
+     creates a puzzle, without an overlaying grid, for a framework 7 page
+
+     parameters:
+     - wrapperDom: (string) - identifier for the wrapper-div in the DOM.
+     - puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)
+     */
+
+	buildPuzzleWithoutOverallGrid(wrapperDom, puzzle)
+	{
+        var chk = new Checker("buildPuzzle");
+        chk.isProperString(wrapperDom, "wrapperDom");
+        chk.isValidClass(puzzle,"puzzle",'Puzzle');
+
+        var thisisme = this;
+        new Promise(function(){
+            var overallGridWrapper = '<div id="'+ puzzle.puzzleGridWrapper.substring(1) +'"></div>';
+            $(wrapperDom).parent().append(overallGridWrapper);
+        }).then(function(){
+            let wrapperArray = [];
+            thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
+        });
+
+        this.priv_buildSmallPieces(wrapperDom, puzzle);
+	}
+
 	/**
 	buildPuzzleTiles()
 	
