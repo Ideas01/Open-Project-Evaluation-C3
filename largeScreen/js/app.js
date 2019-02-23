@@ -230,10 +230,6 @@ app.on('pageInit', function(page){
  		var testArray = ['puzzleWrapperpuzzlePiece|0000', 'puzzleWrapperpuzzlePiece|0010', 'puzzleWrapperpuzzlePiece|2200'
 		,'puzzleWrapperpuzzlePiece|2233'];
 
-		if(puzzle == undefined) // if theres no puzzle yet create a new one
-			puzzle = new Puzzle(); // new puzzle 
-        var imageSrc = null;
-		
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]); //fetch new Image from dbZugriff
 		});
@@ -242,6 +238,10 @@ app.on('pageInit', function(page){
 	
 	
 	function setImage(imageID, callback){
+		if(puzzle == undefined) // if theres no puzzle yet create a new one
+			puzzle = new Puzzle(); // new puzzle 
+        var imageSrc = null;
+		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
 		
 			if(app.data.loadImage){
@@ -282,7 +282,7 @@ app.on('pageInit', function(page){
 			}
 			
 			$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
-			
+			console.log(puzzle.imageObject);
 
 		});
 	};
