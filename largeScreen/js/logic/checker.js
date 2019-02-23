@@ -62,7 +62,7 @@
 	
 	*/
 	ExceptionHeader(){
-		var msg = "Invalid argument used in '"+this.fname+"()' : ";
+		var msg = "Invalid argument used in '" + this.fname + "()' : ";
 		return msg;
 	}
 	
