@@ -243,6 +243,7 @@ app.on('pageInit', function(page){
 				
 				backgroundImage.src = puzzleImagesArray[imageID].url;
 				app.data.currentPuzzleImageId = imageID;
+				singleAccess.buildCategory(puzzleImagesArray, "Essen");
 				
 				//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
 				backgroundImage.crossOrigin = "Anonymous";
