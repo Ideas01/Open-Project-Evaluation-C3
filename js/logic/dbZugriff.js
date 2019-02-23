@@ -195,30 +195,44 @@ class DBZugriff{
 	
 	createState(deviceName, stateKey, stateValue, context, callback){
 		var thisisme = this;
+		var keyString;
+		var dataReferenceName = "createState";
 		var sKey = stateKey;
 		var sValue = stateValue;
-		var dataReferenceName = "createState";
-		var query = '{"query": "mutation{' +
-						  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
-							'state {' +
-							  'key value' +
-							'}' +
-						  '}' +
-						'}"}';
-					
-		this.waitForToken(deviceName, function(token){
-			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				if(response.data != null){
-					console.log(response.data)
-					console.log(dataReferenceName + "erfolgreich");
-					callback(response);
-				}else{
-					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
-					callback(response);
-				}	
+		var query;
+		var checkNumber = new RegExp("^[0-9]*$");
+		
+		function queryFilled(callback){
+			if(checkNumber.test(stateValue) == true){
+			keyString = "imageId";
+			query = '{"query": "mutation{' +
+							  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", value: \\"' + "{'" + keyString + "':'" + stateValue +  "'}" + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
+								'state {' +
+								  'key value' +
+								'}' +
+							  '}' +
+							'}"}';
+			callback(query);
+		
+			};
+		}						
+		
+		queryFilled(function(query){
+				thisisme.waitForToken(deviceName, function(token){
+				thisisme.callDatabase(dataReferenceName, token, query, function(response){
+					if(response.data != null){
+						console.log(response.data)
+						console.log(dataReferenceName + "erfolgreich");
+						callback(response);
+					}else{
+						console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+						callback(response);
+					}	
+				});
 			});
-		});	
-	};
+		});
+	
+		}
 	
 	getState(deviceName, stateKey, context){
 		var thisisme = this;
