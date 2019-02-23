@@ -268,14 +268,9 @@ app.on('pageInit', function(page){
 				loadImage.then(function(imageObject){
 				puzzle.imageObject = imageObject;
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-<<<<<<< HEAD
-				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
-				singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle);
-=======
 				
 				//TODO: nooooo dont build another puzzle if image already exists.
 				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
->>>>>>> subscriptions_json_Object
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
             	$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
