@@ -160,6 +160,9 @@ class DBZugriff{
 	}
 	
 	subscribeToContext(deviceName, context, callback){
+		var chk = new Checker("subscribeToContext");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
 		
 		var address = (this.serverAdresse).substring(7);
 		
@@ -194,6 +197,10 @@ class DBZugriff{
 	}
 	
 	createState(deviceName, stateKey, stateValue, context, callback){
+		var chk = new Checker("createState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
 		var keyString;
 		var dataReferenceName = "createState";
@@ -206,15 +213,19 @@ class DBZugriff{
 			if(checkNumber.test(stateValue) == true){
 			keyString = "imageId";
 			query = '{"query": "mutation{' +
-							  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", value: \\"' + "{'" + keyString + "':'" + stateValue +  "'}" + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
-								'state {' +
-								  'key value' +
-								'}' +
-							  '}' +
-							'}"}';
+						  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", ' +  // unique key through deviceID
+						  'value: \\"' + "{'" + keyString + "':'" + stateValue +  "', 'puzzleIds': []}" + '\\"}, ' +
+						  'contextID: \\"' + context.contextId + '\\") {' +  
+							'state {' +
+							  'key value' +
+							'}' +
+						  '}' +
+						'}"}';
 			callback(query);
-		
-			};
+			} else {
+				console.log("Invalid Argument. The given stateValue is not a number.")
+				//TODO: THROW EXCEPTION
+			}
 		}						
 		
 		queryFilled(function(query){
@@ -235,6 +246,10 @@ class DBZugriff{
 		}
 	
 	getState(deviceName, stateKey, context){
+		var chk = new Checker("getState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
 		var sKey = stateKey;
 		var dataReferenceName = "getState";
@@ -263,6 +278,10 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
+		var chk = new Checker("deleteState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
 		var sKey = key;
 		var dataReferenceName = "deleteState";
@@ -280,6 +299,10 @@ class DBZugriff{
 	}
 	
 	updateState(deviceName, stateKey, stateValue, context){
+		var chk = new Checker("updateState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");		
+		
 		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;

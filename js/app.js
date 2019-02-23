@@ -462,7 +462,8 @@ app.on('pageInit', function(page){
 			});
 		}).then(function(){
 				var puzzlePieceClassName = $(puzzle.puzzleWrapper).find("div").last().attr("class");
-				
+				var updatedStateValue;
+				 
 				$('.' + puzzlePieceClassName).click(function (event) {
 				var puzzlePieceID = event.target.id;
 				console.log("puzzlePieceID", puzzlePieceID);
@@ -474,9 +475,13 @@ app.on('pageInit', function(page){
 						} else{
 							var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
 							singleAccess.waitForData("getState", deviceName, function(stateValue){
-								console.log("stateValue")
-								console.log(stateValue);
-								var updatedStateValue = stateValue.value + ',' + puzzlePieceID;
+//								console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 2));
+//								console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 3));
+								if((stateValue.value).charAt(stateValue.value.length - 3) == "["){
+									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + "'" + puzzlePieceID +"']}";
+								} else{ //if it´s the last element
+									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + ",'" + puzzlePieceID +"']}";
+								}
 								singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
 							});
 						}

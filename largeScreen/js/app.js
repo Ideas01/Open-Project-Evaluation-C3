@@ -33,7 +33,8 @@ var puzzle;
 var app  = new Framework7({
     data: function (){
         return {
-			currentPuzzleImageId: null
+			currentPuzzleImageId: null,
+			loadImage: false
         }
     },
   root: '#app', // App root element
@@ -161,21 +162,28 @@ app.on('pageInit', function(page){
 								}
 								case 'subscription_data': {
 								  console.log('subscription data has been received', data)
+									var json =  data.payload.data.contextUpdate.context.states[0].value.replace(/'/g, '"');
+									json = JSON.parse(json);
+									console.log("json", json);
+									
 									var puzzlePieceIdArray = data.payload.data.contextUpdate.context.states[0].value.split(",");
 									console.log("imageid", puzzlePieceIdArray);
 									var checkNumber = new RegExp("^[0-9]*$");
 									
-									if(checkNumber.test(puzzlePieceIdArray[0]) == true){
+									if(checkNumber.test(json.imageId) == true){
 										let key = data.payload.data.contextUpdate.context.states[0].key;
 										console.log("found Number: ", puzzlePieceIdArray[0] );
-										setImage(parseInt(puzzlePieceIdArray, 10));
-										singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-									}else if(checkNumber.test(puzzlePieceIdArray[0])  == false){
-										console.log("found no Number: ", puzzlePieceIdArray[0] );
-										singleAccess.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
+										//TODO: NOCH PRÜFEN OB BILD SCHON DA. LÄDT GRAD ZU OFT
+										setImage(parseInt(json.imageId, 10), function(loaded){
+											if(loaded){
+												let hidePiecesFinished = singleAccess.hidePuzzlePieces(json.puzzleIds);
+											}
+										});
+										//singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
 									}else{
 										//TODO: THROW EXCEPTION
 									}
+									
 									
 									
 									
@@ -233,53 +241,49 @@ app.on('pageInit', function(page){
 	}
 	
 	
-	function setImage(imageID){
+	function setImage(imageID, callback){
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
-
-			var loadImage = new Promise(function (resolve, reject) {
-				var backgroundImage = new Image();
-				//TODO: DURCH IMAGE-ID VON SUBSCRIPTION ERSETZEN
-				//let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
+		
+			if(app.data.loadImage){
+				console.log("Theres already an Image.")
+			}else{
+				loadImage = new Promise(function (resolve, reject) {
+					var backgroundImage = new Image();
+					
+					backgroundImage.src = puzzleImagesArray[imageID].url;
+					app.data.currentPuzzleImageId = imageID;
+					
+					//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
+					backgroundImage.crossOrigin = "Anonymous";
+					backgroundImage.onload = function () {
+						const originPictureWidth = backgroundImage.width;
+						const originPictureHeight = backgroundImage.height;
+						resolve(backgroundImage);
+					};
+					backgroundImage.onerror = function () {
+						reject("could not load the image");
+					};
+				});
 				
-				backgroundImage.src = puzzleImagesArray[imageID].url;
-				app.data.currentPuzzleImageId = imageID;
-				
-				//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
-				backgroundImage.crossOrigin = "Anonymous";
-				backgroundImage.onload = function () {
-					const originPictureWidth = backgroundImage.width;
-					const originPictureHeight = backgroundImage.height;
-					resolve(backgroundImage);
-				};
-				backgroundImage.onerror = function () {
-					reject("could not load the image");
-				};
-			});
-			
-			loadImage.then(function(imageObject){
+				loadImage.then(function(imageObject){
 				puzzle.imageObject = imageObject;
 				var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-				$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
+				
+				//TODO: nooooo dont build another puzzle if image already exists.
 				singleAccess.buildPuzzle(puzzle.puzzleWrapper, puzzle);
 				singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
             	$(window).on('resize', function (page) {
 					singleAccess.checkGrid(puzzle.puzzleWrapper);
 					singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 				});
-			 }).then(function (){
-					
-					//TODO: NOCH TRIGGERN, WENN NEUER HIGHSCORE ENTSTEHT.
-					//TODO: TRIGGERN, IN IDLE TIME WENN ARRAY DURCH.
-					//WENN KEIN HIGHSCORE VORHANDEN DEFAULT HIGHSCORE ANZEIGEN.
-					
-				//let hidePiecesFinished = singleAccess.hidePuzzlePieces(testArray);
-				   hidePiecesFinished.then(function (result) {
-				       if(result === 0)
-				       {
-							app.router.navigate('/highscore/');
-					   }
-					})
-				});
+				app.data.loadImage = true;
+				callback(true);
+			 });
+			}
+			
+			$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
+			
+
 		});
 	};
 	
