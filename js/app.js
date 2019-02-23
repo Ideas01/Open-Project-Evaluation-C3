@@ -201,14 +201,6 @@ app.on('pageInit', function(page){
 			singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
 				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
 				app.data.currentPuzzleImageId = randomImageId;
-				let key = "imageId";
-				singleAccess.createState(deviceName, key, randomImageId, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
-					console.log("createdState", createdState);
-					console.log("state: ", app.data.stateCreated);
-						if (createdState.data == null){
-							//TODO: THROW EXCEPTION
-						}
-					});
 			});
 		});
 	
@@ -418,12 +410,23 @@ app.on('pageInit', function(page){
 
     /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
-		if(puzzle == undefined)
+		if(puzzle == undefined){
 			puzzle = new Puzzle(); // new puzzle 
-        var imageSrc = null;
+		}
+		var imageSrc = null;
+		var key = "puzzle";
 		
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
+			
+			singleAccess.createState(deviceName, key, app.data.currentPuzzleImageId, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
+				console.log("createdState", createdState);
+				app.data.stateCreated = true;
+				console.log("state: ", app.data.stateCreated);
+					if (createdState.data == null){
+						//TODO: THROW EXCEPTION
+					}
+			});
 		});
 		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
@@ -459,19 +462,13 @@ app.on('pageInit', function(page){
 			});
 		}).then(function(){
 				var puzzlePieceClassName = $(puzzle.puzzleWrapper).find("div").last().attr("class");
-				
-				console.log("puzzlePieceClassName");
-				console.log(puzzlePieceClassName);	
-				
+				var updatedStateValue;
+				 
 				$('.' + puzzlePieceClassName).click(function (event) {
 				var puzzlePieceID = event.target.id;
 				console.log("puzzlePieceID", puzzlePieceID);
 					event.target.style.visibility = "hidden";
 					
-					console.log("puzzlepieceId");
-					console.log(puzzlePieceID);
-					
-					var key = "puzzle";
 					singleAccess.waitForContexts(function(contextList){
 					console.log("state2", app.data.stateCreated);
 						singleAccess.createState(deviceName, key, puzzlePieceID, contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
@@ -487,9 +484,13 @@ app.on('pageInit', function(page){
 						} else{
 							var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
 							singleAccess.waitForData("getState", deviceName, function(stateValue){
-								console.log("stateValue")
-								console.log(stateValue);
-								var updatedStateValue = stateValue.value + ',' + puzzlePieceID;
+//								console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 2));
+//								console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 3));
+								if((stateValue.value).charAt(stateValue.value.length - 3) == "["){
+									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + "'" + puzzlePieceID +"']}";
+								} else{ //if it´s the last element
+									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + ",'" + puzzlePieceID +"']}";
+								}
 								singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
 							});
 						}
