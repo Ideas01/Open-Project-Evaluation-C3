@@ -19,7 +19,10 @@ PuzzleGuessBuilder.prototype.buildCategories = function (puzzleImageID, puzzleIm
         };
         resolve(correctCategory);
     }).then(function (correctCategory) {
-        appendCategories(puzzleImageData, correctCategory);
+        appendCategories(puzzleImageData, function(){
+			setClickHandler(correctCategory, puzzleImageData);
+		});
+		
     });
 };
 
@@ -28,31 +31,40 @@ PuzzleGuessBuilder.prototype.buildCategories = function (puzzleImageID, puzzleIm
  * Appends the categories to the container guessOverview and calls function setClickHandler
  *
  * @param imageCategories categories to append to guessOverview
- * @param correctCategory category which contains the correct answer. Is needed for the clickHandler
  */
 
-function appendCategories(imageCategories,correctCategory) {
-    $.each(imageCategories, function (index, data) {
-        if ($('#' + data.category).length === 0) {
-            $('#guessOverview').append('<a class="guessButton" id="' + data.category + '">' + data.category + '</a>');
-        }
-        else {
-            console.log('ID: ' + data.category + ' already exists!');
-        }
+function appendCategories(imageCategories, callback) {
+    var promises = [];
+	$.each(imageCategories, function (index, data) {
+		var promise = new Promise(function(resolve, reject){
+			if ($('#' + data.category).length === 0) {
+				$('#guessOverview').append('<a class="guessButton" id="' + data.category + '">' + data.category + '</a>');
+				promises.push(promise);
+				
+				if('#' + data.category){
+					resolve(0);
+				}
+			}
+			else {
+				console.log('ID: ' + data.category + ' already exists!');
+				resolve(0);
+			}
+		});
     });
-    setClickHandler(correctCategory,imageCategories);
+	
+	callback(Promise.all(promises));
 }
 
 /**
  *
  * sets a click handler on every appended category. This click handler calls function buildCategories
  *
- * @param correctCategory category which cointains the correct answer.
- * @param imageCategories
+ * @param correctCategory category which contains the correct answer.
+ * @param otherCategories category which contains the wrong answers.
  */
-function setClickHandler(correctCategory,imageCategories) {
+function setClickHandler(correctCategory, otherCategories) {
     $('#guessOverview').children().click(function (event) {
-        buildCategories(event.target.id, correctCategory, imageCategories)
+        buildCategories('#guessItems', event.target.id, correctCategory, otherCategories)
     })
 
 }
@@ -61,28 +73,28 @@ function setClickHandler(correctCategory,imageCategories) {
  *
  * fills the clicked category with items and and appends a click handler which calls function checkGuessItems
  *
- * @param clickedCategory id of the clicked category
+ * @param clickedCategory name of the clicked category
  * @param correctCategory the category which contains the correct answer
- * @param otherCategories other categories with wrong answers
+ * @param otherCategories the complete object with all available categories
  */
 
-function buildCategories(clickedCategory, correctCategory, otherCategories) {
+function buildCategories(DOMelement, clickedCategory, correctCategory, otherCategories) {
     if (clickedCategory === correctCategory.category) {
-        $('#guessItems').empty();
+        $(DOMelement).empty();
         $.each(correctCategory.answers, function (index, data) {
-            $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
+            $(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
             $('#' + data).click(function () {
                 checkGuessItem(data, correctCategory.correctAnswer);
             });
         });
     }
     else {
-        $('#guessItems').empty();
+        $(DOMelement).empty();
         for (var i = 0; i < otherCategories.length; i++) {
             if (otherCategories[i].category === clickedCategory) {
                 $.each(otherCategories[i].wrongAnswers, function (index, data) {
                     if($('#' + data).length ==0) {
-                        $('#guessItems').append('<a class="guessButton" id="' + data + '">' + data + '</a>');
+                        $(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
                         $('#' + data).click(function () {
                             checkGuessItem(data, correctCategory.correctAnswer);
                         })
@@ -116,7 +128,6 @@ function switchAnswers(wrongAnswers, correctAnswer) {
     if (randomIndex == wrongAnswers.length) {
         switchedAnswers.push(correctAnswer);
     } else {
-
         //save value at randomIndex to append it later
         let valueToSwitch = wrongAnswers[randomIndex];
 
