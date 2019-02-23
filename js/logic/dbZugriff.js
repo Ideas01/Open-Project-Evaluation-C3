@@ -160,9 +160,6 @@ class DBZugriff{
 	}
 	
 	subscribeToContext(deviceName, context, callback){
-		var chk = new Checker("subscribeToContext");
-		chk.isValid(context,"context");
-		chk.isProperString(deviceName,"deviceName");
 		
 		var address = (this.serverAdresse).substring(7);
 		
@@ -197,59 +194,33 @@ class DBZugriff{
 	}
 	
 	createState(deviceName, stateKey, stateValue, context, callback){
-		var chk = new Checker("createState");
-		chk.isValid(context,"context");
-		chk.isProperString(deviceName,"deviceName");
-		
 		var thisisme = this;
-		var keyString;
-		var dataReferenceName = "createState";
 		var sKey = stateKey;
 		var sValue = stateValue;
-		var query;
-		var checkNumber = new RegExp("^[0-9]*$");
-		
-		function queryFilled(callback){
-			if(checkNumber.test(stateValue) == true){
-			keyString = "imageId";
-			query = '{"query": "mutation{' +
-						  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", ' +  // unique key through deviceID
-						  'value: \\"' + "{'" + keyString + "':'" + stateValue +  "', 'puzzleIds': []}" + '\\"}, ' +
-						  'contextID: \\"' + context.contextId + '\\") {' +  
+		var dataReferenceName = "createState";
+		var query = '{"query": "mutation{' +
+						  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
 							'state {' +
 							  'key value' +
 							'}' +
 						  '}' +
 						'}"}';
-			callback(query);
-			} else {
-				console.log("Invalid Argument. The given stateValue is not a number.")
-				//TODO: THROW EXCEPTION
-			}
-		}						
-		
-		queryFilled(function(query){
-				thisisme.waitForToken(deviceName, function(token){
-				thisisme.callDatabase(dataReferenceName, token, query, function(response){
-					if(response.data != null){
-						console.log(response.data)
-						console.log(dataReferenceName + "erfolgreich");
-						callback(response);
-					}else{
-						console.log("Bad Request. The Server responded with: " + response.errors[0].message);
-						callback(response);
-					}	
-				});
+					
+		this.waitForToken(deviceName, function(token){
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				if(response.data != null){
+					console.log(response.data)
+					console.log(dataReferenceName + "erfolgreich");
+					callback(response);
+				}else{
+					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+					callback(response);
+				}	
 			});
-		});
-	
-		}
+		});	
+	};
 	
 	getState(deviceName, stateKey, context){
-		var chk = new Checker("getState");
-		chk.isValid(context,"context");
-		chk.isProperString(deviceName,"deviceName");
-		
 		var thisisme = this;
 		var sKey = stateKey;
 		var dataReferenceName = "getState";
@@ -278,10 +249,6 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
-		var chk = new Checker("deleteState");
-		chk.isValid(context,"context");
-		chk.isProperString(deviceName,"deviceName");
-		
 		var thisisme = this;
 		var sKey = key;
 		var dataReferenceName = "deleteState";
@@ -299,10 +266,6 @@ class DBZugriff{
 	}
 	
 	updateState(deviceName, stateKey, stateValue, context){
-		var chk = new Checker("updateState");
-		chk.isValid(context,"context");
-		chk.isProperString(deviceName,"deviceName");		
-		
 		var thisisme = this;
 		var sKey = stateKey;
 		var sValue = stateValue;
