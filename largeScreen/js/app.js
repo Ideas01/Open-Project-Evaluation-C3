@@ -243,6 +243,7 @@ app.on('pageInit', function(page){
         var imageSrc = null;
 		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
+
 		
 			if(app.data.loadImage){
 				console.log("Theres already an Image.")
@@ -253,6 +254,7 @@ app.on('pageInit', function(page){
 					backgroundImage.src = puzzleImagesArray[imageID].url;
 					app.data.currentPuzzleImageId = imageID;
 					
+					singleAccess.buildCategory(puzzleImagesArray, "Essen");
 					//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
 					backgroundImage.crossOrigin = "Anonymous";
 					backgroundImage.onload = function () {

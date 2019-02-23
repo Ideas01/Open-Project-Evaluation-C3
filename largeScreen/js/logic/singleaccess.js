@@ -1,6 +1,7 @@
 	function SingleAccess() {}
 	
 	const puzzleBuilder = new PuzzleBuilder();
+	const puzzleGuessBuilder = new PuzzleGuessBuilder();
 	const dbZugriff = new DBZugriff('http://localhost:3000');
 	const swiperFactory = new SwiperFactory();
 	const util = new Util();
@@ -28,7 +29,15 @@
 	SingleAccess.prototype.buildPuzzleWithoutOverallGrid = function(wrapperDom, puzzle){
 		puzzleBuilder.buildPuzzleWithoutOverallGrid(wrapperDom,puzzle);
 	};
-	
+
+    /************************************** puzzleGuessBuilder **************************************************/
+
+    SingleAccess.prototype.buildCategory = function(puzzleImageData, category)
+	{
+		puzzleGuessBuilder.buildCategory(puzzleImageData, category);
+	};
+
+
     /*************************************** DB Zugriff ***************************************************************/
 	
 	SingleAccess.prototype.initializeDB = function(deviceName){

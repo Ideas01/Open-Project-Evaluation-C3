@@ -1,0 +1,67 @@
+#puzzleOverview{
+position: relative;
+    background-size: cover;
+    height: 50%;
+    background-color: red;
+    font-size: 0;
+    left: 5%;
+}
+
+.miniOverviewGridPiece, .miniOverviewPuzzlePiece{
+    z-index: 4;
+    position: relative;
+    display: inline-block;
+}
+
+#guessOverview {
+    z-index: 7;
+    display: flex;
+    flex-direction: row;
+    max-height: 230px;
+    flex-wrap: wrap;
+    width: 90%;
+}
+
+#guessOverview > .guessButton{
+	background-color: inherit;
+	border: solid 2px #ffb380;
+	color: #000;
+}
+
+#guessItems {
+
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.guessButton {
+    font-size: 16px;
+    line-height: 36px;
+    height: 36px;
+    text-transform: uppercase;
+    padding: 1% 2%;
+    margin: 0.1%;
+    display: inline-block;
+    text-align: center;
+	background-color: #d40055;
+}
+
+.guessButton:active{
+	border: solid 2px #d40055;
+}
+
+.md a{
+    color: #ffffff;
+}
+
+.guessitemWrapper{
+
+    display: inline;
+    width: 100%;
+    position: relative;
+	left: 5%;
+	margin: 1%;
+
+}
