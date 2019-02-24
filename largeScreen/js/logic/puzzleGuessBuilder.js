@@ -36,7 +36,7 @@ class PuzzleGuessBuilder{
 					$(DOMelement).append('<a class="guessButton" id="' + data.category + '">' + data.category + '</a>');
 					promises.push(promise);
 					
-					if($('#' + data.category)){
+					if('#' + data.category){
 						resolve(0);
 					}
 				}
@@ -92,7 +92,7 @@ class PuzzleGuessBuilder{
 								
 								$('#' + data).click(function () {
 									
-									checkGuessItem(data, correctCategory.correctAnswer);
+									thisisme.checkGuessItem(data, correctCategory.correctAnswer);
 								})
 							}
 							else{

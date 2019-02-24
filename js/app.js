@@ -419,14 +419,18 @@ app.on('pageInit', function(page){
 		app.data.puzzlekey = "puzzle";
 		var keyString = "imageId";
 		var puzzleIDs = "puzzleIDs";
+		var chosenCategory = "chosenCategory";
+		var chosenAnswer = "chosenAnswer";
+		
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
 //			var stateValue = "'" + keyString + "':'" + app.data.currentPuzzleImageId +  "', 'puzzleIds': []";
 			
 			app.data.stateValues[keyString] = app.data.currentPuzzleImageId;
 			app.data.stateValues[puzzleIDs] = [];
+			app.data.stateValues[chosenCategory] = "";
+			app.data.stateValues[chosenAnswer] = "";
 			var stateValues = app.data.stateValues;
-//			console.log(JSON.stringify(stateValues));
 
 			stateValue = (JSON.stringify(stateValues)).replace(/"/g, "'");
 			
@@ -535,23 +539,28 @@ app.on('pageInit', function(page){
 						 	var key = app.data.puzzlekey;
 							var keyString = "userGuessCategory";
 				    		var updatedStateValue;
-				    		var chosenCategory = event.target.id;
+				    		var clickedCategory = event.target.id;
 				    		singleAccess.waitForContexts(function(contextList){
 								if(app.data.stateCreated == false){
-									console.log("state does not exist yet.")
-								} else{
-//									var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-//									singleAccess.waitForData("getState", deviceName, function(stateValue){
-//											console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 1));
-//											console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 2));
-										if((stateValue.value).charAt(app.data.stateValues[0].length - 2) == "]"){
-											updatedStateValue = (app.data.stateValues[0]).substring(0, app.data.stateValues[0].length - 1) + "','" + keyString +  "':'" + chosenCategory + "']}";
-										}
-										singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
-//									});
+									console.log("state does not exist yet.");
+								} else{						
+									app.data.stateValues.chosenCategory = clickedCategory;
+									updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+									
+									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
 								}
 					     });
-					    	singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response)
+					    
+					    singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
+							for (var i = 0; i < puzzleImageData.length - 1; i++) {
+									//TODO noch clickevent auf alle einträge
+						    		console.log("############################## ???", puzzleImageData[i])
+//										$('#' + data.correctAnswer).click(function () {
+//											thisisme.checkGuessItem(data, correctCategory.correctAnswer);
+//										});
+//								}
+							}
+					    });
 					    })
 
 					});
@@ -598,20 +607,16 @@ app.on('pageInit', function(page){
 		    	var key = app.data.puzzlekey;
 				var keyString = "userGuessCategory";
 		 		var updatedStateValue;
-		 		var chosenCategory = event.target.id;
+		 		var chosenElement = event.target.id;
+		 		console.log("##################### chosen",chosenElement)
 		 		singleAccess.waitForContexts(function(contextList){
 					if(app.data.stateCreated == false){
 						console.log("state does not exist yet.")
-					} else{
-						var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-						singleAccess.waitForData("getState", deviceName, function(stateValue){
-								console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 1));
-								console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 2));
-							if((stateValue.value).charAt(stateValue.value.length - 2) == "]"){
-								updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 1) + "','" + keyString +  "':'" + chosenCategory + "']}";
-							}
+					} else{					
+						app.data.stateValues.chosenAnswer = chosenElement;
+						updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+							
 							singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
-						});
 					}
 		     });
 		    })

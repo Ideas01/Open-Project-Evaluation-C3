@@ -37,8 +37,8 @@
         puzzleGuessBuilder.appendCategories(DOMelement, imageCategories, callback) ;
     };
 	
-	 SingleAccess.prototype.buildCategories = function(DOMelement, clickedCategory, puzzleImageID, puzzleImageData) {
-        puzzleGuessBuilder.buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData);
+	 SingleAccess.prototype.buildCategories = function(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback) {
+        puzzleGuessBuilder.buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback);
     };
     /*************************************** DB Zugriff ***************************************************************/
 	

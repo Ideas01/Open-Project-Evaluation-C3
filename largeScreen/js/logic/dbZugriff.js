@@ -180,7 +180,7 @@ class DBZugriff{
 			  const message0 = {
 			  id: '1',
 			  type: 'subscription_start',
-			  query: 'subscription sContext {contextUpdate(contextID: "' + context.contextId + '") {stateKey changedAttributes context {id  states {key value}}}}'
+			  query: 'subscription {contextUpdate(contextID: "' + context.contextId + '") {stateKey changedAttributes context {id  states {key value}}}}'
 			}
 			webSocket.send(JSON.stringify(message0))
 		}
@@ -188,7 +188,6 @@ class DBZugriff{
 		if(webSocket != undefined){
 			callback(webSocket);
 		}	
-
 		});
 			
 	}
