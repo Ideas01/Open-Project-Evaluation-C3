@@ -35,6 +35,7 @@ var app  = new Framework7({
         return {
 			currentPuzzleImageId: null,
 			imageLoaded: false
+
         }
     },
   root: '#app', // App root element
@@ -173,12 +174,9 @@ app.on('pageInit', function(page){
 									if(checkNumber.test(json.imageId) == true){
 										let key = data.payload.data.contextUpdate.context.states[0].key;
 										console.log("found Number: ", puzzlePieceIdArray[0] );
-										//TODO: NOCH PRÜFEN OB BILD SCHON DA. LÄDT GRAD ZU OFT
 										setImage(parseInt(json.imageId, 10), function(loaded){
 											if(loaded){
-												console.log("bis hier 6");
 												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIds);
-												console.log("bis hier 7");
 											}
 										});
 										//singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
@@ -240,25 +238,20 @@ app.on('pageInit', function(page){
 	function setImage(imageID, callback){
 		
 		singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
-			console.log("bis hier -2");
 		
 			if(app.data.imageLoaded){
 				console.log("Theres already an Image.");
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
 				callback(true);
 			}else{
-				console.log("bis hier -1");
 				loadImage = new Promise(function (resolve, reject) {
-					console.log("bis hier 0");
 					var backgroundImage = new Image();
 					
 					backgroundImage.src = puzzleImagesArray[imageID].url;
 					app.data.currentPuzzleImageId = imageID;
-					console.log("bis hier 1")
 					//singleAccess.buildCategory(puzzleImagesArray, "Essen");
 					//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
 					backgroundImage.crossOrigin = "Anonymous";
-					console.log("bis hier 3")
 					backgroundImage.onload = function () {
 						const originPictureWidth = backgroundImage.width;
 						const originPictureHeight = backgroundImage.height;
@@ -270,7 +263,6 @@ app.on('pageInit', function(page){
 				});
 				
 				loadImage.then(function(imageObject){
-					console.log("bis hier 4");
 					puzzle.imageObject = imageObject;
 					var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 					
@@ -281,7 +273,6 @@ app.on('pageInit', function(page){
 							singleAccess.checkGrid(puzzle.puzzleWrapper);
 							singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 						});
-						console.log("bis hier 4");
 						app.data.imageLoaded = true;
 						$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
 						callback(true);
