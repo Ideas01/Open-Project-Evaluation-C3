@@ -176,7 +176,7 @@ app.on('pageInit', function(page){
 										console.log("found Number: ", puzzlePieceIdArray[0] );
 										setImage(parseInt(json.imageId, 10), function(loaded){
 											if(loaded){
-												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIds);
+												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
 											}
 										});
 										//singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);

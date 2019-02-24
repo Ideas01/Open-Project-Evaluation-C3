@@ -35,7 +35,8 @@ var app  = new Framework7({
         return {
 			currentPuzzleImageId: null,
 			stateCreated: false,
-			puzzlekey: "puzzle"
+			puzzlekey: "puzzle",
+			stateValues: {}
         }
     },
   root: '#app', // App root element
@@ -417,10 +418,21 @@ app.on('pageInit', function(page){
 		var imageSrc = null;
 		app.data.puzzlekey = "puzzle";
 		var keyString = "imageId";
+		var puzzleIDs = "puzzleIDs";
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
+//			var stateValue = "'" + keyString + "':'" + app.data.currentPuzzleImageId +  "', 'puzzleIds': []";
 			
-			singleAccess.createState(deviceName, app.data.puzzlekey, "{'" + keyString + "':'" + app.data.currentPuzzleImageId +  "', 'puzzleIds': []}" , contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
+			app.data.stateValues[keyString] = app.data.currentPuzzleImageId;
+			app.data.stateValues[puzzleIDs] = [];
+			var stateValues = app.data.stateValues;
+//			console.log(JSON.stringify(stateValues));
+
+			stateValue = (JSON.stringify(stateValues)).replace(/"/g, "'");
+			
+//			app.data.stateValues[0] = stateValue;
+			
+			singleAccess.createState(deviceName, app.data.puzzlekey, stateValue , contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
 				console.log("createdState", createdState);
 				app.data.stateCreated = true;
 				console.log("state: ", app.data.stateCreated);
@@ -471,22 +483,14 @@ app.on('pageInit', function(page){
 					
 					singleAccess.waitForContexts(function(contextList){
 						if(app.data.stateCreated == false){
-							console.log("state does not exist yet.")
-						} else{
-							var stateValue = singleAccess.getState(deviceName, app.data.puzzlekey, contextList[singleAccess.getCurrentContextIdIndex()]);
-							singleAccess.waitForData("getState", deviceName, function(stateValue){
-								console.log("stateValue0", (stateValue.value).substring(0, stateValue.value.length - 2));
-								console.log("firstElement0", (stateValue.value).charAt(stateValue.value.length - 3));
-								if((stateValue.value).charAt(stateValue.value.length - 3) == "["){
-									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + "'" + puzzlePieceID +"']}";
-								} else{ //if it´s the last element
-									updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 2) + ",'" + puzzlePieceID +"']}";
-								}
-								singleAccess.updateState(deviceName, app.data.puzzlekey, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
-							});
+							console.log("state does not exist yet.");
+						} else{						
+							app.data.stateValues.puzzleIDs.push(puzzlePieceID);
+							updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+							
+							singleAccess.updateState(deviceName, app.data.puzzlekey, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()]);
 						}
 						
-
 					});
 					
 				});
@@ -527,7 +531,6 @@ app.on('pageInit', function(page){
                 
                singleAccess.appendCategories('#guessOverview', response, function(){
 						 $('#guessOverview').children().click(function (event) {
-						 console.log("###################################################   triggering event");
 						 
 						 	var key = app.data.puzzlekey;
 							var keyString = "userGuessCategory";
@@ -537,15 +540,15 @@ app.on('pageInit', function(page){
 								if(app.data.stateCreated == false){
 									console.log("state does not exist yet.")
 								} else{
-									var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-									singleAccess.waitForData("getState", deviceName, function(stateValue){
-											console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 1));
-											console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 2));
-										if((stateValue.value).charAt(stateValue.value.length - 2) == "]"){
-											updatedStateValue = (stateValue.value).substring(0, stateValue.value.length - 1) + "','" + keyString +  "':'" + chosenCategory + "']}";
+//									var stateValue = singleAccess.getState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+//									singleAccess.waitForData("getState", deviceName, function(stateValue){
+//											console.log("stateValue", (stateValue.value).substring(0, stateValue.value.length - 1));
+//											console.log("firstElement", (stateValue.value).charAt(stateValue.value.length - 2));
+										if((stateValue.value).charAt(app.data.stateValues[0].length - 2) == "]"){
+											updatedStateValue = (app.data.stateValues[0]).substring(0, app.data.stateValues[0].length - 1) + "','" + keyString +  "':'" + chosenCategory + "']}";
 										}
 										singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
-									});
+//									});
 								}
 					     });
 					    	singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response)
