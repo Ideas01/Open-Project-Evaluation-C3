@@ -57,8 +57,8 @@
 		dbZugriff.updateDeviceContext(context, deviceName);
 	};
 	
-	SingleAccess.prototype.getPrototypeImages = function(contextID, deviceName){
-		dbZugriff.getPrototypeImages(contextID, deviceName)
+	SingleAccess.prototype.getPrototypeImages = function(context, deviceName){
+		dbZugriff.getPrototypeImages(context, deviceName)
 	};
 	
 	SingleAccess.prototype.getQuestions = function(context, deviceName){
