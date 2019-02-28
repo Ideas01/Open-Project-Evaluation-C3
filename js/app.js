@@ -555,8 +555,6 @@ app.on('pageInit', function(page){
 								for (var i = 0; i < puzzleImageData.length - 1; i++) {
 									if (puzzleImageData[i].category === clickedCategory) {
 										$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
-												//TODO noch clickevent auf alle einträge
-									    		console.log("############################## ???", puzzleImageData[i])
 											$('#' + data).click(function (chosenElement) {
 												console.log("grrr");
 												app.data.stateValues.chosenAnswer = chosenElement.target.id;
