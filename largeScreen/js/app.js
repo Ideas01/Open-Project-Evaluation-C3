@@ -33,8 +33,10 @@ var puzzle;
 var app  = new Framework7({
     data: function (){
         return {
+			currentContextIdIndex: null,
 			currentPuzzleImageId: null,
-			imageLoaded: false
+			imageLoaded: false,
+			highestScore: 0
 
         }
     },
@@ -124,6 +126,7 @@ app.on('pageInit', function(page){
 		 
 		 $('#startSelectPrototype').click(function(){
 			 var contextGeupdated = new Promise(function(resolve){
+				 app.data.currentContextIdIndex = singleAccess.getCurrentContextIdIndex();
 				 if(singleAccess.getCurrentContextIdIndex() >= 0){
 					 singleAccess.waitForContexts(function(contextList){
 						 //TODO: noch prüfen ob update erfolgreich.
@@ -163,26 +166,55 @@ app.on('pageInit', function(page){
 								}
 								case 'subscription_data': {
 								  console.log('subscription data has been received', data)
-									var json =  data.payload.data.contextUpdate.context.states[0].value.replace(/'/g, '"');
-									json = JSON.parse(json);
-									console.log("json", json);
+								var json =  data.payload.data.contextUpdate.context.states[0].value.replace(/'/g, '"');
+								json = JSON.parse(json);
+								console.log("json", json);
+								
+								var puzzlePieceIdArray = data.payload.data.contextUpdate.context.states[0].value.split(",");
+								var checkNumber = new RegExp("^[0-9]*$");
+								
+								if(checkNumber.test(json.imageId) == true){
+									let key = data.payload.data.contextUpdate.context.states[0].key;
+									console.log("found Number: ", puzzlePieceIdArray[0] );
+									setImage(parseInt(json.imageId, 10), function(loaded){
+										if(loaded){
+											let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
+										}
+									});
 									
-									var puzzlePieceIdArray = data.payload.data.contextUpdate.context.states[0].value.split(",");
-									console.log("imageid", json);
-									var checkNumber = new RegExp("^[0-9]*$");
-									
-									if(checkNumber.test(json.imageId) == true){
-										let key = data.payload.data.contextUpdate.context.states[0].key;
-										console.log("found Number: ", puzzlePieceIdArray[0] );
-										setImage(parseInt(json.imageId, 10), function(loaded){
-											if(loaded){
-												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
-											}
+									if(json.chosenCategory != ''){
+										
+										singleAccess.waitForContexts(function (contextList) {
+											singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
 										});
-										//singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-									}else{
-										//TODO: THROW EXCEPTION
+										
+										 singleAccess.waitForData("puzzleImages", deviceName, function (response) {
+											 singleAccess.buildCategories("#guessItems", json.chosenCategory, json.imageId, response);
+										 });
+										
 									}
+									
+									if(json.chosenAnswer != ''){
+										$("#" + json.chosenAnswer).css("background-color", "black");
+									}
+									
+									if(json.score != ''){
+										
+										if(app.data.highestScore < parseInt(json.score, 10)){
+											app.data.highestScore = parseInt(json.score, 10);
+											console.log("akuteller Highscore: ", app.data.highestScore);
+											//TODO: setHighscore
+										}
+										setTimeout(function(){
+											app.router.navigate("/highscore/");
+										}, 600);
+										
+										singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+									}
+									
+								}else{
+									//TODO: THROW EXCEPTION
+								}
 									
 									
 									
@@ -216,6 +248,7 @@ app.on('pageInit', function(page){
 				app.router.navigate('/puzzle/');
 			});
 		 });
+		 
 	} /***************** prototype Selection End ***********************/
 	
 	if(page.name === 'home'){

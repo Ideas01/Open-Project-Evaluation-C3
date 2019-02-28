@@ -36,7 +36,8 @@ var app  = new Framework7({
 			currentPuzzleImageId: null,
 			stateCreated: false,
 			puzzlekey: "puzzle",
-			stateValues: {}
+			stateValues: {},
+			currentScore: null
         }
     },
   root: '#app', // App root element
@@ -281,18 +282,18 @@ app.on('pageInit', function(page){
 		});
 		$(".arrow").removeClass("fadeInOut");
 
-        $(".help").click(function () {
-			let content = '<div class="block">' +
-								'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
-								'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
-								'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-								'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
-								'<a href="#" class="popup-close" >' +
-									'<a class="button popup-close"> Los geht´s! </a>' +
-								'</a>' +
-							'</div>'
-			singleAccess.util_PopUp('HILFE',content);
-        });
+      $(".help").click(function () {
+		let content = '<div class="block">' +
+							'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
+							'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
+							'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
+							'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
+							'<a href="#" class="popup-close" >' +
+								'<a class="button popup-close"> Los geht´s! </a>' +
+							'</a>' +
+						'</div>'
+		singleAccess.util_PopUp('HILFE',content);
+      });
     }
     /****************************** P2 end ****************************/
 
@@ -421,6 +422,7 @@ app.on('pageInit', function(page){
 		var puzzleIDs = "puzzleIDs";
 		var chosenCategory = "chosenCategory";
 		var chosenAnswer = "chosenAnswer";
+		var score = "score";
 		
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
@@ -430,6 +432,8 @@ app.on('pageInit', function(page){
 			app.data.stateValues[puzzleIDs] = [];
 			app.data.stateValues[chosenCategory] = "";
 			app.data.stateValues[chosenAnswer] = "";
+			app.data.stateValues[score] = "";
+			
 			var stateValues = app.data.stateValues;
 
 			stateValue = (JSON.stringify(stateValues)).replace(/"/g, "'");
@@ -490,6 +494,7 @@ app.on('pageInit', function(page){
 							console.log("state does not exist yet.");
 						} else{						
 							app.data.stateValues.puzzleIDs.push(puzzlePieceID);
+							app.data.currentScore = $("#points").text();
 							updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
 							
 							singleAccess.updateState(deviceName, app.data.puzzlekey, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()]);
@@ -556,8 +561,8 @@ app.on('pageInit', function(page){
 									if (puzzleImageData[i].category === clickedCategory) {
 										$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
 											$('#' + data).click(function (chosenElement) {
-												console.log("grrr");
 												app.data.stateValues.chosenAnswer = chosenElement.target.id;
+												app.data.stateValues.score = app.data.currentScore;
 												var updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
 												singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()])
 												console.log("element: ", puzzleImageData[i].correctAnswer)
