@@ -69,7 +69,7 @@ class PuzzleGuessBuilder{
 				$(DOMelement).empty();
 				var promises = [];
 				var loopPromise = new Promise(function(resolve, reject){
-				for (var i = 0; i < puzzleImageData.length; i++) {
+				for (var i = 0; i < puzzleImageData.length - 1; i++) {
 
 						if (puzzleImageData[i].category === clickedCategory) {
 							$.each(puzzleImageData[i].wrongAnswers, function (index, data) {

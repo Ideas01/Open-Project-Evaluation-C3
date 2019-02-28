@@ -37,6 +37,9 @@
         puzzleGuessBuilder.appendCategories(DOMelement, imageCategories, callback) ;
     };
 	
+	 SingleAccess.prototype.checkGuessItem = function(givenAnswer, correctAnswer){
+	 		puzzleGuessBuilder.checkGuessItem(givenAnswer, correctAnswer)
+	 }
 	 SingleAccess.prototype.buildCategories = function(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback) {
         puzzleGuessBuilder.buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback);
     };

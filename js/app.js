@@ -541,27 +541,36 @@ app.on('pageInit', function(page){
 				    		var updatedStateValue;
 				    		var clickedCategory = event.target.id;
 				    		singleAccess.waitForContexts(function(contextList){
-								if(app.data.stateCreated == false){
+
+						    singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
+						    	if(app.data.stateCreated == false){
 									console.log("state does not exist yet.");
 								} else{						
 									app.data.stateValues.chosenCategory = clickedCategory;
 									updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+									console.log("updatedStateValue puzzle", updatedStateValue);
 									
-									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()])
+									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()]);
 								}
-					     });
-					    
-					    singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
-							for (var i = 0; i < puzzleImageData.length - 1; i++) {
-									//TODO noch clickevent auf alle einträge
-						    		console.log("############################## ???", puzzleImageData[i])
-//										$('#' + data.correctAnswer).click(function () {
-//											thisisme.checkGuessItem(data, correctCategory.correctAnswer);
-//										});
-//								}
-							}
+								for (var i = 0; i < puzzleImageData.length - 1; i++) {
+									if (puzzleImageData[i].category === clickedCategory) {
+										$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
+												//TODO noch clickevent auf alle einträge
+									    		console.log("############################## ???", puzzleImageData[i])
+											$('#' + data).click(function (chosenElement) {
+												console.log("grrr");
+												app.data.stateValues.chosenAnswer = chosenElement.target.id;
+												var updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+												singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()])
+												console.log("element: ", puzzleImageData[i].correctAnswer)
+												singleAccess.checkGuessItem(data, puzzleImageData[i].correctAnswer, chosenElement.id);
+											});
+
+										});
+						    		}
+						    		}
+						    });
 					    });
-					    })
 
 					});
                 
@@ -576,7 +585,8 @@ app.on('pageInit', function(page){
                 backgroundImage.onerror = function () {
                     reject("could not load the image");
                 };
-            })
+            });
+            });
         }).then(function (backgroundImage) {
             singleAccess.buildMiniOverview('#puzzleOverview', puzzle);
         });
