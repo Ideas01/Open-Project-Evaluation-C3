@@ -10,6 +10,14 @@
 	SingleAccess.prototype.buildPuzzle = function (wrapperDom, puzzle) {
 		return puzzleBuilder.buildPuzzle(wrapperDom, puzzle);
 	};
+	
+	SingleAccess.prototype.hidePuzzlePiecesActivePuzzle = function (puzzlePieceIdArray){
+		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
+	};
+	
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
+		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
+	};
 
     SingleAccess.prototype.buildMiniOverview = function(appendToDOMOverview, puzzle){
         return puzzleBuilder.buildMiniOverview(appendToDOMOverview, puzzle);
@@ -38,8 +46,9 @@
     };
 	
 	 SingleAccess.prototype.checkGuessItem = function(givenAnswer, correctAnswer){
-	 		puzzleGuessBuilder.checkGuessItem(givenAnswer, correctAnswer)
-	 }
+	 	puzzleGuessBuilder.checkGuessItem(givenAnswer, correctAnswer)
+	 };
+	 
 	 SingleAccess.prototype.buildCategories = function(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback) {
         puzzleGuessBuilder.buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback);
     };
@@ -135,7 +144,7 @@
 	/************************************** Utility ***********************************************************************/
 	SingleAccess.prototype.util_PopUp = function(title, message, caption){
 		util.popUp(title, message, caption);	
-	}
+	};
 	
 
 	
