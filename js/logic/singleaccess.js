@@ -54,8 +54,8 @@
     };
     /*************************************** DB Zugriff ***************************************************************/
 	
-	SingleAccess.prototype.initializeDB = function(deviceName){
-		return dbZugriff.initializeDB(deviceName);
+	SingleAccess.prototype.initializeDB = function(deviceName, callback){
+		return dbZugriff.initializeDB(deviceName, callback);
 	};
 	
 	SingleAccess.prototype.getContexts = function(deviceName){
@@ -108,6 +108,10 @@
 	
 	SingleAccess.prototype.deleteState = function (deviceName, key, context){
 		return dbZugriff.deleteState(deviceName, key, context);
+	};
+	
+	SingleAccess.prototype.deleteState = function (token, deviceName, key, context){
+		return dbZugriff.deleteState(token, deviceName, key, context);
 	};
 	
 	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, context){

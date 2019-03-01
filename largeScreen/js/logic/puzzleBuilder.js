@@ -216,6 +216,7 @@ class PuzzleBuilder{
      */
 
 	buildPuzzleWithoutOverallGrid(wrapperDom, puzzle, callback) {
+									console.log("bis hier 5");
 		var thisisme = this;
 		var chk = new Checker("buildPuzzle");
         chk.isProperString(wrapperDom, "wrapperDom");
@@ -231,12 +232,14 @@ class PuzzleBuilder{
 			}
 			
         }).then(function(){
+			console.log("bis hier 6");
             let wrapperArray = [];
             thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
         });
 		
 		this.priv_buildSmallPieces(wrapperDom, puzzle, function(created){
 			if(created){
+				console.log("bis hier 7");
 				callback(true);
 			}
 		});

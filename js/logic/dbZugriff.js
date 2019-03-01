@@ -42,7 +42,7 @@ class DBZugriff{
 	- deviceName: (string) 
 	
 	*/
-	initializeDB(deviceName){
+	initializeDB(deviceName, callback){
 		var chk = new Checker("initializeDB");
 		chk.isProperString(deviceName,"deviceName");
 		
@@ -74,7 +74,8 @@ class DBZugriff{
 				  entry.token = response.token;
 				  entry.id = response.device.id;
 				  obj.TokenList[deviceName] = entry;
-				  console.log("db initialized")
+				  callback(response.device.id);
+				  console.log("db initialized with token:", response.token);
 				},
 				 error: function (r) {
 				}
@@ -223,6 +224,7 @@ class DBZugriff{
 		
 		queryFilled(function(query){
 				thisisme.waitForToken(deviceName, function(token){
+				localStorage.setItem("oldDeviceToken", token);
 				thisisme.callDatabase(dataReferenceName, token, query, function(response){
 					if(response.data != null){
 						console.log(response.data)
@@ -271,6 +273,7 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
+		console.log("übergabe 0",deviceName +","+ key + ","+ context);
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
@@ -284,11 +287,31 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 		this.waitForToken(deviceName, function(token){
+		console.log("############# token: ", token)
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
-				console.log(response.data);			
+				console.log(dataReferenceName + "erfolgreich");
+				console.log(response);			
 			});
 		});	
+	}
+	
+	deleteState(token, deviceName, key, context){
+		var chk = new Checker("deleteState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
+		var thisisme = this;
+		var sKey = key;
+		var dataReferenceName = "deleteState";
+		var query = '{"query": "mutation{' +
+			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+				'success' +
+			  '}' + 
+			'}"}';
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich");
+				console.log(response);			
+			});	
 	}
 	
 	updateState(deviceName, stateKey, stateValue, context){
@@ -532,7 +555,7 @@ class DBZugriff{
 				callback(responseNew.data);
 			}else{
 				//do nothing.
-				console.log("waiting for data...");
+				console.log("waiting for" + dataReference + "data...");
 			}
 		},500); //delay is in milliseconds 
 

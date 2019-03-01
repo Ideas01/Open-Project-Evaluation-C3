@@ -36,7 +36,8 @@ var app  = new Framework7({
 			currentContextIdIndex: null,
 			currentPuzzleImageId: null,
 			imageLoaded: false,
-			highestScore: 0
+			highestScore: 0,
+			lastActiveKey: null
 
         }
     },
@@ -165,7 +166,9 @@ app.on('pageInit', function(page){
 								  }
 								}
 								case 'subscription_data': {
-								  console.log('subscription data has been received', data)
+									
+								var currentKey = data.payload.data.contextUpdate.context.states[0].key;
+								console.log('subscription data has been received', data)
 								var json =  data.payload.data.contextUpdate.context.states[0].value.replace(/'/g, '"');
 								json = JSON.parse(json);
 								console.log("json", json);
@@ -178,8 +181,21 @@ app.on('pageInit', function(page){
 									console.log("found Number: ", puzzlePieceIdArray[0] );
 									setImage(parseInt(json.imageId, 10), function(loaded){
 										if(loaded){
-											let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
+											let lastActiveKey = app.data.lastActiveKey;
+											if(currentKey === lastActiveKey){
+												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
+											}else{
+												$(".puzzleWrapperpuzzlePieceDiv").each(function(index){
+													console.log($(this).attr("id"));
+													var id = $(this).attr("id");
+													document.getElementById(id).style.visibility = "visible";
+												});
+												
+												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);												
+											}
+											
 										}
+										app.data.lastActiveKey = currentKey;
 									});
 									
 									if(json.chosenCategory != ''){
@@ -213,7 +229,7 @@ app.on('pageInit', function(page){
 									}
 									
 								}else{
-									//TODO: THROW EXCEPTION
+									//do nothing.
 								}
 									
 									
@@ -274,16 +290,16 @@ app.on('pageInit', function(page){
 		
 			if(app.data.imageLoaded){
 				console.log("Theres already an Image.");
+				puzzle.imageObject.src = puzzleImagesArray[imageID].url
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
 				callback(true);
 			}else{
+				console.log("bis hier1");
 				loadImage = new Promise(function (resolve, reject) {
 					var backgroundImage = new Image();
 					
 					backgroundImage.src = puzzleImagesArray[imageID].url;
 					app.data.currentPuzzleImageId = imageID;
-					//singleAccess.buildCategory(puzzleImagesArray, "Essen");
-					//'https://i.ytimg.com/vi/HqzvqCmxK-E/maxresdefault.jpg';
 					backgroundImage.crossOrigin = "Anonymous";
 					backgroundImage.onload = function () {
 						const originPictureWidth = backgroundImage.width;
@@ -296,10 +312,10 @@ app.on('pageInit', function(page){
 				});
 				
 				loadImage.then(function(imageObject){
+					console.log("bis hier2");
 					puzzle.imageObject = imageObject;
 					var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-					
-					//TODO: nooooo dont build another puzzle if image already exists.
+					console.log("bis hier3");
 					singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle, function(){
 						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 						$(window).on('resize', function (page) {
@@ -308,6 +324,7 @@ app.on('pageInit', function(page){
 						});
 						app.data.imageLoaded = true;
 						$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
+							console.log("bis hier4");
 						callback(true);
 					});
 				 });

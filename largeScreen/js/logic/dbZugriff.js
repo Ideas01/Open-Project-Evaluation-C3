@@ -74,7 +74,8 @@ class DBZugriff{
 				  entry.token = response.token;
 				  entry.id = response.device.id;
 				  obj.TokenList[deviceName] = entry;
-				  console.log("db initialized")
+//				  callback(response.device.id);
+				  console.log("db initialized with token:", response.token);
 				},
 				 error: function (r) {
 				}
@@ -160,6 +161,9 @@ class DBZugriff{
 	}
 	
 	subscribeToContext(deviceName, context, callback){
+		var chk = new Checker("subscribeToContext");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
 		
 		var address = (this.serverAdresse).substring(7);
 		
@@ -180,7 +184,7 @@ class DBZugriff{
 			  const message0 = {
 			  id: '1',
 			  type: 'subscription_start',
-			  query: 'subscription {contextUpdate(contextID: "' + context.contextId + '") {stateKey changedAttributes context {id  states {key value}}}}'
+			  query: 'subscription sContext {contextUpdate(contextID: "' + context.contextId + '") {stateKey changedAttributes context {id  states {key value}}}}'
 			}
 			webSocket.send(JSON.stringify(message0))
 		}
@@ -188,38 +192,59 @@ class DBZugriff{
 		if(webSocket != undefined){
 			callback(webSocket);
 		}	
+
 		});
 			
 	}
 	
 	createState(deviceName, stateKey, stateValue, context, callback){
+		var chk = new Checker("createState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
-		var sKey = stateKey;
-		var sValue = stateValue;
 		var dataReferenceName = "createState";
-		var query = '{"query": "mutation{' +
-						  'createState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +  // unique key throught deviceID
+		var sKey = stateKey;
+		var query;
+		var checkNumber = new RegExp("^[0-9]*$");
+		
+		function queryFilled(callback){
+			query = '{"query": "mutation{' +
+						  'createState(data: {key: \\"' + sKey + '_' + thisisme.TokenList[deviceName].id + '\\", ' +  // unique key through deviceID
+						  'value: \\"' +  stateValue + '\\"}, ' +
+						  'contextID: \\"' + context.contextId + '\\") {' +  
 							'state {' +
 							  'key value' +
 							'}' +
 						  '}' +
 						'}"}';
-					
-		this.waitForToken(deviceName, function(token){
-			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				if(response.data != null){
-					console.log(response.data)
-					console.log(dataReferenceName + "erfolgreich");
-					callback(response);
-				}else{
-					console.log("Bad Request. The Server responded with: " + response.errors[0].message);
-					callback(response);
-				}	
+			callback(query);
+			
+		}						
+		
+		queryFilled(function(query){
+				thisisme.waitForToken(deviceName, function(token){
+				localStorage.setItem("oldDeviceToken", token);
+				thisisme.callDatabase(dataReferenceName, token, query, function(response){
+					if(response.data != null){
+						console.log(response.data)
+						console.log(dataReferenceName + "erfolgreich");
+						callback(response);
+					}else{
+						console.log("Bad Request. The Server responded with: " + response.errors[0].message);
+						callback(response);
+					}	
+				});
 			});
-		});	
-	};
+		});
+	
+		}
 	
 	getState(deviceName, stateKey, context){
+		var chk = new Checker("getState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
 		var sKey = stateKey;
 		var dataReferenceName = "getState";
@@ -248,6 +273,11 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
+		console.log("übergabe 0",deviceName +","+ key + ","+ context);
+		var chk = new Checker("deleteState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
 		var sKey = key;
 		var dataReferenceName = "deleteState";
@@ -257,20 +287,42 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 		this.waitForToken(deviceName, function(token){
+		console.log("############# token: ", token)
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
-				console.log(response.data);			
+				console.log(dataReferenceName + "erfolgreich");
+				console.log(response);			
 			});
 		});	
 	}
 	
-	updateState(deviceName, stateKey, stateValue, context){
+	deleteState(token, deviceName, key, context){
+		var chk = new Checker("deleteState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");
+		
 		var thisisme = this;
-		var sKey = stateKey;
-		var sValue = stateValue;
+		var sKey = key;
+		var dataReferenceName = "deleteState";
+		var query = '{"query": "mutation{' +
+			  'deleteState(data: {key: \\"' + sKey + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+				'success' +
+			  '}' + 
+			'}"}';
+			thisisme.callDatabase(dataReferenceName, token, query, function(response){
+				console.log(dataReferenceName + "erfolgreich");
+				console.log(response);			
+			});	
+	}
+	
+	updateState(deviceName, stateKey, stateValue, context){
+		var chk = new Checker("updateState");
+		chk.isValid(context,"context");
+		chk.isProperString(deviceName,"deviceName");		
+		
+		var thisisme = this;
 		var dataReferenceName = "States";
 		var query = '{"query": "mutation{' +
-					  'updateState(data: {key: \\"' + sKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + sValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
+					  'updateState(data: {key: \\"' + stateKey + '_' + this.TokenList[deviceName].id + '\\", value: \\"' + stateValue + '\\"}, contextID: \\"' + context.contextId + '\\") {' +
 						'state {' +
 						  'key value' +
 						'}' +
@@ -354,20 +406,36 @@ class DBZugriff{
 			
 			
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
+				console.log(dataReferenceName + "erfolgreich");
 				console.log(response);
-				var result = response.data.context.activeSurvey.questions;
-				thisisme.setContextData(dataReferenceName, undefined);
-				var questions =[];
-				result.forEach(function(element){
-					if(element.type == "REGULATOR"){
-						questions.push(element);
-					}else{
-						//do nothing.
+				let waitForResponse = setInterval(function () {
+                    var result = response.data.context.activeSurvey.questions;
+
+                    if (result != undefined) {
+                    	console.log("Habe Questions!");
+                    	clearInterval(waitForResponse);
+                        thisisme.setContextData(dataReferenceName, undefined);
+                        var questions =[];
+                        result.forEach(function(element){
+                            if(element.type === "REGULATOR"){
+                                questions.push(element);
+                            }else{
+                                console.log("Kein Element vom Typ REGULATOR gefunden")
+                            }
+                            thisisme.setContextData(dataReferenceName, questions);
+                        });
 					}
-				});
+					else
+						{
+							console.log("Konnte keine Questions von DB empfangen!")
+						}
+                },500);
+
+                setTimeout(function(){
+                    clearInterval(waitForResponse); //clear above interval after 15 seconds
+                },15000)
 						
-				thisisme.setContextData(dataReferenceName, questions);	
+
 				
 			});
 		});
@@ -424,7 +492,7 @@ class DBZugriff{
 		var thisisme = this;
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich")
+				console.log(dataReferenceName + "erfolgreich");
 				console.log(response.data.createAnswer.voteCreated);
 				thisisme.setContextData(dataReferenceName, response.data.createAnswer.voteCreated);
 			});
@@ -487,7 +555,7 @@ class DBZugriff{
 				callback(responseNew.data);
 			}else{
 				//do nothing.
-				console.log("waiting for data...");
+				console.log("waiting for" + dataReference + "data...");
 			}
 		},500); //delay is in milliseconds 
 

@@ -37,7 +37,8 @@ var app  = new Framework7({
 			stateCreated: false,
 			puzzlekey: "puzzle",
 			stateValues: {},
-			currentScore: null
+			currentScore: null,
+			deviceId: ""
         }
     },
   root: '#app', // App root element
@@ -86,9 +87,30 @@ $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
 	 
 
 app.on('pageInit', function(page){
-	
+
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
+	singleAccess.initializeDB(deviceName, function(deviceid){
+		app.data.deviceId = deviceid;
+	});
+	
+	
+		
+//		window.onbeforeunload = function (event) {
+//		    var message = 'Important: Please click on \'Save\' button to leave this page.';
+//		    if (typeof event == 'undefined') {
+//		    	console.log("bestätigt");
+//		        event = window.event;
+//		    }
+//		    if (event) {
+//		    	
+//		      console.log("message: ", message);
+//		      event.returnValue = message;
+//		    }
+//		    return message;
+//		}
+//	});
+	
 	var prototypeImagesKey = null;
 	
 	//console.log(page.name + " wird ausgeführt");
@@ -98,9 +120,54 @@ app.on('pageInit', function(page){
 		var picturesPerChoice = 3;
 		var selectionContent = {};
 		
+		
+	   
+//	   function ConfirmLeave() {
+//		    return "wieso zeigst du das hier nicht an?";
+//		}
+//	   
+//	   $(document).keydown(function(e) {            
+//	    	if (e.key == "F5") {
+//	    		console.log("leaving page....")
+//	        window.onbeforeunload = ConfirmLeave();
+//	   	}
+//	   });
+
+	   
+		
+	    
+//		$(function () {
+//		    $("a").not('#lnkLogOut').click(function () {
+//		        window.onbeforeunload = null;
+//		    });
+//		    $(".btn").click(function () {
+//		        window.onbeforeunload = null;
+//		});
+//		});
 
 		singleAccess.waitForContexts(function(contextList){
 			var XcontentArray = [];
+			
+			console.log(contextList);
+		    
+		   var lastDeviceId = localStorage.getItem("lastdeviceId");
+	    	var stateCreated = localStorage.getItem("stateCreated")
+	    	var lastContextId = localStorage.getItem("lastContextId");
+	    	var oldDeviceToken = localStorage.getItem("oldDeviceToken");
+	    	
+	   	console.log("lastDeviceId = " + lastDeviceId + " \n stateCreated = " + stateCreated + " \n lastContextId = " +  lastContextId + "oldDeviceToken" +oldDeviceToken);
+			if(lastDeviceId !="" && stateCreated == "true" && lastContextId != null){
+			console.log('unload');
+				singleAccess.deleteState(oldDeviceToken, deviceName, "puzzle_" + lastDeviceId, contextList[parseInt(lastContextId)], function(result){
+					if(result){
+						console.log("state wurde gelöscht", response);
+					}else{
+						console.log("state konnte nicht gelöscht werden. Grund: ", result);
+					}
+				
+				});
+			}
+	
 			contextList.forEach(function(context, contextIndex, contextList){
 			
 				var imageURLs = contextList[contextIndex].images;
@@ -163,7 +230,6 @@ app.on('pageInit', function(page){
 	
 	if(page.name ==='prototypeSelection'){
 		
-		singleAccess.initializeDB(deviceName);
 		singleAccess.resetCurrentContextId();
 		singleAccess.initializeSwiper();
 		
@@ -423,8 +489,10 @@ app.on('pageInit', function(page){
 		var chosenCategory = "chosenCategory";
 		var chosenAnswer = "chosenAnswer";
 		var score = "score";
+		var currentContextId = singleAccess.getCurrentContextIdIndex();
 		
 		singleAccess.waitForContexts(function(contextList){
+			
 			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
 //			var stateValue = "'" + keyString + "':'" + app.data.currentPuzzleImageId +  "', 'puzzleIds': []";
 			
@@ -443,6 +511,17 @@ app.on('pageInit', function(page){
 			singleAccess.createState(deviceName, app.data.puzzlekey, stateValue , contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
 				console.log("createdState", createdState);
 				app.data.stateCreated = true;
+				
+				if (typeof(Storage) !== "undefined") {
+				  // Code for localStorage/sessionStorage.
+				  localStorage.setItem("lastdeviceId", (app.data.deviceId).toString());;
+				  localStorage.setItem("stateCreated", (app.data.stateCreated).toString());
+				  localStorage.setItem("lastContextId", singleAccess.getCurrentContextIdIndex().toString());
+				  
+				} else {
+				  console.log("Sorry! No Web Storage support..");
+				}
+				
 				console.log("state: ", app.data.stateCreated);
 					if (createdState.data == null){
 						//TODO: THROW EXCEPTION
@@ -495,6 +574,7 @@ app.on('pageInit', function(page){
 						} else{						
 							app.data.stateValues.puzzleIDs.push(puzzlePieceID);
 							app.data.currentScore = $("#points").text();
+							app.data.imageId = app.data.currentPuzzleImageId;
 							updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
 							
 							singleAccess.updateState(deviceName, app.data.puzzlekey, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()]);
