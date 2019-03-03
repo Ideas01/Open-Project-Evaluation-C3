@@ -273,6 +273,7 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
+		console.log("context: ", context)
 		console.log("übergabe 0",deviceName +","+ key + ","+ context);
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
@@ -295,7 +296,8 @@ class DBZugriff{
 		});	
 	}
 	
-	deleteState(token, deviceName, key, context){
+	deleteOldState(token, deviceName, key, context){
+				
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");

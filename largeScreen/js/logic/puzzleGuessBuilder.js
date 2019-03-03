@@ -147,11 +147,14 @@ class PuzzleGuessBuilder{
 	 */
 
 	checkGuessItem(givenAnswer, correctAnswer) {
+		console.log("################# checking answer......")
 	    if (givenAnswer === correctAnswer) {
+			console.log("richtig " +  givenAnswer + " ist gleich " + correctAnswer);
 	        app.router.navigate('/success/');
 	    }
 	    else {
 	        app.router.navigate('/failure/');
+			console.log("falsch " +  givenAnswer + " ist ungleich " + correctAnswer);
 	    }
 	};
 }

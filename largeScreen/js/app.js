@@ -111,6 +111,15 @@ app.on('pageInit', function(page){
 			
 		});
 	}
+	
+	function resetPuzzleTiles(){	
+		$(".puzzleWrapperpuzzlePieceDiv").each(function(index){
+			console.log($(this).attr("id"));
+			var id = $(this).attr("id");
+			document.getElementById(id).style.visibility = "visible";
+		});
+	}
+	
 	/***************************** prototypeSelection********************/
 	
 	if(page.name ==='prototypeSelection'){
@@ -185,11 +194,7 @@ app.on('pageInit', function(page){
 											if(currentKey === lastActiveKey){
 												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
 											}else{
-												$(".puzzleWrapperpuzzlePieceDiv").each(function(index){
-													console.log($(this).attr("id"));
-													var id = $(this).attr("id");
-													document.getElementById(id).style.visibility = "visible";
-												});
+												resetPuzzleTiles();
 												
 												let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);												
 											}
@@ -216,16 +221,19 @@ app.on('pageInit', function(page){
 									
 									if(json.score != ''){
 										
-										if(app.data.highestScore < parseInt(json.score, 10)){
+										if(app.data.highestScore < parseInt(json.score, 10) && json.chosenAnswerIScorrect){
 											app.data.highestScore = parseInt(json.score, 10);
-											console.log("akuteller Highscore: ", app.data.highestScore);
-											//TODO: setHighscore
+											console.log("aktueller Highscore: ", app.data.highestScore);
 										}
 										setTimeout(function(){
 											app.router.navigate("/highscore/");
 										}, 600);
-										
-										singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+										singleAccess.waitForContexts(function (contextList) {
+											console.log("contextList", contextList)
+											console.log("contextListid:", contextList[singleAccess.getCurrentContextIdIndex()]);
+											
+											singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+										});
 									}
 									
 								}else{
@@ -273,6 +281,7 @@ app.on('pageInit', function(page){
 
     /****************************** puzzle start ****************************/
  	if(page.name === 'puzzle') {
+		console.log("pageInit puzzle")
 		if(puzzle == undefined) // if theres no puzzle yet create a new one
 			puzzle = new Puzzle(); // new puzzle 
         var imageSrc = null;
@@ -333,8 +342,17 @@ app.on('pageInit', function(page){
 		});
 	};
 	
-		/****************************** puzzle end ****************************/
-
+	/****************************** puzzle end ****************************/
+	
+	if(page.name === 'highscore') {
+		$("#highscoreDiv").text(app.data.highestScore.toString());
+		setTimeout(function(){
+				app.data.imageLoaded = false;
+			 app.router.navigate('/puzzle/');
+		},5000);	
+	}
+		
+		
 });
 
 	// Init/Create first view

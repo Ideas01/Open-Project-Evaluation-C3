@@ -110,8 +110,8 @@
 		return dbZugriff.deleteState(deviceName, key, context);
 	};
 	
-	SingleAccess.prototype.deleteState = function (token, deviceName, key, context){
-		return dbZugriff.deleteState(token, deviceName, key, context);
+	SingleAccess.prototype.deleteOldState = function (token, deviceName, key, context){
+		return dbZugriff.deleteOldState(token, deviceName, key, context);
 	};
 	
 	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, context){

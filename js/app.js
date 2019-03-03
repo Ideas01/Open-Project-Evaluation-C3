@@ -94,70 +94,23 @@ app.on('pageInit', function(page){
 		app.data.deviceId = deviceid;
 	});
 	
-	
-		
-//		window.onbeforeunload = function (event) {
-//		    var message = 'Important: Please click on \'Save\' button to leave this page.';
-//		    if (typeof event == 'undefined') {
-//		    	console.log("bestätigt");
-//		        event = window.event;
-//		    }
-//		    if (event) {
-//		    	
-//		      console.log("message: ", message);
-//		      event.returnValue = message;
-//		    }
-//		    return message;
-//		}
-//	});
-	
 	var prototypeImagesKey = null;
-	
-	//console.log(page.name + " wird ausgeführt");
 	
 	function buildSwiperContent(callback){
 		var counter = 0;
 		var picturesPerChoice = 3;
 		var selectionContent = {};
-		
-		
-	   
-//	   function ConfirmLeave() {
-//		    return "wieso zeigst du das hier nicht an?";
-//		}
-//	   
-//	   $(document).keydown(function(e) {            
-//	    	if (e.key == "F5") {
-//	    		console.log("leaving page....")
-//	        window.onbeforeunload = ConfirmLeave();
-//	   	}
-//	   });
-
-	   
-		
-	    
-//		$(function () {
-//		    $("a").not('#lnkLogOut').click(function () {
-//		        window.onbeforeunload = null;
-//		    });
-//		    $(".btn").click(function () {
-//		        window.onbeforeunload = null;
-//		});
-//		});
 
 		singleAccess.waitForContexts(function(contextList){
 			var XcontentArray = [];
-			
-			console.log(contextList);
 		    
 		   var lastDeviceId = localStorage.getItem("lastdeviceId");
 	    	var stateCreated = localStorage.getItem("stateCreated")
 	    	var lastContextId = localStorage.getItem("lastContextId");
 	    	var oldDeviceToken = localStorage.getItem("oldDeviceToken");
 	    	
-	   	console.log("lastDeviceId = " + lastDeviceId + " \n stateCreated = " + stateCreated + " \n lastContextId = " +  lastContextId + "oldDeviceToken" +oldDeviceToken);
+//	   	console.log("lastDeviceId = " + lastDeviceId + " \n stateCreated = " + stateCreated + " \n lastContextId = " +  lastContextId + "oldDeviceToken" +oldDeviceToken);
 			if(lastDeviceId !="" && stateCreated == "true" && lastContextId != null){
-			console.log('unload');
 				singleAccess.deleteState(oldDeviceToken, deviceName, "puzzle_" + lastDeviceId, contextList[parseInt(lastContextId)], function(result){
 					if(result){
 						console.log("state wurde gelöscht", response);
@@ -492,6 +445,7 @@ app.on('pageInit', function(page){
 		var chosenAnswer = "chosenAnswer";
 		var score = "score";
 		var currentContextId = singleAccess.getCurrentContextIdIndex();
+		var chosenAnswerIScorrect = "chosenAnswerIScorrect"
 		
 		
 		singleAccess.waitForContexts(function(contextList){
@@ -503,6 +457,7 @@ app.on('pageInit', function(page){
 			app.data.stateValues[chosenCategory] = "";
 			app.data.stateValues[chosenAnswer] = "";
 			app.data.stateValues[score] = "";
+			app.data.stateValues[chosenAnswerIScorrect] = false;
 			
 			var stateValues = app.data.stateValues;
 
@@ -551,7 +506,6 @@ app.on('pageInit', function(page){
 		});
 		
 		loadImage.then(function(imageObject){
-			console.log("bis hier");
 			puzzle.imageObject = imageObject;
 			var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
 			$(puzzle.puzzleWrapper).css("background-image", 'url("' + imageObject.src + '")');
@@ -635,20 +589,32 @@ app.on('pageInit', function(page){
 								} else{						
 									app.data.stateValues.chosenCategory = clickedCategory;
 									updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
-									console.log("updatedStateValue puzzle", updatedStateValue);
+//									console.log("updatedStateValue puzzle", updatedStateValue);
 									
 									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()]);
 								}
+								
 								for (var i = 0; i < puzzleImageData.length - 1; i++) {
 									if (puzzleImageData[i].category === clickedCategory) {
 										$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
+//											console.log("puzzleImageData: ", data);
+											
 											$('#' + data).click(function (chosenElement) {
 												app.data.stateValues.chosenAnswer = chosenElement.target.id;
 												app.data.stateValues.score = app.data.currentScore;
 												var updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
-												singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()])
-												console.log("element: ", puzzleImageData[i].correctAnswer)
-												singleAccess.checkGuessItem(data, puzzleImageData[i].correctAnswer, chosenElement.id);
+												singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()]);
+												
+//												console.log("correctAnswer: ", puzzleImageData.correctCategory.correctAnswer);
+												singleAccess.checkGuessItem( chosenElement.target.id, puzzleImageData.correctCategory.correctAnswer);
+												
+												if(puzzleImageData.correctCategory.correctAnswer == chosenElement.target.id){
+													console.log("chosenAnswer is correct")
+													app.data.stateValues.chosenAnswerIScorrect = true;
+												}else{
+													console.log("chosenAnswer is false")
+													app.data.stateValues.chosenAnswerIScorrect = false;
+												}
 											});
 
 										});
@@ -732,8 +698,6 @@ app.on('pageInit', function(page){
 			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
 			 app.router.navigate('/home/')
 		},16000);
-		
-		
 	}
 	
 	if(page.name === 'failure'){

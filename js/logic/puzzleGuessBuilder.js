@@ -75,12 +75,7 @@ class PuzzleGuessBuilder{
 							$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
 								if($('#' + data).length == 0) {
 									$(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-									console.log("children", data)
 									promises.push(loopPromise);
-//									$('#' + data).click(function () {
-//										console.log("grrr");
-//										thisisme.checkGuessItem(data, correctCategory.correctAnswer);
-//									});
 									if($('#' + data)){
 										resolve(true);	
 									}
@@ -114,6 +109,7 @@ class PuzzleGuessBuilder{
 			answers: switchedAnswers,
 			correctAnswer: puzzleImageData[puzzleImageID].correctAnswer
 		};
+//		console.log("correctCategory: ", correctCategory);
 		callback(correctCategory);
 	};
 
