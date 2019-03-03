@@ -294,7 +294,6 @@ app.on('pageInit', function(page){
 				$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
 				callback(true);
 			}else{
-				console.log("bis hier1");
 				loadImage = new Promise(function (resolve, reject) {
 					var backgroundImage = new Image();
 					

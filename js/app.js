@@ -265,13 +265,7 @@ app.on('pageInit', function(page){
 				app.router.navigate('/home/');
 			}); 				
 		 });
-			 
-		singleAccess.waitForContexts(function(contextList){
-			singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
-				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
-				app.data.currentPuzzleImageId = randomImageId;
-			});
-		});
+		
 	
 
 		 
@@ -313,7 +307,15 @@ app.on('pageInit', function(page){
 	} /***************** prototype Selection End ***********************/
 	
 	if(page.name === 'home'){
-		// do nothing.	
+	
+		singleAccess.waitForContexts(function(contextList){
+			
+			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
+			singleAccess.waitForData("puzzleImages", deviceName, function(puzzleImagesArray){
+				let randomImageId = Math.floor(Math.random() * Math.floor(puzzleImagesArray.length));
+				app.data.currentPuzzleImageId = randomImageId;
+			});
+		});
 	} /****************************** home end ****************************/
 
 	/****************************** P2 Start ***************************/
@@ -491,9 +493,9 @@ app.on('pageInit', function(page){
 		var score = "score";
 		var currentContextId = singleAccess.getCurrentContextIdIndex();
 		
+		
 		singleAccess.waitForContexts(function(contextList){
 			
-			singleAccess.getPuzzleImages(contextList[singleAccess.getCurrentContextIdIndex()]);
 //			var stateValue = "'" + keyString + "':'" + app.data.currentPuzzleImageId +  "', 'puzzleIds': []";
 			
 			app.data.stateValues[keyString] = app.data.currentPuzzleImageId;
