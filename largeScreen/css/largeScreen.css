@@ -1,0 +1,31 @@
+.HSpunkte{
+    position: relative;
+    display: inline;
+}
+
+.HSalt{
+    position: absolute;
+    text-align: center;
+    font-size: 2em;
+    font-family: sans-serif;
+    color: lightgray;
+    top: 50%;
+    display: initial;
+}
+
+.HSneu{
+    position: relative;
+    text-align: center;
+    font-size: 3em;
+    font-family: sans-serif;
+    color: grey;
+    display: inline-block;
+}
+
+.HSpunkte img{
+    position: relative;
+    width: 9%;
+    margin: 1%;
+    top: 55%;
+    left: 25%;
+}
