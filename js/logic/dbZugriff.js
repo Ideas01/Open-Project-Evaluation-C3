@@ -273,6 +273,7 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
+		console.log("context: ", context)
 		console.log("übergabe 0",deviceName +","+ key + ","+ context);
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
@@ -295,7 +296,8 @@ class DBZugriff{
 		});	
 	}
 	
-	deleteState(token, deviceName, key, context){
+	deleteOldState(token, deviceName, key, context){
+				
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
@@ -309,7 +311,7 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich");
+				console.log(dataReferenceName + "durchgeführt");
 				console.log(response);			
 			});	
 	}
@@ -512,7 +514,7 @@ class DBZugriff{
 		var chk = new Checker("waitForToken");
 		chk.isProperString(deviceName,"deviceName");
 		
-	    var thisisme = this;
+	   var thisisme = this;
 		var waitforT = setInterval(function(){
 			var tNew = thisisme.TokenList[deviceName].token;
 			

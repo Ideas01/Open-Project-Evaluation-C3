@@ -15,8 +15,8 @@
 		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
 	};
 	
-	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
-		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray, stop){
+		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray, stop);
 	};
 	
 	SingleAccess.prototype.buildMiniOverview = function(appendToDOMOverview, puzzle){
@@ -114,6 +114,10 @@
 	
 	SingleAccess.prototype.deleteState = function (deviceName, key, context){
 		return dbZugriff.deleteState(deviceName, key, context);
+	};
+	
+	SingleAccess.prototype.deleteOldState = function (token, deviceName, key, context){
+		return dbZugriff.deleteOldState(token, deviceName, key, context);
 	};
 	
 	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, context){
