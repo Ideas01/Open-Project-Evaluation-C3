@@ -514,7 +514,7 @@ class DBZugriff{
 		var chk = new Checker("waitForToken");
 		chk.isProperString(deviceName,"deviceName");
 		
-	    var thisisme = this;
+	   var thisisme = this;
 		var waitforT = setInterval(function(){
 			var tNew = thisisme.TokenList[deviceName].token;
 			
