@@ -443,6 +443,8 @@ class DBZugriff{
 		return dataReferenceName;
 	}
 
+
+	
 	// puzzleImages are saved local at this point. Because there isn´t a Settingspage to set them dynamically.
 	/**
 	getPuzzleImages()
@@ -462,10 +464,14 @@ class DBZugriff{
 		//chk.isProperString(deviceName,"deviceName");
 		
 		var dataReferenceName = "puzzleImages";
+		var dataReferenceNameIdleImages = "idlepuzzleImages";
 		
 		var puzzlePicutureObj = pictureURLs.data; // aus img\puzzlePictures\puzzlePictures.js
+		var puzzlePictureObjIdleImages = idlePictureURLs.data;
 		
+		this.setContextData(dataReferenceNameIdleImages, puzzlePictureObjIdleImages)
 		this.setContextData(dataReferenceName, puzzlePicutureObj)
+	
 		
 	}
 

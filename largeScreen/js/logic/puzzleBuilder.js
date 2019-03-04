@@ -13,6 +13,7 @@ class PuzzleBuilder{
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	constructor()
 	{
+		this.hideInterval = undefined;
 		this.util = new Util();
 	} 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -291,12 +292,10 @@ class PuzzleBuilder{
 	};
 
 	hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray) {
-		console.log("puzzlePieceIdArray: ", puzzlePieceIdArray);
 		
 		if (Array.isArray(puzzlePieceIdArray) && typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0){
 			let hidePiecesActivePuzzle = new Promise(function (resolve){
 				puzzlePieceIdArray.forEach(function(element){
-					console.log("element", element)
 					if(document.getElementById(element) == null){
 						console.log("konnte element: " + element + " nicht finden.");
 					}else{
@@ -318,11 +317,14 @@ class PuzzleBuilder{
 	 *
 	 * hides PuzzlePieces with a given ID over a certain amount of time
 	 *
-     * @param puzzlePieceIdArray: Array of strings, which contain the puzzlePiece ids
+     * @param 	
+	 *		puzzlePieceIdArray (Array): Array of strings, which contain the puzzlePiece ids
+	 * 		stop (boolean): flag if the interval should proceed or not.	
      */
 
-    hidePuzzlePieces(puzzlePieceIdArray)
-    {
+    hidePuzzlePieces(puzzlePieceIdArray, stop)
+	{
+		var thisisme = this;
     	if (typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0)
 		{
             let i = 0;
@@ -330,23 +332,33 @@ class PuzzleBuilder{
 
 			let hidePieces = new Promise(function (resolve)
 			{
-                let hideInterval = setInterval(function ()
+				clearInterval(thisisme.hideInterval); //clean start
+                thisisme.hideInterval = setInterval(function ()
 				{
+					console.log("hideInterval 0", thisisme.hideInterval)
                     document.getElementById(puzzlePieceIdArray[i]).style.visibility = "hidden";
                     i++;
                     if(i === iterations)
                     {
-                        clearInterval(hideInterval);
-                        resolve(0)
+                        clearInterval(thisisme.hideInterval);
+                        resolve(0);
                     }
                 }, puzzle.timeOut);
+				
+				if(stop){
+					console.log("stopping idle time...")
+					
+					console.log("hideInterval", thisisme.hideInterval)
+					clearInterval(thisisme.hideInterval)
+					resolve(0);
+				}		
+				
             });
             return hidePieces;
         }
-		else
-			{
-    		console.log("Error: The passed array is not defined or empty");
-			}
+		else{
+			console.log("Error: The passed array is not defined or empty");
+		}
     }
 	
 	/**

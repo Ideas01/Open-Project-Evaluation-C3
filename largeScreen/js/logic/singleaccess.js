@@ -15,8 +15,8 @@
 		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
 	};
 	
-	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
-		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray, stop){
+		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray, stop);
 	};
 	
 	SingleAccess.prototype.buildMiniOverview = function(appendToDOMOverview, puzzle){
