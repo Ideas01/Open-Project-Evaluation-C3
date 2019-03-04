@@ -356,10 +356,8 @@ app.on('pageInit', function(page){
 				});
 				
 				loadImage.then(function(imageObject){
-					console.log("bis hier2");
 					puzzle.imageObject = imageObject;
 					var wrapperArray = [puzzle.puzzleWrapper,'#croppedImageDiv'];
-					console.log("bis hier3");
 					singleAccess.buildPuzzleWithoutOverallGrid(puzzle.puzzleWrapper, puzzle, function(){
 						singleAccess.calculateWrapperSize(puzzle, wrapperArray, 100);
 						$(window).on('resize', function (page) {
@@ -368,7 +366,6 @@ app.on('pageInit', function(page){
 						});
 						app.data.imageLoaded = true;
 						$(puzzle.puzzleWrapper).css("background-image", 'url("' + puzzle.imageObject.src + '")');
-							console.log("bis hier4");
 						callback(true);
 					});
 				 });
@@ -382,10 +379,10 @@ app.on('pageInit', function(page){
 	
 	if(page.name === 'highscore') {
 		$("#highscoreDiv").text(app.data.highestScore.toString());
-		setTimeout(function(){
+		/* setTimeout(function(){               //TODO: wieder reintun
 				app.data.imageLoaded = false;
 			 app.router.navigate('/puzzle/');
-		},5000);	
+		},5000);	 */
 	}
 		
 		
