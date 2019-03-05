@@ -1,6 +1,6 @@
-.HSpunkte{
+.HSpunkte > *{  /*C geändert*/
     position: relative;
-    display: inline;
+    display: inline-block;
 }
 
 .HSalt{
@@ -21,15 +21,16 @@
     font-family: sans-serif;
     color: grey;
     display: inline-block;
+	width: 69%; /*C geändert*/
 }
 
-.HSpunkte img{
+/* .HSpunkte img{
     position: relative;
     width: 9%;
     margin: 1%;
     top: 55%;
     left: 25%;
-}
+} */
 
 
 /**** C angepasst ****/
@@ -58,12 +59,51 @@
 .logo{
 	position: relative; 
 	left: 10px; 
-	height: 5%; 
+	height: 10%; 
 }
 
-.highscoreBanner{
-	width: 90%;
+/** Wrapper highscore lettering **/
+.highscore-banner{
+	width: 70%;
+	height: 30%;
+	margin-left: 15%;
+	margin-top: -2%;
 	padding: 5%;
+	
 }
+
+.lettering{
+	position: relative;
+	padding-left: 5%;
+}
+
+.letteringNew{
+	display:none;
+	height: 40%;
+	padding: 2%;
+	padding-left: 3%;
+}
+
+.letteringHighscore{
+	height: 60%;
+	padding: 3%;
+}
+
+/** Wrapper points **/
+.HSpunkte{
+	height: 15%;
+	width: 50%;
+	margin-left: 25%;
+}
+
+.star{
+	height: 90%;
+	max-width: 15%;
+}
+
+.star:last-child {
+	float: right;
+}
+
 
 
