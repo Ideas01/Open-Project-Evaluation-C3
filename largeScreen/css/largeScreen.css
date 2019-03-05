@@ -13,10 +13,11 @@
     display: initial;
 } 
 
+
 .HSneu{
     position: relative;
     text-align: center;
-    font-size: 3em;
+    font-size: 5em;
     font-family: sans-serif;
     color: grey;
     display: inline-block;
@@ -64,9 +65,5 @@
 	width: 90%;
 	padding: 5%;
 }
-
-
-
-
 
 
