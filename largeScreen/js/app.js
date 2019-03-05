@@ -379,10 +379,10 @@ app.on('pageInit', function(page){
 	
 	if(page.name === 'highscore') {
 		$("#highscoreDiv").text(app.data.highestScore.toString());
-		/* setTimeout(function(){               //TODO: wieder reintun
-				app.data.imageLoaded = false;
-			 app.router.navigate('/puzzle/');
-		},5000);	 */
+		// setTimeout(function(){               //TODO: wieder reintun
+				// app.data.imageLoaded = false;
+			 // app.router.navigate('/puzzle/');
+		// },5000);	
 	}
 		
 		

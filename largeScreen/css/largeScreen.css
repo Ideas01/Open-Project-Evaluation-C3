@@ -4,14 +4,14 @@
 }
 
 .HSalt{
-    position: absolute;
+    position: relative;
     text-align: center;
     font-size: 2em;
     font-family: sans-serif;
     color: lightgray;
     top: 50%;
     display: initial;
-}
+} 
 
 .HSneu{
     position: relative;
@@ -29,3 +29,44 @@
     top: 55%;
     left: 25%;
 }
+
+
+/**** C angepasst ****/
+
+.navbar:not(.prototypeSelectionNavBar){
+	height: 7px !important;
+}
+
+/*************** puzzle view start ************/
+
+.pointsWrapper{
+	width: 70%;
+	margin-left: 15%;
+}
+
+.points{
+	font-size: calc(16pt + 0.23vw);
+	font-weight: bold;
+	color: #1a1a1a;
+	
+}
+
+
+/*************** Highscore page ***************/
+
+.logo{
+	position: relative; 
+	left: 10px; 
+	height: 5%; 
+}
+
+.highscoreBanner{
+	width: 90%;
+	padding: 5%;
+}
+
+
+
+
+
+
