@@ -36,6 +36,7 @@ var app  = new Framework7({
 			currentContextIdIndex: null,
 			currentPuzzleImageId: null,
 			imageLoaded: false,
+			oldHighScore: 0,
 			highestScore: 0,
 			lastActiveKey: null
 
@@ -251,6 +252,7 @@ app.on('pageInit', function(page){
 										if(json.score != ''){
 											
 											if(app.data.highestScore < parseInt(json.score, 10) && json.chosenAnswerIScorrect){
+												app.data.oldHighScore = app.data.highestScore;
 												app.data.highestScore = parseInt(json.score, 10);
 												console.log("aktueller Highscore: ", app.data.highestScore);
 											}
@@ -378,7 +380,21 @@ app.on('pageInit', function(page){
 	/****************************** puzzle end ****************************/
 	
 	if(page.name === 'highscore') {
-		$("#highscoreDiv").text(app.data.highestScore.toString());
+		console.log("highestScore", app.data.highestScore)
+		$(".highscoreDiv").text(app.data.highestScore.toString());
+		$("#oldHighScoreDiv").text(app.data.oldHighScore.toString());
+		
+		if(app.data.highestScore <= app.data.oldHighScore){
+			$(".HSpointsWithComparison").css("display", "none");
+			$(".HSpointsWithoutComparison").css("display", "block");
+			$(".HSpointsComparison").css("display", "none");
+			$(".letteringNew").css("display", "none");
+		}else{
+			$(".HSpointsWithComparison").css("display", "block");
+			$(".HSpointsWithoutComparison").css("display", "none");
+			$(".HSpointsComparison").css("display", "block");
+			$(".letteringNew").css("display", "block");
+		}
 		// setTimeout(function(){               //TODO: wieder reintun
 				// app.data.imageLoaded = false;
 			 // app.router.navigate('/puzzle/');
