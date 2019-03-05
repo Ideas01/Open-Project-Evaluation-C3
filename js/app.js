@@ -161,6 +161,10 @@ app.on('pageInit', function(page){
 	function waitForResponse(){
 		$('#danksagungSlider').html('Bewertung wird gesendet.');
 		$('#waitingMarks').show();
+		let scrollTo = document.getElementById("danksagungSlider");
+		scrollTo.scrollIntoView({
+			behavior : 'smooth'
+		});
 		var waitingforResponse = setInterval(function(){
 			singleAccess.waitForData("evalData", deviceName, function(response){
 				if(response == false){
@@ -384,7 +388,6 @@ app.on('pageInit', function(page){
                 //no more questions to display
                else {
 				   singleAccess.setButtonCaption(remainingQuestions,'sendRatingsButton');
-				
 				   waitForResponse();
 					//array for saving the values of the sliders
 					//save slider values of the existing sliders
