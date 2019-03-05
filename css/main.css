@@ -109,7 +109,7 @@ body {
 
 
 .description {
-    font-size: calc(11pt + 0.2vw);
+    font-size: calc(12pt + 0.6vw);
 }
 
 .next {
@@ -123,6 +123,10 @@ body {
 	position: absolute;
     width: 17%;
 	left: 41%;
+}
+
+.lowerText{
+	margin-bottom: 15%;
 }
 
 .description1 {
