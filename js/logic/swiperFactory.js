@@ -217,7 +217,7 @@ class SwiperFactory
 					mySwiper.on('slideNextTransitionEnd', function () {
 						$(".popup").remove();
 						let content = 	'<div class="block">' +
-											'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+											'<p>Vielen Dank! Du hast dir alle Bilder des Prototypen angeschaut. </p>' +
 											'<div class="next" text-align="center">' +
 												'<div class="twoButtons">' +
 												'<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
@@ -241,7 +241,7 @@ class SwiperFactory
             if(mySwiper.isEnd){
                 $(".popup").remove();
                 let content = 	'<div class="block">' +
-                    '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+                    '<p>Vielen Dank! Du hast dir alle Bilder des Prototypen angeschaut. </p>' +
                     '<div class="next" text-align="center">' +
                     '<div class="twoButtons">' +
                     '<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
