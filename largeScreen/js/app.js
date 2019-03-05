@@ -385,13 +385,13 @@ app.on('pageInit', function(page){
 		$("#oldHighScoreDiv").text(app.data.oldHighScore.toString());
 		
 		if(app.data.highestScore <= app.data.oldHighScore){
-			$(".HSpointsWithComparison").css("display", "none");
-			$(".HSpointsWithoutComparison").css("display", "block");
+//			$(".HSpointsWithComparison").css("display", "none");
+//			$(".HSpointsWithoutComparison").css("display", "block");
 			$(".HSpointsComparison").css("display", "none");
 			$(".letteringNew").css("display", "none");
 		}else{
-			$(".HSpointsWithComparison").css("display", "block");
-			$(".HSpointsWithoutComparison").css("display", "none");
+//			$(".HSpointsWithComparison").css("display", "block");
+//			$(".HSpointsWithoutComparison").css("display", "none");
 			$(".HSpointsComparison").css("display", "block");
 			$(".letteringNew").css("display", "block");
 		}
