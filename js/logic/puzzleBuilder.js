@@ -130,8 +130,9 @@ class PuzzleBuilder{
 					
 					$('#puzzleWrapperGrid' + coordinateOld[1]).width('100%');
 					$('#puzzleWrapperGrid' + coordinateOld[1]).height('100%');
-
-					$('#puzzleWrapper').append('<a id="backButton"><i class="close-zoom f7-icons">close</i></a>');
+					
+					// $('#puzzleWrapper').append('<a id="backButton"><i class="close-zoom f7-icons">close</i></a>');
+					$('#puzzleWrapper').append('<a id="backButton" href="" class="close-zoom"> zurück </a>');
 					$('#backButton').click(function() {
 						gridMarker.toggle();
 						
@@ -143,10 +144,15 @@ class PuzzleBuilder{
 						$('#backButton').remove()
 					}).css({
 						"position": "absolute",
-						"z-index":"7",
-						"top":"0",
-						"right":"2%"
-						
+						"z-index": "7",
+						"top": "-47px",
+						"right": "0",
+						"padding": "1% 5%",
+						"background-color": "#d40055",
+						"color": "white",
+						"font-size": "14pt",
+						"text-align": "center",
+						"border-radius": "5%"
 					});
 				});
 			});
