@@ -2,7 +2,7 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://localhost:3000');
+	const dbZugriff = new DBZugriff('http://localhost:3000'); //LAPTOP-U6MCNBIH
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
 	const util = new Util();
@@ -15,8 +15,8 @@
 		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
 	};
 	
-	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
-		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray, stop){
+		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray, stop);
 	};
 	
 	SingleAccess.prototype.buildMiniOverview = function(appendToDOMOverview, puzzle){

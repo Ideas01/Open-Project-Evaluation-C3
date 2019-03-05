@@ -30,12 +30,13 @@ class Puzzle
  * F U N C T I O N S
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	
 	/**
 	SetOverallGridSize()
 	
 	sets the overall grid size of this puzzle
 	
-	parameters:
+	parameter:
 	- value: (number) 
 	*/
 	SetOverallGridSize(value){
@@ -60,7 +61,7 @@ class Puzzle
 	/**
 	GetPoints()
 	
-	parameters:
+	parameter:
 	- factor: (number) - points for one tile
 	
 	return:

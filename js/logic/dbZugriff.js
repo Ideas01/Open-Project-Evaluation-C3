@@ -311,7 +311,7 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich");
+				console.log(dataReferenceName + "durchgeführt");
 				console.log(response);			
 			});	
 	}
