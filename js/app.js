@@ -55,26 +55,27 @@ var app  = new Framework7({
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   *  F R A M E W O R K   7 - E V E N T S
   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-  
 
 
-$$(document).on('page:afterin','.page[data-name="puzzle"]', function(page){
+$$(document).on('page:afterin', '.page[data-name="puzzle"]', function (page) {
 
-	var singleAccess = new SingleAccess();
-	singleAccess.checkGrid(puzzle.puzzleWrapper);
-	let content = 	'<div class="block">' +
-						'<p>Danke für deine Bewertung! Jetzt kannst du an dem Puzzlespiel teilnehmen. Deine Aufgabe' +
-							'ist es anschließend zu erraten, was sich hinter dem Puzzle befindet. Du hast die Wahl, dein Punktestand befindet' +
-							'sich bei 100. Für jedes Puzzleteil, das du aufdeckst, werden dir 10 Punkte abgezogen. Umso weniger du aufdeckst ' +
-							'desto mehr Punkte bleiben dir erhalten. Sobald du glaubst, zu wissen, was sich hinter dem Puzzle verbirgt, kannst' +
-							'du weiter klicken und raten. Viel Erfolg! <img src="img/zoomin.png"style="width: 15%;"/>' +
-							' <img src="img/tab.png"style="width: 15%;"/></p>' +
-						'<a href="#" class="popup-close" >' +
-							'<a class="button popup-close"> Los geht´s! </a>' +
-						'</a>' +
-					'</div>'	
-	singleAccess.util_PopUp('Spielanleitung', content);
-	
+    var singleAccess = new SingleAccess();
+    singleAccess.checkGrid(puzzle.puzzleWrapper);
+    let content = '<div class="block">' +
+        '<p> Vielen Dank für deine Teilnahme an dieser Umfrage. <br/>' +
+        'Als kleines Dankeschön kannst du auf dieser Seite ein Ratespiel lösen. <br/>' +
+        'Die Regeln sind ganz einfach: <br/><br/>' +
+        'Ziel des Spiels ist es, das Bild unter den Teilen zu erraten. <br/>' +
+        'Für jedes aufgedeckte Teil werden dir von den Punkten links oben Punkte abgezogen.' +
+        ' Also versuche möglichst wenige Teile aufzudecken, um das Ratespiel zu lösen und den Highscore zu knacken.<br/><br/>' +
+        'Viel Erfolg und viel Spaß dabei. <br/><br/>' +
+        '</p>' +
+        '<a href="#" class="popup-close" >' +
+        '<a class="button popup-close"> Los geht´s! </a>' +
+        '</a>' +
+        '</div>';
+    singleAccess.util_PopUp('Spielanleitung', content);
+
 });
 
 $$(document).on('page:afterin','.page[data-name="prototype"]', function(page){
@@ -105,7 +106,7 @@ app.on('pageInit', function(page){
 			var XcontentArray = [];
 		    
 		   var lastDeviceId = localStorage.getItem("lastdeviceId");
-	    	var stateCreated = localStorage.getItem("stateCreated")
+	    	var stateCreated = localStorage.getItem("stateCreated");
 	    	var lastContextId = localStorage.getItem("lastContextId");
 	    	var oldDeviceToken = localStorage.getItem("oldDeviceToken");
 	    	
@@ -147,7 +148,7 @@ app.on('pageInit', function(page){
 	
 	function danksagungStarten(){
 		var waiting = setInterval(function(){
-			$('#danksagungSlider').html('Vielen Dank für deine Bewertung! Du wirst nun zu unserem Puzzlespiel weitergeleitet.')
+			$('#danksagungSlider').html('Vielen Dank für deine Bewertung! Du wirst nun zum Ratespiel weitergeleitet.');
 			$('#waitingMarks').show();
 		},2000); //delay is in milliseconds 
 
@@ -158,7 +159,7 @@ app.on('pageInit', function(page){
 	}
 	
 	function waitForResponse(){
-		$('#danksagungSlider').html('Auswertung wird gesendet.');
+		$('#danksagungSlider').html('Bewertung wird gesendet.');
 		$('#waitingMarks').show();
 		var waitingforResponse = setInterval(function(){
 			singleAccess.waitForData("evalData", deviceName, function(response){
@@ -172,7 +173,7 @@ app.on('pageInit', function(page){
 		
 		setTimeout(function(){
 			 clearInterval(waitingforResponse);			 //clear above interval after 15 seconds
-			 $('#danksagungSlider').html('Auswertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut');
+			 $('#danksagungSlider').html('Bewertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut.');
 			 $('#waitingMarks').hide();
 			 $('#repeatSendEvalData').show();
 			 
@@ -303,18 +304,17 @@ app.on('pageInit', function(page){
 		});
 		$(".arrow").removeClass("fadeInOut");
 
-      $(".help").click(function () {
-		let content = '<div class="block">' +
-							'<p>Du befindest dich gerade auf der Seite, in der du dir den vorgestellten Prototypen ' +
-							'anschaust und vorerst beurteilst, schau dir beispielsweise die einzelnen Elemente an und überlege dir, '+
-							'was du anders oder besser machen würdest. Wenn du nach links oder rechts wischst, kannst du zwischen den unterschiedlichen Prototypansichten wechseln. Anschließend, wenn du alle Seiten des Prototypen durchgeswiped hast, '+
-							'kannst du eine Bewertung durchführen. <img src="img/swipe.png"/></p>'+
-							'<a href="#" class="popup-close" >' +
-								'<a class="button popup-close"> Los geht´s! </a>' +
-							'</a>' +
-						'</div>'
-		singleAccess.util_PopUp('HILFE',content);
-      });
+        $(".help").click(function () {
+            let content = '<div class="block">' +
+                '<p>Du betrachtest gerade den Prototyp. Durch wischen nach rechts oder links kannst du' +
+                ' zwischen den Bildern des Prototyp wechseln. Alternativ kannst du auch die Pfeile am Rand des Bildschirms dafür benutzen.' +
+                ' Hast du alle Bilder betrachtet, kannst du dich zur Bewertung weiterleiten lassen.<img src="img/swipe.png"/></p>' +
+                '<a href="#" class="popup-close" >' +
+                '<a class="button popup-close"> Los geht´s! </a>' +
+                '</a>' +
+                '</div>';
+            singleAccess.util_PopUp('HILFE', content);
+        });
     }
     /****************************** P2 end ****************************/
 
@@ -412,20 +412,19 @@ app.on('pageInit', function(page){
 			
         });
 
-		
-        
-		$(".help-sliders").click(function () {
-			let content = 	'<div class="block">' +
-								'<p>Danke, dass du dir den vorgestellten Prototypen angeschaut hast. Im folgenden kannst du nun die ' +
-									'angegebenen Fragen beantworten und diese dementsprechend bewerten. Dabei kannst du einfach anhand ' +
-									'der Slider, für dich persönlich festlegen, wie gut oder schlecht du etwas empfunden hast. Sobald du ' +
-									'die Bewertung abgeschlossen hast, kannst du diese abschicken und an dem Puzzlespiel teilnehmen.'+
-								'</p>' +
-								'<a href="#" class="popup-close" >' +
-									'<a class="button popup-close"> Los geht´s! </a>' +
-								'</a>' +
-							'</div>' 
-			singleAccess.util_PopUp('HILFE',content);	
+
+        $(".help-sliders").click(function () {
+            let content = '<div class="block">' +
+                '<p>Auf dieser Seite kannst du den Prototypen bewerten. <br/> Lies dir dafür die Fragen durch' +
+                ' und beantworte sie, indem du die Slider in die deiner Meinung entsprechende Richtung ziehst. <br/>' +
+                ' Sobald du fertig bist, kannst du deine Bewertung abschicken. Anschließend wirst du zum Ratespiel' +
+                ' weitergeleitet.' +
+                '</p>' +
+                '<a href="#" class="popup-close" >' +
+                '<a class="button popup-close"> Los geht´s! </a>' +
+                '</a>' +
+                '</div>';
+            singleAccess.util_PopUp('HILFE', content);
         });
     }
     /****************************** sliders end ****************************/
@@ -445,7 +444,7 @@ app.on('pageInit', function(page){
 		var chosenAnswer = "chosenAnswer";
 		var score = "score";
 		var currentContextId = singleAccess.getCurrentContextIdIndex();
-		var chosenAnswerIScorrect = "chosenAnswerIScorrect"
+		var chosenAnswerIScorrect = "chosenAnswerIScorrect";
 		
 		
 		singleAccess.waitForContexts(function(contextList){
@@ -471,7 +470,7 @@ app.on('pageInit', function(page){
 				
 				if (typeof(Storage) !== "undefined") {
 				  // Code for localStorage/sessionStorage.
-				  localStorage.setItem("lastdeviceId", (app.data.deviceId).toString());;
+				  localStorage.setItem("lastdeviceId", (app.data.deviceId).toString());
 				  localStorage.setItem("stateCreated", (app.data.stateCreated).toString());
 				  localStorage.setItem("lastContextId", singleAccess.getCurrentContextIdIndex().toString());
 				  
@@ -540,26 +539,22 @@ app.on('pageInit', function(page){
 					
 				});
 			});
-		}); 
-		
-		
-		$("#helpPuzzle").click(function () {
-			let content = 	'<div class="block">' +
-								'<p> Vielen Dank für deine Teilnahme an dieser Umfrage. <br/>'+
-								'Als kleines Dankeschön kannst du auf dieser Seite ein Puzzlespiel lösen. <br/>'+
-								'Die Regeln sind ganz einfach: <br/><br/>'+
-								'Ziel des Spiels ist es das Bild unter den Teilen zu erraten. <br/>'+
-								'Für jedes aufgedekte Teil werden dir von den Punkten links oben Punkte abgezogen.'+ 
-								'Also versuche möglichst wenig Teile aufzudecken um das Puzzle zu lösen.<br/><br/>' +
-								'Viel Erfolg und viel Spaß dabei <br/><br/>'+
-								'</p>' +
-								'<a href="#" class="popup-close" >' +
-									'<a class="button popup-close"> Los geht´s! </a>' +
-								'</a>' +
-							'</div>' 
-			singleAccess.util_PopUp('HILFE',content);	
+		});
+
+
+        $("#helpPuzzle").click(function () {
+            let content = '<div class="block">' +
+                '<p>Das zu erratene Bild ist unter den farbigen Flächen versteckt. Drücke auf eine Fläche,' +
+                ' um sie verschwinden zu lassen. <br/> Aber Vorsicht: Für jede Fläche wird dir ein Punkt abgezogen' +
+                ' und deine Chance den Highscore zu knacken sinkt!<br/> Sobald du das Bild erraten' +
+                ' willst, drücke den Button unter dem Bild.<br/><br/> Viel Spaß!</p>' +
+                '<a href="#" class="popup-close" >' +
+                '<a class="button popup-close"> Los geht´s! </a>' +
+                '</a>' +
+                '</div>';
+            singleAccess.util_PopUp('HILFE', content);
         });
-	}
+    }
 	
 	/****************************** puzzle end ****************************/
 	
@@ -648,18 +643,18 @@ app.on('pageInit', function(page){
 		
 		$("#helpPuzzleGuess").click(function () {
 			let content = 	'<div class="block">' +
-								'<p> Auf dieser Seite kannst du erraten was unter dem zuvor verdeckten Bild zu sehen ist. <br/>'+
-								'Hierzu wähle einfach im oberen Bereich zunächst die Kategorie aus zu der der Bildinhalt passt '+
-								'und wähle darunter die Lösung, die du für richtig hällst. <br/><br/>'+
+								'<p> Auf dieser Seite kannst du erraten, was unter dem zuvor verdeckten Bild zu sehen ist. <br/>'+
+								'Wähle dazu im oberen Bereich zunächst die Kategorie aus, zu der der Bildinhalt passt '+
+								'und wähle darunter die Lösung, die du für richtig hälst. <br/><br/>'+
 								'Noch ein Tipp: <br/>'+
-								'Falls du in der gewählten Kategorie nicht den gewünschten Begriff finden kannst geh '+
+								'Falls du in der gewählten Kategorie nicht den gewünschten Begriff finden kannst, geh '+
 								'besser noch einmal eine Seite zurück und decke mehr Teile auf. <br/>'+ 
 								'Viel Erfolg! <br/><br/>'+
 								'</p>' +
 								'<a href="#" class="popup-close" >' +
 									'<a class="button popup-close"> Los geht´s! </a>' +
 								'</a>' +
-							'</div>' 
+							'</div>';
 			singleAccess.util_PopUp('HILFE',content);	
         });
         
