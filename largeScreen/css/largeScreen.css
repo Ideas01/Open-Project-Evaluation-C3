@@ -3,14 +3,13 @@
     display: inline-block;
 }
 
-.HSalt{
+/* .HSalt{
     position: relative;
     text-align: center;
     font-size: 2em;
     font-family: sans-serif;
     color: lightgray;
-    top: 50%;
-    display: initial;
+	width: 30%;
 } 
 
 
@@ -21,8 +20,8 @@
     font-family: sans-serif;
     color: grey;
     display: inline-block;
-	width: 69%; /*C geändert*/
-}
+	width: 30%; /*C geändert*/
+} */
 
 /* .HSpunkte img{
     position: relative;
@@ -64,36 +63,43 @@
 
 /** Wrapper highscore lettering **/
 .highscore-banner{
+	position: relative;
+	display: block;
 	width: 70%;
-	height: 30%;
+	height: 40%;
 	margin-left: 15%;
 	margin-top: -2%;
-	padding: 5%;
 	
 }
 
 .lettering{
 	position: relative;
-	padding-left: 5%;
+	max-width: 100%;
+	padding: 0 2%;
 }
 
 .letteringNew{
 	display:none;
-	height: 40%;
-	padding: 2%;
-	padding-left: 3%;
+	max-height: 40%;
+	width: 40%;
+	padding-top: 5%;
 }
 
 .letteringHighscore{
-	height: 60%;
-	padding: 3%;
+	max-height: 60%;
+	width: 100%;
+	padding-top: 5%;
 }
+
 
 /** Wrapper points **/
 .HSpunkte{
+	position: relative;
+	display: block;
 	height: 15%;
 	width: 50%;
 	margin-left: 25%;
+	margin-top: 5%;
 }
 
 .star{
@@ -101,9 +107,41 @@
 	max-width: 15%;
 }
 
-.star:last-child {
+/* .star:last-child {
 	float: right;
 }
+ */
+ 
+ .divider{
+	 width: 4%;
+ }
+ 
+ .HSpointsWithoutComparison > .HSneu {
 
+    width: 68%;
+    font-size: 5em;
+    text-align: center;
+
+}
+
+.HSpointsComparison > .HSalt{
+    position: relative;
+    text-align: center;
+    font-size: 5em;
+    font-family: sans-serif;
+    color: lightgray;
+	width: 30%;
+} 
+
+
+.HSpointsComparison > .HSneu{
+    position: relative;
+    text-align: center;
+    font-size: 5em;
+    font-family: sans-serif;
+    color: grey;
+    display: inline-block;
+	width: 30%; /*C geändert*/
+}
 
 
