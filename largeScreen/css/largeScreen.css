@@ -20,7 +20,7 @@
     font-family: sans-serif;
     color: grey;
     display: inline-block;
-	width: 30%; /*C geändert*/
+	width: 30%; /*C geändert
 } */
 
 /* .HSpunkte img{
@@ -33,6 +33,11 @@
 
 
 /**** C angepasst ****/
+
+@keyframes blink {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
 
 .navbar:not(.prototypeSelectionNavBar){
 	height: 7px !important;
@@ -69,6 +74,13 @@
 	height: auto;
 	margin-left: 15%;
 	margin-top: -2%;
+	
+}
+
+.blink{
+	animation: blink;
+	animation-duration: 5s;
+	animation-direction: reverse;
 	
 }
 
