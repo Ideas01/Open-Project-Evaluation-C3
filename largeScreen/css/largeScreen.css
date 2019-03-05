@@ -4,19 +4,19 @@
 }
 
 .HSalt{
-    position: absolute;
+    position: relative;
     text-align: center;
     font-size: 2em;
     font-family: sans-serif;
     color: lightgray;
     top: 50%;
-    display: initial;
+    display: inline-block;
 }
 
 .HSneu{
     position: relative;
     text-align: center;
-    font-size: 3em;
+    font-size: 5em;
     font-family: sans-serif;
     color: grey;
     display: inline-block;
@@ -28,4 +28,5 @@
     margin: 1%;
     top: 55%;
     left: 25%;
+    display: inline-block;
 }
