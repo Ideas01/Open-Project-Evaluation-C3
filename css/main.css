@@ -689,7 +689,21 @@ h3 {
     color: grey;
 }
 
+.pictureExplanation{
+	margin-top: 5%;
+	font-size: 11pt;
+	text-align: center;
+	font-weight: bold;
+}
 
+.correctImage{
+	background-size: cover;
+	width: 100%;
+	height: 125px;
+	background-color: red;
+	margin-top: 5%;
+	margin-left: 27%;
+}
 
 @media all and (max-width: 380px){
 	.startBtn img {

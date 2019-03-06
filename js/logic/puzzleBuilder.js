@@ -302,7 +302,7 @@ class PuzzleBuilder{
 	/**
 	buildMiniOverview()
 	
-	creates the mini-puzzle which always displayed the whole puzzle (regardless of zooming)
+	creates the mini-puzzle which always displays the whole puzzle (regardless of zooming)
 	
 	parameters:
 	- appendToDOMOverview: (string) - identifier for the wrapper-div in the DOM.

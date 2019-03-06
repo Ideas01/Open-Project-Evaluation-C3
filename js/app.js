@@ -699,17 +699,39 @@ app.on('pageInit', function(page){
 	}
 	
 	if(page.name === 'failure'){
-		puzzle = new Puzzle(); // new puzzle 
-		var counter = 15;
-		var autoRedirectToHome = setInterval(function(){
-			$('.redirectIn').html(counter);
-			counter--;
-		},1000); //delay is in milliseconds 
+		var puzzleImageID = app.data.currentPuzzleImageId;
+		new Promise(function (resolve,reject) {
+			
+			var backgroundImage = new Image();
+			singleAccess.waitForData("puzzleImages", deviceName, function (response) {
+				backgroundImage.src = response[puzzleImageID].url;
+				backgroundImage.onload = function () {
+					resolve(backgroundImage);
+				};
+				backgroundImage.onerror = function () {
+					reject("could not load the image");
+				};
+			});
+		}).then(function(backgroundImage){
+			var imgFormat = puzzle.imageObject.width / puzzle.imageObject.height;
+			console.log("imgFormat" + imgFormat);
+			$("#correctImg").css("background-image","url(" + backgroundImage.src + ")");
+			$("#correctImg").css("width", $("#correctImg").ready().height() * imgFormat + "px");
+			 
+			 puzzle = new Puzzle(); // new puzzle 
+			var counter = 15;
+			var autoRedirectToHome = setInterval(function(){
+				$('.redirectIn').html(counter);
+				counter--;
+			},1000); //delay is in milliseconds 
+		});
+		
+		
 
-		setTimeout(function(){
+		/* setTimeout(function(){
 			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
 			 app.router.navigate('/home/')
-		},16000);	
+		},16000); */	
 	}
 });
 
