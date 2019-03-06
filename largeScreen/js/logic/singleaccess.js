@@ -2,7 +2,7 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://localhost:3000'); //LAPTOP-U6MCNBIH
+	const dbZugriff = new DBZugriff('http://LAPTOP-U6MCNBIH:3000'); //LAPTOP-U6MCNBIH
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
 	const util = new Util();

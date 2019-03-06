@@ -728,10 +728,10 @@ app.on('pageInit', function(page){
 		
 		
 
-		/* setTimeout(function(){
+		setTimeout(function(){
 			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
 			 app.router.navigate('/home/')
-		},16000); */	
+		},16000);	
 	}
 });
 
