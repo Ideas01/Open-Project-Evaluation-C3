@@ -459,7 +459,7 @@ app.on('pageInit', function(page){
 			app.data.stateValues[chosenCategory] = "";
 			app.data.stateValues[chosenAnswer] = "";
 			app.data.stateValues[score] = "";
-			app.data.stateValues[chosenAnswerIScorrect] = false;
+			app.data.stateValues[chosenAnswerIScorrect] = "";
 			
 			var stateValues = app.data.stateValues;
 
