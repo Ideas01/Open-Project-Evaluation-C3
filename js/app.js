@@ -557,12 +557,7 @@ app.on('pageInit', function(page){
                 '</div>';
             singleAccess.util_PopUp('HILFE', content);
         });
-    }
-	
-	/****************************** puzzle end ****************************/
-	
-	/*************************** puzzleGuess start ************************/
-    if (page.name === 'puzzleGuess') {
+
     	var wrapperArray = ['#puzzleOverview'];
 		var puzzleImageID = app.data.currentPuzzleImageId;
 

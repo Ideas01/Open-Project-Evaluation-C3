@@ -30,11 +30,11 @@ position: relative;
 }
 
 #guessItems {
-
     position: relative;
     display: flex;
-    width: 100%;
+    width: 90%;
     flex-wrap: wrap;
+	flex-direction: column;
 }
 
 .guessButton {
@@ -47,6 +47,7 @@ position: relative;
     display: inline-block;
     text-align: center;
 	background-color: #d40055;
+	width: auto;
 }
 
 .guessButton:active{

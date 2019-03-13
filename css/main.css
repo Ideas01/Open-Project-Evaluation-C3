@@ -7,7 +7,7 @@ body{
 }
 
 .page-content{
-	overflow: auto;
+	overflow: hidden auto;
 }
 
 .ios a{
@@ -16,6 +16,11 @@ body{
 /** Description Text Home.html **/
 .descriptionTextP {
     margin-bottom: 40%;
+}
+
+.spacer{
+	width: auto;
+	margin: auto;
 }
 
 /* Buttons */

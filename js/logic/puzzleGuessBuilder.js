@@ -47,6 +47,7 @@ class PuzzleGuessBuilder{
 			});
 	    });
 		Promise.all(promises).then(function(){
+			$(DOMelement).append('<div class="spacer"></div>');
 			callback(0);
 		});
 	};
@@ -67,8 +68,15 @@ class PuzzleGuessBuilder{
 		thisisme.getCorrectCategory(puzzleImageID, puzzleImageData, function(correctCategory){
 			
 				$(DOMelement).empty();
+				//$(DOMelement).append('<div class="spacer"></div>');
 				var promises = [];
 				var loopPromise = new Promise(function(resolve, reject){
+					console.log("puzzleImageData.length: " + puzzleImageData.length) //13 weil er durch jede Kategorie geht.
+				if(puzzleImageData.length >= 10){
+					$(DOMelement).css({"flex-direction": "column","height": "30%"});
+				}else{
+					$(DOMelement).css({"flex-direction": "row","height": "auto"});
+				}
 				for (var i = 0; i < puzzleImageData.length - 1; i++) {
 
 						if (puzzleImageData[i].category === clickedCategory) {
@@ -85,7 +93,6 @@ class PuzzleGuessBuilder{
 									resolve(true);
 								}
 							});
-
 						}
 					}
 				});
