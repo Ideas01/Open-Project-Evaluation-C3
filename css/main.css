@@ -109,7 +109,7 @@ body {
 
 
 .description {
-    font-size: calc(12pt + 0.6vw);
+    font-size: calc(8pt + 0.5vw);
 }
 
 .next {

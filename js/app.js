@@ -572,53 +572,57 @@ app.on('pageInit', function(page){
         new Promise(function (resolve,reject) {
             singleAccess.waitForData("puzzleImages", deviceName, function (response) {
                 
-               singleAccess.appendCategories('#guessOverview', response, function(){
-						 $('#guessOverview').children().click(function (event) {
+				singleAccess.appendCategories('#guessOverview', response, function(){
+					$('#guessOverview').children().click(function (event) {
 						 
-						 	var key = app.data.puzzlekey;
-							var keyString = "userGuessCategory";
-				    		var updatedStateValue;
-				    		var clickedCategory = event.target.id;
-				    		singleAccess.waitForContexts(function(contextList){
+						var key = app.data.puzzlekey;
+						var keyString = "userGuessCategory";
+						var updatedStateValue;
+						var clickedCategory = event.target.id;
+						singleAccess.waitForContexts(function(contextList){
 
-						    singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
-						    	if(app.data.stateCreated == false){
+							singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
+								if(app.data.stateCreated == false){
 									console.log("state does not exist yet.");
 								} else{						
 									app.data.stateValues.chosenCategory = clickedCategory;
 									updatedStateValue = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
-//									console.log("updatedStateValue puzzle", updatedStateValue);
+		//									console.log("updatedStateValue puzzle", updatedStateValue);
 									
 									singleAccess.updateState(deviceName, key, updatedStateValue, contextList[singleAccess.getCurrentContextIdIndex()]);
 								}
-								
+									
 								for (var i = 0; i < puzzleImageData.length - 1; i++) {
 									if (puzzleImageData[i].category === clickedCategory) {
 										$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
-//											console.log("puzzleImageData: ", data);
+	//											console.log("puzzleImageData: ", data);
 											
 											$('#' + data).click(function (chosenElement) {
 												app.data.stateValues.chosenAnswer = chosenElement.target.id;
 												app.data.stateValues.score = app.data.currentScore;
-												var updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
-												singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()]);
+												//var updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+												//singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()]);
 												
-//												console.log("correctAnswer: ", puzzleImageData.correctCategory.correctAnswer);
+	//												console.log("correctAnswer: ", puzzleImageData.correctCategory.correctAnswer);
 												singleAccess.checkGuessItem( chosenElement.target.id, puzzleImageData.correctCategory.correctAnswer);
 												
 												if(puzzleImageData.correctCategory.correctAnswer == chosenElement.target.id){
 													console.log("chosenAnswer is correct")
 													app.data.stateValues.chosenAnswerIScorrect = true;
+													let updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+													singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()]);
 												}else{
 													console.log("chosenAnswer is false")
 													app.data.stateValues.chosenAnswerIScorrect = false;
+													let updatedChosenAnswer = JSON.stringify(app.data.stateValues).replace(/"/g, "'");
+													singleAccess.updateState(deviceName, key, updatedChosenAnswer, contextList[singleAccess.getCurrentContextIdIndex()]);
 												}
 											});
 
 										});
-						    		}
-						    		}
-						    });
+									}
+								}
+							});
 					    });
 
 					});

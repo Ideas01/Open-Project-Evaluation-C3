@@ -227,7 +227,6 @@ class DBZugriff{
 				localStorage.setItem("oldDeviceToken", token);
 				thisisme.callDatabase(dataReferenceName, token, query, function(response){
 					if(response.data != null){
-						console.log(response.data)
 						console.log(dataReferenceName + "erfolgreich");
 						callback(response);
 					}else{
@@ -238,7 +237,7 @@ class DBZugriff{
 			});
 		});
 	
-		}
+	}
 	
 	getState(deviceName, stateKey, context){
 		var chk = new Checker("getState");
@@ -287,10 +286,8 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 		this.waitForToken(deviceName, function(token){
-		console.log("############# token: ", token)
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich");
-				console.log(response);			
+				console.log(dataReferenceName + "erfolgreich");	
 			});
 		});	
 	}

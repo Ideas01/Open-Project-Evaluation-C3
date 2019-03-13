@@ -37,8 +37,8 @@ var app  = new Framework7({
 			currentPuzzleImageId: null,
 			imageLoaded: false,
 			oldHighScore: 0,
-			highestScore: 0,
-			userScore: 0,
+			json: null,
+			userDataFilled: 'pending',
 			lastActiveKey: null,
 			navtoHighscore: null
 
@@ -80,36 +80,20 @@ app.on('pageInit', function(page){
 	var singleAccess = new SingleAccess();
 	var prototypeImagesKey = null;
 
-	//todo: debuggen promise funzt nicht.
-	function waitforHighscore(json){
-		return new Promise(function(resolve, reject){
-			if(app.data.highestScore < parseInt(json.score, 10) && json.chosenAnswerIScorrect){ //diese prüfung klappt nicht
-				console.log("old score " + app.data.highestScore + " userScore " + parseInt(json.score, 10))
-				app.data.oldHighScore = app.data.highestScore;
-				app.data.userScore = parseInt(json.score, 10);
+	function checkUserScore(json, callback){
+		app.data.userDataFilled.then(function(){
+			console.log("old score: " + app.data.oldHighScore);
+			console.log("user score: ", json.score);
+			console.log("json.chosenAnswerIScorrect score: " + json.chosenAnswerIScorrect)
+			if(json.score > app.data.oldHighScore && json.chosenAnswerIScorrect){
+				callback(true);
 				
-				app.data.highestScore = parseInt(json.score, 10);
-				
-				let checkDatahighestScore = setInterval(function(){
-					if(app.data.highestScore == parseInt(json.score, 10) && app.data.userScore == parseInt(json.score, 10)){
-						resolve(true);
-					}
-				});
-				
-				setTimeout(function(){
-					reject("app.higestScore konnte nicht gefüllt werden.")
-					clearInterval(checkDatahighestScore);
-				}, 300000);
-				
-				console.log("aktueller Highscore: ", app.data.highestScore);
-			} else {
-				app.data.oldHighScore = app.data.highestScore;
-				app.data.userScore = parseInt(json.score, 10);
-				console.log("im else gelandet: highestScore " + app.data.highestScore + " userScore " + parseInt(json.score, 10))
-				resolve(true)
+			}else{
+				callback(false);
 			}
-		});
+		});		
 	}
+	
 	
 	function startIdleTime(idleArray){
 		app.data.lastActiveKey = "idle";
@@ -208,7 +192,6 @@ app.on('pageInit', function(page){
 					singleAccess.subscribeToContext(deviceName, contextList[singleAccess.getCurrentContextIdIndex()], function(webSocket){
 					
 						webSocket.onmessage = function (event){
-							//console.log(event.data);
 							const data = JSON.parse(event.data)
 
 							switch (data.type) {
@@ -223,7 +206,7 @@ app.on('pageInit', function(page){
 								  }
 								}
 								case 'subscription_data': {
-									
+								console.log('subscription data has been received', data)
 								
 								
 								var idleArray = [1];
@@ -235,21 +218,38 @@ app.on('pageInit', function(page){
 													'puzzleWrapperpuzzlePiece|0202','puzzleWrapperpuzzlePiece|0130','puzzleWrapperpuzzlePiece|1020','puzzleWrapperpuzzlePiece|1130','puzzleWrapperpuzzlePiece|1133','puzzleWrapperpuzzlePiece|2202','puzzleWrapperpuzzlePiece|1221','puzzleWrapperpuzzlePiece|1200','puzzleWrapperpuzzlePiece|0121','puzzleWrapperpuzzlePiece|0013','puzzleWrapperpuzzlePiece|0001','puzzleWrapperpuzzlePiece|0020','puzzleWrapperpuzzlePiece|1010','puzzleWrapperpuzzlePiece|1030','puzzleWrapperpuzzlePiece|2011','puzzleWrapperpuzzlePiece|2023','puzzleWrapperpuzzlePiece|2121','puzzleWrapperpuzzlePiece|2220','puzzleWrapperpuzzlePiece|2133','puzzleWrapperpuzzlePiece|1121','puzzleWrapperpuzzlePiece|1013','puzzleWrapperpuzzlePiece|1100','puzzleWrapperpuzzlePiece|1002','puzzleWrapperpuzzlePiece|0031','puzzleWrapperpuzzlePiece|0110','puzzleWrapperpuzzlePiece|0101','puzzleWrapperpuzzlePiece|0200','puzzleWrapperpuzzlePiece|0221','puzzleWrapperpuzzlePiece|0232','puzzleWrapperpuzzlePiece|0223','puzzleWrapperpuzzlePiece|1203',
 													'puzzleWrapperpuzzlePiece|1222','puzzleWrapperpuzzlePiece|1212','puzzleWrapperpuzzlePiece|1210','puzzleWrapperpuzzlePiece|1220','puzzleWrapperpuzzlePiece|1123','puzzleWrapperpuzzlePiece|1103','puzzleWrapperpuzzlePiece|1101','puzzleWrapperpuzzlePiece|1111','puzzleWrapperpuzzlePiece|1023','puzzleWrapperpuzzlePiece|1031','puzzleWrapperpuzzlePiece|1021','puzzleWrapperpuzzlePiece|1033']
 													//'puzzleWrapperpuzzlePiece|2003','puzzleWrapperpuzzlePiece|1032','puzzleWrapperpuzzlePiece|2010','puzzleWrapperpuzzlePiece|2020','puzzleWrapperpuzzlePiece|2032','puzzleWrapperpuzzlePiece|2022','puzzleWrapperpuzzlePiece|2033','puzzleWrapperpuzzlePiece|2120','puzzleWrapperpuzzlePiece|2122','puzzleWrapperpuzzlePiece|2112','puzzleWrapperpuzzlePiece|2102','puzzleWrapperpuzzlePiece|2100','puzzleWrapperpuzzlePiece|1132','puzzleWrapperpuzzlePiece|1131','puzzleWrapperpuzzlePiece|2101','puzzleWrapperpuzzlePiece|2111','puzzleWrapperpuzzlePiece|1122','puzzleWrapperpuzzlePiece|1113','puzzleWrapperpuzzlePiece|1102']
-									//'puzzleWrapperpuzzlePiece|0133','puzzleWrapperpuzzlePiece|0231','puzzleWrapperpuzzlePiece|0123','puzzleWrapperpuzzlePiece|0220','puzzleWrapperpuzzlePiece|0122','puzzleWrapperpuzzlePiece|0112','puzzleWrapperpuzzlePiece|0120','puzzleWrapperpuzzlePiece|0011','puzzleWrapperpuzzlePiece|0000','puzzleWrapperpuzzlePiece|0002','puzzleWrapperpuzzlePiece|0003','puzzleWrapperpuzzlePiece|0102']
-										//,'puzzleWrapperpuzzlePiece|0210','puzzleWrapperpuzzlePiece|0203','puzzleWrapperpuzzlePiece|0222','puzzleWrapperpuzzlePiece|1213','puzzleWrapperpuzzlePiece|2201','puzzleWrapperpuzzlePiece|2211','puzzleWrapperpuzzlePiece|2222','puzzleWrapperpuzzlePiece|2231','puzzleWrapperpuzzlePiece|2232','puzzleWrapperpuzzlePiece|2233','puzzleWrapperpuzzlePiece|2203','puzzleWrapperpuzzlePiece|2103','puzzleWrapperpuzzlePiece|1230','puzzleWrapperpuzzlePiece|1231','puzzleWrapperpuzzlePiece|1201','puzzleWrapperpuzzlePiece|0033','puzzleWrapperpuzzlePiece|0032','puzzleWrapperpuzzlePiece|1000','puzzleWrapperpuzzlePiece|0030','puzzleWrapperpuzzlePiece|0021','puzzleWrapperpuzzlePiece|0010','puzzleWrapperpuzzlePiece|0012','puzzleWrapperpuzzlePiece|0023','puzzleWrapperpuzzlePiece|1001','puzzleWrapperpuzzlePiece|0233','puzzleWrapperpuzzlePiece|0213','puzzleWrapperpuzzlePiece|0201','puzzleWrapperpuzzlePiece|2001','puzzleWrapperpuzzlePiece|2130','puzzleWrapperpuzzlePiece|2123','puzzleWrapperpuzzlePiece|2212','puzzleWrapperpuzzlePiece|1223','puzzleWrapperpuzzlePiece|1232','puzzleWrapperpuzzlePiece|1211','puzzleWrapperpuzzlePiece|0230','puzzleWrapperpuzzlePiece|0111','puzzleWrapperpuzzlePiece|0100','puzzleWrapperpuzzlePiece|0103','puzzleWrapperpuzzlePiece|0211','puzzleWrapperpuzzlePiece|0131','puzzleWrapperpuzzlePiece|1003','puzzleWrapperpuzzlePiece|1120','puzzleWrapperpuzzlePiece|1022','puzzleWrapperpuzzlePiece|1011','puzzleWrapperpuzzlePiece|1110','puzzleWrapperpuzzlePiece|2012','puzzleWrapperpuzzlePiece|2013','puzzleWrapperpuzzlePiece|2021','puzzleWrapperpuzzlePiece|2031','puzzleWrapperpuzzlePiece|2030','puzzleWrapperpuzzlePiece|2000','puzzleWrapperpuzzlePiece|2131','puzzleWrapperpuzzlePiece|2230','puzzleWrapperpuzzlePiece|2221','puzzleWrapperpuzzlePiece|2210','puzzleWrapperpuzzlePiece|2213','puzzleWrapperpuzzlePiece|2132','puzzleWrapperpuzzlePiece|2200'];
+													//'puzzleWrapperpuzzlePiece|0133','puzzleWrapperpuzzlePiece|0231','puzzleWrapperpuzzlePiece|0123','puzzleWrapperpuzzlePiece|0220','puzzleWrapperpuzzlePiece|0122','puzzleWrapperpuzzlePiece|0112','puzzleWrapperpuzzlePiece|0120','puzzleWrapperpuzzlePiece|0011','puzzleWrapperpuzzlePiece|0000','puzzleWrapperpuzzlePiece|0002','puzzleWrapperpuzzlePiece|0003','puzzleWrapperpuzzlePiece|0102']
+													//,'puzzleWrapperpuzzlePiece|0210','puzzleWrapperpuzzlePiece|0203','puzzleWrapperpuzzlePiece|0222','puzzleWrapperpuzzlePiece|1213','puzzleWrapperpuzzlePiece|2201','puzzleWrapperpuzzlePiece|2211','puzzleWrapperpuzzlePiece|2222','puzzleWrapperpuzzlePiece|2231','puzzleWrapperpuzzlePiece|2232','puzzleWrapperpuzzlePiece|2233','puzzleWrapperpuzzlePiece|2203','puzzleWrapperpuzzlePiece|2103','puzzleWrapperpuzzlePiece|1230','puzzleWrapperpuzzlePiece|1231','puzzleWrapperpuzzlePiece|1201','puzzleWrapperpuzzlePiece|0033','puzzleWrapperpuzzlePiece|0032','puzzleWrapperpuzzlePiece|1000','puzzleWrapperpuzzlePiece|0030','puzzleWrapperpuzzlePiece|0021','puzzleWrapperpuzzlePiece|0010','puzzleWrapperpuzzlePiece|0012','puzzleWrapperpuzzlePiece|0023','puzzleWrapperpuzzlePiece|1001','puzzleWrapperpuzzlePiece|0233','puzzleWrapperpuzzlePiece|0213','puzzleWrapperpuzzlePiece|0201','puzzleWrapperpuzzlePiece|2001','puzzleWrapperpuzzlePiece|2130','puzzleWrapperpuzzlePiece|2123','puzzleWrapperpuzzlePiece|2212','puzzleWrapperpuzzlePiece|1223','puzzleWrapperpuzzlePiece|1232','puzzleWrapperpuzzlePiece|1211','puzzleWrapperpuzzlePiece|0230','puzzleWrapperpuzzlePiece|0111','puzzleWrapperpuzzlePiece|0100','puzzleWrapperpuzzlePiece|0103','puzzleWrapperpuzzlePiece|0211','puzzleWrapperpuzzlePiece|0131','puzzleWrapperpuzzlePiece|1003','puzzleWrapperpuzzlePiece|1120','puzzleWrapperpuzzlePiece|1022','puzzleWrapperpuzzlePiece|1011','puzzleWrapperpuzzlePiece|1110','puzzleWrapperpuzzlePiece|2012','puzzleWrapperpuzzlePiece|2013','puzzleWrapperpuzzlePiece|2021','puzzleWrapperpuzzlePiece|2031','puzzleWrapperpuzzlePiece|2030','puzzleWrapperpuzzlePiece|2000','puzzleWrapperpuzzlePiece|2131','puzzleWrapperpuzzlePiece|2230','puzzleWrapperpuzzlePiece|2221','puzzleWrapperpuzzlePiece|2210','puzzleWrapperpuzzlePiece|2213','puzzleWrapperpuzzlePiece|2132','puzzleWrapperpuzzlePiece|2200'];
 											startIdleTime(idleArray);
 									}, 10000); //wait
 								}else{
 									clearTimeout(app.data.navtoHighscore);
 									if(typeof idleTimeTimout != 'undefined'){
 										clearTimeout(idleTimeTimout);
+//										console.log("stopping idle time")
 									}
 									singleAccess.hidePuzzlePieces(idleArray, true);
+									
 									var currentKey = data.payload.data.contextUpdate.context.states[0].key;
-									console.log('subscription data has been received', data)
+									
 									var json =  data.payload.data.contextUpdate.context.states[0].value.replace(/'/g, '"');
-									json = JSON.parse(json);
-//									console.log("json", json);
+										json = JSON.parse(json);
+									
+									app.data.userDataFilled = new Promise(function(resolve, reject){
+										app.data.json = json;
+										let filled = setInterval(function(){
+											if(app.data.json === json){
+												clearInterval(filled);
+												resolve(true)
+											}
+										});
+										
+										setTimeout(function(){
+											clearInterval(filled);
+											reject("An error occured while setting app.data.json.")
+										});
+										
+									});
 									
 									var puzzlePieceIdArray = data.payload.data.contextUpdate.context.states[0].value.split(",");
 									var checkNumber = new RegExp("^[0-9]*$");
@@ -257,14 +257,13 @@ app.on('pageInit', function(page){
 									if(checkNumber.test(json.imageId) == true){
 										let key = data.payload.data.contextUpdate.context.states[0].key;
 										console.log("found Number: ", puzzlePieceIdArray[0] );
-										setImage(parseInt(json.imageId, 10),false, function(loaded){
+										setImage(parseInt(json.imageId, 10), false, function(loaded){
 											if(loaded){
 												let lastActiveKey = app.data.lastActiveKey;
 												if(currentKey === lastActiveKey){
 													let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);
 												}else{
 													resetPuzzleTiles();
-													
 													let hidePiecesFinished = singleAccess.hidePuzzlePiecesActivePuzzle(json.puzzleIDs);												
 												}
 												
@@ -289,26 +288,20 @@ app.on('pageInit', function(page){
 										}
 										
 										if(json.score != ''){
-											waitforHighscore(json).then(function(result){
-												if(result == true){
-													clearTimeout(app.data.navtoHighscore);
-													app.data.navtoHighscore = setTimeout(function(){
-														app.router.navigate("/highscore/");
-													}, 600);
-												}else{
-													console.log("nö")
-												}
-												
-											});
 											
-											singleAccess.waitForContexts(function (contextList) {
-												console.log("contextList", contextList)
-												console.log("contextListid:", contextList[singleAccess.getCurrentContextIdIndex()]);
+											clearTimeout(app.data.navtoHighscore);
+											app.data.navtoHighscore = setTimeout(function(){
+												app.router.navigate("/highscore/");
+											}, 600);
 												
-												singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
-											});
-										}
+
 										
+										singleAccess.waitForContexts(function (contextList) {
+											console.log("deleting state...");
+											
+											singleAccess.deleteState(deviceName, key, contextList[singleAccess.getCurrentContextIdIndex()]);
+										});
+									}
 									}else{
 										//do nothing.
 									}
@@ -428,28 +421,26 @@ app.on('pageInit', function(page){
 	/****************************** puzzle end ****************************/
 	
 	if(page.name === 'highscore') {
-		console.log("highestScore", app.data.highestScore)
-		$(".highscoreDiv").text(app.data.highestScore.toString());
-		//$("#oldHighScoreDiv").text(app.data.oldHighScore.toString());
-		
-		console.log("userScore" + app.data.userScore + "oldHighScore" + app.data.oldHighScore)
-		if(app.data.userScore <= app.data.oldHighScore){
-//			$(".HSpointsWithComparison").css("display", "none");
-//			$(".HSpointsWithoutComparison").css("display", "block");
-			$(".HSpointsComparison").css("display", "none");
-			$(".letteringNew").css("display", "none");
-		}else{
-//			$(".HSpointsWithComparison").css("display", "block");
-//			$(".HSpointsWithoutComparison").css("display", "none");
-			$(".HSpointsComparison").css("display", "block");
-			$(".letteringNew").css("display", "block");
-		}
-		setTimeout(function(){               //TODO: wieder reintun
+		checkUserScore(app.data.json, function(result){
+			if(result === true){
+				console.log("yup score");
+				$(".highscoreDiv").text(app.data.json.score.toString());
+				$(".letteringNew").css("display", "block");
+				app.data.oldHighScore = app.data.json.score;
+			}else{
+				console.log("nope score");
+				$(".highscoreDiv").text(app.data.oldHighScore.toString());
+				$(".letteringNew").css("display", "none");
+			}
+			setTimeout(function(){             
 				app.data.imageLoaded = false;
-			 app.router.navigate('/puzzle/');
-		},5000);	
-	}
+				app.router.navigate('/puzzle/');
+			},5000);	
+		});
 		
+		
+		
+	}
 		
 });
 
