@@ -52,7 +52,7 @@
 .arrow{
 	position: absolute;
 	z-index: 5;
-	height: 100%;
+	height: calc(100% - 64px);
 	width: 10%;
 	background-color: #fff;
 	opacity: 0;

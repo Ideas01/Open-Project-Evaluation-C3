@@ -138,8 +138,8 @@ class SwiperFactory
 							
 							$('#' +  nameSpace + m + counter).click(function(event){
 								var target = event.target.id.toString();
-								$('#'+ target).css({'border': 'solid 1px #ffb380', 'width': '40%'});
-							$('.' + nameSpace).not('#'+ target).css({'border': 'none', 'width': '40%'});
+								$('#'+ target).css({'background-color': '#e6e6e6', 'border': '2px solid #d40055', 'width': '40%'});
+							$('.' + nameSpace).not('#'+ target).css({'background-color': '#f2f2f2','border': '1px solid #d40055', 'width': '40%'});
 								contextId = event.target.contextId;
 								thisisme.currentContextIdIndex = event.target.contextId;
 							});
