@@ -100,7 +100,7 @@ class SwiperFactory
 						//do sth.
 						$("#" + nameSpace + i).css({
 							'background-image': 'url("' + contentArray[i] +'")',
-							'background-size': 'contain',
+							//'background-size': 'contain',
 							'background-repeat' : 'no-repeat',
 							'background-position': 'center' 
 						});
@@ -215,16 +215,20 @@ class SwiperFactory
 		  mySwiper.on('touchEnd', function () {
 				if (mySwiper.isEnd) {
 					mySwiper.on('slideNextTransitionEnd', function () {
-						$(".popup").remove();
+					/* 	$(".popup").remove();
 						let content = 	'<div class="block">' +
-											'<p>Vielen Dank! Du hast dir alle Bilder des Prototypen angeschaut. </p>' +
+											'<p>Vielen Dank! Du hast dir alle Bilder des Prototypen angeschaut. \n' +
+												'Auf der nächsten Seite geht es noch zu einer Bewertung des Prototypen.' +
+												'Mach dir keine Sorgen die Fragen ehrlich zu beantworten du kannst nichts falsch machen.' +					
+											'</p>' +
+											
 											'<div class="next" text-align="center">' +
 												'<div class="twoButtons">' +
 												'<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
 												'<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
 											'</div>' +
 										'</div>';
-						thisisme.util.popUp('Dankeschön',content);
+						thisisme.util.popUp('Dankeschön',content); */
 					});
 				}
 			});
@@ -241,12 +245,17 @@ class SwiperFactory
             if(mySwiper.isEnd){
                 $(".popup").remove();
                 let content = 	'<div class="block">' +
-                    '<p>Vielen Dank! Du hast dir alle Bilder des Prototypen angeschaut. </p>' +
-                    '<div class="next" text-align="center">' +
-                    '<div class="twoButtons">' +
-                    '<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
-                    '<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
-                    '</div>' +
+                    '<p>Vielen Dank, dass du dir alle Bilder des Prototypen angeschaut hast.<br/><br/>'  +
+						'Auf der nächsten Seite geht es noch zu einer Bewertung des Prototypen. ' +
+						'Beantworte die nachfolgenden Fragen bitte ehrlich,' +	
+						'da wir den Prototypen auf Basis der heute gewonnen Antworten verbessern möchten.' +
+									
+					'</p>' +
+//                    '<div class="next" text-align="center">' +
+						'<div class="twoButtons">' +
+						'<a href="#" class="button link popup-close" id="left-Btn"> Zurück zum Prototyp </a>' +
+						'<a href="/sliders/" class="button" id="right-Btn"> Weiter zur Bewertung </a>' +
+//                    '</div>' +
                     '</div>';
                 thisisme.util.popUp('Dankeschön',content);
             }

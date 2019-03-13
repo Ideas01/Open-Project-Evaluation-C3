@@ -112,12 +112,12 @@ body {
     font-size: calc(8pt + 0.5vw);
 }
 
-.next {
-    top: 500%;
+/* .next {
+    top: 500%; 
     position: absolute;
     width: 100%;
     left: 0;
-}
+} */
 
 .next a img {
 	position: absolute;

@@ -2,7 +2,7 @@
 
 @keyframes fadeIn {
   from {opacity: 0;}
-  to {opacity: 0.6;}
+  to {opacity: 0.9;}
 }
 
 
@@ -33,21 +33,37 @@
 }
 
 .twoButtons{
-	position: absolute;
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
 	width: 90%;
 	margin: 0;
-	top: 25%;
 	left: 5%;
+	margin-top: 15%;
 }
 
 
 #left-Btn, #right-Btn{
 	margin: 5%;
 	width: 40%;
-	min-width: 180px;
+	min-width: 208px;
 } 
+
+@media (max-width: 609.5px){
+	#left-Btn, #right-Btn{
+		margin: 5%;
+		width: 100%;
+		min-width: 208px;
+	} 
+}
+
+@media (min-width: 610px){
+	#left-Btn, #right-Btn{
+		margin: 5%;
+		width: 40%;
+		min-width: 208px;
+	} 
+}
 
 .arrow{
 	position: absolute;
@@ -82,4 +98,9 @@
 	width: 40%;
 	top: 43%;
 	left: 29%;
+}
+
+#prototypeSwiper > div > div{
+	background-color: black;
+	background-size: 78% auto;
 }
