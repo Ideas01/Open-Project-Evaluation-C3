@@ -91,6 +91,8 @@ app.on('pageInit', function(page){
 
 	const deviceName = "OpenProjectEvalSlider";
 	var singleAccess = new SingleAccess();
+	var userMovementTimeout;
+	
 	singleAccess.initializeDB(deviceName, function(deviceid){
 		app.data.deviceId = deviceid;
 	});
@@ -98,11 +100,41 @@ app.on('pageInit', function(page){
 	
 	var prototypeImagesKey = null;
 	
-	
-	function helpUser(){
+	$(".infoMarker").click(function(event){
+		if($(".informationMarkerWrapper").hasClass("first")){
+			$(".informationMarkerWrapper").css("animation-play-state", "paused");
+			$(".informationMarkerWrapper").addClass("closed");
+			$(".informationMarkerWrapper").removeClass("first");
+		}
 		
-	}
+		if($(".informationMarkerWrapper").hasClass("opened")){
+			$(".informationMarkerWrapper").css("animation-play-state", "running");	
+			if($(".informationMarkerWrapper").css("animation-play-state") == "running"){
+				$(".informationMarkerWrapper").removeClass("opened");
+			$(".informationMarkerWrapper").addClass("closed");
+			}
+			
+		}else{
+			$(".informationMarkerWrapper").css("animation-play-state", "running");
+			if($(".informationMarkerWrapper").css("animation-play-state") == "running"){
+				$(".informationMarkerWrapper").removeClass("closed");
+				$(".informationMarkerWrapper").addClass("opened");
+			}
+		}
+	});
 	
+	
+	document.onclick = function() {
+		console.log("mouse bewegung");
+		if(typeof userMovementTimeout != 'undefined'){
+			clearTimeout(userMovementTimeout);
+		}
+		 userMovementTimeout = setTimeout(function(){
+			 console.log("mouse stopped");
+			$(".informationMarkerWrapper").css("display", "block");
+		}, 30000);
+	};
+
 	function buildSwiperContent(callback){
 		var counter = 0;
 		var picturesPerChoice = 3;
@@ -701,6 +733,9 @@ app.on('pageInit', function(page){
     /****************************** puzzleGuess end ****************************/
 
 	if(page.name === 'success'){
+		
+		$(".informationMarkerWrapper").addClass("first");
+		$(".informationMarkerWrapper").css({"display": "none"});
         $('#pointDivSuccess').text("DU HAST: " + puzzle.GetPoints(1) + " PUNKTE!");
 		puzzle = new Puzzle(); // (resetting the puzzle  - after returning the points)
 		var counter = 15;
@@ -716,6 +751,9 @@ app.on('pageInit', function(page){
 	}
 	
 	if(page.name === 'failure'){
+		
+		$(".informationMarkerWrapper").addClass("first");
+		$(".informationMarkerWrapper").css({"display": "none"});
 		var puzzleImageID = app.data.currentPuzzleImageId;
 		new Promise(function (resolve,reject) {
 			

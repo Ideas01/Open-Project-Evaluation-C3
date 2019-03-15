@@ -718,6 +718,93 @@ h3 {
     overflow: hidden !important;
 }
 
+/*********** InfoBox start ************/
+
+@keyframes openInfotext{
+	from{
+		right: 0;
+	}
+	to{
+		right: 300px;
+	}
+}
+
+@keyframes closeInfotext{
+	from{
+		right: 300px;
+	}
+	to{
+		right: 0;
+	}
+}
+
+.informationMarkerWrapper {
+    width: -moz-fit-content;
+    height: -moz-fit-content;
+    position: relative;
+    float: right;
+    top: 5%;
+	display: none;
+}
+
+.infoMarker {
+	z-index: 10;
+	position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #d40055;
+    border: solid 2px #b9004a;
+	border-right: none;
+	right: 0;
+    /*right: 300px;*/
+	top: 10%;
+    border-top-left-radius: 25%;
+    border-bottom-left-radius: 25%;
+	cursor: pointer;
+}
+
+.infoIcon {
+    height: 60%;
+    width: 60%;
+    position: absolute;
+    left: 20%;
+    top: 20%;
+	color: white;
+}
+
+.infotext {
+	z-index: 10;
+	position: absolute;
+    background-color: #fff;
+    width: 300px;
+    border: solid 1px #d40055;
+    right: -300px;
+    top: 10%;
+    box-sizing: border-box;
+}
+
+.infoTextArea {
+    padding: 0 3%;
+}
+
+.opened{
+	animation: openInfotext;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+	animation-fill-mode: forwards;
+}
+
+.closed{
+	animation: closeInfotext;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+	animation-fill-mode: forwards;
+}
+
+
+/*********** InfoBox end ************/
 @media all and (max-width: 380px){
 	.startBtn img {
 		left: 30%;
