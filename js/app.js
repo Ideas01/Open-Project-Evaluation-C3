@@ -575,6 +575,13 @@ app.on('pageInit', function(page){
 						var updatedStateValue;
 						var clickedCategory = event.target.id;
 						singleAccess.waitForContexts(function(contextList){
+						setTimeout(function(){
+							let scrollTo = document.getElementById("guessItems");
+							scrollTo.scrollIntoView({
+								behavior : 'smooth'
+							});
+						}, 300);
+						
 
 							singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
 								if(app.data.stateCreated == false){
@@ -621,9 +628,6 @@ app.on('pageInit', function(page){
 					    });
 
 					});
-                
-                
-                //singleAccess.buildCategories(puzzleImageID,response);
 
                 var backgroundImage = new Image();
                 backgroundImage.src = response[puzzleImageID].url;
@@ -666,7 +670,6 @@ app.on('pageInit', function(page){
 				var keyString = "userGuessCategory";
 		 		var updatedStateValue;
 		 		var chosenElement = event.target.id;
-		 		console.log("##################### chosen",chosenElement)
 		 		singleAccess.waitForContexts(function(contextList){
 					if(app.data.stateCreated == false){
 						console.log("state does not exist yet.")
@@ -729,7 +732,7 @@ app.on('pageInit', function(page){
 
 		setTimeout(function(){
 			 clearInterval(autoRedirectToHome);			 //clear above interval after 15 seconds
-			 app.router.navigate('/home/')
+			// app.router.navigate('/home/')
 		},16000);	
 	}
 });

@@ -707,7 +707,11 @@ h3 {
 	height: 125px;
 	background-color: red;
 	margin-top: 5%;
-	margin-left: 27%;
+}
+
+.pictureWrapper{
+	display: flex;
+	flex-direction: row;
 }
 
 @media all and (max-width: 380px){

@@ -48,6 +48,7 @@ position: relative;
     text-align: center;
 	background-color: #d40055;
 	width: auto;
+	max-width: 197px;
 }
 
 .guessButton:active{

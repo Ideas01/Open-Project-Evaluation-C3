@@ -249,10 +249,10 @@
 .md .range-slider {
 	position: relative;
 	display: inline-block;
-	width: 75%;
+	width: 70%;
 	min-width: 350px;
 	height: 20px;
-	left: 7%;
+	left: 1%;
 }
 
 .sliderText{
@@ -273,6 +273,8 @@
 	position: relative;
 	left: 4%;
 	float: left;
+	width: 15%;
+	padding-left: 1%;
 }
 
 .md .range-bar, .ios .range-bar{
