@@ -569,6 +569,7 @@ app.on('pageInit', function(page){
                 
 				singleAccess.appendCategories('#guessOverview', response, function(){
 					$('#guessOverview').children().click(function (event) {
+						
 						 
 						var key = app.data.puzzlekey;
 						var keyString = "userGuessCategory";
@@ -584,6 +585,13 @@ app.on('pageInit', function(page){
 						
 
 							singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
+								
+								console.log("items: ", $('#guessItems').children().length);
+								let newHeight = $('#guessItems').children().length * 1.5;
+								
+								$("#guessItems").css("height", newHeight + "%");
+								
+								
 								if(app.data.stateCreated == false){
 									console.log("state does not exist yet.");
 								} else{						
@@ -664,6 +672,7 @@ app.on('pageInit', function(page){
 			singleAccess.util_PopUp('HILFE',content);	
         });
         
+		
 		    $('#guessOverview').children().click(function (event) {
 		    	
 		    	var key = app.data.puzzlekey;
@@ -681,6 +690,8 @@ app.on('pageInit', function(page){
 					}
 		     });
 		    })
+			
+			
     }
 
     /****************************** puzzleGuess end ****************************/

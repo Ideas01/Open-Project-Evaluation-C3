@@ -71,12 +71,7 @@ class PuzzleGuessBuilder{
 				//$(DOMelement).append('<div class="spacer"></div>');
 				var promises = [];
 				var loopPromise = new Promise(function(resolve, reject){
-					console.log("puzzleImageData.length: " + puzzleImageData.length) //13 weil er durch jede Kategorie geht.
-				if(puzzleImageData.length >= 10){
-					$(DOMelement).css({"flex-direction": "column","height": "30%"});
-				}else{
-					$(DOMelement).css({"flex-direction": "row","height": "auto"});
-				}
+				
 				for (var i = 0; i < puzzleImageData.length - 1; i++) {
 
 						if (puzzleImageData[i].category === clickedCategory) {
@@ -89,7 +84,7 @@ class PuzzleGuessBuilder{
 									}
 								}
 								else{
-									console.log('Die ID ' + data + ' ist schon vergeben');
+									//console.log('Die ID ' + data + ' ist schon vergeben');
 									resolve(true);
 								}
 							});
