@@ -314,6 +314,48 @@
 	}
 }
 
+@media all and (min-width: 851px) {
+	.unsatisfied, .satisfied{
+		margin-top: 0;
+	}
+	
+	.md .range-slider {
+		position: relative;
+		display: inline-block;
+		width: 70%;
+		min-width: 350px;
+		height: 20px;
+		left: 1%;
+	}
+	
+	.sliderWrapper {
+		position: relative;
+		padding-bottom: 2%;
+		margin-top: 0;
+	}
+}
+
+@media all and (max-width: 850px) {
+	.unsatisfied, .satisfied{
+		margin-top: 1%;
+	}
+	
+	.md .range-slider {
+		position: relative;
+		display: block;
+		width: 70%;
+		min-width: 350px;
+		height: 20px;
+		left: 15%;
+	}
+	
+	.sliderWrapper {
+		position: relative;
+		padding-bottom: 2%;
+		margin-top: 5%;
+	}
+}
+
 @media all and (max-width: 600px) {
 	.sendRatingsWrapper{
 		margin-top: 8%;
