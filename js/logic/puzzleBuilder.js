@@ -99,10 +99,14 @@ class PuzzleBuilder{
 			
 			let gridReady = new Promise(function (resolve, reject) {
 				buildPuzzleStructure(3, puzzle.puzzleGridWrapper, buildPuzzleNameId, "none", buildPuzzleNameClass);
-				
+					
 				$('.' + buildPuzzleNameClass).click(function (event) {
 				var coordinateOld = null;
 				var coordinate = null;
+				
+				//dont show the magnifying glass anymore
+				$(event.target).children().first().css("display", "none");
+				$(event.target).removeClass("milkyBackground");
 				
 				
 				var getOldCoordinate = new Promise(function(resolve){
@@ -131,8 +135,10 @@ class PuzzleBuilder{
 					$('#puzzleWrapperGrid' + coordinateOld[1]).width('100%');
 					$('#puzzleWrapperGrid' + coordinateOld[1]).height('100%');
 					
+					
 					// $('#puzzleWrapper').append('<a id="backButton"><i class="close-zoom f7-icons">close</i></a>');
 					$('#puzzleWrapper').append('<a id="backButton" href="" class="close-zoom"> zurück </a>');
+					
 					$('#backButton').click(function() {
 						gridMarker.toggle();
 						
@@ -160,6 +166,8 @@ class PuzzleBuilder{
 			resolve(0);
 		});
 		gridReady.then(function(){
+			
+			
 			$(puzzle.puzzleGridWrapper).css({
 				"top": "-9999px",
 				"bottom": "-9999px",
@@ -176,7 +184,14 @@ class PuzzleBuilder{
 				"-moz-box-sizing": "border-box",
 				"-webkit-box-sizing": "border-box",
 				"border": "solid 1px" + puzzle.overallGridColor
+
 			});
+			
+			$(".puzzleGridWrapperDiv").each(function(element){
+				$( this ).addClass("milkyBackground")
+				$( this ).append('<img id="lupe' + element + '" class = "lupe" src="img/lupe.svg"></img>');
+			});
+			
 		});
 		resolve(0);
 

@@ -95,7 +95,13 @@ app.on('pageInit', function(page){
 		app.data.deviceId = deviceid;
 	});
 	
+	
 	var prototypeImagesKey = null;
+	
+	
+	function helpUser(){
+		
+	}
 	
 	function buildSwiperContent(callback){
 		var counter = 0;
@@ -223,10 +229,6 @@ app.on('pageInit', function(page){
 				app.router.navigate('/home/');
 			}); 				
 		 });
-		
-	
-
-		 
 	
 		
 		/* //Testarray für mehr Inhalt
@@ -281,7 +283,6 @@ app.on('pageInit', function(page){
         var imageArray = ["img/examples/PrototypBsp1.png", "img/examples/PrototypBsp2.png", "img/examples/PrototypBsp3.png"];
         singleAccess.initializeSwiper();
 		
-		//TODO aktuellen ContextIndex übergeben
 		singleAccess.waitForContexts(function(contextList){
 			singleAccess.getPrototypeImages(contextList[singleAccess.getCurrentContextIdIndex()], deviceName);
 		});
@@ -464,8 +465,6 @@ app.on('pageInit', function(page){
 			var stateValues = app.data.stateValues;
 
 			stateValue = (JSON.stringify(stateValues)).replace(/"/g, "'");
-			
-//			app.data.stateValues[0] = stateValue;
 			
 			singleAccess.createState(deviceName, app.data.puzzlekey, stateValue , contextList[singleAccess.getCurrentContextIdIndex()], function(createdState){
 				console.log("createdState", createdState);
