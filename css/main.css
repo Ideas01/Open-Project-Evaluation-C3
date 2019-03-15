@@ -714,6 +714,10 @@ h3 {
 	flex-direction: row;
 }
 
+.page-content-success {
+    overflow: hidden !important;
+}
+
 @media all and (max-width: 380px){
 	.startBtn img {
 		left: 30%;
