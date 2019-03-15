@@ -587,7 +587,12 @@ app.on('pageInit', function(page){
 							singleAccess.buildCategories('#guessItems', event.target.id, puzzleImageID, response, function(puzzleImageData){
 								
 								console.log("items: ", $('#guessItems').children().length);
-								let newHeight = $('#guessItems').children().length * 1.5;
+								var newHeight;
+								if($(window).width() < 628){
+									newHeight = $('#guessItems').children().length * 1.5 * 3;
+								}else{
+									newHeight = $('#guessItems').children().length * 1.5;
+								}
 								
 								$("#guessItems").css("height", newHeight + "%");
 								
