@@ -124,15 +124,24 @@ app.on('pageInit', function(page){
 	});
 	
 	
-	document.onclick = function() {
-		console.log("mouse bewegung");
-		if(typeof userMovementTimeout != 'undefined'){
-			clearTimeout(userMovementTimeout);
+	document.onclick = function(event) {
+		if($(event.target).hasClass("infoMarker") !== true && $(event.target).hasClass("infoIcon") !== true){
+			
+			$(".informationMarkerWrapper").css({"display": "none", "right": "0"});
+			$(".helpIcon").css("display", "block");
+			$(".informationMarkerWrapper").removeClass("opened");
+			$(".informationMarkerWrapper").removeClass("closed");
+			$(".informationMarkerWrapper").addClass("first");
+			
+			if(typeof userMovementTimeout != 'undefined'){
+				clearTimeout(userMovementTimeout);
+			}
+			 userMovementTimeout = setTimeout(function(){
+				 console.log("mouse stopped");
+				$(".helpIcon").css("display", "none");
+				$(".informationMarkerWrapper").css("display", "block");
+			}, 10000);
 		}
-		 userMovementTimeout = setTimeout(function(){
-			 console.log("mouse stopped");
-			$(".informationMarkerWrapper").css("display", "block");
-		}, 30000);
 	};
 
 	function buildSwiperContent(callback){
@@ -206,6 +215,8 @@ app.on('pageInit', function(page){
 		var waitingforResponse = setInterval(function(){
 			singleAccess.waitForData("evalData", deviceName, function(response){
 				if(response == false){
+					$('#danksagungSlider').html('Bewertung konnte leider nicht gesendet werden. Bitte versuche es erneut.');
+					$('#sendRatingsButton').html("Erneut versuchen");
 				}else{
 					clearInterval(waitingforResponse);
 					danksagungStarten();
@@ -214,10 +225,10 @@ app.on('pageInit', function(page){
 		}, 1000);
 		
 		setTimeout(function(){
-			 clearInterval(waitingforResponse);			 //clear above interval after 15 seconds
+			 clearInterval(waitingforResponse);			 //clear above interval after 1 minute
 			 $('#danksagungSlider').html('Bewertung konnte nicht gesendet werden. Bitte überprüfen Sie die Internetverbindung und versuchen es erneut.');
 			 $('#waitingMarks').hide();
-			 $('#repeatSendEvalData').show();
+			 $('#sendRatingsButton').html("Erneut versuchen");
 			 
 		}, 60000);
 	}
@@ -441,11 +452,6 @@ app.on('pageInit', function(page){
 			
 			
 			
-			$('#repeatSendEvalData').click(function(){
-				waitForResponse();
-				$('#repeatSendEvalData').hide();
-			});
-			
         });
 
 
@@ -581,7 +587,7 @@ app.on('pageInit', function(page){
                 '<p>Das zu erratene Bild ist unter den farbigen Flächen versteckt. Drücke auf eine Fläche,' +
                 ' um sie verschwinden zu lassen. <br/> Aber Vorsicht: Für jede Fläche wird dir ein Punkt abgezogen' +
                 ' und deine Chance den Highscore zu knacken sinkt!<br/> Sobald du das Bild erraten' +
-                ' willst, drücke den Button unter dem Bild.<br/><br/> Viel Spaß!</p>' +
+                ' willst, wähle einen Begriff aus einer der Kategorien unter dem Puzzle.<br/><br/> Viel Spaß!</p>' +
                 '<a href="#" class="popup-close" >' +
                 '<a class="button popup-close"> Los geht´s! </a>' +
                 '</a>' +

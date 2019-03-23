@@ -9,11 +9,12 @@
 }
 
 .danksagung{
+	position: relative;
 	display: block;
 	text-align: center;
-	margin-top: 4%;
 	font-size: 14pt;
 	margin-bottom: 5%;
+	margin-top: 4%;
 }
 
 .sendData{

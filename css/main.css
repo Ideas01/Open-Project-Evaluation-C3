@@ -465,7 +465,7 @@ h3 {
     position: absolute;
     display: flex;
     flex-direction: column;
-    top: 40%;
+	top: 24%;
     left: 25%;
     width: 50%;
 }
@@ -681,7 +681,6 @@ h3 {
     font-family: sans-serif;
     color: grey;
     opacity: 0.5;
-    top: 25%;
 }
 
 .redirectText {
@@ -736,6 +735,29 @@ h3 {
 	to{
 		right: 0;
 	}
+}
+
+@keyframes animateInfoIcon{
+		 0%   {-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg); transform: rotate(0deg); font-size: 30px;}
+		50%  {-webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); transform: rotate(180deg); font-size: 35px;}
+		100% {-webkit-transform: rotate(360deg); -moz-transform: rotate(360deg); transform: rotate(360deg); font-size: 30px;}
+}
+
+.infoIcon{
+	animation: animateInfoIcon;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-direction: alternate;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+}
+
+.infoPictureWrapper{
+	display: flex;
+}
+
+.helpfulImage{
+	width: 60%;
 }
 
 .informationMarkerWrapper {
