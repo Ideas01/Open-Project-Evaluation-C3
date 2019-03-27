@@ -273,7 +273,6 @@ class DBZugriff{
 	
 	
 	deleteState(deviceName, key, context){
-		console.log("context: ", context)
 		console.log("übergabe 0",deviceName +","+ key + ","+ context);
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
@@ -288,7 +287,6 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 		this.waitForToken(deviceName, function(token){
-		console.log("############# token: ", token)
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
 				console.log(dataReferenceName + "erfolgreich");
 				console.log(response);			
@@ -297,7 +295,6 @@ class DBZugriff{
 	}
 	
 	deleteOldState(token, deviceName, key, context){
-				
 		var chk = new Checker("deleteState");
 		chk.isValid(context,"context");
 		chk.isProperString(deviceName,"deviceName");
@@ -464,10 +461,14 @@ class DBZugriff{
 		//chk.isProperString(deviceName,"deviceName");
 		
 		var dataReferenceName = "puzzleImages";
+		var dataReferenceNameIdleImages = "idlepuzzleImages";
 		
 		var puzzlePicutureObj = pictureURLs.data; // aus img\puzzlePictures\puzzlePictures.js
+		var puzzlePictureObjIdleImages = idlePictureURLs.data;
 		
+		this.setContextData(dataReferenceNameIdleImages, puzzlePictureObjIdleImages)
 		this.setContextData(dataReferenceName, puzzlePicutureObj)
+	
 		
 	}
 
@@ -514,7 +515,7 @@ class DBZugriff{
 		var chk = new Checker("waitForToken");
 		chk.isProperString(deviceName,"deviceName");
 		
-	   var thisisme = this;
+	  var thisisme = this;
 		var waitforT = setInterval(function(){
 			var tNew = thisisme.TokenList[deviceName].token;
 			
