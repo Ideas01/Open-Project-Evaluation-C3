@@ -23,20 +23,20 @@ class Puzzle
 		this.clickedPuzzleTiles = [];
 		this.puzzleGridWrapper = "#puzzleGridWrapper";
 		this.puzzleWrapper = '#puzzleWrapper';
-		this.puzzlePointCounter = '#points'
+		this.puzzlePointCounter = '#points';
+		this.timeOut = 2000;
 		//this.pointCount = 144;
 	}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * F U N C T I O N S
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	
 	/**
 	SetOverallGridSize()
 	
 	sets the overall grid size of this puzzle
 	
-	parameter:
+	parameters:
 	- value: (number) 
 	*/
 	SetOverallGridSize(value){
@@ -61,7 +61,7 @@ class Puzzle
 	/**
 	GetPoints()
 	
-	parameter:
+	parameters:
 	- factor: (number) - points for one tile
 	
 	return:

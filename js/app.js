@@ -158,7 +158,7 @@ app.on('pageInit', function(page){
 	    	var lastContextId = localStorage.getItem("lastContextId");
 	    	var oldDeviceToken = localStorage.getItem("oldDeviceToken");
 	    	
-	   	console.log("lastDeviceId = " + lastDeviceId + " \n stateCreated = " + stateCreated + " \n lastContextId = " +  lastContextId + "oldDeviceToken" +oldDeviceToken);
+	   	console.log("lastDeviceId = " + lastDeviceId + " \n stateCreated = " + stateCreated + " \n lastContextId = " +  lastContextId + "oldDeviceToken" + oldDeviceToken);
 			if(lastDeviceId !="" && stateCreated == "true" && lastContextId != null){
 				singleAccess.deleteOldState(oldDeviceToken, deviceName, "puzzle_" + lastDeviceId, contextList[parseInt(lastContextId)], function(result){
 					if(result){

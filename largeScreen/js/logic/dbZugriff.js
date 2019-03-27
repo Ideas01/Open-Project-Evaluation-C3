@@ -287,7 +287,8 @@ class DBZugriff{
 			'}"}';
 		this.waitForToken(deviceName, function(token){
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich");	
+				console.log(dataReferenceName + "erfolgreich");
+				console.log(response);			
 			});
 		});	
 	}
@@ -306,7 +307,7 @@ class DBZugriff{
 			  '}' + 
 			'}"}';
 			thisisme.callDatabase(dataReferenceName, token, query, function(response){
-				console.log(dataReferenceName + "erfolgreich");
+				console.log(dataReferenceName + "durchgeführt");
 				console.log(response);			
 			});	
 	}
@@ -440,8 +441,6 @@ class DBZugriff{
 		return dataReferenceName;
 	}
 
-
-	
 	// puzzleImages are saved local at this point. Because there isn´t a Settingspage to set them dynamically.
 	/**
 	getPuzzleImages()
@@ -515,7 +514,7 @@ class DBZugriff{
 		var chk = new Checker("waitForToken");
 		chk.isProperString(deviceName,"deviceName");
 		
-	    var thisisme = this;
+	  var thisisme = this;
 		var waitforT = setInterval(function(){
 			var tNew = thisisme.TokenList[deviceName].token;
 			
