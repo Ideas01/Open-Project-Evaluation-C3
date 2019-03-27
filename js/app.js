@@ -97,52 +97,53 @@ app.on('pageInit', function(page){
 		app.data.deviceId = deviceid;
 	});
 	
-	
-	var prototypeImagesKey = null;
-	
-	$(".infoMarker").click(function(event){
-		if($(".informationMarkerWrapper").hasClass("first")){
-			$(".informationMarkerWrapper").css("animation-play-state", "paused");
-			$(".informationMarkerWrapper").addClass("closed");
-			$(".informationMarkerWrapper").removeClass("first");
-		}
+	if(page.name === 'prototype' || page.name === 'prototype' || page.name === 'puzzle'){
+		var prototypeImagesKey = null;
 		
-		if($(".informationMarkerWrapper").hasClass("opened")){
-			$(".informationMarkerWrapper").css("animation-play-state", "running");	
-			if($(".informationMarkerWrapper").css("animation-play-state") == "running"){
+		$(".infoMarker").click(function(event){
+			if($(".informationMarkerWrapper").hasClass("first")){
+				$(".informationMarkerWrapper").css("animation-play-state", "paused");
+				$(".informationMarkerWrapper").addClass("closed");
+				$(".informationMarkerWrapper").removeClass("first");
+			}
+			
+			if($(".informationMarkerWrapper").hasClass("opened")){
+				$(".informationMarkerWrapper").css("animation-play-state", "running");	
+				if($(".informationMarkerWrapper").css("animation-play-state") == "running"){
+					$(".informationMarkerWrapper").removeClass("opened");
+				$(".informationMarkerWrapper").addClass("closed");
+				}
+				
+			}else{
+				$(".informationMarkerWrapper").css("animation-play-state", "running");
+				if($(".informationMarkerWrapper").css("animation-play-state") == "running"){
+					$(".informationMarkerWrapper").removeClass("closed");
+					$(".informationMarkerWrapper").addClass("opened");
+				}
+			}
+		});
+		
+		
+		document.onclick = function(event) {
+			if($(event.target).hasClass("infoMarker") !== true && $(event.target).hasClass("infoIcon") !== true){
+				
+				$(".informationMarkerWrapper").css({"display": "none", "right": "0"});
+				$(".helpIcon").css("display", "block");
 				$(".informationMarkerWrapper").removeClass("opened");
-			$(".informationMarkerWrapper").addClass("closed");
-			}
-			
-		}else{
-			$(".informationMarkerWrapper").css("animation-play-state", "running");
-			if($(".informationMarkerWrapper").css("animation-play-state") == "running"){
 				$(".informationMarkerWrapper").removeClass("closed");
-				$(".informationMarkerWrapper").addClass("opened");
+				$(".informationMarkerWrapper").addClass("first");
+				
+				if(typeof userMovementTimeout != 'undefined'){
+					clearTimeout(userMovementTimeout);
+				}
+				 userMovementTimeout = setTimeout(function(){
+					 console.log("mouse stopped");
+					$(".helpIcon").css("display", "none");
+					$(".informationMarkerWrapper").css("display", "block");
+				}, 10000);
 			}
-		}
-	});
-	
-	
-	document.onclick = function(event) {
-		if($(event.target).hasClass("infoMarker") !== true && $(event.target).hasClass("infoIcon") !== true){
-			
-			$(".informationMarkerWrapper").css({"display": "none", "right": "0"});
-			$(".helpIcon").css("display", "block");
-			$(".informationMarkerWrapper").removeClass("opened");
-			$(".informationMarkerWrapper").removeClass("closed");
-			$(".informationMarkerWrapper").addClass("first");
-			
-			if(typeof userMovementTimeout != 'undefined'){
-				clearTimeout(userMovementTimeout);
-			}
-			 userMovementTimeout = setTimeout(function(){
-				 console.log("mouse stopped");
-				$(".helpIcon").css("display", "none");
-				$(".informationMarkerWrapper").css("display", "block");
-			}, 10000);
-		}
-	};
+		};
+	}
 
 	function buildSwiperContent(callback){
 		var counter = 0;
