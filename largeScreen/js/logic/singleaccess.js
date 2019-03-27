@@ -60,6 +60,10 @@
 	
 	/*************************************** DB Zugriff ***************************************************************/
 	
+	SingleAccess.prototype.initializeDB = function(deviceName, callback){
+		return dbZugriff.initializeDB(deviceName, callback);
+	};
+	
 	SingleAccess.prototype.initializeDB = function(deviceName){
 		return dbZugriff.initializeDB(deviceName);
 	};
