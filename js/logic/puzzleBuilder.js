@@ -13,6 +13,7 @@ class PuzzleBuilder{
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	constructor()
 	{
+		this.hideInterval = undefined;
 		this.util = new Util();
 	} 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -28,36 +29,37 @@ class PuzzleBuilder{
 	- wrapperDom: (string) - identifier for the wrapper-div in the DOM.
 	- puzzle: (puzzle) puzzle which shall be created (containing all the settings - see puzzle.js)
 	*/
-	priv_buildSmallPieces(wrapperDom, puzzle)
-	{
-		var thisisme = this;
-		let namespace = wrapperDom.substring(1);
-		var buildPuzzleNameId = [namespace + 'Grid'];
-		var buildPuzzleNameClass = [namespace + 'GridDiv'];
-		var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
-		var buildPuzzlePiecesClass = [namespace + 'puzzlePieceDiv'];
-		var miniOverviewIdName = this.buildMiniOverview ("#miniOverview",puzzle);
-		var pointCount = Math.pow(puzzle.tileCountPerGrid * puzzle.gridCount, 2);
-	
-		let gridReady = new Promise(function (resolve, reject) {
-			//buildPuzzleStructure(tileCount, appendToDOM, namespace, color, setclassname)
-			buildPuzzleStructure(puzzle.gridCount, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
-			resolve(0);
-		});
-		
-		gridReady.then(function (fulfilled) {
-			$('.' + buildPuzzleNameClass).css({
-				"z-index": "5",
-				"position": "relative",
-				"display": "inline-block"
-			});
-			
-			$('.' + buildPuzzleNameClass).each(function (n) {
-				for (var i = 0; i < puzzle.gridCount; i++) {
-					thisisme.buildPuzzleTiles('#' + buildPuzzleNameId + n + i, buildPuzzlePiecesId + '|' + n + i, buildPuzzlePiecesClass.toString(), puzzle, puzzle.color);
-				}
-			});
 
+	priv_buildSmallPieces(wrapperDom, puzzle, callback)
+    {
+        var thisisme = this;
+        let namespace = wrapperDom.substring(1);
+        var buildPuzzleNameId = [namespace + 'Grid'];
+        var buildPuzzleNameClass = [namespace + 'GridDiv'];
+        var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
+        var buildPuzzlePiecesClass = [namespace + 'puzzlePieceDiv'];
+        var miniOverviewIdName = this.buildMiniOverview ("#miniOverview",puzzle);
+        var pointCount = Math.pow(puzzle.tileCountPerGrid * puzzle.gridCount, 2);
+
+        let gridReady = new Promise(function (resolve, reject) {
+            //buildPuzzleStructure(tileCount, appendToDOM, namespace, color, setclassname)
+            buildPuzzleStructure(puzzle.gridCount, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
+            resolve(0);
+        });
+
+        gridReady.then(function (fulfilled) {
+            $('.' + buildPuzzleNameClass).css({
+                "z-index": "5",
+                "position": "relative",
+                "display": "inline-block"
+            });
+
+            $('.' + buildPuzzleNameClass).each(function (n) {
+                for (var i = 0; i < puzzle.gridCount; i++) {
+                    thisisme.buildPuzzleTiles('#' + buildPuzzleNameId + n + i, buildPuzzlePiecesId + '|' + n + i, buildPuzzlePiecesClass.toString(), puzzle, puzzle.color);
+                }
+            });
+			
 			$('.' + buildPuzzlePiecesClass).click(function (event) {
 						
 				let coordinate = (event.target.id).split('|');
@@ -66,18 +68,19 @@ class PuzzleBuilder{
 				$(puzzle.puzzlePointCounter).text(pointCount);
 				puzzle.clickedPuzzleTiles.push(coordinate[1]);
 			});
-			
-		}).then(function(){
-			$('.' + buildPuzzlePiecesClass).css({
-				"z-index": "6",
-				"position": "relative",
-				"display": "inline-block",
-				"box-sizing": "border-box",
-				"-moz-box-sizing": "border-box",
-				"-webkit-box-sizing": "border-box",
-				"border": "solid 1px" + puzzle.bordercolor
-			});
-		});
+
+        }).then(function(){
+            $('.' + buildPuzzlePiecesClass).css({
+                "z-index": "6",
+                "position": "relative",
+                "display": "inline-block",
+                "box-sizing": "border-box",
+                "-moz-box-sizing": "border-box",
+                "-webkit-box-sizing": "border-box",
+                "border": "solid 1px" + puzzle.bordercolor
+            });
+			callback(true);
+        });
 	}
 	
 	/**
@@ -166,8 +169,6 @@ class PuzzleBuilder{
 			resolve(0);
 		});
 		gridReady.then(function(){
-			
-			
 			$(puzzle.puzzleGridWrapper).css({
 				"top": "-9999px",
 				"bottom": "-9999px",
@@ -226,10 +227,49 @@ class PuzzleBuilder{
 
 		this.priv_buildSmallPieces(wrapperDom, puzzle);
 		this.priv_buildOverallGrid(puzzle);
-		
+
 };
 
 
+    /**
+     buildPuzzleWithoutOverallGrid()
+
+     creates a puzzle, without an overlaying grid, for a framework 7 page
+
+     parameters:
+     - wrapperDom: (string) - identifier for the wrapper-div in the DOM.
+     - puzzle: (puzzle) object which shall be created (containing all the settings - see puzzle.js)
+     */
+
+	buildPuzzleWithoutOverallGrid(wrapperDom, puzzle, callback) {
+									console.log("bis hier 5");
+		var thisisme = this;
+		var chk = new Checker("buildPuzzle");
+        chk.isProperString(wrapperDom, "wrapperDom");
+        chk.isValidClass(puzzle,"puzzle",'Puzzle');
+		
+       
+        new Promise(function(){
+            var overallGridWrapper = '<div id="' + puzzle.puzzleGridWrapper.substring(1) +'"></div>';
+            $(wrapperDom).parent().append(overallGridWrapper);
+			
+			if($('#' + puzzle.puzzleGridWrapper.substring(1))){
+				resolve(0);
+			}
+			
+        }).then(function(){
+			console.log("bis hier 6");
+            let wrapperArray = [];
+            thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
+        });
+		
+		this.priv_buildSmallPieces(wrapperDom, puzzle, function(created){
+			if(created){
+				console.log("bis hier 7");
+				callback(true);
+			}
+		});
+	}
 
 	/**
 	buildPuzzleTiles()
@@ -272,20 +312,44 @@ class PuzzleBuilder{
 				}
 			}
 		}
-		
 		var tile = calculateTileSize(puzzle.tileCountPerGrid, setclassname);
 
 	};
 
-	/**
+	hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray) {
+		
+		if (Array.isArray(puzzlePieceIdArray) && typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0){
+			let hidePiecesActivePuzzle = new Promise(function (resolve){
+				puzzlePieceIdArray.forEach(function(element){
+					if(document.getElementById(element) == null){
+						console.log("konnte element: " + element + " nicht finden.");
+					}else{
+						document.getElementById(element).style.visibility = "hidden";
+					}
+					
+				});
+				resolve(0);
+			});
+			return hidePiecesActivePuzzle;
+			
+		} else{
+			console.log("Error: The passed array is not defined or empty");
+		}
+		
+	};
+	
+    /**
 	 *
 	 * hides PuzzlePieces with a given ID over a certain amount of time
 	 *
-     * @param puzzlePieceIdArray: Array of strings, which contain the puzzlePiece ids
+     * @param 	
+	 *		puzzlePieceIdArray (Array): Array of strings, which contain the puzzlePiece ids
+	 * 		stop (boolean): flag if the interval should proceed or not.	
      */
 
-    hidePuzzlePieces(puzzlePieceIdArray)
-    {
+    hidePuzzlePieces(puzzlePieceIdArray, stop)
+	{
+		var thisisme = this;
     	if (typeof puzzlePieceIdArray !== 'undefined' && puzzlePieceIdArray.length > 0)
 		{
             let i = 0;
@@ -293,26 +357,33 @@ class PuzzleBuilder{
 
 			let hidePieces = new Promise(function (resolve)
 			{
-                let hideInterval = setInterval(function ()
+				clearInterval(thisisme.hideInterval); //clean start
+                thisisme.hideInterval = setInterval(function ()
 				{
                     document.getElementById(puzzlePieceIdArray[i]).style.visibility = "hidden";
                     i++;
                     if(i === iterations)
                     {
-                        clearInterval(hideInterval);
-                        resolve(0)
+                        clearInterval(thisisme.hideInterval);
+                        resolve(0);
                     }
                 }, puzzle.timeOut);
+				
+				if(stop){
+					console.log("stopping idle time...")
+					
+					console.log("hideInterval", thisisme.hideInterval)
+					clearInterval(thisisme.hideInterval)
+					resolve(0);
+				}		
+				
             });
             return hidePieces;
         }
-		else
-			{
-    		console.log("Error: Check if the passed array is defined and not empty");
-			}
+		else{
+			console.log("Error: The passed array is not defined or empty");
+		}
     }
-	
-	
 	
 	/**
 	buildMiniOverview()
