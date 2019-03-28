@@ -75,7 +75,7 @@ class PuzzleGuessBuilder{
 						console.log($(DOMelement).children().length)
 						clearInterval(interval);
 						if($(DOMelement).children().length < 8){
-							$(DOMelement).prepend('<div class="spacer"></div>')
+							$(DOMelement).prepend('<div class="spacer"></div>');
 							$(DOMelement).append('<div class="spacer"></div>');
 							$("#guessItems").css("flex-direction", "row");
 							

@@ -216,6 +216,11 @@ app.on('pageInit', function(page){
 									//TODO: noch auslagern
 									idleTimeTimout = setTimeout(function(){
 										console.log("beginning idle time....")
+										if($("#guessItems").children().length !== 0){
+											$("#guessItems").children().each(function(){
+												$(this).css("display", "none");
+											});
+										}
 										idleArray = ['puzzleWrapperpuzzlePiece|0022','puzzleWrapperpuzzlePiece|0132','puzzleWrapperpuzzlePiece|2002','puzzleWrapperpuzzlePiece|2113','puzzleWrapperpuzzlePiece|2223','puzzleWrapperpuzzlePiece|1233','puzzleWrapperpuzzlePiece|1202','puzzleWrapperpuzzlePiece|1112','puzzleWrapperpuzzlePiece|1012','puzzleWrapperpuzzlePiece|2110','puzzleWrapperpuzzlePiece|0113','puzzleWrapperpuzzlePiece|0212',
 													'puzzleWrapperpuzzlePiece|0202','puzzleWrapperpuzzlePiece|0130','puzzleWrapperpuzzlePiece|1020','puzzleWrapperpuzzlePiece|1130','puzzleWrapperpuzzlePiece|1133','puzzleWrapperpuzzlePiece|2202','puzzleWrapperpuzzlePiece|1221','puzzleWrapperpuzzlePiece|1200','puzzleWrapperpuzzlePiece|0121','puzzleWrapperpuzzlePiece|0013','puzzleWrapperpuzzlePiece|0001','puzzleWrapperpuzzlePiece|0020','puzzleWrapperpuzzlePiece|1010','puzzleWrapperpuzzlePiece|1030','puzzleWrapperpuzzlePiece|2011','puzzleWrapperpuzzlePiece|2023','puzzleWrapperpuzzlePiece|2121','puzzleWrapperpuzzlePiece|2220','puzzleWrapperpuzzlePiece|2133','puzzleWrapperpuzzlePiece|1121','puzzleWrapperpuzzlePiece|1013','puzzleWrapperpuzzlePiece|1100','puzzleWrapperpuzzlePiece|1002','puzzleWrapperpuzzlePiece|0031','puzzleWrapperpuzzlePiece|0110','puzzleWrapperpuzzlePiece|0101','puzzleWrapperpuzzlePiece|0200','puzzleWrapperpuzzlePiece|0221','puzzleWrapperpuzzlePiece|0232','puzzleWrapperpuzzlePiece|0223','puzzleWrapperpuzzlePiece|1203',
 													'puzzleWrapperpuzzlePiece|1222','puzzleWrapperpuzzlePiece|1212','puzzleWrapperpuzzlePiece|1210','puzzleWrapperpuzzlePiece|1220','puzzleWrapperpuzzlePiece|1123','puzzleWrapperpuzzlePiece|1103','puzzleWrapperpuzzlePiece|1101','puzzleWrapperpuzzlePiece|1111','puzzleWrapperpuzzlePiece|1023','puzzleWrapperpuzzlePiece|1031','puzzleWrapperpuzzlePiece|1021','puzzleWrapperpuzzlePiece|1033']

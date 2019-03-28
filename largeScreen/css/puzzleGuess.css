@@ -32,7 +32,7 @@ position: relative;
 
     position: relative;
     display: flex;
-    width: 90%;
+    width: 70%;
     flex-wrap: wrap;
 }
 
@@ -64,7 +64,7 @@ position: relative;
     display: inline;
     width: 100%;
     position: relative;
-    left: 5%;
+    left: 15%;
     margin: 1%;
 
 }
