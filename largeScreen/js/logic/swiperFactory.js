@@ -100,7 +100,7 @@ class SwiperFactory
 						//do sth.
 						$("#" + nameSpace + i).css({
 							'background-image': 'url("' + contentArray[i] +'")',
-							'background-size': 'contain',
+							//'background-size': 'contain',
 							'background-repeat' : 'no-repeat',
 							'background-position': 'center' 
 						});
@@ -138,8 +138,8 @@ class SwiperFactory
 							
 							$('#' +  nameSpace + m + counter).click(function(event){
 								var target = event.target.id.toString();
-								$('#'+ target).css({'border': 'solid 1px #ffb380', 'width': '40%'});
-							$('.' + nameSpace).not('#'+ target).css({'border': 'none', 'width': '40%'});
+								$('#'+ target).css({'background-color': '#f2f2f2', 'border': '2px solid #d40055', 'width': '40%'});
+							$('.' + nameSpace).not('#'+ target).css({'background-color': '#fff','border': '1px solid #d40055', 'width': '40%'});
 								contextId = event.target.contextId;
 								thisisme.currentContextIdIndex = event.target.contextId;
 							});
@@ -215,21 +215,25 @@ class SwiperFactory
 		  mySwiper.on('touchEnd', function () {
 				if (mySwiper.isEnd) {
 					mySwiper.on('slideNextTransitionEnd', function () {
-						$(".popup").remove();
+					/* 	$(".popup").remove();
 						let content = 	'<div class="block">' +
-											'<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
+											'<p>Vielen Dank! Du hast dir alle Bilder des Prototypen angeschaut. \n' +
+												'Auf der nächsten Seite geht es noch zu einer Bewertung des Prototypen.' +
+												'Mach dir keine Sorgen die Fragen ehrlich zu beantworten du kannst nichts falsch machen.' +					
+											'</p>' +
+											
 											'<div class="next" text-align="center">' +
 												'<div class="twoButtons">' +
 												'<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
 												'<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
 											'</div>' +
-										'</div>'
-						thisisme.util.popUp('Dankeschön',content);
+										'</div>';
+						thisisme.util.popUp('Dankeschön',content); */
 					});
 				}
 			});
 	};
-	
+
 	setClickHandler(swiper, leftArrowId, rightArrowId)
 	{
 		var thisisme = this;
@@ -241,12 +245,17 @@ class SwiperFactory
             if(mySwiper.isEnd){
                 $(".popup").remove();
                 let content = 	'<div class="block">' +
-                    '<p>Vielen Dank! Du hast dir alle Seiten des Prototypen angeschaut. </p>' +
-                    '<div class="next" text-align="center">' +
-                    '<div class="twoButtons">' +
-                    '<a href="#" class="button link popup-close" id="left-Btn"> Zurück </a>' +
-                    '<a href="/sliders/" class="button" id="right-Btn"> Weiter </a>' +
-                    '</div>' +
+                    '<p>Vielen Dank, dass du dir alle Bilder des Prototypen angeschaut hast.<br/><br/>'  +
+						'Auf der nächsten Seite geht es noch zu einer Bewertung des Prototypen. ' +
+						'Beantworte die nachfolgenden Fragen bitte ehrlich,' +	
+						'da wir den Prototypen auf Basis der heute gewonnen Antworten verbessern möchten.' +
+									
+					'</p>' +
+//                    '<div class="next" text-align="center">' +
+						'<div class="twoButtons">' +
+						'<a href="#" class="button link popup-close" id="left-Btn"> Zurück zum Prototyp </a>' +
+						'<a href="/sliders/" class="button" id="right-Btn"> Weiter zur Bewertung </a>' +
+//                    '</div>' +
                     '</div>';
                 thisisme.util.popUp('Dankeschön',content);
             }
@@ -254,6 +263,8 @@ class SwiperFactory
 			swiper.slideNext();
         })
 	}
+
+
 
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
