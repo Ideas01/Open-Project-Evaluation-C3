@@ -29,6 +29,58 @@ class PuzzleBuilder{
 	- wrapperDom: (string) - identifier for the wrapper-div in the DOM.
 	- puzzle: (puzzle) puzzle which shall be created (containing all the settings - see puzzle.js)
 	*/
+	priv_buildSmallPieces(wrapperDom, puzzle)
+	{
+		var thisisme = this;
+		let namespace = wrapperDom.substring(1);
+		var buildPuzzleNameId = [namespace + 'Grid'];
+		var buildPuzzleNameClass = [namespace + 'GridDiv'];
+		var buildPuzzlePiecesId = [namespace + 'puzzlePiece'];
+		var buildPuzzlePiecesClass = [namespace + 'puzzlePieceDiv'];
+		var miniOverviewIdName = this.buildMiniOverview ("#miniOverview",puzzle);
+		var pointCount = Math.pow(puzzle.tileCountPerGrid * puzzle.gridCount, 2);
+	
+		let gridReady = new Promise(function (resolve, reject) {
+			//buildPuzzleStructure(tileCount, appendToDOM, namespace, color, setclassname)
+			buildPuzzleStructure(puzzle.gridCount, wrapperDom, buildPuzzleNameId, "none", buildPuzzleNameClass);
+			resolve(0);
+		});
+		
+		gridReady.then(function (fulfilled) {
+			$('.' + buildPuzzleNameClass).css({
+				"z-index": "5",
+				"position": "relative",
+				"display": "inline-block"
+			});
+			
+			$('.' + buildPuzzleNameClass).each(function (n) {
+				for (var i = 0; i < puzzle.gridCount; i++) {
+					thisisme.buildPuzzleTiles('#' + buildPuzzleNameId + n + i, buildPuzzlePiecesId + '|' + n + i, buildPuzzlePiecesClass.toString(), puzzle, puzzle.color);
+				}
+			});
+
+			$('.' + buildPuzzlePiecesClass).click(function (event) {
+						
+				let coordinate = (event.target.id).split('|');
+				$('#'+ miniOverviewIdName + coordinate[1]).css('visibility', 'hidden');
+				pointCount -= 1;
+				$(puzzle.puzzlePointCounter).text(pointCount);
+				puzzle.clickedPuzzleTiles.push(coordinate[1]);
+			});
+			
+		}).then(function(){
+			$('.' + buildPuzzlePiecesClass).css({
+				"z-index": "6",
+				"position": "relative",
+				"display": "inline-block",
+				"box-sizing": "border-box",
+				"-moz-box-sizing": "border-box",
+				"-webkit-box-sizing": "border-box",
+				"border": "solid 1px" + puzzle.bordercolor
+			});
+		});
+	}
+
 	priv_buildSmallPieces(wrapperDom, puzzle, callback)
     {
         var thisisme = this;
@@ -97,6 +149,10 @@ class PuzzleBuilder{
 				var coordinateOld = null;
 				var coordinate = null;
 				
+				//dont show the magnifying glass anymore
+				$(event.target).children().first().css("display", "none");
+				$(event.target).removeClass("milkyBackground");
+				
 				
 				var getOldCoordinate = new Promise(function(resolve){
 					coordinateOld = (event.target.id).toString().split("|");
@@ -123,8 +179,11 @@ class PuzzleBuilder{
 					
 					$('#puzzleWrapperGrid' + coordinateOld[1]).width('100%');
 					$('#puzzleWrapperGrid' + coordinateOld[1]).height('100%');
-
-					$('#puzzleWrapper').append('<a id="backButton"><i class="close-zoom f7-icons">close</i></a>');
+					
+					
+					// $('#puzzleWrapper').append('<a id="backButton"><i class="close-zoom f7-icons">close</i></a>');
+					$('#puzzleWrapper').append('<a id="backButton" href="" class="close-zoom"> zurück </a>');
+					
 					$('#backButton').click(function() {
 						gridMarker.toggle();
 						
@@ -136,10 +195,15 @@ class PuzzleBuilder{
 						$('#backButton').remove()
 					}).css({
 						"position": "absolute",
-						"z-index":"7",
-						"top":"0",
-						"right":"2%"
-						
+						"z-index": "7",
+						"top": "-47px",
+						"right": "0",
+						"padding": "1% 5%",
+						"background-color": "#d40055",
+						"color": "white",
+						"font-size": "14pt",
+						"text-align": "center",
+						"border-radius": "5%"
 					});
 				});
 			});
@@ -163,7 +227,14 @@ class PuzzleBuilder{
 				"-moz-box-sizing": "border-box",
 				"-webkit-box-sizing": "border-box",
 				"border": "solid 1px" + puzzle.overallGridColor
+
 			});
+			
+			$(".puzzleGridWrapperDiv").each(function(element){
+				$( this ).addClass("milkyBackground")
+				$( this ).append('<img id="lupe' + element + '" class = "lupe" src="img/lupe.svg"></img>');
+			});
+			
 		});
 		resolve(0);
 
@@ -196,11 +267,7 @@ class PuzzleBuilder{
 			thisisme.calculateWrapperSize(puzzle, wrapperArray, 80);
 		});
 
-		this.priv_buildSmallPieces(wrapperDom, puzzle, function(){
-			
-		});
-
-		
+		this.priv_buildSmallPieces(wrapperDom, puzzle);
 		this.priv_buildOverallGrid(puzzle);
 
 };
@@ -335,7 +402,6 @@ class PuzzleBuilder{
 				clearInterval(thisisme.hideInterval); //clean start
                 thisisme.hideInterval = setInterval(function ()
 				{
-					console.log("hideInterval 0", thisisme.hideInterval)
                     document.getElementById(puzzlePieceIdArray[i]).style.visibility = "hidden";
                     i++;
                     if(i === iterations)
@@ -364,7 +430,7 @@ class PuzzleBuilder{
 	/**
 	buildMiniOverview()
 	
-	creates the mini-puzzle which always displayed the whole puzzle (regardless of zooming)
+	creates the mini-puzzle which always displays the whole puzzle (regardless of zooming)
 	
 	parameters:
 	- appendToDOMOverview: (string) - identifier for the wrapper-div in the DOM.
@@ -511,7 +577,15 @@ class PuzzleBuilder{
  
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * I N T E R N A L - F U N C T I O N S
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */	
+function hidePiece(piece){
+	$(piece).css("display", "none");
+}
+ 
+function hideDiv(element){
+	element.style.visibility = "hidden";
+}
+
 //set croppedImageDiv background to none
 function restorePuzzle(croppedID){
     $(croppedID).css('background-image', 'none');
