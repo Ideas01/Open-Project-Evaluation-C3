@@ -10,13 +10,17 @@
 	SingleAccess.prototype.buildPuzzle = function (wrapperDom, puzzle) {
 		return puzzleBuilder.buildPuzzle(wrapperDom, puzzle);
 	};
-	 
+	
 	SingleAccess.prototype.hidePuzzlePiecesActivePuzzle = function (puzzlePieceIdArray){
 		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
 	};
 	
 	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray, stop){
 		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray, stop);
+	};
+
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
+		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
 	};
 	
 	SingleAccess.prototype.buildMiniOverview = function(appendToDOMOverview, puzzle){
@@ -151,7 +155,7 @@
 
 	SingleAccess.prototype.setClickHandler = function(swiper, leftArrowId, rightArrowId){
 		swiperFactory.setClickHandler(swiper, leftArrowId, rightArrowId);
-    };
+  };
 
 	/************************************** Utility ***********************************************************************/
 	SingleAccess.prototype.util_PopUp = function(title, message, caption){
