@@ -245,10 +245,10 @@ class SwiperFactory
             if(mySwiper.isEnd){
                 $(".popup").remove();
                 let content = 	'<div class="block">' +
-                    '<p>Vielen Dank, dass du dir alle Bilder des Prototypen angeschaut hast.<br/><br/>'  +
-						'Auf der nächsten Seite geht es noch zu einer Bewertung des Prototypen. ' +
+                    '<p>Vielen Dank, dass du dir alle Bilder des Prototyps angeschaut hast.<br/><br/>'  +
+						'Auf der nächsten Seite geht es noch zu einer Bewertung des Prototyps. ' +
 						'Beantworte die nachfolgenden Fragen bitte ehrlich,' +	
-						'da wir den Prototypen auf Basis der heute gewonnen Antworten verbessern möchten.' +
+						'da wir den Prototyp auf Basis der heute gewonnen Antworten verbessern möchten.' +
 									
 					'</p>' +
 //                    '<div class="next" text-align="center">' +

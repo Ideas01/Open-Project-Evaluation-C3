@@ -66,8 +66,8 @@ $$(document).on('page:afterin', '.page[data-name="puzzle"]', function (page) {
         'Als kleines Dankeschön kannst du auf dieser Seite ein Ratespiel lösen. <br/>' +
         'Die Regeln sind ganz einfach: <br/><br/>' +
         'Ziel des Spiels ist es, das Bild unter den Teilen zu erraten. <br/>' +
-        'Für jedes aufgedeckte Teil werden dir von den Punkten links oben Punkte abgezogen.' +
-        ' Also versuche möglichst wenige Teile aufzudecken, um das Ratespiel zu lösen und den Highscore zu knacken.<br/><br/>' +
+        'Für jedes aufgedeckte Teil werden dir von den Punkten links oben Punkte abgezogen. ' +
+        'Also versuche möglichst wenige Teile aufzudecken, um das Ratespiel zu lösen und den Highscore zu knacken.<br/><br/>' +
         'Viel Erfolg und viel Spaß dabei. <br/><br/>' +
         '</p>' +
         '<a href="#" class="popup-close" >' +
@@ -260,7 +260,7 @@ app.on('pageInit', function(page){
 				 } else{
 					let content = '<div class="block">' +
 									'<p>'+
-									'Bitte wähle einen Prototypen aus, der evaluiert werden soll.' +
+									'Bitte wähle einen Prototyp aus, der evaluiert werden soll.' +
 									'</p>'+
 									'<a href="#" class="popup-close" >' +
 										'<a class="button popup-close"> OK </a>' +
@@ -356,7 +356,7 @@ app.on('pageInit', function(page){
         $(".help").click(function () {
             let content = '<div class="block">' +
                 '<p>Du betrachtest gerade den Prototyp. Durch wischen nach rechts oder links kannst du' +
-                ' zwischen den Bildern des Prototyp wechseln. Alternativ kannst du auch die Pfeile am Rand des Bildschirms dafür benutzen.' +
+                ' zwischen den Bildern des Prototyps wechseln. Alternativ kannst du auch die Pfeile am Rand des Bildschirms dafür benutzen.' +
                 ' Hast du alle Bilder betrachtet, kannst du dich zur Bewertung weiterleiten lassen.<img src="img/swipe.png"/></p>' +
                 '<a href="#" class="popup-close" >' +
                 '<a class="button popup-close"> Los geht´s! </a>' +
@@ -458,7 +458,7 @@ app.on('pageInit', function(page){
 
         $(".help-sliders").click(function () {
             let content = '<div class="block">' +
-                '<p>Auf dieser Seite kannst du den Prototypen bewerten. <br/> Lies dir dafür die Fragen durch' +
+                '<p>Auf dieser Seite kannst du den Prototyp bewerten. <br/> Lies dir dafür die Fragen durch' +
                 ' und beantworte sie, indem du die Slider in die deiner Meinung entsprechende Richtung ziehst. <br/>' +
                 ' Sobald du fertig bist, kannst du deine Bewertung abschicken. Anschließend wirst du zum Ratespiel' +
                 ' weitergeleitet.' +
