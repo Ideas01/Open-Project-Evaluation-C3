@@ -2,7 +2,7 @@
 	
 	const puzzleBuilder = new PuzzleBuilder();
 	const sliderFactory = new SliderFactory();
-	const dbZugriff = new DBZugriff('http://localhost:3000');
+	const dbZugriff = new DBZugriff('http://localhost:3000'); //LAPTOP-U6MCNBIH
 	const swiperFactory = new SwiperFactory();
 	const puzzleGuessBuilder = new PuzzleGuessBuilder();
 	const util = new Util();
@@ -15,6 +15,10 @@
 		return puzzleBuilder.hidePuzzlePiecesActivePuzzle(puzzlePieceIdArray);
 	};
 	
+	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray, stop){
+		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray, stop);
+	};
+
 	SingleAccess.prototype.hidePuzzlePieces = function (puzzlePieceIdArray){
 		return puzzleBuilder.hidePuzzlePieces(puzzlePieceIdArray);
 	};
@@ -31,6 +35,10 @@
     	puzzleBuilder.checkGrid(wrapperDom);
 	};
 	
+	SingleAccess.prototype.buildPuzzleWithoutOverallGrid = function(wrapperDom, puzzle, callback){
+		puzzleBuilder.buildPuzzleWithoutOverallGrid(wrapperDom,puzzle, callback);
+	};
+
     /*************************************** SLIDERS ******************************************************************/
 	SingleAccess.prototype.determineRangeSliderAmount = function (startIndex, questionCount, rangeSliderObjects){
 		return sliderFactory.determineRangeSliderAmount(startIndex, questionCount, rangeSliderObjects);
@@ -39,6 +47,7 @@
 	SingleAccess.prototype.setButtonCaption = function(remainingQuestions,buttonID){
 		return sliderFactory.setButtonCaption(remainingQuestions,buttonID);
 	};
+	
      /************************************** puzzleGuessBuilder **************************************************/
     
     SingleAccess.prototype.appendCategories = function(DOMelement, imageCategories, callback) {
@@ -52,6 +61,7 @@
 	 SingleAccess.prototype.buildCategories = function(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback) {
         puzzleGuessBuilder.buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback);
     };
+	
     /*************************************** DB Zugriff ***************************************************************/
 	
 	SingleAccess.prototype.initializeDB = function(deviceName, callback){
@@ -140,8 +150,7 @@
 		swiperFactory.resetCurrentContextId();
 	};
 
-	SingleAccess.prototype.setClickHandler = function(swiper, leftArrowId, rightArrowId)
-	{
+	SingleAccess.prototype.setClickHandler = function(swiper, leftArrowId, rightArrowId){
 		swiperFactory.setClickHandler(swiper, leftArrowId, rightArrowId);
     };
 

@@ -154,7 +154,9 @@ app.on('pageInit', function(page){
 	/***************************** prototypeSelection********************/
 	
 	if(page.name ==='prototypeSelection'){
-		singleAccess.initializeDB(deviceName);
+			singleAccess.initializeDB(deviceName, function(deviceid){
+				//do nothing.
+			});
 		singleAccess.resetCurrentContextId();
 		singleAccess.initializeSwiper();
 		

@@ -68,10 +68,6 @@
 		return dbZugriff.initializeDB(deviceName, callback);
 	};
 	
-	SingleAccess.prototype.initializeDB = function(deviceName){
-		return dbZugriff.initializeDB(deviceName);
-	};
-	
 	SingleAccess.prototype.getContexts = function(deviceName){
 		return dbZugriff.getContexts(deviceName)
 	}; 
@@ -131,6 +127,7 @@
 	SingleAccess.prototype.updateState = function (deviceName, stateKey, stateValue, context){
 		return dbZugriff.updateState(deviceName, stateKey, stateValue, context);
 	};
+	
 	
     /*************************************** SwiperFactory ***************************************************************/
 	 SingleAccess.prototype.initializeSwiper = function () {

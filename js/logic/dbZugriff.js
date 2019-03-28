@@ -42,48 +42,6 @@ class DBZugriff{
 	- deviceName: (string) 
 	
 	*/
-	initializeDB(deviceName){
-		var chk = new Checker("initializeDB");
-		chk.isProperString(deviceName,"deviceName");
-		
-		var query = '{"query":"mutation {createDevice(data: {name: \\"' + deviceName + '\\"}) {device {id name context {id} owners {id}} token}}"}';
-		var thisisme = this
-		if(deviceName in this.TokenList){
-			thisisme.waitForToken(deviceName, function(token){
-				console.log("bereits gefunden: " + thisisme.TokenList[deviceName].token);
-				console.log("bereits gefundene Id: " + thisisme.TokenList[deviceName].id);
-			});
-		}else{
-			console.log("initializingDB....")
-			
-			this.TokenList[deviceName] = {};
-			this.TokenList[deviceName].id = null;
-			this.TokenList[deviceName].token = null;
-			var obj = this;
-			$.ajax({
-				url: this.serverAdresse,
-				headers: {
-					'Content-Type':'application/json',
-				},
-				method: 'POST',
-				dataType: 'json',
-				data: query,
-				success: function(r){
-				  let response = r.data.createDevice;
-				  var entry =  {}
-				  entry.token = response.token;
-				  entry.id = response.device.id;
-				  obj.TokenList[deviceName] = entry;
-				  
-				  console.log("db initialized with token:", response.token);
-				},
-				 error: function (r) {
-				}
-				
-			});
-		}
-		
-	}
 	
 	initializeDB(deviceName, callback){
 		var chk = new Checker("initializeDB");
