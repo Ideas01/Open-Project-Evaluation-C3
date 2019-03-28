@@ -46,8 +46,10 @@ class PuzzleGuessBuilder{
 				}
 			});
 	    });
-		
-		callback(Promise.all(promises));
+		Promise.all(promises).then(function(){
+			$(DOMelement).append('<div class="spacer"></div>');
+			callback(0);
+		});
 	};
 
 
@@ -60,51 +62,57 @@ class PuzzleGuessBuilder{
 	 * @param puzzleImageData the complete object with all available categories
 	 */
 
-	 buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData) {
+buildCategories(DOMelement, clickedCategory, puzzleImageID, puzzleImageData, callback) {
 		var thisisme = this;
-		function getCorrectCategory(callback){
-			var switchedAnswers = thisisme.switchAnswers(puzzleImageData[puzzleImageID].wrongAnswers, puzzleImageData[puzzleImageID].correctAnswer);
-			var correctCategory = {
-				category: puzzleImageData[puzzleImageID].category,
-				answers: switchedAnswers,
-				correctAnswer: puzzleImageData[puzzleImageID].correctAnswer
-			};
-			callback(correctCategory);
-		}
-		
-		getCorrectCategory(function(correctCategory){
-			/* if (clickedCategory === correctCategory.category) {
-				$('#guessItems').empty();
-				$.each(correctCategory.answers, function (index, data) {
-					$(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-					$('#' + data).click(function () {
-						checkGuessItem(data, correctCategory.correctAnswer);
-					});
-				});
-			}*/
+
+		thisisme.getCorrectCategory(puzzleImageID, puzzleImageData, function(correctCategory){
 			
 				$(DOMelement).empty();
-				for (var i = 0; i < puzzleImageData.length; i++) {
-					if (puzzleImageData[i].category === clickedCategory) {
-						$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
-							if($('#' + data).length == 0) {
-								$(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
-								
-								$('#' + data).click(function () {
-									
-									thisisme.checkGuessItem(data, correctCategory.correctAnswer);
-								})
-							}
-							else{
-								console.log('Die ID ' + data + ' ist schon vergeben');
-							}
-						});
+				//$(DOMelement).append('<div class="spacer"></div>');
+				var promises = [];
+				var loopPromise = new Promise(function(resolve, reject){
+				
+				for (var i = 0; i < puzzleImageData.length - 1; i++) {
 
+						if (puzzleImageData[i].category === clickedCategory) {
+							$.each(puzzleImageData[i].wrongAnswers, function (index, data) {
+								if($('#' + data).length == 0) {
+									$(DOMelement).append('<a class="guessButton" id="' + data + '">' + data + '</a>');
+									promises.push(loopPromise);
+									if($('#' + data)){
+										resolve(true);	
+									}
+								}
+								else{
+									//console.log('Die ID ' + data + ' ist schon vergeben');
+									resolve(true);
+								}
+							});
+						}
 					}
-				}
+				});
+				
+				puzzleImageData["correctCategory"] = correctCategory; 
+	
+				Promise.all(promises).then(function(){
+					callback(puzzleImageData);
+				});
+				
 		});
 
 
+	};
+	
+	getCorrectCategory(puzzleImageID, puzzleImageData, callback){
+	var thisisme = this;
+		var switchedAnswers = thisisme.switchAnswers(puzzleImageData[puzzleImageID].wrongAnswers, puzzleImageData[puzzleImageID].correctAnswer);
+		var correctCategory = {
+			category: puzzleImageData[puzzleImageID].category,
+			answers: switchedAnswers,
+			correctAnswer: puzzleImageData[puzzleImageID].correctAnswer
+		};
+//		console.log("correctCategory: ", correctCategory);
+		callback(correctCategory);
 	};
 
 	/**
@@ -147,14 +155,11 @@ class PuzzleGuessBuilder{
 	 */
 
 	checkGuessItem(givenAnswer, correctAnswer) {
-		console.log("################# checking answer......")
 	    if (givenAnswer === correctAnswer) {
-			console.log("richtig " +  givenAnswer + " ist gleich " + correctAnswer);
 	        app.router.navigate('/success/');
 	    }
 	    else {
 	        app.router.navigate('/failure/');
-			console.log("falsch " +  givenAnswer + " ist ungleich " + correctAnswer);
 	    }
 	};
 }
