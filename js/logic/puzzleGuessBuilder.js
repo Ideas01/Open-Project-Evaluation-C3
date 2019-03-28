@@ -68,6 +68,25 @@ class PuzzleGuessBuilder{
 		thisisme.getCorrectCategory(puzzleImageID, puzzleImageData, function(correctCategory){
 			
 				$(DOMelement).empty();
+				
+				
+				var interval = setInterval(function(){
+					if($(DOMelement).children().length > 0){
+						console.log($(DOMelement).children().length)
+						clearInterval(interval);
+						if($(DOMelement).children().length < 8){
+							$(DOMelement).prepend('<div class="spacer"></div>')
+							$(DOMelement).append('<div class="spacer"></div>');
+							$("#guessItems").css("flex-direction", "row");
+							
+						}else{
+							$("#guessItems").css({"flex-direction": "column", "height": $(DOMelement).children().length * 1.5 +"%"});
+						}
+					}
+					
+				});
+				
+				
 				//$(DOMelement).append('<div class="spacer"></div>');
 				var promises = [];
 				var loopPromise = new Promise(function(resolve, reject){
@@ -95,6 +114,7 @@ class PuzzleGuessBuilder{
 				puzzleImageData["correctCategory"] = correctCategory; 
 	
 				Promise.all(promises).then(function(){
+					$(DOMelement).append('<div class="spacer"></div>');
 					callback(puzzleImageData);
 				});
 				

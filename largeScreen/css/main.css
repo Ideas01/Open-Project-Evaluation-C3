@@ -440,6 +440,11 @@ input:checked + .toggle:before {
     margin-top:0;
 }
 
+.spacer{
+	width: auto;
+	margin: auto;
+}
+
 /****Success Side****/
 h3 {
     position: absolute;

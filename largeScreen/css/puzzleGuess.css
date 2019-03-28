@@ -32,7 +32,7 @@ position: relative;
 
     position: relative;
     display: flex;
-    width: 100%;
+    width: 90%;
     flex-wrap: wrap;
 }
 
@@ -45,8 +45,11 @@ position: relative;
     margin: 0.1%;
     display: inline-block;
     text-align: center;
-	background-color: #d40055;
+    background-color: #d40055;
+    width: auto;
+    max-width: 197px;
 }
+
 
 .guessButton:active{
 	border: solid 2px #d40055;
@@ -61,7 +64,7 @@ position: relative;
     display: inline;
     width: 100%;
     position: relative;
-	left: 5%;
-	margin: 1%;
+    left: 5%;
+    margin: 1%;
 
 }
